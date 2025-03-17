@@ -65,13 +65,16 @@
         /* Background video styling */
         .bg-video {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
             min-width: 100%;
             min-height: 100%;
             width: auto;
             height: auto;
             z-index: -2;
+            transform: translate(-50%, -50%); /* Center the video */
+            object-fit: cover; /* Ensure the video covers the entire screen */
+            object-position: center; /* Center the video */
         }
 
         /* Overlay to darken the video */
