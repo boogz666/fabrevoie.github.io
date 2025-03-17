@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Fabrevoie</title>
-    <!-- Add Poppins font from Google Fonts -->
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -20,9 +40,24 @@
         /* Background styling */
         body {
             background-image: url('page bckgrnd.png'); /* Update the path if needed */
-            background-size: cover; /* Ensure it covers the entire page */
-            background-repeat: repeat; /* Repeat the pattern */
-            background-attachment: fixed; /* Keep the background fixed while scrolling */
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
         }
 
         /* Container for the privacy policy content */
@@ -30,7 +65,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+            background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
@@ -68,7 +103,7 @@
 
         /* Link styling */
         a {
-            color: #D4AF37; /* Metallic Gold */
+            color: #D4AF37;
             text-decoration: none;
         }
 
@@ -78,6 +113,12 @@
     </style>
 </head>
 <body>
+    <!-- Sticky Logo (Linked to Landing Page) -->
+    <a href="index.html">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
+    <!-- Privacy Policy Content -->
     <div class="privacy-container">
         <h1>Privacy Policy</h1>
         <p>Last Updated: March 2025</p>
