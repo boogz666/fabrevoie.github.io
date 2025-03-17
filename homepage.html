@@ -105,8 +105,8 @@
     </style>
     <!-- Include Three.js for 3D rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Include GLTFLoader for loading the Blender animation -->
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- Include FBXLoader for loading FBX files -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/FBXLoader.js"></script>
 </head>
 <body>
     <!-- Sticky Logo -->
@@ -150,25 +150,12 @@
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
 
-        // Load the shoe box animation
-        const loader = new THREE.GLTFLoader();
+        // Load the levitating box animation
+        const loader = new THREE.FBXLoader();
         let model;
-        loader.load('shoe_box_animation.glb', function(gltf) {
-            model = gltf.scene;
-            model.scale.set(7, 7, 7); // Scale the model up by 7x
-
-            // Traverse the model and set texture encoding
-            model.traverse((child) => {
-                if (child.isMesh) {
-                    if (child.material.map) {
-                        child.material.map.encoding = THREE.sRGBEncoding; // Set texture encoding
-                    }
-                    if (child.material.emissiveMap) {
-                        child.material.emissiveMap.encoding = THREE.sRGBEncoding;
-                    }
-                }
-            });
-
+        loader.load('box_levitating.fbx', function(fbx) {
+            model = fbx;
+            model.scale.set(1, 1, 1); // Adjust scale if needed
             scene.add(model);
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
