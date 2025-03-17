@@ -52,23 +52,24 @@
 
         /* Buy Button Styling */
         .buy-button {
-            font-size: 24px; /* Smaller font size */
-            font-weight: 600;
+            font-size: 28px; /* Larger font size */
+            font-weight: 700;
             color: black; /* Black text */
             text-decoration: line-through;
             cursor: not-allowed;
             margin-bottom: 20px;
             text-transform: uppercase;
-            font-family: 'Roboto', sans-serif; /* Modern font */
+            font-family: 'Roboto', sans-serif;
             position: relative;
-            padding: 10px 20px; /* Smaller padding */
+            padding: 12px 30px; /* Larger padding */
             background-color: #C8FFC8; /* Lime pastel green */
             border-radius: 25px; /* Rounded rectangle */
             display: inline-block;
-            border: 2px solid #A0D8A0; /* Slightly darker border */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
+            border: 3px solid #A0D8A0; /* Thicker border */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
             -webkit-text-stroke: 1px white; /* White stroke for text */
             text-stroke: 1px white; /* White stroke for text */
+            letter-spacing: 1px; /* Letter spacing for emphasis */
         }
 
         /* 3D Animation Container */
@@ -103,6 +104,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Include GLTFLoader for loading the Blender animation -->
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- Include draco decoder for compressed models -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
     <!-- Sticky Logo -->
@@ -116,7 +119,7 @@
         <div id="animation-container"></div>
 
         <!-- Buy Button -->
-        <div class="buy-button">Buy</div>
+        <div class="buy-button">Buy NOW</div>
     </div>
 
     <!-- Copyright Text -->
@@ -131,34 +134,55 @@
         const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ 
             alpha: true,
-            antialias: true // Enable antialiasing
+            antialias: true, // Enable antialiasing
+            preserveDrawingBuffer: true
         });
         renderer.setSize(500, 500); // Increased renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
         
-        // Fix for proper color rendering
+        // More aggressive fixes for color rendering
         renderer.outputEncoding = THREE.sRGBEncoding; // Use sRGB encoding
-        renderer.gammaFactor = 2.2; // Set gamma factor
+        renderer.physicallyCorrectLights = true; // Use physically correct lighting
+        renderer.gammaFactor = 2.2; // Standard gamma factor
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0; // Adjusted exposure
+        renderer.toneMappingExposure = 1.2; // Increased exposure
         
-        // Enhanced lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Brighter ambient light
+        // Enhanced lighting for better material visibility
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Brighter ambient
         scene.add(ambientLight);
         
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // Brighter directional light
-        directionalLight.position.set(1, 2, 3).normalize();
-        scene.add(directionalLight);
+        // Key light (main directional light)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        keyLight.position.set(2, 4, 2);
+        scene.add(keyLight);
         
-        // Add a second directional light from another angle
-        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight2.position.set(-1, 1, -2).normalize();
-        scene.add(directionalLight2);
+        // Fill light (secondary directional light)
+        const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        fillLight.position.set(-2, 0, -2);
+        scene.add(fillLight);
         
-        // Load the shoe box animation
+        // Rim light (for better object definition)
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        rimLight.position.set(0, -2, 5);
+        scene.add(rimLight);
+        
+        // Optional: Add spotlights for more focused lighting
+        const spotLight = new THREE.SpotLight(0xffffff, 1);
+        spotLight.position.set(0, 5, 5);
+        spotLight.angle = Math.PI / 6;
+        spotLight.penumbra = 0.3;
+        scene.add(spotLight);
+        
+        // Load the shoe box animation with optional Draco compression support
         const loader = new THREE.GLTFLoader();
+        
+        // Optional: Set up Draco decoder if your model is compressed
+        const dracoLoader = new THREE.DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+        loader.setDRACOLoader(dracoLoader);
+        
         let model;
-        let mixer; // Animation mixer
+        let mixer;
         
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
@@ -166,17 +190,41 @@
             // Scale the model up by 5 times
             model.scale.set(5, 5, 5);
             
-            // Fix materials to ensure colors display correctly
+            // Force material settings to ensure colors display correctly
             model.traverse((object) => {
                 if (object.isMesh) {
-                    object.material.roughness = 0.7; // Adjust material roughness
-                    object.material.metalness = 0.3; // Adjust material metalness
-                    object.material.needsUpdate = true; // Update materials
-                    
-                    // Ensure proper material encoding
-                    if (object.material.map) {
-                        object.material.map.encoding = THREE.sRGBEncoding;
+                    // Create new MeshStandardMaterial to replace the original
+                    if (object.material) {
+                        const oldMat = object.material;
+                        
+                        // Create a new material preserving the original's properties
+                        const newMat = new THREE.MeshStandardMaterial({
+                            map: oldMat.map,
+                            color: oldMat.color,
+                            metalness: oldMat.metalness || 0.3,
+                            roughness: oldMat.roughness || 0.7,
+                            normalMap: oldMat.normalMap,
+                            aoMap: oldMat.aoMap,
+                            emissive: oldMat.emissive,
+                            emissiveMap: oldMat.emissiveMap,
+                            emissiveIntensity: oldMat.emissiveIntensity || 1,
+                            transparent: oldMat.transparent,
+                            opacity: oldMat.opacity
+                        });
+                        
+                        // Make sure textures use proper encoding
+                        if (newMat.map) {
+                            newMat.map.encoding = THREE.sRGBEncoding;
+                            newMat.map.needsUpdate = true;
+                        }
+                        
+                        // Replace the material
+                        object.material = newMat;
+                        object.material.needsUpdate = true;
                     }
+                    
+                    // Make sure material doesn't cull back faces
+                    object.material.side = THREE.DoubleSide;
                 }
             });
             
@@ -196,7 +244,16 @@
             model.position.y = -center.y;
             model.position.z = -center.z;
             
-        }, undefined, function(error) {
+            // Optional: Log material information to help debug
+            console.log("Model loaded with materials:", gltf);
+            
+        }, 
+        // Progress callback
+        function(xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        }, 
+        // Error callback
+        function(error) {
             console.error('Error loading animation:', error);
         });
         
