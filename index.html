@@ -49,21 +49,45 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevents scrollbars */
     }
 
-    /* Black background */
+    /* Body styling */
     body {
-      background-color: #000000; /* Black */
+      position: relative; /* For absolute positioning of copyright */
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
-      position: relative; /* For absolute positioning of copyright */
+      color: #fff;
+    }
+
+    /* Background video styling */
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the entire window */
+      z-index: -1; /* Place behind content */
+    }
+    
+    /* Overlay to darken the video */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+      z-index: -1; /* Behind content but in front of video */
     }
 
     /* Center container */
     .container {
       max-width: 400px;
+      z-index: 1; /* Ensure content is above video */
     }
 
     /* Logo styling */
@@ -85,7 +109,7 @@
       border: 2px solid #D4AF37; /* Metallic Gold */
       border-radius: 5px;
       width: 200px;
-      background-color: #000000; /* Black */
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
       color: #FFFFFF; /* White text */
     }
 
@@ -126,13 +150,25 @@
       position: absolute;
       bottom: 15px;
       left: 15px;
-      color: #666666; /* Light gray for copyright text */
+      color: #888888; /* Light gray for copyright text */
       font-size: 12px;
       text-align: left;
+      z-index: 1; /* Ensure it's above the video */
     }
   </style>
 </head>
 <body>
+  <!-- Background Video -->
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="bckgrnd.mp4" type="video/mp4">
+    <source src="bcksgrnd.webm" type="video/webm">
+    <!-- Fallback message if video doesn't load -->
+    Your browser does not support background video.
+  </video>
+  
+  <!-- Overlay to darken video -->
+  <div class="overlay"></div>
+
   <div class="container">
     <!-- Your Logo -->
     <img src="logo.png" alt="Your Logo" class="logo">
