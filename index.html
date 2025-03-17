@@ -8,20 +8,19 @@
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
   <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  
-  // Consent Mode (for GDPR compliance)
-  gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'analytics_storage': 'denied'
-  });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
 
-  gtag('js', new Date());
-  gtag('config', 'G-TZJE1XNS2Z');
+    // Default consent settings (deny all)
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-TZJE1XNS2Z');
   </script>
 
-  
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
@@ -176,13 +175,13 @@
     /* Cookie Consent Banner */
     .cookie-banner {
       position: fixed;
-      top: 20px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #000;
       color: #fff;
-      padding: 10px 20px;
-      font-size: 12px;
+      padding: 15px 20px;
+      font-size: 14px;
       border: 1px solid #333;
       display: flex;
       align-items: center;
@@ -190,28 +189,53 @@
       z-index: 1000;
       max-width: 90%;
       width: 600px;
+      border-radius: 8px;
     }
 
     .cookie-text {
       flex-grow: 1;
-      text-align: center;
+      text-align: left;
       letter-spacing: 0.5px;
       font-weight: 400;
+      margin-right: 20px;
     }
 
-    .cookie-close {
-      margin-left: 20px;
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cookie-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
+    }
+
+    .cookie-buttons button:first-child {
+      background-color: #D4AF37; /* Metallic Gold */
+      color: #000;
+    }
+
+    .cookie-buttons button:last-child {
+      background-color: transparent;
+      border: 1px solid #D4AF37;
+      color: #D4AF37;
     }
   </style>
 </head>
 <body>
   <!-- Cookie Consent Banner -->
   <div id="cookieBanner" class="cookie-banner">
-    <div class="cookie-text">This site uses cookies to provide you with a better experience.</div>
-    <div class="cookie-close" onclick="closeCookieBanner()">✕</div>
+    <div class="cookie-text">
+      This site uses cookies to provide you with a better experience. 
+      <a href="/privacy-policy" target="_blank" style="color: #D4AF37; text-decoration: underline;">Learn more</a>.
+    </div>
+    <div class="cookie-buttons">
+      <button onclick="acceptCookies()">Accept</button>
+      <button onclick="closeCookieBanner()">Decline</button>
+    </div>
   </div>
 
   <!-- Background Video -->
@@ -253,11 +277,10 @@
 
   <!-- Script for Cookie Banner -->
   <script>
-    // Check if user has already dismissed the banner
-    function closeCookieBanner() {
+    // Function to accept cookies
+    function acceptCookies() {
       document.getElementById('cookieBanner').style.display = 'none';
-      // Set cookie for 30 days
-      localStorage.setItem('cookieConsentDismissed', 'true');
+      localStorage.setItem('cookieConsent', 'accepted');
       
       // Update Google Analytics consent
       gtag('consent', 'update', {
@@ -265,25 +288,36 @@
         'analytics_storage': 'granted'
       });
     }
-    
-    // Check if the banner was previously dismissed
+
+    // Function to decline cookies
+    function closeCookieBanner() {
+      document.getElementById('cookieBanner').style.display = 'none';
+      localStorage.setItem('cookieConsent', 'declined');
+      
+      // Ensure Google Analytics remains denied
+      gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied'
+      });
+    }
+
+    // Check if the user has already made a choice
     document.addEventListener('DOMContentLoaded', function() {
-      if (localStorage.getItem('cookieConsentDismissed') === 'true') {
+      const consent = localStorage.getItem('cookieConsent');
+      
+      if (consent === 'accepted') {
         document.getElementById('cookieBanner').style.display = 'none';
-        // User has previously consented
         gtag('consent', 'update', {
           'ad_storage': 'denied',
           'analytics_storage': 'granted'
         });
+      } else if (consent === 'declined') {
+        document.getElementById('cookieBanner').style.display = 'none';
+        gtag('consent', 'update', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied'
+        });
       }
       
       // Try to ensure video plays
-      const video = document.querySelector('.bg-video');
-      video.play().catch(function(error) {
-        console.log("Video play failed:", error);
-        document.body.style.backgroundColor = "#000000";
-      });
-    });
-  </script>
-</body>
-</html>
+      const video = document
