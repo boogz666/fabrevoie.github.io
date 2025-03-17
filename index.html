@@ -172,9 +172,48 @@
       text-align: left;
       z-index: 1; /* Ensure it's above the video */
     }
+
+    /* Cookie Consent Banner */
+    .cookie-banner {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 12px;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      max-width: 90%;
+      width: 600px;
+    }
+
+    .cookie-text {
+      flex-grow: 1;
+      text-align: center;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+    }
+
+    .cookie-close {
+      margin-left: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
+  <!-- Cookie Consent Banner -->
+  <div id="cookieBanner" class="cookie-banner">
+    <div class="cookie-text">This site uses cookies to provide you with a better experience.</div>
+    <div class="cookie-close" onclick="closeCookieBanner()">✕</div>
+  </div>
+
   <!-- Background Video -->
   <video class="bg-video" autoplay muted loop playsinline>
     <source src="bckgrnd.mp4" type="video/mp4">
@@ -211,5 +250,40 @@
   <div class="copyright">
     &copy; 2025, Fabrevoie, Inc. All rights reserved.
   </div>
+
+  <!-- Script for Cookie Banner -->
+  <script>
+    // Check if user has already dismissed the banner
+    function closeCookieBanner() {
+      document.getElementById('cookieBanner').style.display = 'none';
+      // Set cookie for 30 days
+      localStorage.setItem('cookieConsentDismissed', 'true');
+      
+      // Update Google Analytics consent
+      gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'granted'
+      });
+    }
+    
+    // Check if the banner was previously dismissed
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('cookieConsentDismissed') === 'true') {
+        document.getElementById('cookieBanner').style.display = 'none';
+        // User has previously consented
+        gtag('consent', 'update', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'granted'
+        });
+      }
+      
+      // Try to ensure video plays
+      const video = document.querySelector('.bg-video');
+      video.play().catch(function(error) {
+        console.log("Video play failed:", error);
+        document.body.style.backgroundColor = "#000000";
+      });
+    });
+  </script>
 </body>
 </html>
