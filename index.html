@@ -8,11 +8,17 @@
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
 
-  gtag('config', 'G-TZJE1XNS2Z');
+    // Default consent settings (deny all)
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-TZJE1XNS2Z');
 </script>
 
   <!-- Favicon -->
@@ -269,49 +275,65 @@
     &copy; 2025, Fabrevoie, Inc. All rights reserved.
   </div>
 
-  <script>
-    function acceptCookies() {
-        document.getElementById('cookieBanner').style.display = 'none';
-        localStorage.setItem('cookieConsent', 'accepted');
-        gtag('consent', 'update', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'granted'
-        });
-    }
+  // Function to accept cookies
+function acceptCookies() {
+  const cookieBanner = document.getElementById('cookieBanner');
+  if (cookieBanner) {
+    cookieBanner.style.display = 'none'; // Hide the banner
+  }
+  localStorage.setItem('cookieConsent', 'accepted'); // Save the user's choice
+  
+  // Update Google Analytics consent
+  gtag('consent', 'update', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'granted'
+  });
+}
 
-    function closeCookieBanner() {
-        document.getElementById('cookieBanner').style.display = 'none';
-        localStorage.setItem('cookieConsent', 'declined');
-        gtag('consent', 'update', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied'
-        });
-    }
+// Function to decline cookies
+function closeCookieBanner() {
+  const cookieBanner = document.getElementById('cookieBanner');
+  if (cookieBanner) {
+    cookieBanner.style.display = 'none'; // Hide the banner
+  }
+  localStorage.setItem('cookieConsent', 'declined'); // Save the user's choice
+  
+  // Ensure Google Analytics remains denied
+  gtag('consent', 'update', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+}
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const consent = localStorage.getItem('cookieConsent');
-        if (consent) {
-            document.getElementById('cookieBanner').style.display = 'none';
-            if (consent === 'accepted') {
-                gtag('consent', 'update', {
-                    'ad_storage': 'denied',
-                    'analytics_storage': 'granted'
-                });
-            } else {
-                gtag('consent', 'update', {
-                    'ad_storage': 'denied',
-                    'analytics_storage': 'denied'
-                });
-            }
-        }
-        const video = document.querySelector('.bg-video');
-        if (video) {
-            video.play().catch(error => {
-                console.error("Video playback failed:", error);
-            });
-        }
+// Check if the user has already made a choice
+document.addEventListener('DOMContentLoaded', function() {
+  const consent = localStorage.getItem('cookieConsent');
+  const cookieBanner = document.getElementById('cookieBanner');
+  
+  if (consent === 'accepted') {
+    if (cookieBanner) {
+      cookieBanner.style.display = 'none'; // Hide the banner if already accepted
+    }
+    gtag('consent', 'update', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'granted'
     });
-</script>
-      
-      // Try to ensure video plays
-      const video = document
+  } else if (consent === 'declined') {
+    if (cookieBanner) {
+      cookieBanner.style.display = 'none'; // Hide the banner if already declined
+    }
+    gtag('consent', 'update', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+  }
+  
+  // Try to ensure video plays
+  const video = document.querySelector('.bg-video');
+  if (video) {
+    video.play().catch(function(error) {
+      console.log("Video play failed:", error);
+      document.body.style.backgroundColor = "#000000";
+    });
+  }
+});
