@@ -269,49 +269,49 @@
     &copy; 2025, Fabrevoie, Inc. All rights reserved.
   </div>
 
-  <!-- Script for Cookie Banner -->
   <script>
-    // Function to accept cookies
     function acceptCookies() {
-      document.getElementById('cookieBanner').style.display = 'none';
-      localStorage.setItem('cookieConsent', 'accepted');
-      
-      // Update Google Analytics consent
-      gtag('consent', 'update', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'granted'
-      });
+        document.getElementById('cookieBanner').style.display = 'none';
+        localStorage.setItem('cookieConsent', 'accepted');
+        gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'granted'
+        });
     }
 
-    // Function to decline cookies
     function closeCookieBanner() {
-      document.getElementById('cookieBanner').style.display = 'none';
-      localStorage.setItem('cookieConsent', 'declined');
-      
-      // Ensure Google Analytics remains denied
-      gtag('consent', 'update', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied'
-      });
+        document.getElementById('cookieBanner').style.display = 'none';
+        localStorage.setItem('cookieConsent', 'declined');
+        gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
     }
 
-    // Check if the user has already made a choice
     document.addEventListener('DOMContentLoaded', function() {
-      const consent = localStorage.getItem('cookieConsent');
-      
-      if (consent === 'accepted') {
-        document.getElementById('cookieBanner').style.display = 'none';
-        gtag('consent', 'update', {
-          'ad_storage': 'denied',
-          'analytics_storage': 'granted'
-        });
-      } else if (consent === 'declined') {
-        document.getElementById('cookieBanner').style.display = 'none';
-        gtag('consent', 'update', {
-          'ad_storage': 'denied',
-          'analytics_storage': 'denied'
-        });
-      }
+        const consent = localStorage.getItem('cookieConsent');
+        if (consent) {
+            document.getElementById('cookieBanner').style.display = 'none';
+            if (consent === 'accepted') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'granted'
+                });
+            } else {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied'
+                });
+            }
+        }
+        const video = document.querySelector('.bg-video');
+        if (video) {
+            video.play().catch(error => {
+                console.error("Video playback failed:", error);
+            });
+        }
+    });
+</script>
       
       // Try to ensure video plays
       const video = document
