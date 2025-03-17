@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Homepage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -21,6 +22,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         /* Sticky Logo */
@@ -50,18 +52,20 @@
 
         /* Buy Button Styling */
         .buy-button {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: 600;
             color: #888888;
             text-decoration: line-through;
             cursor: not-allowed;
             margin-bottom: 20px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
         }
 
         /* 3D Animation Container */
         #animation-container {
-            width: 100px;
-            height: 100px;
+            width: 200px; /* Larger container */
+            height: 200px;
             margin: 0 auto 20px auto;
         }
     </style>
@@ -85,32 +89,33 @@
         <div class="buy-button">Buy</div>
     </div>
 
-      <script>
+    <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(100, 100);
+        renderer.setSize(200, 200); // Larger renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
-    
+
         // Add lighting
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(1, 1, 1).normalize();
         scene.add(light);
-    
+
         // Load the shoe box animation
         const loader = new THREE.GLTFLoader();
         let model;
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
+            model.scale.set(2, 2, 2); // Scale the model up
             scene.add(model);
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-    
+
         // Position the camera
         camera.position.z = 2;
-    
+
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
