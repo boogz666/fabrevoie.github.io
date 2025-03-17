@@ -128,6 +128,26 @@
             margin-bottom: 20px;
         }
 
+        /* Enter Button Styling */
+        .enter-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #D4AF37;
+            color: #000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-align: center;
+        }
+
+        .enter-button:hover {
+            background-color: #C5A037;
+            transform: scale(1.05);
+        }
+
         /* Social Media Icons */
         .social-icons {
             display: flex;
@@ -183,7 +203,7 @@
             transform: scale(1.1);
         }
 
-        /* Cookie Consent Banner -->
+        /* Cookie Consent Banner */
         .cookie-banner {
             position: fixed;
             bottom: 20px;
@@ -260,6 +280,11 @@
         <!-- MailerLite Email Form -->
         <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
 
+        <!-- Enter Button (Hidden by default) -->
+        <a href="homepage.html" id="enterButton" class="enter-button" style="display: none;">
+            Enter
+        </a>
+
         <!-- Social Media Icons -->
         <div class="social-icons">
             <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
@@ -315,10 +340,15 @@
             });
         }
 
-        // Function to track form submission
-        function trackFormSubmission() {
-            console.log("Form submitted! Setting formSubmitted to true.");
-            localStorage.setItem('formSubmitted', 'true');
+        // Function to show the Enter button and hide the MailerLite form
+        function showEnterButton() {
+            const enterButton = document.getElementById('enterButton');
+            const mailerLiteForm = document.getElementById('mailerLiteForm');
+
+            if (enterButton && mailerLiteForm) {
+                enterButton.style.display = 'block'; // Show the Enter button
+                mailerLiteForm.style.display = 'none'; // Hide the MailerLite form
+            }
         }
 
         // Listen for MailerLite form submission
@@ -327,11 +357,7 @@
             if (event.detail && event.detail.success) {
                 console.log("Form submission was successful.");
                 trackFormSubmission(); // Track the submission
-                const mailerLiteForm = document.getElementById('mailerLiteForm');
-                if (mailerLiteForm) {
-                    console.log("Hiding the MailerLite form.");
-                    mailerLiteForm.style.display = 'none'; // Hide the form
-                }
+                showEnterButton(); // Show the Enter button
             }
         });
 
@@ -341,7 +367,7 @@
             mailerLiteForm.addEventListener('submit', function() {
                 console.log("Form submitted (fallback). Setting formSubmitted to true.");
                 localStorage.setItem('formSubmitted', 'true');
-                mailerLiteForm.style.display = 'none';
+                showEnterButton(); // Show the Enter button
             });
         }
 
@@ -374,10 +400,7 @@
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
                 console.log("Form already submitted. Hiding the MailerLite form.");
-                const mailerLiteForm = document.getElementById('mailerLiteForm');
-                if (mailerLiteForm) {
-                    mailerLiteForm.style.display = 'none';
-                }
+                showEnterButton(); // Show the Enter button
             }
         });
     </script>
