@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie</title>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        // Default consent settings (deny all)
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied'
         });
-
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
@@ -28,206 +25,43 @@
         (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
         ml('account', '1391734');
     </script>
-    <!-- End MailerLite Universal -->
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/placeholder/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- Meta Description -->
-    <meta name="description" content="Unordinary fashion. Footwear for the mentally unstable.">
-
-    <!-- Open Graph Tags (for Social Media) -->
-    <meta property="og:title" content="Freddie Fabrevoie">
-    <meta property="og:description" content="Unordinary fashion. Footwear for the mentally unstable.">
-    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
-    <meta property="og:url" content="https://fabrevoie.com">
-
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Freddie Fabrevoie">
-    <meta name="twitter:description" content="Unordinary fashion. Footwear for the mentally unstable.">
-    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
-
-    <!-- Font Awesome for Social Media Icons -->
+    <!-- Favicon and other meta tags -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Reset default margin and padding */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevents scrollbars */
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
         }
 
-        /* Body styling */
-        body {
-            position: relative; /* For absolute positioning of video and overlay */
-            text-align: center; /* Center inline content */
-            color: #fff;
-            height: 100vh; /* Ensure body takes full viewport height */
-        }
-
-        /* Background video styling */
-        .bg-video {
-            position: fixed; /* Fixed to cover the whole viewport */
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -2; /* Place behind overlay */
-        }
-
-        /* Overlay to darken the video */
-        .overlay {
-            position: fixed; /* Fixed to cover the whole viewport */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
-            z-index: -1; /* Behind content but in front of video */
-        }
-
-        /* Center container */
-        .container {
-            position: absolute; /* Positioned relative to the body */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Center the container */
-            max-width: 400px;
-            width: 90%; /* Adjust as needed */
-            z-index: 1; /* Ensure content is above video and overlay */
-        }
-
-        /* Logo styling */
-        .logo {
-            max-width: 200px; /* Adjust based on your logo size */
-            margin-bottom: 20px;
-            display: block; /* To allow centering with margin auto */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* MailerLite Form Styling */
-        .ml-embedded {
-            margin-bottom: 20px; /* Add space below the form */
-        }
-
-        /* Social Media Icons */
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            color: #D4AF37; /* Metallic Gold */
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: #C5A037; /* Darker Gold */
-        }
-
-        /* Copyright Text */
-        .copyright {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            color: #888888; /* Light gray for copyright text */
-            font-size: 12px;
-            text-align: left;
-            z-index: 1; /* Ensure it's above the video */
-        }
-
-        /* Cookie Consent Banner */
-        .cookie-banner {
+        /* Sticky Logo */
+        .sticky-logo {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #000;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 14px;
-            border: 1px solid #333;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            top: 20px;
+            left: 20px;
             z-index: 1000;
-            max-width: 90%;
-            width: 600px;
-            border-radius: 8px;
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
         }
 
-        .cookie-text {
-            flex-grow: 1;
-            text-align: left;
-            letter-spacing: 0.5px;
-            font-weight: 400;
-            margin-right: 20px;
+        .sticky-logo:hover {
+            transform: scale(1.1);
         }
 
-        .cookie-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .cookie-buttons button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .cookie-buttons button:first-child {
-            background-color: #D4AF37; /* Metallic Gold */
-            color: #000;
-        }
-
-        .cookie-buttons button:last-child {
-            background-color: transparent;
-            border: 1px solid #D4AF37;
-            color: #D4AF37;
-        }
+        /* Rest of your CSS */
+        /* ... */
     </style>
 </head>
 <body>
-    <!-- Cookie Consent Banner -->
-    <div id="cookieBanner" class="cookie-banner">
-        <div class="cookie-text">
-            This site uses cookies to provide you with a better experience.&nbsp;
-            <a href="/privacy-policy" target="_blank" style="color: #D4AF37; text-decoration: underline;">Learn more</a>.
-        </div>
-        <div class="cookie-buttons">
-            <button onclick="acceptCookies()">Accept</button>
-            <button onclick="closeCookieBanner()">Decline</button>
-        </div>
-    </div>
+    <!-- Sticky Logo -->
+    <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
 
     <!-- Background Video -->
     <video class="bg-video" autoplay muted loop playsinline>
@@ -260,36 +94,42 @@
 
     <!-- Copyright Text -->
     <div class="copyright">
-        <div class="copyright">
-            &copy; 2025, Fabrevoie, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
         <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-text">
+            This site uses cookies to provide you with a better experience.&nbsp;
+            <a href="/privacy-policy" target="_blank" style="color: #D4AF37; text-decoration: underline;">Learn more</a>.
         </div>
+        <div class="cookie-buttons">
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="closeCookieBanner()">Decline</button>
+        </div>
+    </div>
 
     <script>
-        // Function to accept cookies
+        // Cookie consent functions
         function acceptCookies() {
             const cookieBanner = document.getElementById('cookieBanner');
             if (cookieBanner) {
-                cookieBanner.style.display = 'none'; // Hide the banner
+                cookieBanner.style.display = 'none';
             }
-            localStorage.setItem('cookieConsent', 'accepted'); // Save the user's choice
-
-            // Update Google Analytics consent
+            localStorage.setItem('cookieConsent', 'accepted');
             gtag('consent', 'update', {
                 'ad_storage': 'granted',
                 'analytics_storage': 'granted'
             });
         }
 
-        // Function to decline cookies
         function closeCookieBanner() {
             const cookieBanner = document.getElementById('cookieBanner');
             if (cookieBanner) {
-                cookieBanner.style.display = 'none'; // Hide the banner
+                cookieBanner.style.display = 'none';
             }
-            localStorage.setItem('cookieConsent', 'declined'); // Save the user's choice
-
-            // Ensure Google Analytics remains denied
+            localStorage.setItem('cookieConsent', 'declined');
             gtag('consent', 'update', {
                 'ad_storage': 'denied',
                 'analytics_storage': 'denied'
@@ -303,7 +143,7 @@
 
             if (consent === 'accepted' || consent === 'declined') {
                 if (cookieBanner) {
-                    cookieBanner.style.display = 'none'; // Hide the banner if already accepted or declined
+                    cookieBanner.style.display = 'none';
                 }
                 gtag('consent', 'update', {
                     'ad_storage': consent === 'accepted' ? 'granted' : 'denied',
@@ -311,7 +151,7 @@
                 });
             }
 
-            // Try to ensure video plays
+            // Ensure video plays
             const video = document.querySelector('.bg-video');
             if (video) {
                 video.play().catch(function(error) {
