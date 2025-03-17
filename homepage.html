@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -59,14 +59,40 @@
             cursor: not-allowed;
             margin-bottom: 20px;
             text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Roboto', sans-serif; /* Modern font */
+            position: relative;
+            padding: 15px 30px;
+            background-color: #C8E6C9; /* Pastel green */
+            border-radius: 25px; /* Rounded rectangle */
+            display: inline-block;
         }
 
         /* 3D Animation Container */
         #animation-container {
-            width: 200px; /* Larger container */
-            height: 200px;
+            width: 300px; /* Larger container */
+            height: 300px;
             margin: 0 auto 20px auto;
+        }
+
+        /* Copyright Text */
+        .copyright {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            color: #888888;
+            font-size: 12px;
+            text-align: left;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .copyright a {
+            color: #D4AF37;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
         }
     </style>
     <!-- Include Three.js for 3D rendering -->
@@ -89,12 +115,18 @@
         <div class="buy-button">Buy</div>
     </div>
 
+    <!-- Copyright Text -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
+    </div>
+
     <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(200, 200); // Larger renderer size
+        renderer.setSize(300, 300); // Larger renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
 
         // Add lighting
@@ -107,14 +139,14 @@
         let model;
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
-            model.scale.set(2, 2, 2); // Scale the model up
+            model.scale.set(5, 5, 5); // Scale the model up by 5x
             scene.add(model);
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
 
         // Position the camera
-        camera.position.z = 2;
+        camera.position.z = 5; // Adjust camera distance for larger model
 
         // Animation loop
         function animate() {
