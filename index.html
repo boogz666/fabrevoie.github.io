@@ -230,7 +230,7 @@
         Your browser does not support background video.
     </video>
 
-    <!-- Overlay to darken video -->
+    <!-- Overlay to darken the video -->
     <div class="overlay"></div>
 
     <!-- Main Content -->
@@ -239,7 +239,7 @@
         <img src="logo.png" alt="Your Logo" class="logo">
 
         <!-- MailerLite Email Form -->
-        <div class="ml-embedded" data-form="xDqLnS"></div>
+        <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
 
         <!-- Social Media Icons -->
         <div class="social-icons">
@@ -318,6 +318,31 @@
                     console.log("Video play failed:", error);
                     document.body.style.backgroundColor = "#000000";
                 });
+            }
+
+            // Check if the user has already submitted the form
+            const formSubmitted = localStorage.getItem('formSubmitted');
+            if (formSubmitted === 'true') {
+                const mailerLiteForm = document.getElementById('mailerLiteForm');
+                if (mailerLiteForm) {
+                    mailerLiteForm.style.display = 'none';
+                }
+            }
+        });
+
+        // Function to track form submission
+        function trackFormSubmission() {
+            localStorage.setItem('formSubmitted', 'true');
+        }
+
+        // Listen for MailerLite form submission
+        document.addEventListener('ml-subscribe', function(event) {
+            if (event.detail && event.detail.success) {
+                trackFormSubmission(); // Track the submission
+                const mailerLiteForm = document.getElementById('mailerLiteForm');
+                if (mailerLiteForm) {
+                    mailerLiteForm.style.display = 'none'; // Hide the form
+                }
             }
         });
     </script>
