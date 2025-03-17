@@ -73,8 +73,8 @@
 
         /* 3D Animation Container */
         #animation-container {
-            width: 300px; /* Larger container */
-            height: 300px;
+            width: 500px; /* Increased container size */
+            height: 500px; /* Increased container size */
             margin: 0 auto 20px auto;
         }
 
@@ -128,42 +128,97 @@
     <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(300, 300); // Larger renderer size
+        const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ 
+            alpha: true,
+            antialias: true // Enable antialiasing
+        });
+        renderer.setSize(500, 500); // Increased renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
         
-        // Set tone mapping and exposure
-        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
-        renderer.toneMappingExposure = Math.pow(2, -1.8); // Set exposure to -1.8
+        // Fix for proper color rendering
+        renderer.outputEncoding = THREE.sRGBEncoding; // Use sRGB encoding
+        renderer.gammaFactor = 2.2; // Set gamma factor
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0; // Adjusted exposure
         
-        // Add lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft overall light
+        // Enhanced lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Brighter ambient light
         scene.add(ambientLight);
         
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // Brighter directional light
+        directionalLight.position.set(1, 2, 3).normalize();
         scene.add(directionalLight);
+        
+        // Add a second directional light from another angle
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight2.position.set(-1, 1, -2).normalize();
+        scene.add(directionalLight2);
         
         // Load the shoe box animation
         const loader = new THREE.GLTFLoader();
         let model;
+        let mixer; // Animation mixer
+        
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
+            
+            // Scale the model up by 5 times
+            model.scale.set(5, 5, 5);
+            
+            // Fix materials to ensure colors display correctly
+            model.traverse((object) => {
+                if (object.isMesh) {
+                    object.material.roughness = 0.7; // Adjust material roughness
+                    object.material.metalness = 0.3; // Adjust material metalness
+                    object.material.needsUpdate = true; // Update materials
+                    
+                    // Ensure proper material encoding
+                    if (object.material.map) {
+                        object.material.map.encoding = THREE.sRGBEncoding;
+                    }
+                }
+            });
+            
+            // Handle animations if they exist
+            if (gltf.animations && gltf.animations.length) {
+                mixer = new THREE.AnimationMixer(model);
+                const action = mixer.clipAction(gltf.animations[0]);
+                action.play();
+            }
+            
             scene.add(model);
+            
+            // Center the model in view
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+            model.position.x = -center.x;
+            model.position.y = -center.y;
+            model.position.z = -center.z;
+            
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
         
         // Position the camera
-        camera.position.z = 5; // Adjust camera distance for larger model
+        camera.position.z = 10; // Adjusted camera distance
+        
+        // Animation clock
+        const clock = new THREE.Clock();
         
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
+            
+            // Update animations if they exist
+            if (mixer) {
+                mixer.update(clock.getDelta());
+            }
+            
             if (model) {
                 model.rotation.y += 0.01; // Rotate the model
             }
+            
             renderer.render(scene, camera);
         }
         animate();
