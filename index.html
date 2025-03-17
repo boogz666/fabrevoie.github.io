@@ -10,10 +10,17 @@
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  
+  // Consent Mode (for GDPR compliance)
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
 
+  gtag('js', new Date());
   gtag('config', 'G-TZJE1XNS2Z');
   </script>
+
   
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
