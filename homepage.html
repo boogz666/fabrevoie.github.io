@@ -155,6 +155,7 @@
         let model;
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
+            model.scale.set(7, 7, 7); // Scale the model up by 7x
 
             // Traverse the model and set texture encoding
             model.traverse((child) => {
