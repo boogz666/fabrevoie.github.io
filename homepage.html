@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrevoie - Homepage</title>
+    <style>
+        /* Reset default margin and padding */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Background Image */
+        body {
+            background-image: url('page_bckgrnd.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Center Container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* Buy Button Styling */
+        .buy-button {
+            font-size: 24px;
+            font-weight: 600;
+            color: #888888;
+            text-decoration: line-through;
+            cursor: not-allowed;
+            margin-bottom: 20px;
+        }
+
+        /* 3D Animation Container */
+        #animation-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+    <!-- Include Three.js for 3D rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Include GLTFLoader for loading the Blender animation -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+    <!-- Sticky Logo -->
+    <a href="index.html">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- 3D Animation Container -->
+        <div id="animation-container"></div>
+
+        <!-- Buy Button -->
+        <div class="buy-button">Buy</div>
+    </div>
+
+      <script>
+        // Set up Three.js scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(100, 100);
+        document.getElementById('animation-container').appendChild(renderer.domElement);
+    
+        // Add lighting
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1).normalize();
+        scene.add(light);
+    
+        // Load the shoe box animation
+        const loader = new THREE.GLTFLoader();
+        let model;
+        loader.load('shoe_box_animation.glb', function(gltf) {
+            model = gltf.scene;
+            scene.add(model);
+        }, undefined, function(error) {
+            console.error('Error loading animation:', error);
+        });
+    
+        // Position the camera
+        camera.position.z = 2;
+    
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            if (model) {
+                model.rotation.y += 0.01; // Rotate the model
+            }
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
