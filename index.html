@@ -63,28 +63,27 @@
 
         /* Body styling */
         body {
-            position: relative; /* For absolute positioning of copyright */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            position: relative; /* For absolute positioning of video and overlay */
+            text-align: center; /* Center inline content */
             color: #fff;
+            height: 100vh; /* Ensure body takes full viewport height */
         }
 
         /* Background video styling */
         .bg-video {
-            position: absolute;
+            position: fixed; /* Fixed to cover the whole viewport */
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Cover the entire window */
-            z-index: -1; /* Place behind content */
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2; /* Place behind overlay */
         }
 
         /* Overlay to darken the video */
         .overlay {
-            position: absolute;
+            position: fixed; /* Fixed to cover the whole viewport */
             top: 0;
             left: 0;
             width: 100%;
@@ -95,14 +94,22 @@
 
         /* Center container */
         .container {
+            position: absolute; /* Positioned relative to the body */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the container */
             max-width: 400px;
-            z-index: 1; /* Ensure content is above video */
+            width: 90%; /* Adjust as needed */
+            z-index: 1; /* Ensure content is above video and overlay */
         }
 
         /* Logo styling */
         .logo {
             max-width: 200px; /* Adjust based on your logo size */
             margin-bottom: 20px;
+            display: block; /* To allow centering with margin auto */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Email sign-up form */
@@ -221,7 +228,7 @@
 <body>
     <div id="cookieBanner" class="cookie-banner">
         <div class="cookie-text">
-            This site uses cookies to provide you with a better experience.
+            This site uses cookies to provide you with a better experience.&nbsp;
             <a href="/privacy-policy" target="_blank" style="color: #D4AF37; text-decoration: underline;">Learn more</a>.
         </div>
         <div class="cookie-buttons">
