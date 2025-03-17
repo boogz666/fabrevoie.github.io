@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie</title>
 
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
     <script>
-        window.dataLayer = window.dataLayer ||;
+        window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         // Default consent settings (deny all)
         gtag('consent', 'default', {
@@ -19,6 +20,17 @@
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
 
+    <!-- MailerLite Universal -->
+    <script>
+        (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+        .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+        n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+        (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+        ml('account', '1391734');
+    </script>
+    <!-- End MailerLite Universal -->
+
+    <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
@@ -37,18 +49,22 @@
     <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
+    <!-- Meta Description -->
     <meta name="description" content="Unordinary fashion. Footwear for the mentally unstable.">
 
+    <!-- Open Graph Tags (for Social Media) -->
     <meta property="og:title" content="Freddie Fabrevoie">
     <meta property="og:description" content="Unordinary fashion. Footwear for the mentally unstable.">
     <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
     <meta property="og:url" content="https://fabrevoie.com">
 
+    <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Freddie Fabrevoie">
     <meta name="twitter:description" content="Unordinary fashion. Footwear for the mentally unstable.">
     <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
 
+    <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
@@ -112,34 +128,9 @@
             margin-right: auto;
         }
 
-        /* Email sign-up form */
-        .email-box {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px; /* Add space below email form */
-        }
-
-        input[type="email"] {
-            padding: 10px;
-            border: 2px solid #D4AF37; /* Metallic Gold */
-            border-radius: 5px;
-            width: 200px;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-            color: #FFFFFF; /* White text */
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #D4AF37; /* Metallic Gold */
-            border: none;
-            border-radius: 5px;
-            color: #000000; /* Black text */
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #C5A037; /* Darker Gold */
+        /* MailerLite Form Styling */
+        .ml-embedded {
+            margin-bottom: 20px; /* Add space below the form */
         }
 
         /* Social Media Icons */
@@ -226,6 +217,7 @@
     </style>
 </head>
 <body>
+    <!-- Cookie Consent Banner -->
     <div id="cookieBanner" class="cookie-banner">
         <div class="cookie-text">
             This site uses cookies to provide you with a better experience.&nbsp;
@@ -237,19 +229,25 @@
         </div>
     </div>
 
+    <!-- Background Video -->
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="bckgrnd.mp4" type="video/mp4">
         <source src="bckgrnd.webm" type="video/webm">
         Your browser does not support background video.
     </video>
 
+    <!-- Overlay to darken video -->
     <div class="overlay"></div>
 
+    <!-- Main Content -->
     <div class="container">
+        <!-- Logo -->
         <img src="logo.png" alt="Your Logo" class="logo">
 
+        <!-- MailerLite Email Form -->
         <div class="ml-embedded" data-form="xDqLnS"></div>
 
+        <!-- Social Media Icons -->
         <div class="social-icons">
             <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                 <i class="fab fa-instagram"></i>
@@ -260,6 +258,7 @@
         </div>
     </div>
 
+    <!-- Copyright Text -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved.
     </div>
@@ -320,12 +319,5 @@
             }
         });
     </script>
-    <script>
-        (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||)
-        .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-        n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-        (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-        ml('account', '1391734');
-    </script>
-    </body>
+</body>
 </html>
