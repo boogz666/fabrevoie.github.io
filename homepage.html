@@ -52,19 +52,23 @@
 
         /* Buy Button Styling */
         .buy-button {
-            font-size: 36px;
+            font-size: 24px; /* Smaller font size */
             font-weight: 600;
-            color: #888888;
+            color: black; /* Black text */
             text-decoration: line-through;
             cursor: not-allowed;
             margin-bottom: 20px;
             text-transform: uppercase;
             font-family: 'Roboto', sans-serif; /* Modern font */
             position: relative;
-            padding: 15px 30px;
-            background-color: #C8E6C9; /* Pastel green */
+            padding: 10px 20px; /* Smaller padding */
+            background-color: #C8FFC8; /* Lime pastel green */
             border-radius: 25px; /* Rounded rectangle */
             display: inline-block;
+            border: 2px solid #A0D8A0; /* Slightly darker border */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
+            -webkit-text-stroke: 1px white; /* White stroke for text */
+            text-stroke: 1px white; /* White stroke for text */
         }
 
         /* 3D Animation Container */
@@ -128,26 +132,32 @@
         const renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setSize(300, 300); // Larger renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
-
+        
+        // Set tone mapping and exposure
+        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
+        renderer.toneMappingExposure = Math.pow(2, -1.8); // Set exposure to -1.8
+        
         // Add lighting
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(1, 1, 1).normalize();
-        scene.add(light);
-
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft overall light
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+        
         // Load the shoe box animation
         const loader = new THREE.GLTFLoader();
         let model;
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
-            model.scale.set(5, 5, 5); // Scale the model up by 5x
             scene.add(model);
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-
+        
         // Position the camera
         camera.position.z = 5; // Adjust camera distance for larger model
-
+        
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
