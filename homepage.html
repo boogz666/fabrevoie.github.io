@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -52,30 +52,33 @@
 
         /* Buy Button Styling */
         .buy-button {
-            font-size: 28px; /* Larger font size */
-            font-weight: 700;
-            color: black; /* Black text */
+            font-size: 24px; /* Smaller font size */
+            font-weight: 600;
+            color: #000; /* Black text */
             text-decoration: line-through;
             cursor: not-allowed;
             margin-bottom: 20px;
             text-transform: uppercase;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Match landing page font */
             position: relative;
-            padding: 12px 30px; /* Larger padding */
-            background-color: #C8FFC8; /* Lime pastel green */
-            border-radius: 25px; /* Rounded rectangle */
+            padding: 12px 24px; /* Match landing page padding */
+            background-color: #D4AF37; /* Match landing page gold color */
+            border-radius: 5px; /* Match landing page border radius */
             display: inline-block;
-            border: 3px solid #A0D8A0; /* Thicker border */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
-            -webkit-text-stroke: 1px white; /* White stroke for text */
-            text-stroke: 1px white; /* White stroke for text */
-            letter-spacing: 1px; /* Letter spacing for emphasis */
+            border: none; /* Remove border */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow for 3D effect */
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover effect */
+        }
+
+        .buy-button:hover {
+            background-color: #C5A037; /* Darker gold on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
         }
 
         /* 3D Animation Container */
         #animation-container {
-            width: 500px; /* Increased container size */
-            height: 500px; /* Increased container size */
+            width: 300px; /* Larger container */
+            height: 300px;
             margin: 0 auto 20px auto;
         }
 
@@ -104,8 +107,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Include GLTFLoader for loading the Blender animation -->
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <!-- Include draco decoder for compressed models -->
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
     <!-- Sticky Logo -->
@@ -119,7 +120,7 @@
         <div id="animation-container"></div>
 
         <!-- Buy Button -->
-        <div class="buy-button">Buy NOW</div>
+        <div class="buy-button">Buy</div>
     </div>
 
     <!-- Copyright Text -->
@@ -131,151 +132,56 @@
     <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ 
-            alpha: true,
-            antialias: true, // Enable antialiasing
-            preserveDrawingBuffer: true
-        });
-        renderer.setSize(500, 500); // Increased renderer size
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(300, 300); // Larger renderer size
         document.getElementById('animation-container').appendChild(renderer.domElement);
-        
-        // More aggressive fixes for color rendering
-        renderer.outputEncoding = THREE.sRGBEncoding; // Use sRGB encoding
-        renderer.physicallyCorrectLights = true; // Use physically correct lighting
-        renderer.gammaFactor = 2.2; // Standard gamma factor
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2; // Increased exposure
-        
-        // Enhanced lighting for better material visibility
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Brighter ambient
+
+        // Set tone mapping and exposure
+        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
+        renderer.toneMappingExposure = Math.pow(2, -1.8); // Set exposure to -1.8
+        renderer.outputEncoding = THREE.sRGBEncoding; // Ensure correct color space for textures
+
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft overall light
         scene.add(ambientLight);
-        
-        // Key light (main directional light)
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        keyLight.position.set(2, 4, 2);
-        scene.add(keyLight);
-        
-        // Fill light (secondary directional light)
-        const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        fillLight.position.set(-2, 0, -2);
-        scene.add(fillLight);
-        
-        // Rim light (for better object definition)
-        const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
-        rimLight.position.set(0, -2, 5);
-        scene.add(rimLight);
-        
-        // Optional: Add spotlights for more focused lighting
-        const spotLight = new THREE.SpotLight(0xffffff, 1);
-        spotLight.position.set(0, 5, 5);
-        spotLight.angle = Math.PI / 6;
-        spotLight.penumbra = 0.3;
-        scene.add(spotLight);
-        
-        // Load the shoe box animation with optional Draco compression support
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        // Load the shoe box animation
         const loader = new THREE.GLTFLoader();
-        
-        // Optional: Set up Draco decoder if your model is compressed
-        const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-        loader.setDRACOLoader(dracoLoader);
-        
         let model;
-        let mixer;
-        
         loader.load('shoe_box_animation.glb', function(gltf) {
             model = gltf.scene;
-            
-            // Scale the model up by 5 times
-            model.scale.set(5, 5, 5);
-            
-            // Force material settings to ensure colors display correctly
-            model.traverse((object) => {
-                if (object.isMesh) {
-                    // Create new MeshStandardMaterial to replace the original
-                    if (object.material) {
-                        const oldMat = object.material;
-                        
-                        // Create a new material preserving the original's properties
-                        const newMat = new THREE.MeshStandardMaterial({
-                            map: oldMat.map,
-                            color: oldMat.color,
-                            metalness: oldMat.metalness || 0.3,
-                            roughness: oldMat.roughness || 0.7,
-                            normalMap: oldMat.normalMap,
-                            aoMap: oldMat.aoMap,
-                            emissive: oldMat.emissive,
-                            emissiveMap: oldMat.emissiveMap,
-                            emissiveIntensity: oldMat.emissiveIntensity || 1,
-                            transparent: oldMat.transparent,
-                            opacity: oldMat.opacity
-                        });
-                        
-                        // Make sure textures use proper encoding
-                        if (newMat.map) {
-                            newMat.map.encoding = THREE.sRGBEncoding;
-                            newMat.map.needsUpdate = true;
-                        }
-                        
-                        // Replace the material
-                        object.material = newMat;
-                        object.material.needsUpdate = true;
+
+            // Traverse the model and set texture encoding
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    if (child.material.map) {
+                        child.material.map.encoding = THREE.sRGBEncoding; // Set texture encoding
                     }
-                    
-                    // Make sure material doesn't cull back faces
-                    object.material.side = THREE.DoubleSide;
+                    if (child.material.emissiveMap) {
+                        child.material.emissiveMap.encoding = THREE.sRGBEncoding;
+                    }
                 }
             });
-            
-            // Handle animations if they exist
-            if (gltf.animations && gltf.animations.length) {
-                mixer = new THREE.AnimationMixer(model);
-                const action = mixer.clipAction(gltf.animations[0]);
-                action.play();
-            }
-            
+
             scene.add(model);
-            
-            // Center the model in view
-            const box = new THREE.Box3().setFromObject(model);
-            const center = box.getCenter(new THREE.Vector3());
-            model.position.x = -center.x;
-            model.position.y = -center.y;
-            model.position.z = -center.z;
-            
-            // Optional: Log material information to help debug
-            console.log("Model loaded with materials:", gltf);
-            
-        }, 
-        // Progress callback
-        function(xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        }, 
-        // Error callback
-        function(error) {
+        }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-        
+
         // Position the camera
-        camera.position.z = 10; // Adjusted camera distance
-        
-        // Animation clock
-        const clock = new THREE.Clock();
-        
+        camera.position.z = 5; // Adjust camera distance for larger model
+
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
-            
-            // Update animations if they exist
-            if (mixer) {
-                mixer.update(clock.getDelta());
-            }
-            
             if (model) {
                 model.rotation.y += 0.01; // Rotate the model
             }
-            
             renderer.render(scene, camera);
         }
         animate();
