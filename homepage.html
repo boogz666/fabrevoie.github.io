@@ -25,7 +25,7 @@
             background-attachment: fixed;
         }
 
-        /* Favicon */
+        <!-- Favicon -->
         <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
@@ -42,15 +42,15 @@
         <link rel="manifest" href="/favicon/placeholder/manifest.json">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-    
+
         /* Sticky Logo */
         .sticky-logo {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1000;
-            width: 70px; /* Adjusted size */
-            height: auto;
+            width: 50px; /* Fixed width */
+            height: auto; /* Maintain aspect ratio */
             transition: transform 0.3s ease;
         }
 
@@ -61,7 +61,7 @@
         /* Center Container */
         .container {
             position: absolute;
-            top: 50%;
+            top: 55%; /* Move the container lower */
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
@@ -73,9 +73,8 @@
             font-size: 24px; /* Smaller font size */
             font-weight: 600;
             color: #000; /* Black text */
-            text-decoration: none; /* Removed line-through */
-            cursor: pointer;
-            margin-top: 40px; /* Lowered button on the page */
+            cursor: pointer; /* Change cursor to pointer */
+            margin-top: 30px; /* Move the button lower */
             text-transform: uppercase;
             font-family: 'Poppins', sans-serif; /* Match landing page font */
             position: relative;
@@ -133,7 +132,7 @@
     <div class="container">
         <div id="animation-container"></div>
 
-        <div class="buy-button">Surprise</div> <!-- Updated button text -->
+        <div class="buy-button">Surprise</div>
     </div>
 
     <div class="copyright">
