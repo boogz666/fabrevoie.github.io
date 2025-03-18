@@ -153,7 +153,7 @@
         // Load the levitating box animation
         const loader = new THREE.GLTFLoader();
         let model;
-        loader.load('bb.glb', function(gltf) {
+        loader.load('box_rotate.glb', function(gltf) {
             model = gltf.scene;
             model.scale.set(1, 1, 1); // Adjust scale if needed
             scene.add(model);
