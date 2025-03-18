@@ -1,245 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabrevoie - Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Reset default margin and padding */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-            color: white;
-        }
-
-       
-        /* Background Image */
-        body {
-            background-image: url('page bckgrnd.png'); /* Corrected filename with quotes */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-	
-	<!-- Favicon -->
-        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-        <link rel="manifest" href="/favicon/placeholder/manifest.json">
-        <meta name="msapplication-TileColor" content="#ffffff">
-        <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-	
-        /* Sticky Logo */
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Center Container */
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1;
-        }
-
-        /* Buy Button Styling */
-        .buy-button {
-            font-size: 24px; /* Smaller font size */
-            font-weight: 600;
-            color: #000; /* Black text */
-            text-decoration: line-through;
-            cursor: not-allowed;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-family: 'Poppins', sans-serif; /* Match landing page font */
-            position: relative;
-            padding: 12px 24px; /* Match landing page padding */
-            background-color: #D4AF37; /* Match landing page gold color */
-            border-radius: 5px; /* Match landing page border radius */
-            display: inline-block;
-            border: none; /* Remove border */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow for 3D effect */
-            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover effect */
-        }
-
-        .buy-button:hover {
-            background-color: #C5A037; /* Darker gold on hover */
-            transform: scale(1.05); /* Slightly enlarge on hover */
-        }
-
-        /* 3D Animation Container */
-        #animation-container {
-            width: 150vw; /* Take up half the viewport width */
-            height: 150vh; /* Take up half the viewport height */
-            margin: 0 auto 20px auto;
-        }
-
-        /* Copyright Text */
-        .copyright {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            color: #888888;
-            font-size: 12px;
-            text-align: left;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-
-        .copyright a {
-            color: #D4AF37;
-            text-decoration: none;
-        }
-
-        .copyright a:hover {
-            text-decoration: underline;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
-</head>
-<body>
-    <a href="index.html">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-    </a>
-
-    <div class="container">
-        <div id="animation-container"></div>
-
-        <div class="buy-button">Buy</div>
-    </div>
-
-    <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. |
-        <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
-    </div>
-
-    <script>
-        // Set up Three.js scene
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Update aspect ratio
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
-        const animationContainer = document.getElementById('animation-container');
-        renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight); // Set renderer size to container size
-        animationContainer.appendChild(renderer.domElement);
-
-        // Set tone mapping and exposure
-        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
-        renderer.toneMappingExposure = Math.pow(2, -1.8); // Set exposure to -1.8
-        renderer.outputEncoding = THREE.sRGBEncoding; // Ensure correct color space for textures
-
-        // Add lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft overall light
-        scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        scene.add(directionalLight);
-
-        // Add a point light for better visibility
-        const pointLight = new THREE.PointLight(0xffffff, 1); // Bright point light
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
-
-        // Set up DRACOLoader
-        const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/'); // Path to Draco decoder files
-
-        // Set up GLTFLoader with DRACOLoader
-        const loader = new THREE.GLTFLoader();
-        loader.setDRACOLoader(dracoLoader);
-
-        // Load the levitating box animation
-        let model, mixer;
-        loader.load('box_rotateblack.glb', function(gltf) {
-            model = gltf.scene;
-
-            // Debug: Log the model and its materials
-            console.log("Model loaded:", model);
-            model.traverse((child) => {
-                if (child.isMesh) {
-                    console.log("Mesh:", child);
-                    console.log("Material:", child.material);
-                }
-            });
-
-            scene.add(model);
-
-            // Adjust camera position to fit the larger box
-            const boundingBox = new THREE.Box3().setFromObject(model);
-            const center = boundingBox.getCenter(new THREE.Vector3());
-            const size = boundingBox.getSize(new THREE.Vector3());
-
-            // Reposition the model so its center is at the origin
-            model.position.sub(center);
-
-            // Get the maximum dimension of the model to calculate the camera distance
-            const maxDimension = Math.max(size.x, size.y, size.z);
-            const cameraDistance = maxDimension * 1.5; // Adjust multiplier as needed
-
-            camera.position.z = cameraDistance;
-            camera.position.y = cameraDistance * 0.5; // Adjust vertical position if needed
-            camera.lookAt(scene.position); // Ensure the camera is looking at the center of the scene
+ <html lang="en">
+ <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Fabrevoie - Homepage</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+      <style>
+          /* Reset default margin and padding */
+          body, html {
+              margin: 0;
+              padding: 0;
+              height: 100%;
+              font-family: 'Poppins', sans-serif;
+              overflow: hidden;
+              color: white;
+          }
 
 
-            // Check if animations exist
-            if (gltf.animations.length > 0) {
-                mixer = new THREE.AnimationMixer(model);
-                const action = mixer.clipAction(gltf.animations[0]); // Play the first animation
-                action.play();
-            }
-        }, undefined, function(error) {
-            console.error('Error loading animation:', error);
-        });
+          /* Background Image */
+          body {
+              background-image: url('page bckgrnd.png'); /* Corrected filename with quotes */
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+          }
 
-        // Animation loop
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
+ 	        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+          <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+          <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+          <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+          <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+          <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+          <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+          <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+          <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+          <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+          <link rel="manifest" href="/favicon/placeholder/manifest.json">
+          <meta name="msapplication-TileColor" content="#ffffff">
+          <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
 
-            // Update the animation mixer
-            if (mixer) {
-                mixer.update(clock.getDelta()); // Use delta time for smooth animation
-            }
+          /* Sticky Logo */
+          .sticky-logo {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 1000;
+              width: 50px;
+              height: auto;
+              transition: transform 0.3s ease;
+          }
 
-            renderer.render(scene, camera);
-        }
-        animate();
+          .sticky-logo:hover {
+              transform: scale(1.1);
+          }
 
-        // Handle window resize for responsiveness
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
-        });
-    </script>
-</body>
-</html>
+          /* Center Container */
+          .container {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              text-align: center;
+              z-index: 1;
+          }
+
+          /* Buy Button Styling */
+          .buy-button {
+              font-size: 24px; /* Smaller font size */
+              font-weight: 600;
+              color: #000; /* Black text */
+              text-decoration: none; /* Removed line-through */
+              cursor: pointer; /* Changed cursor */
+              margin-top: 60vh; /* Moved button lower */
+              text-transform: uppercase;
+              font-family: 'Poppins', sans-serif; /* Match landing page font */
+              position: relative;
+              padding: 12px 24px; /* Match landing page padding */
+              background-color: #D4AF37; /* Match landing page gold color */
+              border-radius: 5px; /* Match landing page border radius */
+              display: inline-block;
+              border: none; /* Remove border */
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow for 3D effect */
+              transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover effect */
+          }
+
+          .buy-button:hover {
+              background-color: #C5A037; /* Darker gold on hover */
+              transform: scale(1.05); /* Slightly enlarge on hover */
+          }
+
+          /* 3D Animation Container */
+          #animation-container {
+              width: 150vw; /* Take up half the viewport width */
+              height: 150vh; /* Take up half the viewport height */
+              margin: 0 auto 20px auto;
+          }
+
+          /* Copyright Text */
+          .copyright {
+              position: fixed;
+              bottom: 15px;
+              left: 15px;
+              color: #888888;
+              font-size: 12px;
+              text-align: left;
+              z-index: 1000;
+              white-space: nowrap;
+          }
+
+          .copyright a {
+              color: #D4AF37;
+              text-decoration: none;
+          }
+
+          .copyright a:hover {
+              text-decoration: underline;
+          }
+      </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
+ </head>
+ <body>
+      <a href="index.html">
+          <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+      </a>
+
+      <div class="container">
+          <div id="animation-container"></div>
+
+          <div class="buy-button">Surprise</div>
+      </div>
+
+      <div class="copyright">
+          &copy; 2025, Fabrevoie, Inc. All rights reserved. |
+          <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
+      </div>
+
+      <script>
+          // Set up Three.js scene
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Update aspect ratio
+          const renderer = new THREE.WebGLRenderer({ alpha: true });
+          const animationContainer = document.getElementById('animation-container');
+          renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight); // Set renderer size to container size
+          animationContainer.appendChild(renderer.domElement);
+
+          // Set tone mapping and exposure
+          renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
+          renderer.toneMappingExposure = Math.pow(2, -1.8); // Set exposure to -1.8
+          renderer.outputEncoding = THREE.sRGBEncoding; // Ensure correct color space for textures
+
+          // Add lighting
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft overall light
+          scene.add(ambientLight);
+
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+          directionalLight.position.set(1, 1, 1).normalize();
+          scene.add(directionalLight);
+
+          // Add a point light for better visibility
+          const pointLight = new THREE.PointLight(0xffffff, 1); // Bright point light
+          pointLight.position.set(5, 5, 5);
+          scene.add(pointLight);
+
+          // Set up DRACOLoader
+          const dracoLoader = new THREE.DRACOLoader();
+          dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/'); // Path to Draco decoder files
+
+          // Set up GLTFLoader with DRACOLoader
+          const loader = new THREE.GLTFLoader();
+          loader.setDRACOLoader(dracoLoader);
+
+          // Load the levitating box animation
+          let model, mixer;
+          loader.load('box_rotateblack.glb', function(gltf) {
+              model = gltf.scene;
+
+              // Debug: Log the model and its materials
+              console.log("Model loaded:", model);
+              model.traverse((child) => {
+                  if (child.isMesh) {
+                      console.log("Mesh:", child);
+                      console.log("Material:", child.material);
+                  }
+              });
+
+              scene.add(model);
+
+              // Adjust camera position to fit the larger box
+              const boundingBox = new THREE.Box3().setFromObject(model);
+              const center = boundingBox.getCenter(new THREE.Vector3());
+              const size = boundingBox.getSize(new THREE.Vector3());
+
+              // Reposition the model so its center is at the origin
+              model.position.sub(center);
+
+              // Get the maximum dimension of the model to calculate the camera distance
+              const maxDimension = Math.max(size.x, size.y, size.z);
+              const cameraDistance = maxDimension * 1.5; // Adjust multiplier as needed
+
+              camera.position.z = cameraDistance;
+              camera.position.y = cameraDistance * 0.5; // Adjust vertical position if needed
+              camera.lookAt(scene.position); // Ensure the camera is looking at the center of the scene
+
+
+              // Check if animations exist
+              if (gltf.animations.length > 0) {
+                  mixer = new THREE.AnimationMixer(model);
+                  const action = mixer.clipAction(gltf.animations[0]); // Play the first animation
+                  action.play();
+              }
+          }, undefined, function(error) {
+              console.error('Error loading animation:', error);
+          });
+
+          // Animation loop
+          const clock = new THREE.Clock();
+          function animate() {
+              requestAnimationFrame(animate);
+
+              // Update the animation mixer
+              if (mixer) {
+                  mixer.update(clock.getDelta()); // Use delta time for smooth animation
+              }
+
+              renderer.render(scene, camera);
+          }
+          animate();
+
+          // Handle window resize for responsiveness
+          window.addEventListener('resize', () => {
+              camera.aspect = window.innerWidth / window.innerHeight;
+              camera.updateProjectionMatrix();
+              renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
+          });
+      </script>
+ </body>
+ </html>
