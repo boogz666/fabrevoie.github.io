@@ -152,24 +152,34 @@
 
         // Load the levitating box animation
         const loader = new THREE.GLTFLoader();
-        let model;
+        let model, mixer;
+        
         loader.load('box_rotate.glb', function(gltf) {
             model = gltf.scene;
-            model.scale.set(1, 1, 1); // Adjust scale if needed
             scene.add(model);
+        
+            // Check if animations exist
+            if (gltf.animations.length > 0) {
+                mixer = new THREE.AnimationMixer(model);
+                const action = mixer.clipAction(gltf.animations[0]); // Play the first animation
+                action.play();
+            }
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-
-        // Position the camera
-        camera.position.z = 5; // Adjust camera distance for larger model
-    
-        // Set up animation loop
+        
+        // Update the animation loop
         function animate() {
             requestAnimationFrame(animate);
+            
+            if (mixer) {
+                mixer.update(0.016); // Assuming 60 FPS (~1/60)
+            }
+        
             renderer.render(scene, camera);
         }
         animate();
+
     </script>
 </body>
 </html>
