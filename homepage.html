@@ -105,8 +105,8 @@
     </style>
     <!-- Include Three.js for 3D rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Include FBXLoader for loading FBX files -->
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/FBXLoader.js"></script>
+    <!-- Include GLTFLoader for loading GLB files -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
     <!-- Sticky Logo -->
@@ -151,10 +151,10 @@
         scene.add(directionalLight);
 
         // Load the levitating box animation
-        const loader = new THREE.FBXLoader();
+        const loader = new THREE.GLTFLoader();
         let model;
-        loader.load('box_levitating.fbx', function(fbx) {
-            model = fbx;
+        loader.load('box_levitating.glb', function(gltf) {
+            model = gltf.scene;
             model.scale.set(1, 1, 1); // Adjust scale if needed
             scene.add(model);
         }, undefined, function(error) {
