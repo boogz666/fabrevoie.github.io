@@ -102,6 +102,11 @@
             width: 150vw; /* Keep original width - 150% of viewport width */
             height: 150vh; /* Keep original height - 150% of viewport height */
             margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transform: translateX(-25%); /* Center the animation container */
         }
 
         /* Copyright Text */
@@ -153,6 +158,12 @@
         renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         animationContainer.appendChild(renderer.domElement);
 
+        // Center the rendered canvas within the animation container
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.left = '50%';
+        renderer.domElement.style.top = '50%';
+        renderer.domElement.style.transform = 'translate(-50%, -50%)';
+
         // Set tone mapping and exposure
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = Math.pow(2, -1.8);
@@ -194,12 +205,12 @@
 
             scene.add(model);
 
-            // Adjust camera position to fit the larger box
+            // Center the model within the scene
             const boundingBox = new THREE.Box3().setFromObject(model);
             const center = boundingBox.getCenter(new THREE.Vector3());
             const size = boundingBox.getSize(new THREE.Vector3());
 
-            // Center the model in the scene without changing its size
+            // Move the model so it's centered at origin
             model.position.x = -center.x;
             model.position.y = -center.y;
             model.position.z = -center.z;
