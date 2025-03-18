@@ -15,9 +15,8 @@
             overflow: hidden;
             color: white;
         }
-        
-        <!-- Favicon -->
-            <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
             <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
             <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
             <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
@@ -33,10 +32,10 @@
             <link rel="manifest" href="/favicon/placeholder/manifest.json">
             <meta name="msapplication-TileColor" content="#ffffff">
             <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-        
+
         /* Background Image */
         body {
-            background-image: url('page bckgrnd.png');
+            background-image: url('page_bckgrnd.png'); /* Corrected filename */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -95,8 +94,8 @@
 
         /* 3D Animation Container */
         #animation-container {
-            width: 300px; /* Larger container */
-            height: 300px;
+            width: 50vw; /* Take up half the viewport width */
+            height: 50vh; /* Take up half the viewport height */
             margin: 0 auto 20px auto;
         }
 
@@ -121,41 +120,34 @@
             text-decoration: underline;
         }
     </style>
-    <!-- Include Three.js for 3D rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Include GLTFLoader for loading GLB files -->
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <!-- Include DRACOLoader for Draco compression -->
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
-    <!-- Sticky Logo -->
     <a href="index.html">
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- 3D Animation Container -->
         <div id="animation-container"></div>
 
-        <!-- Buy Button -->
         <div class="buy-button">Buy</div>
     </div>
 
-    <!-- Copyright Text -->
     <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. |
         <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
     </div>
 
     <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Update aspect ratio
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(300, 300); // Larger renderer size
-        document.getElementById('animation-container').appendChild(renderer.domElement);
+        const animationContainer = document.getElementById('animation-container');
+        renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight); // Set renderer size to container size
+        animationContainer.appendChild(renderer.domElement);
 
         // Set tone mapping and exposure
         renderer.toneMapping = THREE.ACESFilmicToneMapping; // Use ACES Filmic tone mapping
@@ -199,6 +191,23 @@
 
             scene.add(model);
 
+            // Adjust camera position to fit the larger box
+            const boundingBox = new THREE.Box3().setFromObject(model);
+            const center = boundingBox.getCenter(new THREE.Vector3());
+            const size = boundingBox.getSize(new THREE.Vector3());
+
+            // Reposition the model so its center is at the origin
+            model.position.sub(center);
+
+            // Get the maximum dimension of the model to calculate the camera distance
+            const maxDimension = Math.max(size.x, size.y, size.z);
+            const cameraDistance = maxDimension * 1.5; // Adjust multiplier as needed
+
+            camera.position.z = cameraDistance;
+            camera.position.y = cameraDistance * 0.5; // Adjust vertical position if needed
+            camera.lookAt(scene.position); // Ensure the camera is looking at the center of the scene
+
+
             // Check if animations exist
             if (gltf.animations.length > 0) {
                 mixer = new THREE.AnimationMixer(model);
@@ -208,11 +217,6 @@
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-
-        // Position the camera
-        camera.position.z = 5; // Adjust this value to fit the model in the view
-        camera.position.y = 2; // Adjust vertical position if needed
-        camera.position.x = 0; // Adjust horizontal position if needed
 
         // Animation loop
         const clock = new THREE.Clock();
@@ -227,6 +231,13 @@
             renderer.render(scene, camera);
         }
         animate();
+
+        // Handle window resize for responsiveness
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
+        });
     </script>
 </body>
 </html>
