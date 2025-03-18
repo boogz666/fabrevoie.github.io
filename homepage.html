@@ -107,6 +107,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Include GLTFLoader for loading GLB files -->
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- Include DRACOLoader for Draco compression -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
     <!-- Sticky Logo -->
@@ -150,22 +152,33 @@
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
 
-        // Load the levitating box animation
+        // Add a point light for better visibility
+        const pointLight = new THREE.PointLight(0xffffff, 1); // Bright point light
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        // Set up DRACOLoader
+        const dracoLoader = new THREE.DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/'); // Path to Draco decoder files
+
+        // Set up GLTFLoader with DRACOLoader
         const loader = new THREE.GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+
+        // Load the levitating box animation
         let model, mixer;
-        
         loader.load('box_rotateblack.glb', function(gltf) {
             model = gltf.scene;
 
-            // Traverse the model and set texture encoding
+            // Debug: Log the model and its materials
+            console.log("Model loaded:", model);
             model.traverse((child) => {
                 if (child.isMesh) {
-                    if (child.material.map) {
-                        child.material.map.encoding = THREE.sRGBEncoding; // Set texture encoding
-                    }
-                    if (child.material.emissiveMap) {
-                        child.material.emissiveMap.encoding = THREE.sRGBEncoding;
-                    }
+                    console.log("Mesh:", child);
+                    console.log("Material:", child.material);
+
+                    // Assign a basic material for debugging
+                    child.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green material
                 }
             });
 
