@@ -66,43 +66,42 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 100;
-            width: 80%;
+            z-index: 100; /* Increased z-index to ensure visibility */
+            width: 80%; /* Set a specific width */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
 
         /* Surprise Button Styling */
         .buy-button {
             font-size: 24px;
             font-weight: 600;
-            color: white;
+            color: white; /* Changed to white */
             cursor: pointer;
             margin-top: 30px;
             text-transform: uppercase;
             font-family: 'Poppins', sans-serif;
             position: relative;
             padding: 12px 24px;
-            background-color: transparent;
+            background-color: transparent; /* Removed background */
             border-radius: 5px;
             display: inline-block;
             border: none;
-            text-decoration: none;
+            text-decoration: none; /* Added for the link */
             transition: transform 0.3s ease;
-            z-index: 1001;
+            z-index: 1001; /* Ensure button is above animation */
         }
 
         .buy-button:hover {
-            transform: scale(2.0);
+            transform: scale(2.0); /* Makes it twice as big on hover */
         }
 
         /* 3D Animation Container */
         #animation-container {
-            width: 100%;
-            height: 60vh;
-            position: relative;
+            width: 150vw; /* Keep original width - 150% of viewport width */
+            height: 150vh; /* Keep original height - 150% of viewport height */
+            margin: 0 auto 20px auto;
         }
 
         /* Copyright Text */
@@ -148,13 +147,10 @@
     <script>
         // Set up Three.js scene
         const scene = new THREE.Scene();
-        const animationContainer = document.getElementById('animation-container');
-        const width = animationContainer.offsetWidth;
-        const height = animationContainer.offsetHeight;
-        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(width, height);
+        const animationContainer = document.getElementById('animation-container');
+        renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         animationContainer.appendChild(renderer.domElement);
 
         // Set tone mapping and exposure
@@ -174,11 +170,6 @@
         pointLight.position.set(5, 5, 5);
         scene.add(pointLight);
 
-        // Set up camera initial position
-        camera.position.z = 5;
-        camera.position.y = 2;
-        camera.lookAt(0, 0, 0);
-
         // Set up DRACOLoader
         const dracoLoader = new THREE.DRACOLoader();
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
@@ -189,7 +180,7 @@
 
         // Load the levitating box animation
         let model, mixer;
-        loader.load('box_rotate.glb', function(gltf) {
+        loader.load('box_rotateblack.glb', function(gltf) {
             model = gltf.scene;
 
             // Debug: Log the model and its materials
@@ -201,24 +192,24 @@
                 }
             });
 
-            // Add model to the scene
             scene.add(model);
 
-            // Center the model
+            // Adjust camera position to fit the larger box
             const boundingBox = new THREE.Box3().setFromObject(model);
             const center = boundingBox.getCenter(new THREE.Vector3());
             const size = boundingBox.getSize(new THREE.Vector3());
 
-            // Instead of moving the model, adjust its position to center it
-            model.position.set(-center.x, -center.y, -center.z);
+            // Center the model in the scene without changing its size
+            model.position.x = -center.x;
+            model.position.y = -center.y;
+            model.position.z = -center.z;
 
-            // Calculate camera distance based on model size
+            // Get the maximum dimension of the model to calculate the camera distance
             const maxDimension = Math.max(size.x, size.y, size.z);
-            const cameraDistance = maxDimension * 2;
+            const cameraDistance = maxDimension * 1.5;
 
-            // Set camera position based on model size
             camera.position.z = cameraDistance;
-            camera.position.y = cameraDistance * 0.25;
+            camera.position.y = cameraDistance * 0.5;
             camera.lookAt(0, 0, 0);
 
             // Check if animations exist
@@ -241,19 +232,15 @@
                 mixer.update(clock.getDelta());
             }
 
-            // Render the scene
             renderer.render(scene, camera);
         }
         animate();
 
         // Handle window resize for responsiveness
         window.addEventListener('resize', () => {
-            const width = animationContainer.offsetWidth;
-            const height = animationContainer.offsetHeight;
-            
-            camera.aspect = width / height;
+            camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
+            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         });
     </script>
 </body>
