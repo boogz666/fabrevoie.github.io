@@ -168,21 +168,26 @@
         // Load the levitating box animation
         let model, mixer;
         loader.load('box_rotateblack.glb', function(gltf) {
-            model = gltf.scene;
+        model = gltf.scene;
+    
+        console.log("Model loaded:", model);
+        model.traverse((child) => {
+            if (child.isMesh) {
+                console.log("Mesh:", child);
+                console.log("Material:", child.material);
+                // Do NOT override materials unless needed
+            }
+        });
+    
+        scene.add(model);
+    
+        if (gltf.animations.length > 0) {
+            mixer = new THREE.AnimationMixer(model);
+            const action = mixer.clipAction(gltf.animations[0]);
+            action.play();
+        }
+    });
 
-            // Debug: Log the model and its materials
-            console.log("Model loaded:", model);
-            model.traverse((child) => {
-                if (child.isMesh) {
-                    console.log("Mesh:", child);
-                    console.log("Material:", child.material);
-
-                    // Assign a basic material for debugging
-                    child.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green material
-                }
-            });
-
-            scene.add(model);
 
             // Check if animations exist
             if (gltf.animations.length > 0) {
