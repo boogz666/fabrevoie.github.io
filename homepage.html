@@ -163,9 +163,10 @@
 
         // Position the camera
         camera.position.z = 5; // Adjust camera distance for larger model
-
-
-            }
+    
+        // Set up animation loop
+        function animate() {
+            requestAnimationFrame(animate);
             renderer.render(scene, camera);
         }
         animate();
