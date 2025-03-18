@@ -153,7 +153,7 @@
         // Load the levitating box animation
         const loader = new THREE.GLTFLoader();
         let model;
-        loader.load('box_levitating.glb', function(gltf) {
+        loader.load('bb.glb', function(gltf) {
             model = gltf.scene;
             model.scale.set(1, 1, 1); // Adjust scale if needed
             scene.add(model);
@@ -164,11 +164,7 @@
         // Position the camera
         camera.position.z = 5; // Adjust camera distance for larger model
 
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            if (model) {
-                model.rotation.y += 0.01; // Rotate the model
+
             }
             renderer.render(scene, camera);
         }
