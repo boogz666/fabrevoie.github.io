@@ -156,8 +156,21 @@
         
         loader.load('box_rotate.glb', function(gltf) {
             model = gltf.scene;
+
+            // Traverse the model and set texture encoding
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    if (child.material.map) {
+                        child.material.map.encoding = THREE.sRGBEncoding; // Set texture encoding
+                    }
+                    if (child.material.emissiveMap) {
+                        child.material.emissiveMap.encoding = THREE.sRGBEncoding;
+                    }
+                }
+            });
+
             scene.add(model);
-        
+
             // Check if animations exist
             if (gltf.animations.length > 0) {
                 mixer = new THREE.AnimationMixer(model);
@@ -167,19 +180,25 @@
         }, undefined, function(error) {
             console.error('Error loading animation:', error);
         });
-        
-        // Update the animation loop
+
+        // Position the camera
+        camera.position.z = 5; // Adjust this value to fit the model in the view
+        camera.position.y = 2; // Adjust vertical position if needed
+        camera.position.x = 0; // Adjust horizontal position if needed
+
+        // Animation loop
+        const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
-            
+
+            // Update the animation mixer
             if (mixer) {
-                mixer.update(0.016); // Assuming 60 FPS (~1/60)
+                mixer.update(clock.getDelta()); // Use delta time for smooth animation
             }
-        
+
             renderer.render(scene, camera);
         }
         animate();
-
     </script>
 </body>
 </html>
