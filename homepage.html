@@ -70,35 +70,34 @@
             width: 80%; /* Set a specific width */
         }
 
-        /* Buy Button Styling */
+        /* Surprise Button Styling */
         .buy-button {
             font-size: 24px;
             font-weight: 600;
-            color: #000;
+            color: white; /* Changed to white */
             cursor: pointer;
             margin-top: 30px;
             text-transform: uppercase;
             font-family: 'Poppins', sans-serif;
             position: relative;
             padding: 12px 24px;
-            background-color: #D4AF37;
+            background-color: transparent; /* Removed background */
             border-radius: 5px;
             display: inline-block;
             border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-decoration: none; /* Added for the link */
+            transition: transform 0.3s ease;
             z-index: 1001; /* Ensure button is above animation */
         }
 
         .buy-button:hover {
-            background-color: #C5A037;
-            transform: scale(1.05);
+            transform: scale(2.0); /* Makes it twice as big on hover */
         }
 
         /* 3D Animation Container */
         #animation-container {
             width: 100%; /* Reduced width */
-            height: 70vh; /* Reduced height */
+            height: 120px; /* Set to 120 pixels as requested */
             margin: 0 auto;
             position: relative;
             z-index: 99; /* Lower than container */
@@ -136,7 +135,7 @@
 
     <div class="container">
         <div id="animation-container"></div>
-        <div class="buy-button">Surprise</div>
+        <a href="https://pornhub.com" class="buy-button">Surprise</a>
     </div>
 
     <div class="copyright">
