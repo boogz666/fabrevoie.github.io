@@ -104,7 +104,6 @@
             position: relative;
             overflow: visible;
             margin-bottom: 20px;
-            transform: translateX(0); /* Remove the negative translation causing the left shift */
         }
 
         /* Canvas Style */
@@ -198,54 +197,56 @@
 
         // Load the levitating box animation
         let model, mixer;
-        loader.load('box_rotateblack.glb', function(gltf) {
-            model = gltf.scene;
+        loader.load(
+            'box_rotateblack.glb',
+            function(gltf) {
+                model = gltf.scene;
+                
+                // Debug: Log the model and its materials
+                console.log("Model loaded:", model);
+                
+                // Add model to scene
+                scene.add(model);
             
-            // Debug: Log the model and its materials
-            console.log("Model loaded:", model);
+                // Calculate bounding box to center model
+                const boundingBox = new THREE.Box3().setFromObject(model);
+                const center = boundingBox.getCenter(new THREE.Vector3());
+                const size = boundingBox.getSize(new THREE.Vector3());
             
-            // Add model to scene
-            scene.add(model);
-        
-            // Calculate bounding box to center model
-            const boundingBox = new THREE.Box3().setFromObject(model);
-            const center = boundingBox.getCenter(new THREE.Vector3());
-            const size = boundingBox.getSize(new THREE.Vector3());
-        
-            // Center model at origin (0,0,0)
-            model.position.set(-center.x, -center.y, -center.z);
+                // Center model at origin (0,0,0)
+                model.position.set(-center.x, -center.y, -center.z);
+                
+                // Apply 20% scale reduction
+                model.scale.set(0.8, 0.8, 0.8);
             
-            // Apply 20% scale reduction
-            model.scale.set(0.8, 0.8, 0.8);
-        
-            // Calculate camera position based on model size
-            const maxDimension = Math.max(size.x, size.y, size.z);
-            const cameraDistance = maxDimension * 1.5;
-        
-            // Position camera
-            camera.position.z = cameraDistance;
-            camera.position.y = cameraDistance * 0.5;
-            camera.lookAt(0, 0, 0);
-        
-            // Animation setup
-            if (gltf.animations.length > 0) {
-                mixer = new THREE.AnimationMixer(model);
-                const action = mixer.clipAction(gltf.animations[0]);
-                action.play();
+                // Calculate camera position based on model size
+                const maxDimension = Math.max(size.x, size.y, size.z);
+                const cameraDistance = maxDimension * 1.5;
+            
+                // Position camera
+                camera.position.z = cameraDistance;
+                camera.position.y = cameraDistance * 0.5;
+                camera.lookAt(0, 0, 0);
+            
+                // Animation setup
+                if (gltf.animations.length > 0) {
+                    mixer = new THREE.AnimationMixer(model);
+                    const action = mixer.clipAction(gltf.animations[0]);
+                    action.play();
+                }
+                
+                // Force initial render to prevent blank display
+                renderer.render(scene, camera);
+            },
+            // Progress callback
+            function(xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            // Error callback
+            function(error) {
+                console.error('Error loading model:', error);
             }
-            
-            // Force initial render to prevent blank display
-            renderer.render(scene, camera);
-        });
-        }, 
-        // Progress callback
-        function(xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        // Error callback
-        function(error) {
-            console.error('Error loading model:', error);
-        });
+        );
 
         // Animation loop
         const clock = new THREE.Clock();
@@ -267,7 +268,7 @@
         // Handle window resize
         window.addEventListener('resize', function() {
             // Update camera aspect ratio
-            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
             camera.updateProjectionMatrix();
             
             // Update renderer size
