@@ -58,6 +58,33 @@
             color: white;
         }
 
+        /* Full-width header with scrolling text */
+        .scrolling-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 50% opacity */
+            padding: 10px 0;
+            z-index: 1001;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen */
+            animation: scroll-text 15s linear infinite;
+            font-size: 24px;
+            font-weight: 600;
+            color: #D4AF37;
+        }
+
+        @keyframes scroll-text {
+            0% { transform: translateX(100%); } /* Start from right */
+            100% { transform: translateX(-100%); } /* Move to left */
+        }
+
         /* Background video styling */
         .bg-video {
             position: fixed;
@@ -68,9 +95,9 @@
             width: auto;
             height: auto;
             z-index: -2;
-            transform: translate(-50%, -50%); /* Center the video */
-            object-fit: cover; /* Ensure the video covers the entire screen */
-            object-position: center; /* Center the video */
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center;
         }
 
         /* Overlay to darken the video */
@@ -102,12 +129,12 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
-            z-index: 10; /* Ensure it's above the overlay */
+            z-index: 10;
         }
 
         /* MailerLite Form Styling */
         .ml-embedded {
-            margin-bottom: 10px; /* Adjusted to make space for the text */
+            margin-bottom: 10px;
         }
 
         /* Text under the MailerLite form */
@@ -261,6 +288,13 @@
     </style>
 </head>
 <body>
+    <!-- Scrolling Header -->
+    <div class="scrolling-header">
+        <div class="scrolling-text">
+            Fabrevoie - The Future of Fashion
+        </div>
+    </div>
+
     <!-- Sticky Logo -->
     <a href="index.html">
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
