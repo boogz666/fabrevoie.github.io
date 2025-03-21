@@ -61,16 +61,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Middle Logo */
         .logo {
-            max-width: 200px;
-            width: 200px;
-            height: 200px;
+            width: 400px;
+            height: 400px;
             margin-bottom: 20px;
             display: block;
             margin-left: auto;
@@ -81,12 +83,13 @@
         /* MailerLite Form Styling */
         .ml-embedded {
             margin-bottom: 10px;
+            width: 100%;
         }
 
         /* Text under the MailerLite form */
         .signup-text {
             text-align: center;
-            color: #32CD32; /* Light green */
+            color: #9ED9B5; /* Pastel green */
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
@@ -97,7 +100,7 @@
             display: inline-block;
             margin-top: 20px;
             padding: 12px 24px;
-            background-color: #32CD32; /* Light green */
+            background-color: #9ED9B5; /* Pastel green */
             color: #000;
             text-decoration: none;
             font-size: 16px;
@@ -105,13 +108,13 @@
             border-radius: 5px;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            box-shadow: 0 0 10px rgba(50, 205, 50, 0.5); /* Glow effect */
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
         }
 
         .enter-button:hover {
-            background-color: #228B22; /* Darker green */
+            background-color: #7BC097; /* Darker pastel green */
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(50, 205, 50, 0.8); /* Stronger glow on hover */
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
         }
 
         /* Social Media Icons */
@@ -123,22 +126,32 @@
         }
 
         .social-icons a {
-            color: #32CD32; /* Light green */
+            color: #9ED9B5; /* Pastel green */
             font-size: 24px;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
-            color: #228B22; /* Darker green */
+            color: #7BC097; /* Darker pastel green */
         }
 
         /* Text under social icons */
         .social-text {
             text-align: center;
-            color: #32CD32; /* Light green */
+            color: #9ED9B5; /* Pastel green */
             font-size: 14px;
             margin-top: 10px;
+        }
+
+        /* Social media container at the bottom */
+        .social-container {
+            position: fixed;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
         }
 
         /* Copyright Text */
@@ -154,7 +167,7 @@
         }
 
         .copyright a {
-            color: #32CD32; /* Light green */
+            color: #9ED9B5; /* Pastel green */
             text-decoration: none;
         }
 
@@ -184,8 +197,8 @@
             right: 20px;
             font-family: 'Poppins', sans-serif;
             font-size: 18px;
-            color: #32CD32; /* Light green */
-            text-shadow: 0 0 10px rgba(50, 205, 50, 0.5); /* Glow effect */
+            color: #9ED9B5; /* Pastel green */
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -245,14 +258,14 @@
         }
 
         .cookie-buttons button:first-child {
-            background-color: #32CD32; /* Light green */
+            background-color: #9ED9B5; /* Pastel green */
             color: #000;
         }
 
         .cookie-buttons button:last-child {
             background-color: transparent;
-            border: 1px solid #32CD32; /* Light green */
-            color: #32CD32; /* Light green */
+            border: 1px solid #9ED9B5; /* Pastel green */
+            color: #9ED9B5; /* Pastel green */
         }
     </style>
 </head>
@@ -282,10 +295,11 @@
             class="logo" 
             auto-rotate 
             camera-controls 
-            style="width: 200px; height: 200px;"
+            style="width: 400px; height: 400px;"
             background-color="transparent"
             exposure="1.0"
-            shadow-intensity="1">
+            shadow-intensity="1"
+            camera-orbit="90deg 0deg 100%">
         </model-viewer>
 
         <!-- MailerLite Email Form -->
@@ -294,12 +308,14 @@
         <!-- Text under the MailerLite form -->
         <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
-        <!-- Enter Button (Hidden by default) -->
+        <!-- Enter Button (Initially hidden, will be shown based on localStorage) -->
         <a href="homepage.html" id="enterButton" class="enter-button" style="display: none;">
             Enter
         </a>
+    </div>
 
-        <!-- Social Media Icons -->
+    <!-- Social Media Icons (Moved to bottom) -->
+    <div class="social-container">
         <div class="social-icons">
             <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                 <i class="fab fa-instagram"></i>
@@ -308,7 +324,6 @@
                 <i class="fab fa-tiktok"></i>
             </a>
         </div>
-
         <!-- Text under social icons -->
         <p class="social-text">Show your support by following our socials.</p>
     </div>
@@ -322,14 +337,14 @@
     <!-- Copyright Text -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-        <a href="privacy-policy.html" style="color: #32CD32; text-decoration: none;">Privacy Policy</a>
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
 
     <!-- Cookie Consent Banner -->
     <div id="cookieBanner" class="cookie-banner">
         <div class="cookie-text">
             This site uses cookies to provide you with a better experience.&nbsp;
-            <a href="/privacy-policy" target="_blank" style="color: #32CD32; text-decoration: underline;">Learn more</a>.
+            <a href="/privacy-policy" target="_blank" style="color: #9ED9B5; text-decoration: underline;">Learn more</a>.
         </div>
         <div class="cookie-buttons">
             <button onclick="acceptCookies()">Accept</button>
@@ -370,7 +385,7 @@
             }
         });
 
-        // Hide "Sign up to access the website" text when the sign-up box is gone
+        // Function to show Enter button and hide signup form
         function showEnterButton() {
             const enterButton = document.getElementById('enterButton');
             const mailerLiteForm = document.getElementById('mailerLiteForm');
@@ -383,21 +398,14 @@
             }
         }
 
-        document.addEventListener('ml-subscribe', function(event) {
-            if (event.detail && event.detail.success) {
+        // Check if user has already signed up
+        document.addEventListener('DOMContentLoaded', function() {
+            const formSubmitted = localStorage.getItem('formSubmitted');
+            if (formSubmitted === 'true') {
                 showEnterButton();
             }
-        });
-
-        const mailerLiteForm = document.getElementById('mailerLiteForm');
-        if (mailerLiteForm) {
-            mailerLiteForm.addEventListener('submit', function() {
-                localStorage.setItem('formSubmitted', 'true');
-                showEnterButton();
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Check cookie consent
             const consent = localStorage.getItem('cookieConsent');
             const cookieBanner = document.getElementById('cookieBanner');
 
@@ -405,12 +413,15 @@
                 if (cookieBanner) {
                     cookieBanner.style.display = 'none';
                 }
-                gtag('consent', 'update', {
-                    'ad_storage': consent === 'accepted' ? 'granted' : 'denied',
-                    'analytics_storage': consent === 'accepted' ? 'granted' : 'denied'
-                });
+                if (typeof gtag === 'function') {
+                    gtag('consent', 'update', {
+                        'ad_storage': consent === 'accepted' ? 'granted' : 'denied',
+                        'analytics_storage': consent === 'accepted' ? 'granted' : 'denied'
+                    });
+                }
             }
 
+            // Start video
             const video = document.querySelector('.bg-video');
             if (video) {
                 video.play().catch(function(error) {
@@ -418,12 +429,38 @@
                     document.body.style.backgroundColor = "#000000";
                 });
             }
+        });
 
-            const formSubmitted = localStorage.getItem('formSubmitted');
-            if (formSubmitted === 'true') {
+        // Handle form submission
+        document.addEventListener('ml-subscribe', function(event) {
+            if (event.detail && event.detail.success) {
+                localStorage.setItem('formSubmitted', 'true');
                 showEnterButton();
             }
         });
+
+        // Cookie functions
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieBanner').style.display = 'none';
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+        }
+
+        function closeCookieBanner() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieBanner').style.display = 'none';
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied'
+                });
+            }
+        }
     </script>
 </body>
 </html>
