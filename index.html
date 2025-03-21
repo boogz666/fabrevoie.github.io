@@ -65,6 +65,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
+    <!-- Model Viewer Script -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -75,7 +78,6 @@
             overflow: hidden;
             color: white;
         }
-
 
         /* Background video styling */
         .bg-video {
@@ -117,6 +119,8 @@
         /* Middle Logo */
         .logo {
             max-width: 200px;
+            width: 200px; /* Ensure the width matches the model-viewer size */
+            height: 200px; /* Ensure the height matches the model-viewer size */
             margin-bottom: 20px;
             display: block;
             margin-left: auto;
@@ -205,7 +209,7 @@
             left: 20px;
             z-index: 1000;
             width: 50px;
-            height: auto;
+            height: 50px; /* Ensure the height matches the model-viewer size */
             transition: transform 0.3s ease;
         }
 
@@ -283,7 +287,18 @@
     
     <!-- Sticky Logo -->
     <a href="index.html">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+        <model-viewer 
+            src="3Dlogo.glb" 
+            alt="Fabrevoie 3D Logo" 
+            class="sticky-logo" 
+            auto-rotate 
+            camera-controls 
+            style="width: 50px; height: 50px;"
+            background-color="transparent"
+            exposure="1.0"
+            environment-image="neutral"
+            shadow-intensity="1">
+        </model-viewer>
     </a>
 
     <!-- Background Video -->
@@ -299,7 +314,18 @@
     <!-- Main Content -->
     <div class="container">
         <!-- Middle Logo -->
-        <img src="logo.png" alt="Your Logo" class="logo">
+        <model-viewer 
+            src="3Dlogo.glb" 
+            alt="Fabrevoie 3D Logo" 
+            class="logo" 
+            auto-rotate 
+            camera-controls 
+            style="width: 200px; height: 200px;"
+            background-color="transparent"
+            exposure="1.0"
+            environment-image="neutral"
+            shadow-intensity="1">
+        </model-viewer>
 
         <!-- MailerLite Email Form -->
         <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
