@@ -6,67 +6,17 @@
     <title>Fabrevoie - Footwear store. We make weird things.</title>
     <meta name="description" content="Fabrevoie - We make weird things.">
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/placeholder/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-    
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Fabrevoie - We make weird things.">
-    <meta property="og:description" content="Fabrevoie - We make weird things.">
-    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
-    <meta property="og:url" content="https://fabrevoie.com">
-    <meta property="og:type" content="website">
+    <!-- Favicon, Open Graph Tags, Twitter Card Tags, etc. -->
+    <!-- (Keep your existing meta tags and scripts here) -->
 
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fabrevoie - We make weird things.">
-    <meta name="twitter:description" content="Fabrevoie - We make weird things.">
-    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied'
-        });
-        gtag('js', new Date());
-        gtag('config', 'G-TZJE1XNS2Z');
-    </script>
-
-    <!-- MailerLite Universal -->
-    <script>
-        (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
-        .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-        n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-        (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-        ml('account', '1391734');
-    </script>
+    <!-- Model Viewer Script -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Model Viewer Script -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
         /* Reset default margin and padding */
@@ -136,7 +86,7 @@
         /* Text under the MailerLite form */
         .signup-text {
             text-align: center;
-            color: #D4AF37;
+            color: #32CD32; /* Light green */
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
@@ -147,19 +97,21 @@
             display: inline-block;
             margin-top: 20px;
             padding: 12px 24px;
-            background-color: #D4AF37;
+            background-color: #32CD32; /* Light green */
             color: #000;
             text-decoration: none;
             font-size: 16px;
             font-weight: 600;
             border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
+            box-shadow: 0 0 10px rgba(50, 205, 50, 0.5); /* Glow effect */
         }
 
         .enter-button:hover {
-            background-color: #C5A037;
+            background-color: #228B22; /* Darker green */
             transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(50, 205, 50, 0.8); /* Stronger glow on hover */
         }
 
         /* Social Media Icons */
@@ -171,14 +123,22 @@
         }
 
         .social-icons a {
-            color: #D4AF37;
+            color: #32CD32; /* Light green */
             font-size: 24px;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
-            color: #C5A037;
+            color: #228B22; /* Darker green */
+        }
+
+        /* Text under social icons */
+        .social-text {
+            text-align: center;
+            color: #32CD32; /* Light green */
+            font-size: 14px;
+            margin-top: 10px;
         }
 
         /* Copyright Text */
@@ -194,7 +154,7 @@
         }
 
         .copyright a {
-            color: #D4AF37;
+            color: #32CD32; /* Light green */
             text-decoration: none;
         }
 
@@ -220,14 +180,27 @@
         /* Countdown Timer */
         .countdown {
             position: fixed;
-            bottom: 20%;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 20px;
+            right: 20px;
             font-family: 'Poppins', sans-serif;
             font-size: 18px;
-            color: #D4AF37;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            color: #32CD32; /* Light green */
+            text-shadow: 0 0 10px rgba(50, 205, 50, 0.5); /* Glow effect */
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Hourglass animation */
+        @keyframes rotateHourglass {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+
+        .hourglass {
+            font-size: 24px;
+            animation: rotateHourglass 3s linear infinite; /* Rotates every 3 seconds */
         }
 
         /* Cookie Consent Banner */
@@ -272,14 +245,14 @@
         }
 
         .cookie-buttons button:first-child {
-            background-color: #D4AF37;
+            background-color: #32CD32; /* Light green */
             color: #000;
         }
 
         .cookie-buttons button:last-child {
             background-color: transparent;
-            border: 1px solid #D4AF37;
-            color: #D4AF37;
+            border: 1px solid #32CD32; /* Light green */
+            color: #32CD32; /* Light green */
         }
     </style>
 </head>
@@ -302,21 +275,16 @@
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Middle Logo (3D Logo with auto-rotation and lime green glow) -->
-        <!-- Replace the existing logo with this code -->
+        <!-- Middle Logo (3D Logo with auto-rotation) -->
         <model-viewer 
-            src="3Dlogo2.glb" 
+            src="3Dlogo.glb" 
             alt="Fabrevoie 3D Logo" 
             class="logo" 
             auto-rotate 
-            rotation-per-second="0.2"
-            camera-orbit="0deg 75deg 105%"
-            auto-rotate-delay="0"
             camera-controls 
             style="width: 200px; height: 200px;"
             background-color="transparent"
             exposure="1.0"
-            environment-image="neutral"
             shadow-intensity="1">
         </model-viewer>
 
@@ -324,7 +292,7 @@
         <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
 
         <!-- Text under the MailerLite form -->
-        <p class="signup-text">Sign up to access the website.</p>
+        <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
         <!-- Enter Button (Hidden by default) -->
         <a href="homepage.html" id="enterButton" class="enter-button" style="display: none;">
@@ -340,24 +308,28 @@
                 <i class="fab fa-tiktok"></i>
             </a>
         </div>
+
+        <!-- Text under social icons -->
+        <p class="social-text">Show your support by following our socials.</p>
     </div>
 
     <!-- Countdown Timer -->
     <div class="countdown" id="countdown">
         Days until drop: <span id="days">00</span>
+        <i class="fas fa-hourglass hourglass"></i> <!-- Hourglass icon with animation -->
     </div>
 
     <!-- Copyright Text -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-        <a href="privacy-policy.html" style="color: #D4AF37; text-decoration: none;">Privacy Policy</a>
+        <a href="privacy-policy.html" style="color: #32CD32; text-decoration: none;">Privacy Policy</a>
     </div>
 
     <!-- Cookie Consent Banner -->
     <div id="cookieBanner" class="cookie-banner">
         <div class="cookie-text">
             This site uses cookies to provide you with a better experience.&nbsp;
-            <a href="/privacy-policy" target="_blank" style="color: #D4AF37; text-decoration: underline;">Learn more</a>.
+            <a href="/privacy-policy" target="_blank" style="color: #32CD32; text-decoration: underline;">Learn more</a>.
         </div>
         <div class="cookie-buttons">
             <button onclick="acceptCookies()">Accept</button>
@@ -398,38 +370,16 @@
             }
         });
 
-        // Existing cookie and form submission functions
-        function acceptCookies() {
-            const cookieBanner = document.getElementById('cookieBanner');
-            if (cookieBanner) {
-                cookieBanner.style.display = 'none';
-            }
-            localStorage.setItem('cookieConsent', 'accepted');
-            gtag('consent', 'update', {
-                'ad_storage': 'granted',
-                'analytics_storage': 'granted'
-            });
-        }
-
-        function closeCookieBanner() {
-            const cookieBanner = document.getElementById('cookieBanner');
-            if (cookieBanner) {
-                cookieBanner.style.display = 'none';
-            }
-            localStorage.setItem('cookieConsent', 'declined');
-            gtag('consent', 'update', {
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied'
-            });
-        }
-
+        // Hide "Sign up to access the website" text when the sign-up box is gone
         function showEnterButton() {
             const enterButton = document.getElementById('enterButton');
             const mailerLiteForm = document.getElementById('mailerLiteForm');
+            const signupText = document.getElementById('signupText');
 
-            if (enterButton && mailerLiteForm) {
+            if (enterButton && mailerLiteForm && signupText) {
                 enterButton.style.display = 'block';
                 mailerLiteForm.style.display = 'none';
+                signupText.style.display = 'none'; // Hide the text
             }
         }
 
