@@ -65,6 +65,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
+    <!-- Model Viewer Script -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -75,7 +78,6 @@
             overflow: hidden;
             color: white;
         }
-
 
         /* Background video styling */
         .bg-video {
@@ -117,6 +119,8 @@
         /* Middle Logo */
         .logo {
             max-width: 200px;
+            width: 200px;
+            height: 200px;
             margin-bottom: 20px;
             display: block;
             margin-left: auto;
@@ -298,8 +302,22 @@
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Middle Logo -->
-        <img src="logo.png" alt="Your Logo" class="logo">
+        <!-- Middle Logo (3D Logo with auto-rotation and lime green glow) -->
+        <model-viewer 
+            src="3Dlogo.glb" 
+            alt="Fabrevoie 3D Logo" 
+            class="logo" 
+            auto-rotate 
+            camera-controls 
+            style="width: 200px; height: 200px;"
+            background-color="transparent"
+            exposure="1.0"
+            environment-image="https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr"
+            shadow-intensity="1"
+            skybox-image="https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr"
+            environment-intensity="2"
+            rotation-per-second="30deg">
+        </model-viewer>
 
         <!-- MailerLite Email Form -->
         <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
