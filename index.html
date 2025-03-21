@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabrevoie - We make weird things.</title>
-    <meta name="description" content="Fabrevoie - We make weird things.">
+    <title>Fabrevoie - Footwear store. The Future of Fashion.</title>
+    <meta name="description" content="Fabrevoie - Footwear store. The Future of Fashion.">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
@@ -25,16 +25,16 @@
     <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
     
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Fabrevoie - We make weird things.">
-    <meta property="og:description" content="Fabrevoie - We make weird things.">
+    <meta property="og:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta property="og:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
     <meta property="og:url" content="https://fabrevoie.com">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fabrevoie - We make weird things.">
-    <meta name="twitter:description" content="Fabrevoie - We make weird things.">
+    <meta name="twitter:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
 
     <!-- Google tag (gtag.js) -->
@@ -209,7 +209,7 @@
             left: 20px;
             z-index: 1000;
             width: 50px;
-            height: 50px; /* Ensure the height matches the model-viewer size */
+            height: auto;
             transition: transform 0.3s ease;
         }
 
@@ -285,20 +285,9 @@
 </head>
 <body>
     
-    <!-- Sticky Logo -->
+    <!-- Sticky Logo (Reverted to original) -->
     <a href="index.html">
-        <model-viewer 
-            src="3Dlogo.glb" 
-            alt="Fabrevoie 3D Logo" 
-            class="sticky-logo" 
-            auto-rotate 
-            camera-controls 
-            style="width: 50px; height: 50px;"
-            background-color="transparent"
-            exposure="1.0"
-            environment-image="neutral"
-            shadow-intensity="1">
-        </model-viewer>
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
 
     <!-- Background Video -->
@@ -313,12 +302,13 @@
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Middle Logo -->
+        <!-- Middle Logo (3D Logo with rotation fix and auto-rotate) -->
         <model-viewer 
             src="3Dlogo.glb" 
             alt="Fabrevoie 3D Logo" 
             class="logo" 
             auto-rotate 
+            rotation-per-second="30deg"
             camera-controls 
             style="width: 200px; height: 200px;"
             background-color="transparent"
@@ -470,17 +460,3 @@
 
             const video = document.querySelector('.bg-video');
             if (video) {
-                video.play().catch(function(error) {
-                    console.log("Video play failed:", error);
-                    document.body.style.backgroundColor = "#000000";
-                });
-            }
-
-            const formSubmitted = localStorage.getItem('formSubmitted');
-            if (formSubmitted === 'true') {
-                showEnterButton();
-            }
-        });
-    </script>
-</body>
-</html>
