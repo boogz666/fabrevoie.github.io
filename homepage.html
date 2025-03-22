@@ -115,28 +115,26 @@
             align-items: center;
         }
 
-        /* Surprise Button Styling */
+        /* Surprise Button Styling (Updated to match Enter Button) */
         .buy-button {
-            font-size: 24px;
-            font-weight: 600;
-            color: white; /* Changed to white */
-            cursor: pointer;
-            margin-top: 30px;
-            text-transform: uppercase;
-            font-family: 'Poppins', sans-serif;
-            position: relative;
-            padding: 12px 24px;
-            background-color: transparent; /* Removed background */
-            border-radius: 5px;
             display: inline-block;
-            border: none;
-            text-decoration: none; /* Added for the link */
-            transition: transform 0.3s ease;
-            z-index: 1001; /* Ensure button is above animation */
+            margin-top: 40px; /* Adjusted to make it a bit higher */
+            padding: 12px 24px;
+            background-color: #9ED9B5; /* Pastel green */
+            color: #000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
         }
 
         .buy-button:hover {
-            transform: scale(2.0); /* Makes it twice as big on hover */
+            background-color: #7BC097; /* Darker pastel green */
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
         }
 
         /* 3D Animation Container */
@@ -310,4 +308,49 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Update mixer for
+            // Update mixer for animations
+            if (mixer) {
+                mixer.update(clock.getDelta());
+            }
+
+            // Render scene
+            renderer.render(scene, camera);
+        }
+
+        // Start animation loop
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Update camera aspect ratio
+            camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
+            camera.updateProjectionMatrix();
+            
+            // Update renderer size
+            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
+        });
+
+        // Page transition logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (link.href && link.href.includes('.html')) {
+                        e.preventDefault();
+                        const currentPage = document.querySelector('.page');
+                        currentPage.classList.add('slide-out');
+
+                        setTimeout(() => {
+                            window.location.href = link.href;
+                        }, 500); // Match the transition duration
+                    }
+                });
+            });
+
+            // Add slide-in class to the new page
+            const page = document.querySelector('.page');
+            page.classList.add('slide-in');
+        });
+    </script>
+</body>
+</html>
