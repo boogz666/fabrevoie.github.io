@@ -60,6 +60,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* Hide the progress bar */
+        model-viewer::part(progress-bar) {
+            display: none;
+        }
+        
         /* Reset default margin and padding */
         body, html {
             margin: 0;
@@ -342,17 +347,10 @@
             exposure="1.0"
             environment-intensity="1.2"
             shadow-intensity="1"
-            camera-orbit="0deg 90deg 100%"
+            camera-orbit="-10deg 90deg 100%"
             loading="eager"> <!-- Add this to load the model faster -->
         </model-viewer>
         
-        <style>
-            /* Hide the progress bar */
-            model-viewer::part(progress-bar) {
-                display: none;
-            }
-        </style>
-
         <!-- MailerLite Email Form -->
         <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
 
