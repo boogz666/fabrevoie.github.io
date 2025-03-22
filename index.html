@@ -70,61 +70,6 @@
             color: white;
         }
 
-        /* Announcement Header */
-        .announcement-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #9ED9B5; /* Pastel green */
-            padding: 10px 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .announcement-text {
-            font-size: 24px;
-            font-weight: bold;
-            white-space: nowrap;
-            position: relative;
-            animation: swoosh 3s linear infinite;
-        }
-
-        @keyframes swoosh {
-            0% { transform: translateX(100%); }
-            10% { transform: translateX(0); }
-            90% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* 3D Chrome Effect */
-        .chrome-text {
-            background: linear-gradient(45deg, #9ED9B5, #7BC097, #9ED9B5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.8);
-        }
-
-        /* Sticky Logo */
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
         /* Background video styling */
         .bg-video {
             position: fixed;
@@ -271,6 +216,21 @@
             text-decoration: underline;
         }
 
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
         /* Countdown Timer */
         .countdown {
             position: fixed;
@@ -352,13 +312,6 @@
 </head>
 <body>
     
-    <!-- Announcement Header -->
-    <div class="announcement-header">
-        <div class="announcement-text chrome-text" id="announcement-text">
-            Welcome to no man's land.
-        </div>
-    </div>
-
     <!-- Sticky Logo -->
     <a href="index.html">
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
@@ -550,24 +503,6 @@
                 });
             }
         }
-
-        // Announcement Text Animation
-        const phrases = [
-            "Welcome to no man's land.",
-            "Where weird things take shape.",
-            "21 August 2025",
-            "Do Not Miss"
-        ];
-
-        let currentPhraseIndex = 0;
-        const announcementText = document.getElementById('announcement-text');
-
-        function updateAnnouncementText() {
-            announcementText.textContent = phrases[currentPhraseIndex];
-            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-        }
-
-        setInterval(updateAnnouncementText, 3000); // Change text every 3 seconds
     </script>
 </body>
 </html>
