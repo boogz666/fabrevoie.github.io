@@ -23,7 +23,12 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
     
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         /* Reset default margin and padding */
         body, html {
@@ -54,13 +59,30 @@
             transform: translateX(0);
         }
 
-        /* Background Image */
-        body {
-            background-image: url('page bckgrnd.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        /* Background video styling */
+        .bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Overlay to darken the video */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
 
         /* Sticky Logo */
@@ -69,10 +91,10 @@
             top: 20px;
             left: 20px;
             z-index: 1000;
-            width: 50px; /* Fixed width */
-            height: 50px; /* Fixed height to maintain proportions */
-            transition: transform 0.3s ease;
+            width: 50px;
+            height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            transition: transform 0.3s ease;
         }
 
         .sticky-logo:hover {
@@ -159,15 +181,28 @@
 </head>
 <body>
     <div class="page">
+        <!-- Sticky Logo -->
         <a href="index.html">
-            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo" width="50" height="50">
+            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
         </a>
 
+        <!-- Background Video -->
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="bckgrnd.mp4" type="video/mp4">
+            <source src="bckgrnd.webm" type="video/webm">
+            Your browser does not support background video.
+        </video>
+
+        <!-- Overlay to darken the video -->
+        <div class="overlay"></div>
+
+        <!-- Main Content -->
         <div class="container">
             <div id="animation-container"></div>
             <a href="https://pornhub.com" class="buy-button">Surprise</a>
         </div>
 
+        <!-- Copyright Text -->
         <div class="copyright">
             &copy; 2025, Fabrevoie, Inc. All rights reserved. |
             <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
@@ -275,49 +310,4 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Update mixer for animations
-            if (mixer) {
-                mixer.update(clock.getDelta());
-            }
-
-            // Render scene
-            renderer.render(scene, camera);
-        }
-
-        // Start animation loop
-        animate();
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            // Update camera aspect ratio
-            camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
-            camera.updateProjectionMatrix();
-            
-            // Update renderer size
-            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
-        });
-
-        // Page transition logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (link.href && link.href.includes('.html')) {
-                        e.preventDefault();
-                        const currentPage = document.querySelector('.page');
-                        currentPage.classList.add('slide-out');
-
-                        setTimeout(() => {
-                            window.location.href = link.href;
-                        }, 500); // Match the transition duration
-                    }
-                });
-            });
-
-            // Add slide-in class to the new page
-            const page = document.querySelector('.page');
-            page.classList.add('slide-in');
-        });
-    </script>
-</body>
-</html>
+            // Update mixer for
