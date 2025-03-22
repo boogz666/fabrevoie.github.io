@@ -40,14 +40,14 @@
             color: white;
         }
 
-        /* Page transition styles */
+        /* Page transition styles - Enhanced with smoother timing */
         .page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.7s ease-in-out; /* Increased duration to match reverb effect */
             background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
         }
 
@@ -57,6 +57,41 @@
 
         .page.slide-in {
             transform: translateX(0);
+        }
+
+        /* Reverb overlay styling - Added from first document */
+        .reverb-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 1001; /* Above everything */
+            transition: background-color 0.3s ease;
+            backdrop-filter: blur(0px);
+        }
+
+        .reverb-effect {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            animation: reverb-wave 0.5s forwards;
+        }
+
+        @keyframes reverb-wave {
+            0% {
+                backdrop-filter: blur(0px);
+                background-color: rgba(255, 255, 255, 0);
+            }
+            50% {
+                backdrop-filter: blur(10px);
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                backdrop-filter: blur(0px);
+                background-color: rgba(255, 255, 255, 0);
+            }
         }
 
         /* Background video styling */
@@ -178,6 +213,9 @@
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
+    <!-- Added reverb overlay -->
+    <div class="reverb-overlay" id="reverbOverlay"></div>
+    
     <div class="page">
         <!-- Sticky Logo -->
         <a href="index.html">
@@ -330,19 +368,48 @@
             renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         });
 
-        // Page transition logic
+        // Reverb effect function
+        function playReverbEffect() {
+            const reverbOverlay = document.getElementById('reverbOverlay');
+            reverbOverlay.classList.add('reverb-effect');
+            
+            // Optional: Add subtle sound effect
+            // If you want to add a sound effect, uncomment the following lines
+            // const reverbSound = new Audio('reverb-sound.mp3');
+            // reverbSound.play();
+            
+            setTimeout(() => {
+                reverbOverlay.classList.remove('reverb-effect');
+            }, 500);
+        }
+
+        // Enhanced page transition logic with reverb effect
         document.addEventListener('DOMContentLoaded', function() {
+            // Play reverb effect when page loads
+            setTimeout(() => {
+                playReverbEffect();
+            }, 200);
+            
             const links = document.querySelectorAll('a');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (link.href && link.href.includes('.html')) {
                         e.preventDefault();
                         const currentPage = document.querySelector('.page');
+                        
+                        // Add slide-out class
                         currentPage.classList.add('slide-out');
+                        
+                        // Play reverb effect when leaving
+                        playReverbEffect();
 
                         setTimeout(() => {
                             window.location.href = link.href;
-                        }, 500); // Match the transition duration
+                        }, 700); // Match the transition duration
+                    } else {
+                        // For non-page links (like the Surprise button)
+                        // We still want the reverb effect without preventing navigation
+                        playReverbEffect();
                     }
                 });
             });
