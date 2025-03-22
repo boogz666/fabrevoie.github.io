@@ -35,50 +35,7 @@
             font-family: 'Poppins', sans-serif;
             color: white;
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-        }
-
-        /* Background styling - Keep the same as your index page */
-        body {
-            background-image: url('page bckgrnd.png'); /* Your original background */
-            background-size: cover;
-            background-repeat: repeat;
-            background-attachment: fixed;
-        }
-
-        /* Reverb overlay effect */
-        .reverb-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0);
-            pointer-events: none;
-            z-index: 999;
-            transition: background-color 0.3s ease;
-            backdrop-filter: blur(0px);
-        }
-        
-        .reverb-effect {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            animation: reverb-wave 0.5s forwards;
-        }
-        
-        @keyframes reverb-wave {
-            0% {
-                backdrop-filter: blur(0px);
-                background-color: rgba(255, 255, 255, 0);
-            }
-            50% {
-                backdrop-filter: blur(10px);
-                background-color: rgba(255, 255, 255, 0.3);
-            }
-            100% {
-                backdrop-filter: blur(0px);
-                background-color: rgba(255, 255, 255, 0);
-            }
+            overflow: auto; /* Allow scrolling */
         }
 
         /* Page transition styles */
@@ -88,8 +45,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.7s ease-in-out;
-            background-color: rgba(0, 0, 0, 0.6); /* Match your original overlay color */
+            transition: transform 0.5s ease-in-out;
+            background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
             overflow-y: auto; /* Allow scrolling within the page */
         }
 
@@ -99,6 +56,14 @@
 
         .page.slide-in {
             transform: translateX(0);
+        }
+
+        /* Background styling */
+        body {
+            background-image: url('page bckgrnd.png'); /* Update the path if needed */
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
         }
 
         /* Sticky Logo */
@@ -170,12 +135,9 @@
     </style>
 </head>
 <body>
-    <!-- Reverb Overlay -->
-    <div class="reverb-overlay" id="reverbOverlay"></div>
-
-    <div class="page slide-in" id="privacyPage">
+    <div class="page">
         <!-- Sticky Logo (Linked to Landing Page) -->
-        <a href="index.html" class="logo-link">
+        <a href="index.html">
             <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
         </a>
 
@@ -215,44 +177,26 @@
     </div>
 
     <script>
+        // Page transition logic
         document.addEventListener('DOMContentLoaded', function() {
-            const reverbOverlay = document.getElementById('reverbOverlay');
             const links = document.querySelectorAll('a');
-            
-            function playReverbEffect() {
-                reverbOverlay.classList.add('reverb-effect');
-                
-                setTimeout(() => {
-                    reverbOverlay.classList.remove('reverb-effect');
-                }, 500);
-            }
-            
-            // Play reverb effect on page load
-            setTimeout(() => {
-                playReverbEffect();
-            }, 300);
-            
-            // Handle all links with page transitions
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (link.href && link.href.includes('.html')) {
                         e.preventDefault();
-                        const currentPage = document.getElementById('privacyPage');
-                        
-                        // Apply slide-out animation
-                        currentPage.classList.remove('slide-in');
+                        const currentPage = document.querySelector('.page');
                         currentPage.classList.add('slide-out');
-                        
-                        // Play reverb effect
-                        playReverbEffect();
-                        
-                        // Navigate after transition completes
+
                         setTimeout(() => {
                             window.location.href = link.href;
-                        }, 700); // Match this with the transition duration
+                        }, 500); // Match the transition duration
                     }
                 });
             });
+
+            // Add slide-in class to the new page
+            const page = document.querySelector('.page');
+            page.classList.add('slide-in');
         });
     </script>
 </body>
