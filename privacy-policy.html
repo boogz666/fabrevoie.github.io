@@ -35,12 +35,12 @@
             font-family: 'Poppins', sans-serif;
             color: white;
             line-height: 1.6;
-            overflow: hidden; /* Prevent default scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
-        /* Background styling */
+        /* Background styling - Keep the same as your index page */
         body {
-            background-image: url('page bckgrnd.png'); /* Keep original background */
+            background-image: url('page bckgrnd.png'); /* Your original background */
             background-size: cover;
             background-repeat: repeat;
             background-attachment: fixed;
@@ -82,34 +82,23 @@
         }
 
         /* Page transition styles */
-        .page-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow-y: auto; /* Allow scrolling within the container */
-        }
-
         .page {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             transition: transform 0.7s ease-in-out;
-            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.6); /* Match your original overlay color */
+            overflow-y: auto; /* Allow scrolling within the page */
         }
 
-        .current-page {
-            transform: translateX(0);
-            z-index: 1;
-        }
-        
-        .next-page {
-            transform: translateX(100%);
-            z-index: 0;
-        }
-        
-        .previous-page {
+        .page.slide-out {
             transform: translateX(-100%);
-            z-index: 0;
+        }
+
+        .page.slide-in {
+            transform: translateX(0);
         }
 
         /* Sticky Logo */
@@ -132,7 +121,7 @@
         .privacy-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px 100px 20px; /* Added bottom padding for scrolling space */
+            padding: 40px 20px;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -184,53 +173,50 @@
     <!-- Reverb Overlay -->
     <div class="reverb-overlay" id="reverbOverlay"></div>
 
-    <div class="page-container" id="pageContainer">
-        <div class="page current-page" id="privacyPage">
-            <!-- Sticky Logo (Linked to Landing Page) -->
-            <a href="index.html" class="logo-link">
-                <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-            </a>
+    <div class="page slide-in" id="privacyPage">
+        <!-- Sticky Logo (Linked to Landing Page) -->
+        <a href="index.html" class="logo-link">
+            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+        </a>
 
-            <!-- Privacy Policy Content -->
-            <div class="privacy-container">
-                <h1>Privacy Policy</h1>
-                <p>Last Updated: March 2025</p>
-                
-                <h2>1. Introduction</h2>
-                <p>Welcome to Fabrevoie. Your privacy is important to us. This policy explains how we collect, use, and protect your personal data.</p>
-                
-                <h2>2. Information We Collect</h2>
-                <p>We collect personal data such as name, email, phone number, and payment details when you interact with our website.</p>
-                
-                <h2>3. How We Use Your Data</h2>
-                <ul>
-                    <li>To provide our services and process transactions.</li>
-                    <li>To send marketing and promotional content (with your consent).</li>
-                    <li>To improve our website and user experience.</li>
-                </ul>
-                
-                <h2>4. Sharing Your Information</h2>
-                <p>We do not sell your personal data. However, we may share information with third-party service providers for payment processing and analytics.</p>
-                
-                <h2>5. Your Rights</h2>
-                <p>You have the right to access, modify, or delete your personal data. To exercise these rights, contact us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
-                
-                <h2>6. Cookies</h2>
-                <p>We use cookies to enhance your experience. You can manage cookie preferences in your browser settings.</p>
-                
-                <h2>7. Data Security</h2>
-                <p>We implement security measures to protect your data, but no system is 100% secure.</p>
-                
-                <h2>8. Contact</h2>
-                <p>For questions about this policy, please email us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
-            </div>
+        <!-- Privacy Policy Content -->
+        <div class="privacy-container">
+            <h1>Privacy Policy</h1>
+            <p>Last Updated: March 2025</p>
+            
+            <h2>1. Introduction</h2>
+            <p>Welcome to Fabrevoie. Your privacy is important to us. This policy explains how we collect, use, and protect your personal data.</p>
+            
+            <h2>2. Information We Collect</h2>
+            <p>We collect personal data such as name, email, phone number, and payment details when you interact with our website.</p>
+            
+            <h2>3. How We Use Your Data</h2>
+            <ul>
+                <li>To provide our services and process transactions.</li>
+                <li>To send marketing and promotional content (with your consent).</li>
+                <li>To improve our website and user experience.</li>
+            </ul>
+            
+            <h2>4. Sharing Your Information</h2>
+            <p>We do not sell your personal data. However, we may share information with third-party service providers for payment processing and analytics.</p>
+            
+            <h2>5. Your Rights</h2>
+            <p>You have the right to access, modify, or delete your personal data. To exercise these rights, contact us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
+            
+            <h2>6. Cookies</h2>
+            <p>We use cookies to enhance your experience. You can manage cookie preferences in your browser settings.</p>
+            
+            <h2>7. Data Security</h2>
+            <p>We implement security measures to protect your data, but no system is 100% secure.</p>
+            
+            <h2>8. Contact</h2>
+            <p>For questions about this policy, please email us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const reverbOverlay = document.getElementById('reverbOverlay');
-            const logoLink = document.querySelector('.logo-link');
             const links = document.querySelectorAll('a');
             
             function playReverbEffect() {
@@ -241,6 +227,11 @@
                 }, 500);
             }
             
+            // Play reverb effect on page load
+            setTimeout(() => {
+                playReverbEffect();
+            }, 300);
+            
             // Handle all links with page transitions
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -248,14 +239,9 @@
                         e.preventDefault();
                         const currentPage = document.getElementById('privacyPage');
                         
-                        // Determine if we're going back to index or forward to another page
-                        if (link.href.includes('index.html')) {
-                            currentPage.classList.remove('current-page');
-                            currentPage.classList.add('previous-page');
-                        } else {
-                            currentPage.classList.remove('current-page');
-                            currentPage.classList.add('next-page');
-                        }
+                        // Apply slide-out animation
+                        currentPage.classList.remove('slide-in');
+                        currentPage.classList.add('slide-out');
                         
                         // Play reverb effect
                         playReverbEffect();
@@ -267,15 +253,6 @@
                     }
                 });
             });
-            
-            // Add entrance animation
-            const privacyPage = document.getElementById('privacyPage');
-            privacyPage.style.transform = 'translateX(100%)';
-            
-            setTimeout(() => {
-                privacyPage.classList.add('current-page');
-                playReverbEffect();
-            }, 100);
         });
     </script>
 </body>
