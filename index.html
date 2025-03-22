@@ -446,19 +446,11 @@
         </div>
 
         <!-- Audio Elements -->
-        <audio id="welcomeSound" src="welcome.mp3"></audio>
         <audio id="accessSound" src="access-granted.mp3"></audio>
         <audio id="transitionSound" src="transition-reverb.mp3"></audio>
     </div>
 
     <script>
-        // Play welcome sound on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const welcomeSound = document.getElementById('welcomeSound');
-            welcomeSound.play().catch(error => {
-                console.log('Autoplay blocked - user interaction required');
-            });
-        });
 
         // Countdown to August 21 2025
         const countdownDate = new Date('2025-08-21T00:00:00').getTime();
