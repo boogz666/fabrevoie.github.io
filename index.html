@@ -75,15 +75,16 @@
             color: white;
         }
 
-        /* Page transition styles */
+        /* Page transition styles - Enhanced */
         .page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
             background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
+            z-index: 1;
         }
 
         .page.slide-out {
@@ -92,6 +93,27 @@
 
         .page.slide-in {
             transform: translateX(0);
+        }
+
+        /* Reverb effect overlay */
+        .reverb-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 2000;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(0px);
+            opacity: 0;
+        }
+
+        .reverb-active {
+            background-color: rgba(158, 217, 181, 0.2); /* Slight green tint to match your theme */
+            backdrop-filter: blur(10px);
+            opacity: 1;
         }
 
         /* Background video styling */
@@ -336,6 +358,9 @@
     </style>
 </head>
 <body>
+    <!-- Reverb Effect Overlay -->
+    <div class="reverb-overlay" id="reverbOverlay"></div>
+
     <div class="page">
         <!-- Sticky Logo -->
         <a href="index.html">
@@ -423,6 +448,7 @@
         <!-- Audio Elements -->
         <audio id="welcomeSound" src="welcome.mp3"></audio>
         <audio id="accessSound" src="access-granted.mp3"></audio>
+        <audio id="transitionSound" src="transition-reverb.mp3"></audio>
     </div>
 
     <script>
@@ -498,6 +524,25 @@
                     document.body.style.backgroundColor = "#000000";
                 });
             }
+
+            // Add incoming animation effect
+            const page = document.querySelector('.page');
+            if (page) {
+                page.style.transform = 'translateX(100%)';
+                
+                // Trigger reflow
+                void page.offsetWidth;
+                
+                // Start animation
+                setTimeout(() => {
+                    page.style.transform = 'translateX(0)';
+                    
+                    // Apply reverb effect at the end of incoming transition
+                    setTimeout(() => {
+                        triggerReverbEffect();
+                    }, 700);
+                }, 100);
+            }
         });
 
         // Handle form submission
@@ -531,27 +576,80 @@
             }
         }
 
-        // Page transition logic
+        // Reverb effect function
+        function triggerReverbEffect() {
+            const overlay = document.getElementById('reverbOverlay');
+            const sound = document.getElementById('transitionSound');
+            
+            if (overlay) {
+                overlay.classList.add('reverb-active');
+                
+                // Play transition sound if available
+                if (sound) {
+                    sound.play().catch(e => console.log('Audio play failed:', e));
+                }
+                
+                // Remove effect after animation completes
+                setTimeout(() => {
+                    overlay.classList.remove('reverb-active');
+                }, 500);
+            }
+        }
+
+        // Enhanced page transition logic
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a');
             links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (link.href && link.href.includes('.html')) {
-                        e.preventDefault();
-                        const currentPage = document.querySelector('.page');
-                        currentPage.classList.add('slide-out');
-
-                        setTimeout(() => {
-                            window.location.href = link.href;
-                        }, 500); // Match the transition duration
-                    }
-                });
+                if (link.hostname === window.location.hostname || link.hostname === '') {
+                    link.addEventListener('click', function(e) {
+                        const href = link.getAttribute('href');
+                        if (href && href.endsWith('.html')) {
+                            e.preventDefault();
+                            
+                            // Get the current page
+                            const currentPage = document.querySelector('.page');
+                            const reverbOverlay = document.getElementById('reverbOverlay');
+                            const transitionSound = document.getElementById('transitionSound');
+                            
+                            // First trigger the reverb effect
+                            reverbOverlay.classList.add('reverb-active');
+                            
+                            // Play transition sound if available
+                            if (transitionSound) {
+                                transitionSound.play().catch(e => console.log('Audio play failed:', e));
+                            }
+                            
+                            // After a short delay, start the slide transition
+                            setTimeout(() => {
+                                reverbOverlay.classList.remove('reverb-active');
+                                currentPage.style.transform = 'translateX(-100%)';
+                                
+                                // Navigate to the new page after transition completes
+                                setTimeout(() => {
+                                    window.location.href = href;
+                                }, 700); // Match this with transition duration
+                            }, 300); // Duration of reverb effect
+                        }
+                    });
+                }
             });
-
-            // Add slide-in class to the new page
-            const page = document.querySelector('.page');
-            page.classList.add('slide-in');
         });
+
+        // Add this to window.onload to ensure transitions work on back/forward navigation
+        window.onload = function() {
+            // Add the class for initial slide-in animation
+            setTimeout(() => {
+                const page = document.querySelector('.page');
+                if (page && !page.classList.contains('slide-in')) {
+                    page.classList.add('slide-in');
+                }
+            }, 10);
+        };
+
+        // Store the current page URL in session storage for transition detection
+        if (window.sessionStorage) {
+            window.sessionStorage.setItem('lastPage', window.location.href);
+        }
     </script>
 </body>
 </html>
