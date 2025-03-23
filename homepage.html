@@ -215,11 +215,11 @@
                 // Add model to scene
                 scene.add(model);
 
-                // Scale the model
-                model.scale.set(2, 2, 2); // Make the box twice as big
+                // Scale the model to twice its size
+                model.scale.set(4, 4, 4); // Twice as big
 
                 // Position camera
-                camera.position.z = 10;
+                camera.position.z = 15; // Adjust camera distance for larger model
                 camera.lookAt(0, 0, 0);
 
                 // Animation setup
