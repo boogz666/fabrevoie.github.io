@@ -75,34 +75,24 @@
             color: white;
         }
 
-        /* Page transition styles - Enhanced */
+        /* Page container */
         .page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
-            background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
 
-        .page.slide-out {
-            transform: translateX(-100%);
-        }
-
-        .page.slide-in {
-            transform: translateX(0);
-        }
-
-        /* Reverb effect overlay */
-        .reverb-overlay {
+        /* Blur effect overlay */
+        .blur-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0);
             pointer-events: none;
             z-index: 2000;
             transition: all 0.5s ease;
@@ -110,8 +100,7 @@
             opacity: 0;
         }
 
-        .reverb-active {
-            background-color: rgba(158, 217, 181, 0.2); /* Slight green tint to match your theme */
+        .blur-active {
             backdrop-filter: blur(10px);
             opacity: 1;
         }
@@ -344,31 +333,6 @@
             cursor: pointer;
             font-size: 14px;
         }
-
-        /* Update the reverb-overlay styling */
-        .reverb-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0);
-            background-image: url('bckgrnd.png'); /* Add background image */
-            background-size: cover; /* Make it cover the whole overlay */
-            background-position: center; /* Center the background image */
-            pointer-events: none;
-            z-index: 2000;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(0px);
-            opacity: 0;
-        }
-
-        .reverb-active {
-            /* Remove background-color or set it to transparent */
-            background-color: transparent;
-            backdrop-filter: blur(10px);
-            opacity: 1;
-        }
         
         .cookie-buttons button:first-child {
             background-color: #9ED9B5; /* Pastel green */
@@ -383,8 +347,8 @@
     </style>
 </head>
 <body>
-    <!-- Reverb Effect Overlay -->
-    <div class="reverb-overlay" id="reverbOverlay"></div>
+    <!-- Blur Effect Overlay -->
+    <div class="blur-overlay" id="blurOverlay"></div>
 
     <div class="page">
         <!-- Sticky Logo -->
@@ -417,7 +381,7 @@
                 environment-intensity="1.2"
                 shadow-intensity="1"
                 camera-orbit="-10deg 90deg 100%"
-                loading="eager"> <!-- Add this to load the model faster -->
+                loading="eager">
             </model-viewer>
             
             <!-- MailerLite Email Form -->
@@ -470,13 +434,11 @@
             </div>
         </div>
 
-        <!-- Audio Elements -->
+        <!-- Audio Element for signup confirmation only -->
         <audio id="accessSound" src="access-granted.mp3"></audio>
-        <audio id="transitionSound" src="transition-reverb.mp3"></audio>
     </div>
 
     <script>
-
         // Countdown to August 21 2025
         const countdownDate = new Date('2025-08-21T00:00:00').getTime();
 
@@ -507,6 +469,22 @@
                 enterButton.style.display = 'block';
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none'; // Hide the text
+            }
+        }
+
+        // Apply blur effect for page transitions - simplified
+        function applyBlurEffect() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            if (blurOverlay) {
+                blurOverlay.classList.add('blur-active');
+            }
+        }
+
+        // Remove blur effect
+        function removeBlurEffect() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            if (blurOverlay) {
+                blurOverlay.classList.remove('blur-active');
             }
         }
 
@@ -541,25 +519,6 @@
                     document.body.style.backgroundColor = "#000000";
                 });
             }
-
-            // Add incoming animation effect
-            const page = document.querySelector('.page');
-            if (page) {
-                page.style.transform = 'translateX(100%)';
-                
-                // Trigger reflow
-                void page.offsetWidth;
-                
-                // Start animation
-                setTimeout(() => {
-                    page.style.transform = 'translateX(0)';
-                    
-                    // Apply reverb effect at the end of incoming transition
-                    setTimeout(() => {
-                        triggerReverbEffect();
-                    }, 700);
-                }, 100);
-            }
         });
 
         // Handle form submission
@@ -593,27 +552,7 @@
             }
         }
 
-        // Reverb effect function
-        function triggerReverbEffect() {
-            const overlay = document.getElementById('reverbOverlay');
-            const sound = document.getElementById('transitionSound');
-            
-            if (overlay) {
-                overlay.classList.add('reverb-active');
-                
-                // Play transition sound if available
-                if (sound) {
-                    sound.play().catch(e => console.log('Audio play failed:', e));
-                }
-                
-                // Remove effect after animation completes
-                setTimeout(() => {
-                    overlay.classList.remove('reverb-active');
-                }, 500);
-            }
-        }
-
-        // Enhanced page transition logic
+        // Simplified page transition logic with only blur effect
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a');
             links.forEach(link => {
@@ -623,50 +562,18 @@
                         if (href && href.endsWith('.html')) {
                             e.preventDefault();
                             
-                            // Get the current page
-                            const currentPage = document.querySelector('.page');
-                            const reverbOverlay = document.getElementById('reverbOverlay');
-                            const transitionSound = document.getElementById('transitionSound');
+                            // Apply blur effect
+                            applyBlurEffect();
                             
-                            // First trigger the reverb effect
-                            reverbOverlay.classList.add('reverb-active');
-                            
-                            // Play transition sound if available
-                            if (transitionSound) {
-                                transitionSound.play().catch(e => console.log('Audio play failed:', e));
-                            }
-                            
-                            // After a short delay, start the slide transition
+                            // Navigate to the new page after a short delay
                             setTimeout(() => {
-                                reverbOverlay.classList.remove('reverb-active');
-                                currentPage.style.transform = 'translateX(-100%)';
-                                
-                                // Navigate to the new page after transition completes
-                                setTimeout(() => {
-                                    window.location.href = href;
-                                }, 700); // Match this with transition duration
-                            }, 300); // Duration of reverb effect
+                                window.location.href = href;
+                            }, 500);
                         }
                     });
                 }
             });
         });
-
-        // Add this to window.onload to ensure transitions work on back/forward navigation
-        window.onload = function() {
-            // Add the class for initial slide-in animation
-            setTimeout(() => {
-                const page = document.querySelector('.page');
-                if (page && !page.classList.contains('slide-in')) {
-                    page.classList.add('slide-in');
-                }
-            }, 10);
-        };
-
-        // Store the current page URL in session storage for transition detection
-        if (window.sessionStorage) {
-            window.sessionStorage.setItem('lastPage', window.location.href);
-        }
     </script>
 </body>
 </html>
