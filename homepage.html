@@ -76,14 +76,17 @@
             transform: scale(1.1);
         }
 
-        /* 3D Animation Container */
+        /* Center the animation container */
         #animation-container {
-            width: 150vw;
-            height: 150vh;
+            width: 100vw;
+            height: 100vh;
             position: relative;
-            overflow: visible;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-
+        
         /* Surprise Button Styling */
         .buy-button {
             display: inline-block;
@@ -104,7 +107,7 @@
             text-transform: uppercase; /* All caps */
             z-index: 1000; /* Ensure it's above the 3D model */
         }
-
+        
         .buy-button:hover {
             background-color: #7BC097; /* Darker pastel green */
             transform: translateX(-50%) scale(1.05);
@@ -169,33 +172,33 @@
         // Get animation container
         const animationContainer = document.getElementById('animation-container');
         
-        // Set renderer size
+        // Set renderer size to match the container size
         renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         animationContainer.appendChild(renderer.domElement);
-
+        
         // Add lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
         scene.add(ambientLight);
-
+        
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright directional light
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
-
+        
         // Set initial camera position
         camera.position.z = 5;
-
+        
         // Set up DRACOLoader
         const dracoLoader = new THREE.DRACOLoader();
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-
+        
         // Set up GLTFLoader with DRACOLoader
         const loader = new THREE.GLTFLoader();
         loader.setDRACOLoader(dracoLoader);
-
+        
         // Load the texture separately
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load('texture.png'); // Path to your texture
-
+        
         // Load the levitating box animation
         let model, mixer;
         loader.load(
@@ -203,7 +206,7 @@
             function(gltf) {
                 model = gltf.scene;
                 console.log("Model loaded:", model);
-
+        
                 // Apply the texture to the model
                 model.traverse((child) => {
                     if (child.isMesh) {
@@ -211,17 +214,17 @@
                         child.material.needsUpdate = true; // Ensure the material updates
                     }
                 });
-
+        
                 // Add model to scene
                 scene.add(model);
-
+        
                 // Scale the model to twice its size
                 model.scale.set(4, 4, 4); // Twice as big
-
+        
                 // Position camera
                 camera.position.z = 15; // Adjust camera distance for larger model
                 camera.lookAt(0, 0, 0);
-
+        
                 // Animation setup
                 if (gltf.animations.length > 0) {
                     mixer = new THREE.AnimationMixer(model);
@@ -236,24 +239,24 @@
                 console.error('Error loading model:', error);
             }
         );
-
+        
         // Animation loop
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
-
+        
             // Update mixer for animations
             if (mixer) {
                 mixer.update(clock.getDelta());
             }
-
+        
             // Render scene
             renderer.render(scene, camera);
         }
-
+        
         // Start animation loop
         animate();
-
+        
         // Handle window resize
         window.addEventListener('resize', function() {
             camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
