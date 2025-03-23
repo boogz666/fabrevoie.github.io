@@ -49,61 +49,7 @@
             background-size: cover;
             background-repeat: repeat;
             background-attachment: fixed;
-        }
 
-        /* Reverb overlay effect */
-        .reverb-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0);
-            pointer-events: none;
-            z-index: 999;
-            transition: background-color 0.3s ease;
-            backdrop-filter: blur(0px);
-        }
-        
-        .reverb-effect {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            animation: reverb-wave 0.5s forwards;
-        }
-        
-        @keyframes reverb-wave {
-            0% {
-                backdrop-filter: blur(0px);
-                background-color: rgba(255, 255, 255, 0);
-            }
-            50% {
-                backdrop-filter: blur(10px);
-                background-color: rgba(255, 255, 255, 0.3);
-            }
-            100% {
-                backdrop-filter: blur(0px);
-                background-color: rgba(255, 255, 255, 0);
-            }
-        }
-
-        /* Page transition styles */
-        .page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.7s ease-in-out;
-            background-color: rgba(0, 0, 0, 0.6); /* Match your original overlay color */
-            overflow-y: auto; /* Allow scrolling within the page */
-        }
-
-        .page.slide-out {
-            transform: translateX(-100%);
-        }
-
-        .page.slide-in {
-            transform: translateX(0);
         }
 
         /* Fixed background overlay to prevent white flash */
@@ -217,9 +163,6 @@
     <!-- Fixed background to prevent white flash -->
     <div class="fixed-background"></div>
 
-    <!-- Reverb Overlay -->
-    <div class="reverb-overlay" id="reverbOverlay"></div>
-
     <div class="page slide-in" id="privacyPage">
         <!-- Sticky Logo (Linked to Landing Page) -->
         <a href="index.html" class="logo-link" data-navigate>
@@ -259,6 +202,12 @@
             <h2>8. Contact</h2>
             <p>For questions about this policy, please email us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
         </div>
+        
+    <!-- Copyright Text -->
+        <div class="copyright">
+            &copy; 2025, Fabrevoie, Inc. All rights reserved. |
+            <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+        </div>
     </div>
 
     <script>
@@ -276,71 +225,7 @@
             const reverbOverlay = document.getElementById('reverbOverlay');
             const links = document.querySelectorAll('a[data-navigate]');
             
-            // Function to play reverb effect
-            function playReverbEffect() {
-                reverbOverlay.classList.add('reverb-effect');
-                
-                setTimeout(() => {
-                    reverbOverlay.classList.remove('reverb-effect');
-                }, 500);
-            }
             
-            // Hide preloader when everything is loaded
-            window.addEventListener('load', function() {
-                setTimeout(() => {
-                    preloader.classList.add('fade-out');
-                    // Play reverb effect after preloader fades
-                    setTimeout(() => {
-                        playReverbEffect();
-                    }, 300);
-                }, 300);
-            });
-            
-            // Cache the next page to prevent white flash
-            function prefetchPage(url) {
-                return new Promise((resolve, reject) => {
-                    const link = document.createElement('link');
-                    link.rel = 'prefetch';
-                    link.href = url;
-                    link.onload = resolve;
-                    link.onerror = reject;
-                    document.head.appendChild(link);
-                });
-            }
-            
-            // Prefetch the index page
-            prefetchPage('index.html');
-            
-            // Handle all links with page transitions
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const currentPage = document.getElementById('privacyPage');
-                    const targetUrl = link.href;
-                    
-                    // Apply slide-out animation
-                    currentPage.classList.remove('slide-in');
-                    currentPage.classList.add('slide-out');
-                    
-                    // Play reverb effect
-                    playReverbEffect();
-                    
-                    // Create a hidden iframe to pre-load the next page
-                    const iframe = document.createElement('iframe');
-                    iframe.style.display = 'none';
-                    iframe.src = targetUrl;
-                    document.body.appendChild(iframe);
-                    
-                    // Navigate after transition completes
-                    setTimeout(() => {
-                        // Use history.pushState to prevent default navigation behavior
-                        history.pushState({}, '', targetUrl);
-                        
-                        // Force location change without the white flash
-                        window.location.href = targetUrl;
-                    }, 700);
-                });
-            });
         });
     </script>
 </body>
