@@ -6,16 +6,65 @@
     <title>Fabrevoie - Footwear store. We make weird things.</title>
     <meta name="description" content="Fabrevoie - We make weird things.">
 
-    <!-- Favicon and other meta tags -->
-    <!-- ... (unchanged) ... -->
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/placeholder/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta property="og:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
+    <meta property="og:url" content="https://fabrevoie.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
+    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+        gtag('js', new Date());
+        gtag('config', 'G-TZJE1XNS2Z');
+    </script>
+
+    <!-- Model Viewer Script -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
+        /* Hide the progress bar */
+        model-viewer::part(progress-bar) {
+            display: none;
+        }
+
         /* Reset default margin and padding */
         body, html {
             margin: 0;
@@ -40,20 +89,6 @@
             transform: translate(-50%, -50%);
             object-fit: cover;
             object-position: center;
-        }
-
-        /* Fallback background image */
-        .bg-fallback {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3; /* Behind the video */
-            background-image: url('fallback-bg.jpg'); /* Path to your fallback image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
         /* Overlay to darken the video */
@@ -108,13 +143,13 @@
             z-index: 10;
         }
 
-        /* MailerLite Form Styling -->
+        /* MailerLite Form Styling */
         .ml-embedded {
             margin-bottom: 10px;
             width: 100%;
         }
 
-        /* Text under the MailerLite form -->
+        /* Text under the MailerLite form */
         .signup-text {
             text-align: center;
             color: #9ED9B5; /* Pastel green */
@@ -123,7 +158,7 @@
             margin-bottom: 20px;
         }
 
-        /* Enter Button Styling -->
+        /* Enter Button Styling */
         .enter-button {
             display: inline-block;
             margin-top: 20px;
@@ -145,7 +180,7 @@
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
         }
 
-        /* Social Media Icons -->
+        /* Social Media Icons */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -164,7 +199,7 @@
             color: #7BC097; /* Darker pastel green */
         }
 
-        /* Text under social icons -->
+        /* Text under social icons */
         .social-text {
             text-align: center;
             color: #9ED9B5; /* Pastel green */
@@ -172,7 +207,7 @@
             margin-top: 10px;
         }
 
-        /* Social media container at the bottom -->
+        /* Social media container at the bottom */
         .social-container {
             position: fixed;
             bottom: 50px;
@@ -182,7 +217,7 @@
             z-index: 1000;
         }
 
-        /* Copyright Text -->
+        /* Copyright Text */
         .copyright {
             position: fixed;
             bottom: 15px;
@@ -203,7 +238,7 @@
             text-decoration: underline;
         }
 
-        /* Countdown Timer -->
+        /* Countdown Timer */
         .countdown {
             position: fixed;
             top: 20px;
@@ -218,7 +253,7 @@
             gap: 10px;
         }
 
-        /* Hourglass animation -->
+        /* Hourglass animation */
         @keyframes rotateHourglass {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(180deg); }
@@ -229,7 +264,7 @@
             animation: rotateHourglass 3s linear infinite; /* Rotates every 3 seconds */
         }
 
-        /* Cookie Consent Banner -->
+        /* Cookie Consent Banner */
         .cookie-banner {
             position: fixed;
             bottom: 20px;
@@ -283,16 +318,6 @@
     </style>
 </head>
 <body>
-    <!-- Fallback background image -->
-    <div class="bg-fallback"></div>
-
-    <!-- Background Video -->
-    <video class="bg-video" autoplay muted loop playsinline>
-        <source src="bgffm.mp4" type="video/mp4">
-        <source src="bgffm.webm" type="video/webm">
-        Your browser does not support background video.
-    </video>
-
     <!-- Overlay to darken the video -->
     <div class="overlay"></div>
 
@@ -300,6 +325,13 @@
     <a href="index.html">
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
+
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="bgffm.mp4" type="video/mp4">
+        <source src="bgffm.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
 
     <!-- Main Content -->
     <div class="container">
