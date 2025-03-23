@@ -73,6 +73,117 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
+            background-color: #000;
+        }
+
+        /* Loading Screen */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            perspective: 100px;
+            margin-bottom: 20px;
+        }
+
+        .loader-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            z-index: 10;
+            animation: pulse 1.5s ease-in-out infinite;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+        }
+
+        .loader-cube {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: spin 3s linear infinite;
+        }
+
+        .loader-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(158, 217, 181, 0.1);
+            border: 2px solid #9ED9B5;
+            box-sizing: border-box;
+            backface-visibility: visible;
+        }
+
+        .loader-face:nth-child(1) { transform: translateZ(50px); }
+        .loader-face:nth-child(2) { transform: rotateY(180deg) translateZ(50px); }
+        .loader-face:nth-child(3) { transform: rotateY(90deg) translateZ(50px); }
+        .loader-face:nth-child(4) { transform: rotateY(-90deg) translateZ(50px); }
+        .loader-face:nth-child(5) { transform: rotateX(90deg) translateZ(50px); }
+        .loader-face:nth-child(6) { transform: rotateX(-90deg) translateZ(50px); }
+
+        .loading-text {
+            color: #9ED9B5;
+            font-size: 16px;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 2px;
+            background-color: #333;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-progress-bar {
+            position: absolute;
+            height: 100%;
+            background-color: #9ED9B5;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .loading-text::after {
+            content: '';
+            display: inline-block;
+            animation: dots 1.5s infinite;
+            width: 20px;
+            text-align: left;
         }
 
         /* Page container */
@@ -84,6 +195,8 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
             z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
         }
 
         /* Blur effect overlay */
@@ -347,17 +460,36 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-container" id="loadingScreen">
+        <div class="loader">
+            <img src="logo-small.png" alt="Fabrevoie Logo" class="loader-logo">
+            <div class="loader-cube">
+                <div class="loader-face"></div>
+                <div class="loader-face"></div>
+                <div class="loader-face"></div>
+                <div class="loader-face"></div>
+                <div class="loader-face"></div>
+                <div class="loader-face"></div>
+            </div>
+        </div>
+        <div class="loading-text">LOADING</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
     <!-- Blur Effect Overlay -->
     <div class="blur-overlay" id="blurOverlay"></div>
 
-    <div class="page">
+    <div class="page" id="mainContent">
         <!-- Sticky Logo -->
         <a href="index.html">
             <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
         </a>
 
         <!-- Background Video -->
-        <video class="bg-video" autoplay muted loop playsinline>
+        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
             <source src="bgffm.mp4" type="video/mp4">
             <source src="bgffm.webm" type="video/webm">
             Your browser does not support background video.
@@ -370,6 +502,7 @@
         <div class="container">
             <!-- Middle Logo (3D Logo with auto-rotation) -->
             <model-viewer 
+                id="logoModel"
                 src="3Dlogo2.glb" 
                 alt="Fabrevoie 3D Logo" 
                 class="logo"
@@ -439,6 +572,94 @@
     </div>
 
     <script>
+        // Assets to preload
+        const assetsToLoad = [
+            { type: 'image', url: 'logo-small.png' },
+            { type: '3d', url: '3Dlogo2.glb' },
+            { type: 'video', url: 'bgffm.mp4' },
+            { type: 'audio', url: 'access-granted.mp3' }
+        ];
+        
+        let loadedAssets = 0;
+        const totalAssets = assetsToLoad.length;
+        
+        // Update loading progress
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+        
+        // Preload assets
+        function preloadAssets() {
+            return new Promise((resolve) => {
+                if (totalAssets === 0) {
+                    resolve();
+                    return;
+                }
+                
+                assetsToLoad.forEach(asset => {
+                    switch(asset.type) {
+                        case 'image':
+                            const img = new Image();
+                            img.onload = () => assetLoaded();
+                            img.onerror = () => assetLoaded();
+                            img.src = asset.url;
+                            break;
+                            
+                        case 'video':
+                            const video = document.createElement('video');
+                            video.oncanplaythrough = () => assetLoaded();
+                            video.onerror = () => assetLoaded();
+                            video.src = asset.url;
+                            video.load();
+                            break;
+                            
+                        case 'audio':
+                            const audio = new Audio();
+                            audio.oncanplaythrough = () => assetLoaded();
+                            audio.onerror = () => assetLoaded();
+                            audio.src = asset.url;
+                            audio.load();
+                            break;
+                            
+                        case '3d':
+                            // For 3D models, we'll simply add a timeout as loading through model-viewer is handled separately
+                            setTimeout(() => assetLoaded(), 1000);
+                            break;
+                            
+                        default:
+                            assetLoaded();
+                    }
+                });
+                
+                function assetLoaded() {
+                    loadedAssets++;
+                    const progress = (loadedAssets / totalAssets) * 100;
+                    updateProgress(progress);
+                    
+                    if (loadedAssets >= totalAssets) {
+                        // Add a slight delay before resolving to ensure UI smoothness
+                        setTimeout(() => resolve(), 500);
+                    }
+                }
+            });
+        }
+        
+        // Show page content
+        function showPageContent() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Fade out loading screen
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.visibility = 'hidden';
+            
+            // Fade in main content
+            mainContent.style.opacity = '1';
+        }
+        
         // Countdown to August 21 2025
         const countdownDate = new Date('2025-08-21T00:00:00').getTime();
 
@@ -448,9 +669,6 @@
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById('days').textContent = days;
         }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown(); // Initial call
 
         // Play access granted sound after signup
         document.addEventListener('ml-subscribe', function(event) {
@@ -472,7 +690,7 @@
             }
         }
 
-        // Apply blur effect for page transitions - simplified
+        // Apply blur effect for page transitions
         function applyBlurEffect() {
             const blurOverlay = document.getElementById('blurOverlay');
             if (blurOverlay) {
@@ -490,6 +708,22 @@
 
         // Check if user has already signed up
         document.addEventListener('DOMContentLoaded', function() {
+            // Start the loading sequence
+            preloadAssets().then(() => {
+                showPageContent();
+                
+                // Start countdown and video after loading is complete
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+                
+                const video = document.getElementById('bgVideo');
+                if (video) {
+                    video.play().catch(function(error) {
+                        console.log("Video play failed:", error);
+                    });
+                }
+            });
+            
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
                 showEnterButton();
@@ -509,22 +743,6 @@
                         'analytics_storage': consent === 'accepted' ? 'granted' : 'denied'
                     });
                 }
-            }
-
-            // Start video
-            const video = document.querySelector('.bg-video');
-            if (video) {
-                video.play().catch(function(error) {
-                    console.log("Video play failed:", error);
-                    document.body.style.backgroundColor = "#000000";
-                });
-            }
-
-            // Apply blur effect only on first load
-            if (!sessionStorage.getItem('firstLoad')) {
-                applyBlurEffect();
-                sessionStorage.setItem('firstLoad', 'true');
-                setTimeout(removeBlurEffect, 1000); // Remove blur effect after 1 second
             }
         });
 
@@ -559,11 +777,11 @@
             }
         }
 
-        // Simplified page transition logic with only blur effect
+        // Page transition logic with loading effect
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a');
             links.forEach(link => {
-                if (link.hostname === window.location.hostname || link.hostname === '') {
+                if ((link.hostname === window.location.hostname || link.hostname === '') && !link.target) {
                     link.addEventListener('click', function(e) {
                         const href = link.getAttribute('href');
                         if (href && href.endsWith('.html')) {
@@ -571,6 +789,9 @@
                             
                             // Apply blur effect
                             applyBlurEffect();
+                            
+                            // Store the destination URL in session storage
+                            sessionStorage.setItem('nextPage', href);
                             
                             // Navigate to the new page after a short delay
                             setTimeout(() => {
