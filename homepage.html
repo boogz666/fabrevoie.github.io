@@ -5,8 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Homepage</title>
     
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/placeholder/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         /* Reset default margin and padding */
@@ -29,7 +50,7 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            z-index: -2;
+            z-index: -2; /* Ensure it's behind everything */
             transform: translate(-50%, -50%);
             object-fit: cover;
             object-position: center;
@@ -42,8 +63,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: -1; /* Ensure it's above the video but behind other content */
+        }
+
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
         }
 
         /* 3D Animation Container */
@@ -80,6 +117,27 @@
             transform: translateX(-50%) scale(1.05);
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
         }
+
+        /* Copyright Text */
+        .copyright {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            color: #888888;
+            font-size: 12px;
+            text-align: left;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .copyright a {
+            color: #9ED9B5; /* Pastel green */
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
@@ -87,7 +145,7 @@
 </head>
 <body>
     <!-- Background Video -->
-    <video class="bg-video" autoplay muted loop playsinline>
+    <video class="bg-video" autoplay muted loop playsinline onerror="console.error('Video failed to load')">
         <source src="bckgrnd.mp4" type="video/mp4">
         <source src="bckgrnd.webm" type="video/webm">
         Your browser does not support background video.
@@ -96,9 +154,20 @@
     <!-- Overlay to darken the video -->
     <div class="overlay"></div>
 
+    <!-- Sticky Logo -->
+    <a href="index.html">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
     <!-- Main Content -->
     <div id="animation-container"></div>
     <a href="https://pornhub.com" class="buy-button">SURPRISE</a>
+
+    <!-- Copyright Text -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. |
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+    </div>
 
     <script>
         // Set up Three.js scene
