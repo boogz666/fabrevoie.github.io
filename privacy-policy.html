@@ -38,11 +38,6 @@
             overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
-        /* Prevent white flash during page transitions */
-        html {
-            background-color: black; /* Set base background color to black */
-        }
-
         /* Background styling - Keep the same as your index page */
         body {
             background-image: url('page bckgrnd.png'); /* Your original background */
@@ -96,28 +91,6 @@
             transition: transform 0.7s ease-in-out;
             background-color: rgba(0, 0, 0, 0.6); /* Match your original overlay color */
             overflow-y: auto; /* Allow scrolling within the page */
-        }
-
-        .page.slide-out {
-            transform: translateX(-100%);
-        }
-
-        .page.slide-in {
-            transform: translateX(0);
-        }
-
-        /* Fixed background overlay to prevent white flash */
-        .fixed-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('page bckgrnd.png');
-            background-size: cover;
-            background-repeat: repeat;
-            background-attachment: fixed;
-            z-index: -1;
         }
 
         /* Sticky Logo */
