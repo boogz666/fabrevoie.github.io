@@ -4,10 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Fabrevoie</title>
-    <meta name="description" content="Privacy Policy for Fabrevoie.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/placeholder/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
 
     <style>
         /* Reset default margin and padding */
@@ -16,139 +33,315 @@
             padding: 0;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
             color: white;
-            background-color: #000; /* Fallback background color */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
-        /* Background video styling */
-        .bg-video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -2;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            object-position: center;
+        /* Prevent white flash during page transitions */
+        html {
+            background-color: black; /* Set base background color to black */
         }
 
-        /* Overlay to darken the video */
-        .overlay {
+        /* Background styling - Keep the same as your index page */
+        body {
+            background-image: url('page bckgrnd.png'); /* Your original background */
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        /* Reverb overlay effect */
+        .reverb-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 999;
+            transition: background-color 0.3s ease;
+            backdrop-filter: blur(0px);
+        }
+        
+        .reverb-effect {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            animation: reverb-wave 0.5s forwards;
+        }
+        
+        @keyframes reverb-wave {
+            0% {
+                backdrop-filter: blur(0px);
+                background-color: rgba(255, 255, 255, 0);
+            }
+            50% {
+                backdrop-filter: blur(10px);
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                backdrop-filter: blur(0px);
+                background-color: rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Page transition styles */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s ease-in-out;
+            background-color: rgba(0, 0, 0, 0.6); /* Match your original overlay color */
+            overflow-y: auto; /* Allow scrolling within the page */
+        }
+
+        .page.slide-out {
+            transform: translateX(-100%);
+        }
+
+        .page.slide-in {
+            transform: translateX(0);
+        }
+
+        /* Fixed background overlay to prevent white flash */
+        .fixed-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('page bckgrnd.png');
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
             z-index: -1;
         }
 
-        /* Center container */
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Container for the privacy policy content */
+        .privacy-container {
             max-width: 800px;
-            width: 90%;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Privacy Policy Content */
-        .privacy-content {
-            color: white;
-            font-size: 16px;
-            line-height: 1.6;
-            max-width: 700px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
+            padding: 40px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .privacy-content h1 {
-            font-size: 24px;
+        /* Heading styling */
+        h1, h2 {
+            color: #9ED9B5; /* Pastel green */
             margin-bottom: 20px;
         }
 
-        .privacy-content h2 {
-            font-size: 20px;
-            margin-top: 30px;
-            margin-bottom: 15px;
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
         }
 
-        .privacy-content p {
-            margin-bottom: 15px;
+        h2 {
+            font-size: 2rem;
         }
 
-        /* Copyright Text */
-        .copyright {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            color: #888888;
-            font-size: 12px;
-            text-align: left;
-            z-index: 1000;
-            white-space: nowrap;
+        /* Paragraph styling */
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
 
-        .copyright a {
+        /* List styling */
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Link styling */
+        a {
             color: #9ED9B5; /* Pastel green */
             text-decoration: none;
         }
 
-        .copyright a:hover {
+        a:hover {
             text-decoration: underline;
+        }
+
+        /* Full-page preloader to prevent white flash */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="bg-video" autoplay muted loop playsinline onerror="console.error('Video failed to load')">
-        <source src="bckgrnd.mp4" type="video/mp4">
-        <source src="bckgrnd.webm" type="video/webm">
-        Your browser does not support background video.
-    </video>
+    <!-- Preloader to prevent white flash -->
+    <div class="preloader" id="preloader">
+        <!-- Optional: Add a loading spinner or logo here -->
+    </div>
 
-    <!-- Overlay to darken the video -->
-    <div class="overlay"></div>
+    <!-- Fixed background to prevent white flash -->
+    <div class="fixed-background"></div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="privacy-content">
+    <!-- Reverb Overlay -->
+    <div class="reverb-overlay" id="reverbOverlay"></div>
+
+    <div class="page slide-in" id="privacyPage">
+        <!-- Sticky Logo (Linked to Landing Page) -->
+        <a href="index.html" class="logo-link" data-navigate>
+            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+        </a>
+
+        <!-- Privacy Policy Content -->
+        <div class="privacy-container">
             <h1>Privacy Policy</h1>
-            <p>Your privacy is important to us. This Privacy Policy explains how Fabrevoie collects, uses, and protects your personal information.</p>
+            <p>Last Updated: March 2025</p>
             
-            <h2>Information We Collect</h2>
-            <p>We may collect personal information such as your name, email address, and payment details when you interact with our website or make a purchase.</p>
-
-            <h2>How We Use Your Information</h2>
-            <p>We use your information to process orders, improve our services, and communicate with you about promotions and updates.</p>
-
-            <h2>Data Security</h2>
-            <p>We implement security measures to protect your data from unauthorized access or disclosure.</p>
-
-            <h2>Third-Party Services</h2>
-            <p>We may use third-party services to process payments or analyze website traffic. These services have their own privacy policies.</p>
-
-            <h2>Changes to This Policy</h2>
-            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page.</p>
+            <h2>1. Introduction</h2>
+            <p>Welcome to Fabrevoie. Your privacy is important to us. This policy explains how we collect, use, and protect your personal data.</p>
+            
+            <h2>2. Information We Collect</h2>
+            <p>We collect personal data such as name, email, phone number, and payment details when you interact with our website.</p>
+            
+            <h2>3. How We Use Your Data</h2>
+            <ul>
+                <li>To provide our services and process transactions.</li>
+                <li>To send marketing and promotional content (with your consent).</li>
+                <li>To improve our website and user experience.</li>
+            </ul>
+            
+            <h2>4. Sharing Your Information</h2>
+            <p>We do not sell your personal data. However, we may share information with third-party service providers for payment processing and analytics.</p>
+            
+            <h2>5. Your Rights</h2>
+            <p>You have the right to access, modify, or delete your personal data. To exercise these rights, contact us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
+            
+            <h2>6. Cookies</h2>
+            <p>We use cookies to enhance your experience. You can manage cookie preferences in your browser settings.</p>
+            
+            <h2>7. Data Security</h2>
+            <p>We implement security measures to protect your data, but no system is 100% secure.</p>
+            
+            <h2>8. Contact</h2>
+            <p>For questions about this policy, please email us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
         </div>
     </div>
 
-    <!-- Copyright Text -->
-    <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-    </div>
+    <script>
+        // Preload the background image
+        function preloadImage(url) {
+            const img = new Image();
+            img.src = url;
+        }
+        
+        // Preload your background image
+        preloadImage('page bckgrnd.png');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.getElementById('preloader');
+            const reverbOverlay = document.getElementById('reverbOverlay');
+            const links = document.querySelectorAll('a[data-navigate]');
+            
+            // Function to play reverb effect
+            function playReverbEffect() {
+                reverbOverlay.classList.add('reverb-effect');
+                
+                setTimeout(() => {
+                    reverbOverlay.classList.remove('reverb-effect');
+                }, 500);
+            }
+            
+            // Hide preloader when everything is loaded
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    preloader.classList.add('fade-out');
+                    // Play reverb effect after preloader fades
+                    setTimeout(() => {
+                        playReverbEffect();
+                    }, 300);
+                }, 300);
+            });
+            
+            // Cache the next page to prevent white flash
+            function prefetchPage(url) {
+                return new Promise((resolve, reject) => {
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.href = url;
+                    link.onload = resolve;
+                    link.onerror = reject;
+                    document.head.appendChild(link);
+                });
+            }
+            
+            // Prefetch the index page
+            prefetchPage('index.html');
+            
+            // Handle all links with page transitions
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentPage = document.getElementById('privacyPage');
+                    const targetUrl = link.href;
+                    
+                    // Apply slide-out animation
+                    currentPage.classList.remove('slide-in');
+                    currentPage.classList.add('slide-out');
+                    
+                    // Play reverb effect
+                    playReverbEffect();
+                    
+                    // Create a hidden iframe to pre-load the next page
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = targetUrl;
+                    document.body.appendChild(iframe);
+                    
+                    // Navigate after transition completes
+                    setTimeout(() => {
+                        // Use history.pushState to prevent default navigation behavior
+                        history.pushState({}, '', targetUrl);
+                        
+                        // Force location change without the white flash
+                        window.location.href = targetUrl;
+                    }, 700);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
