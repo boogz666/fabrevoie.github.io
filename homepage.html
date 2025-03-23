@@ -40,6 +40,25 @@
             color: white;
         }
 
+        /* Page transition styles */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+            background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
+        }
+
+        .page.slide-out {
+            transform: translateX(-100%);
+        }
+
+        .page.slide-in {
+            transform: translateX(0);
+        }
+
         /* Background video styling */
         .bg-video {
             position: fixed;
@@ -89,29 +108,17 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 100;
-            width: 100%;
+            z-index: 100; /* Increased z-index to ensure visibility */
+            width: 100%; /* Set to full width */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* 3D Animation Container */
-        #animation-container {
-            width: 80vw;
-            height: 80vh;
-            position: relative;
-            overflow: visible;
-            margin-bottom: 20px;
-        }
-
-        /* Surprise Button Styling */
+        /* Surprise Button Styling (Updated to match Enter Button) */
         .buy-button {
             display: inline-block;
-            position: absolute;
-            bottom: 10%; /* Positioned at the bottom quarter */
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 40px; /* Adjusted to make it a bit higher */
             padding: 12px 24px;
             background-color: #9ED9B5; /* Pastel green */
             color: #000;
@@ -122,14 +129,27 @@
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
             box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
-            text-transform: uppercase; /* All caps */
-            z-index: 1000; /* Ensure it's above the 3D model */
         }
 
         .buy-button:hover {
             background-color: #7BC097; /* Darker pastel green */
-            transform: translateX(-50%) scale(1.05);
+            transform: scale(1.05);
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
+        }
+
+        /* 3D Animation Container */
+        #animation-container {
+            width: 80vw; /* Reduced size */
+            height: 80vh; /* Reduced size */
+            position: relative;
+            overflow: visible;
+            margin-bottom: 20px; /* Add space below the container */
+        }
+
+        /* Canvas Style */
+        canvas {
+            display: block;
+            margin: 0 auto;
         }
 
         /* Copyright Text */
@@ -152,34 +172,12 @@
         .copyright a:hover {
             text-decoration: underline;
         }
-
-        /* Blur effect overlay */
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2000;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(0px);
-            opacity: 0;
-        }
-
-        .blur-active {
-            backdrop-filter: blur(10px);
-            opacity: 1;
-        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
-    <!-- Blur Effect Overlay -->
-    <div class="blur-overlay" id="blurOverlay"></div>
-
     <div class="page">
         <!-- Sticky Logo -->
         <a href="index.html">
@@ -199,7 +197,7 @@
         <!-- Main Content -->
         <div class="container">
             <div id="animation-container"></div>
-            <a href="https://pornhub.com" class="buy-button">SURPRISE</a>
+            <a href="https://pornhub.com" class="buy-button">Surprise</a>
         </div>
 
         <!-- Copyright Text -->
@@ -255,7 +253,7 @@
         // Load the levitating box animation
         let model, mixer;
         loader.load(
-            'box_rotate.glb', // Ensure the file path is correct
+            'box_rotateblack.glb',
             function(gltf) {
                 model = gltf.scene;
                 
@@ -273,8 +271,8 @@
                 // Center model at origin (0,0,0)
                 model.position.set(-center.x, -center.y, -center.z);
                 
-                // Make the box twice as big
-                model.scale.set(2, 2, 2);
+                // Apply 20% scale reduction
+                model.scale.set(0.8, 0.8, 0.8);
             
                 // Calculate camera position based on model size
                 const maxDimension = Math.max(size.x, size.y, size.z);
@@ -332,18 +330,26 @@
             renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         });
 
-        // Blur effect on first load
+        // Page transition logic
         document.addEventListener('DOMContentLoaded', function() {
-            if (!sessionStorage.getItem('firstLoad')) {
-                const blurOverlay = document.getElementById('blurOverlay');
-                if (blurOverlay) {
-                    blurOverlay.classList.add('blur-active');
-                    sessionStorage.setItem('firstLoad', 'true');
-                    setTimeout(() => {
-                        blurOverlay.classList.remove('blur-active');
-                    }, 1000); // Remove blur effect after 1 second
-                }
-            }
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (link.href && link.href.includes('.html')) {
+                        e.preventDefault();
+                        const currentPage = document.querySelector('.page');
+                        currentPage.classList.add('slide-out');
+
+                        setTimeout(() => {
+                            window.location.href = link.href;
+                        }, 500); // Match the transition duration
+                    }
+                });
+            });
+
+            // Add slide-in class to the new page
+            const page = document.querySelector('.page');
+            page.classList.add('slide-in');
         });
     </script>
 </body>
