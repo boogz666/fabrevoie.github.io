@@ -4,27 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Fabrevoie</title>
+    <meta name="description" content="Privacy Policy for Fabrevoie.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/placeholder/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
 
     <style>
         /* Reset default margin and padding */
@@ -33,171 +16,139 @@
             padding: 0;
             height: 100%;
             font-family: 'Poppins', sans-serif;
+            overflow: hidden;
             color: white;
-            line-height: 1.6;
-            overflow: auto; /* Allow scrolling */
+            background-color: #000; /* Fallback background color */
         }
 
-        /* Page transition styles */
-        .page {
+        /* Background video styling */
+        .bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Overlay to darken the video */
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s ease-in-out;
-            background-color: rgba(0, 0, 0, 0.6); /* Match the overlay color */
-            overflow-y: auto; /* Allow scrolling within the page */
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
 
-        .page.slide-out {
-            transform: translateX(-100%);
-        }
-
-        .page.slide-in {
-            transform: translateX(0);
-        }
-
-        /* Background styling */
-        body {
-            background-image: url('page bckgrnd.png'); /* Update the path if needed */
-            background-size: cover;
-            background-repeat: repeat;
-            background-attachment: fixed;
-        }
-
-        /* Sticky Logo */
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            transition: transform 0.3s ease;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Container for the privacy policy content */
-        .privacy-container {
+        /* Center container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Heading styling */
-        h1, h2 {
-            color: #9ED9B5; /* Pastel green */
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+            width: 90%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
 
-        h2 {
-            font-size: 2rem;
+        /* Privacy Policy Content */
+        .privacy-content {
+            color: white;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
         }
 
-        /* Paragraph styling */
-        p {
-            font-size: 1rem;
+        .privacy-content h1 {
+            font-size: 24px;
             margin-bottom: 20px;
         }
 
-        /* List styling */
-        ul {
-            margin-bottom: 20px;
-            padding-left: 20px;
+        .privacy-content h2 {
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
         }
 
-        ul li {
-            margin-bottom: 10px;
+        .privacy-content p {
+            margin-bottom: 15px;
         }
 
-        /* Link styling */
-        a {
+        /* Copyright Text */
+        .copyright {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            color: #888888;
+            font-size: 12px;
+            text-align: left;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .copyright a {
             color: #9ED9B5; /* Pastel green */
             text-decoration: none;
         }
 
-        a:hover {
+        .copyright a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="page">
-        <!-- Sticky Logo (Linked to Landing Page) -->
-        <a href="index.html">
-            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-        </a>
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop playsinline onerror="console.error('Video failed to load')">
+        <source src="bckgrnd.mp4" type="video/mp4">
+        <source src="bckgrnd.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
 
-        <!-- Privacy Policy Content -->
-        <div class="privacy-container">
+    <!-- Overlay to darken the video -->
+    <div class="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="privacy-content">
             <h1>Privacy Policy</h1>
-            <p>Last Updated: March 2025</p>
+            <p>Your privacy is important to us. This Privacy Policy explains how Fabrevoie collects, uses, and protects your personal information.</p>
             
-            <h2>1. Introduction</h2>
-            <p>Welcome to Fabrevoie. Your privacy is important to us. This policy explains how we collect, use, and protect your personal data.</p>
-            
-            <h2>2. Information We Collect</h2>
-            <p>We collect personal data such as name, email, phone number, and payment details when you interact with our website.</p>
-            
-            <h2>3. How We Use Your Data</h2>
-            <ul>
-                <li>To provide our services and process transactions.</li>
-                <li>To send marketing and promotional content (with your consent).</li>
-                <li>To improve our website and user experience.</li>
-            </ul>
-            
-            <h2>4. Sharing Your Information</h2>
-            <p>We do not sell your personal data. However, we may share information with third-party service providers for payment processing and analytics.</p>
-            
-            <h2>5. Your Rights</h2>
-            <p>You have the right to access, modify, or delete your personal data. To exercise these rights, contact us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
-            
-            <h2>6. Cookies</h2>
-            <p>We use cookies to enhance your experience. You can manage cookie preferences in your browser settings.</p>
-            
-            <h2>7. Data Security</h2>
-            <p>We implement security measures to protect your data, but no system is 100% secure.</p>
-            
-            <h2>8. Contact</h2>
-            <p>For questions about this policy, please email us at <a href="mailto:lhllparis@gmail.com">lhllparis@gmail.com</a>.</p>
+            <h2>Information We Collect</h2>
+            <p>We may collect personal information such as your name, email address, and payment details when you interact with our website or make a purchase.</p>
+
+            <h2>How We Use Your Information</h2>
+            <p>We use your information to process orders, improve our services, and communicate with you about promotions and updates.</p>
+
+            <h2>Data Security</h2>
+            <p>We implement security measures to protect your data from unauthorized access or disclosure.</p>
+
+            <h2>Third-Party Services</h2>
+            <p>We may use third-party services to process payments or analyze website traffic. These services have their own privacy policies.</p>
+
+            <h2>Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page.</p>
         </div>
     </div>
 
-    <script>
-        // Page transition logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (link.href && link.href.includes('.html')) {
-                        e.preventDefault();
-                        const currentPage = document.querySelector('.page');
-                        currentPage.classList.add('slide-out');
-
-                        setTimeout(() => {
-                            window.location.href = link.href;
-                        }, 500); // Match the transition duration
-                    }
-                });
-            });
-
-            // Add slide-in class to the new page
-            const page = document.querySelector('.page');
-            page.classList.add('slide-in');
-        });
-    </script>
+    <!-- Copyright Text -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+    </div>
 </body>
 </html>
