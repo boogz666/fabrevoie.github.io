@@ -192,6 +192,10 @@
         const loader = new THREE.GLTFLoader();
         loader.setDRACOLoader(dracoLoader);
 
+        // Load the texture separately
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('texture.png'); // Path to your texture
+
         // Load the levitating box animation
         let model, mixer;
         loader.load(
@@ -200,13 +204,11 @@
                 model = gltf.scene;
                 console.log("Model loaded:", model);
 
-                // Log materials and textures
+                // Apply the texture to the model
                 model.traverse((child) => {
                     if (child.isMesh) {
-                        console.log("Mesh material:", child.material);
-                        if (child.material.map) {
-                            console.log("Texture path:", child.material.map.image.src);
-                        }
+                        child.material.map = texture; // Apply the texture
+                        child.material.needsUpdate = true; // Ensure the material updates
                     }
                 });
 
