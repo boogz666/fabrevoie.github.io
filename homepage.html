@@ -144,12 +144,100 @@
         .copyright a:hover {
             text-decoration: underline;
         }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .loading-bar-container {
+            width: 200px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #9ED9B5; /* Pastel green */
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: #9ED9B5;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .loading-progress {
+            font-size: 12px;
+            color: #888888;
+            margin-top: 5px;
+        }
+
+        /* Additional animation for loading effect */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-bar-container">
+            <div id="loading-bar" class="loading-bar"></div>
+        </div>
+        <div id="loading-progress" class="loading-progress">0%</div>
+        <div class="loading-text">Loading Experience</div>
+    </div>
+
     <!-- Background Video -->
     <video id="backgroundVideo" class="bg-video" autoplay muted loop playsinline>
         <source src="bckgrnd.mp4" type="video/mp4">
@@ -175,6 +263,46 @@
     </div>
 
     <script>
+        // Loading screen management
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingBar = document.getElementById('loading-bar');
+        const loadingProgress = document.getElementById('loading-progress');
+        
+        // Initial loading state variables
+        let totalAssets = 3; // Total number of assets to load (3D model, texture, video)
+        let loadedAssets = 0;
+        let modelLoaded = false;
+        let textureLoaded = false;
+        let videoLoaded = false;
+        
+        // Check if the video is loaded
+        const backgroundVideo = document.getElementById('backgroundVideo');
+        
+        backgroundVideo.addEventListener('canplaythrough', function() {
+            if (!videoLoaded) {
+                videoLoaded = true;
+                loadedAssets++;
+                updateLoadingProgress();
+            }
+        });
+        
+        // Function to update loading progress
+        function updateLoadingProgress() {
+            const progressPercentage = Math.floor((loadedAssets / totalAssets) * 100);
+            loadingBar.style.width = progressPercentage + '%';
+            loadingProgress.textContent = progressPercentage + '%';
+            
+            // If all assets loaded, show the content
+            if (progressPercentage >= 100) {
+                setTimeout(function() {
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 500); // Add a small delay to show 100% before hiding
+            }
+        }
+        
         // Set up Three.js scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -214,23 +342,54 @@
         
         // Load the texture separately
         const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load('texture.png');
+        
+        textureLoader.load(
+            'texture.png',
+            function(textureLoaded) {
+                texture = textureLoaded;
+                if (!textureLoaded) {
+                    textureLoaded = true;
+                    loadedAssets++;
+                    updateLoadingProgress();
+                }
+            },
+            function(xhr) {
+                // Texture loading progress
+                const progressPercentage = Math.floor((xhr.loaded / xhr.total) * 100 / 3); // Divide by 3 for the texture portion
+                loadingBar.style.width = progressPercentage + '%';
+                loadingProgress.textContent = progressPercentage + '%';
+            },
+            function(error) {
+                console.error('Error loading texture:', error);
+                loadedAssets++;
+                updateLoadingProgress();
+            }
+        );
         
         // Load the levitating box animation
-        let model, mixer;
+        let model, mixer, texture;
         loader.load(
             'box_rotate.glb',
             function(gltf) {
                 model = gltf.scene;
                 console.log("Model loaded:", model);
+                
+                // Mark model as loaded
+                if (!modelLoaded) {
+                    modelLoaded = true;
+                    loadedAssets++;
+                    updateLoadingProgress();
+                }
         
                 // Apply the texture to the model
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        child.material.map = texture; // Apply the texture
-                        child.material.needsUpdate = true; // Ensure the material updates
-                    }
-                });
+                if (texture) {
+                    model.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.map = texture; // Apply the texture
+                            child.material.needsUpdate = true; // Ensure the material updates
+                        }
+                    });
+                }
         
                 // Add model to scene
                 scene.add(model);
@@ -250,10 +409,21 @@
                 }
             },
             function(xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                // Model loading progress
+                if (xhr.lengthComputable) {
+                    const progressPercentage = Math.floor((xhr.loaded / xhr.total) * 100 / 3); // Divide by 3 for the model portion
+                    loadingBar.style.width = progressPercentage + '%';
+                    loadingProgress.textContent = progressPercentage + '%';
+                }
             },
             function(error) {
                 console.error('Error loading model:', error);
+                // Even on error, consider it "loaded" to not block the interface
+                if (!modelLoaded) {
+                    modelLoaded = true;
+                    loadedAssets++;
+                    updateLoadingProgress();
+                }
             }
         );
         
