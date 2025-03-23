@@ -41,12 +41,19 @@
             background-color: #000; /* Fallback background */
         }
 
-        /* Background image styling */
-        body {
-            background-image: url('page bckgrnd.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+        /* Background video styling */
+        .bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center;
         }
 
         /* Overlay to darken the background */
@@ -140,6 +147,13 @@
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="bckgrnd.mp4" type="video/mp4">
+        <source src="bckgrnd.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
+
     <!-- Overlay to darken the background -->
     <div class="overlay"></div>
 
@@ -218,11 +232,11 @@
                 // Add model to scene
                 scene.add(model);
         
-                // Scale the model to twice its size
-                model.scale.set(8, 8, 8); // Twice as big
+                // Scale the model to make it smaller
+                model.scale.set(4, 4, 4); // Adjust scale as needed
         
                 // Position camera
-                camera.position.z = 15; // Adjust camera distance for larger model
+                camera.position.z = 10; // Adjust camera distance for better view
                 camera.lookAt(0, 0, 0);
         
                 // Animation setup
