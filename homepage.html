@@ -59,18 +59,6 @@
             object-position: center;
         }
 
-        /* Video loading indicator */
-        .video-loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            color: white;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
         /* Overlay to darken the background */
         .overlay {
             position: fixed;
@@ -166,15 +154,13 @@
     <video id="backgroundVideo" class="bg-video" autoplay muted loop playsinline>
         <source src="bckgrnd.mp4" type="video/mp4">
         <source src="bckgrnd.webm" type="video/webm">
-        <!-- Fallback message only shown if video fails to load -->
     </video>
-    <div class="video-loading">Loading background...</div>
 
     <!-- Overlay to darken the background -->
     <div class="overlay"></div>
 
     <!-- Sticky Logo -->
-    <a href="index.html" onclick="storeScrollPosition(event)">
+    <a href="index.html">
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
 
@@ -189,33 +175,6 @@
     </div>
 
     <script>
-        // Check if background video loaded successfully
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('backgroundVideo');
-            const loadingText = document.querySelector('.video-loading');
-            
-            // Hide loading text when video starts playing
-            video.addEventListener('playing', function() {
-                loadingText.style.display = 'none';
-            });
-            
-            // If video fails to load or encounters an error, hide loading text
-            video.addEventListener('error', function() {
-                loadingText.style.display = 'none';
-                console.log('Video failed to load. Using fallback background.');
-            });
-            
-            // After a timeout, hide the loading message if video hasn't started
-            setTimeout(() => {
-                loadingText.style.display = 'none';
-            }, 5000);
-        });
-        
-        // Store the current scroll position when navigating
-        function storeScrollPosition(event) {
-            localStorage.setItem('scrollPosition', window.scrollY);
-        }
-        
         // Set up Three.js scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -255,18 +214,7 @@
         
         // Load the texture separately
         const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load('texture.png', 
-            // Success callback
-            function(loadedTexture) {
-                console.log("Texture loaded successfully");
-            }, 
-            // Progress callback
-            null, 
-            // Error callback
-            function(error) {
-                console.error("Error loading texture:", error);
-            }
-        );
+        const texture = textureLoader.load('texture.png');
         
         // Load the levitating box animation
         let model, mixer;
