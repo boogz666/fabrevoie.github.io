@@ -76,48 +76,6 @@
             background-color: #000; /* Fallback background */
         }
 
-        /* Loading screen */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .loading-bar-container {
-            width: 300px;
-            height: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0;
-            background-color: #9ED9B5; /* Pastel green */
-            transition: width 0.3s ease;
-        }
-
-        .loading-text {
-            font-size: 18px;
-            color: #9ED9B5; /* Pastel green */
-            margin-top: 10px;
-        }
-
-        /* Hide the main content until loading is complete */
-        .main-content {
-            display: none;
-        }
-
         /* Background video styling */
         .bg-video {
             position: fixed;
@@ -142,6 +100,22 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
             z-index: -1;
+        }
+
+        /* Sticky Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px; /* Fixed size */
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
         }
 
         /* Center container */
@@ -264,23 +238,7 @@
             text-decoration: underline;
         }
 
-        /* Sticky Logo -->
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Countdown Timer -->
+        /* Countdown Timer */
         .countdown {
             position: fixed;
             top: 20px;
@@ -295,7 +253,7 @@
             gap: 10px;
         }
 
-        /* Hourglass animation -->
+        /* Hourglass animation */
         @keyframes rotateHourglass {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(180deg); }
@@ -306,7 +264,7 @@
             animation: rotateHourglass 3s linear infinite; /* Rotates every 3 seconds */
         }
 
-        /* Cookie Consent Banner -->
+        /* Cookie Consent Banner */
         .cookie-banner {
             position: fixed;
             bottom: 20px;
@@ -360,105 +318,86 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen">
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="loadingBar"></div>
-        </div>
-        <div class="loading-text" id="loadingText">Loading... 0%</div>
+    <!-- Overlay to darken the video -->
+    <div class="overlay"></div>
+
+    <!-- Sticky Logo -->
+    <a href="index.html">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="bgffm.mp4" type="video/mp4">
+        <source src="bgffm.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Middle Logo (3D Logo with auto-rotation) -->
+        <model-viewer 
+            src="3Dlogo2.glb" 
+            alt="Fabrevoie 3D Logo" 
+            class="logo"
+            auto-rotate
+            camera-controls
+            style="width: 400px; height: 400px;"
+            background-color="transparent"
+            exposure="1.0"
+            environment-intensity="1.2"
+            shadow-intensity="1"
+            camera-orbit="-10deg 90deg 100%"
+            loading="eager">
+        </model-viewer>
+        
+        <!-- MailerLite Email Form -->
+        <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
+
+        <!-- Text under the MailerLite form -->
+        <p class="signup-text" id="signupText">Sign up to access the website.</p>
+
+        <!-- Enter Button (Initially hidden, will be shown based on localStorage) -->
+        <a href="homepage.html" id="enterButton" class="enter-button" style="display: none;">
+            Enter
+        </a>
     </div>
 
-    <!-- Main Content (Hidden until loading is complete) -->
-    <div class="main-content">
-        <!-- Blur Effect Overlay -->
-        <div class="blur-overlay" id="blurOverlay"></div>
-
-        <div class="page">
-            <!-- Sticky Logo -->
-            <a href="index.html">
-                <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    <!-- Social Media Icons (Moved to bottom) -->
+    <div class="social-container">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                <i class="fab fa-instagram"></i>
             </a>
+            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+        <!-- Text under social icons -->
+        <p class="social-text">Show your support by following our socials.</p>
+    </div>
 
-            <!-- Background Video -->
-            <video class="bg-video" autoplay muted loop playsinline>
-                <source src="bgffm.mp4" type="video/mp4">
-                <source src="bgffm.webm" type="video/webm">
-                Your browser does not support background video.
-            </video>
+    <!-- Countdown Timer -->
+    <div class="countdown" id="countdown">
+        Days until drop: <span id="days">00</span>
+        <i class="fas fa-hourglass hourglass"></i> <!-- Hourglass icon with animation -->
+    </div>
 
-            <!-- Overlay to darken the video -->
-            <div class="overlay"></div>
+    <!-- Copyright Text -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+    </div>
 
-            <!-- Main Content -->
-            <div class="container">
-                <!-- Middle Logo (3D Logo with auto-rotation) -->
-                <model-viewer 
-                    src="3Dlogo2.glb" 
-                    alt="Fabrevoie 3D Logo" 
-                    class="logo"
-                    auto-rotate
-                    camera-controls
-                    style="width: 400px; height: 400px;"
-                    background-color="transparent"
-                    exposure="1.0"
-                    environment-intensity="1.2"
-                    shadow-intensity="1"
-                    camera-orbit="-10deg 90deg 100%"
-                    loading="eager">
-                </model-viewer>
-                
-                <!-- MailerLite Email Form -->
-                <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
-
-                <!-- Text under the MailerLite form -->
-                <p class="signup-text" id="signupText">Sign up to access the website.</p>
-
-                <!-- Enter Button (Initially hidden, will be shown based on localStorage) -->
-                <a href="homepage.html" id="enterButton" class="enter-button" style="display: none;">
-                    Enter
-                </a>
-            </div>
-
-            <!-- Social Media Icons (Moved to bottom) -->
-            <div class="social-container">
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                </div>
-                <!-- Text under social icons -->
-                <p class="social-text">Show your support by following our socials.</p>
-            </div>
-
-            <!-- Countdown Timer -->
-            <div class="countdown" id="countdown">
-                Days until drop: <span id="days">00</span>
-                <i class="fas fa-hourglass hourglass"></i> <!-- Hourglass icon with animation -->
-            </div>
-
-            <!-- Copyright Text -->
-            <div class="copyright">
-                &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-                <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-            </div>
-
-            <!-- Cookie Consent Banner -->
-            <div id="cookieBanner" class="cookie-banner">
-                <div class="cookie-text">
-                    This site uses cookies to provide you with a better experience.&nbsp;
-                    <a href="/privacy-policy" target="_blank" style="color: #9ED9B5; text-decoration: underline;">Learn more</a>.
-                </div>
-                <div class="cookie-buttons">
-                    <button onclick="acceptCookies()">Accept</button>
-                    <button onclick="closeCookieBanner()">Decline</button>
-                </div>
-            </div>
-
-            <!-- Audio Element for signup confirmation only -->
-            <audio id="accessSound" src="access-granted.mp3"></audio>
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-text">
+            This site uses cookies to provide you with a better experience.&nbsp;
+            <a href="/privacy-policy" target="_blank" style="color: #9ED9B5; text-decoration: underline;">Learn more</a>.
+        </div>
+        <div class="cookie-buttons">
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="closeCookieBanner()">Decline</button>
         </div>
     </div>
 
@@ -476,13 +415,6 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
 
-        // Play access granted sound after signup
-        document.addEventListener('ml-subscribe', function(event) {
-            if (event.detail.success) {
-                document.getElementById('accessSound').play();
-            }
-        });
-
         // Function to show Enter button and hide signup form
         function showEnterButton() {
             const enterButton = document.getElementById('enterButton');
@@ -493,22 +425,6 @@
                 enterButton.style.display = 'block';
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none'; // Hide the text
-            }
-        }
-
-        // Apply blur effect for page transitions - simplified
-        function applyBlurEffect() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            if (blurOverlay) {
-                blurOverlay.classList.add('blur-active');
-            }
-        }
-
-        // Remove blur effect
-        function removeBlurEffect() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            if (blurOverlay) {
-                blurOverlay.classList.remove('blur-active');
             }
         }
 
@@ -543,13 +459,6 @@
                     document.body.style.backgroundColor = "#000000";
                 });
             }
-
-            // Apply blur effect only on first load
-            if (!sessionStorage.getItem('firstLoad')) {
-                applyBlurEffect();
-                sessionStorage.setItem('firstLoad', 'true');
-                setTimeout(removeBlurEffect, 1000); // Remove blur effect after 1 second
-            }
         });
 
         // Handle form submission
@@ -582,46 +491,6 @@
                 });
             }
         }
-
-        // Simplified page transition logic with only blur effect
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('a');
-            links.forEach(link => {
-                if (link.hostname === window.location.hostname || link.hostname === '') {
-                    link.addEventListener('click', function(e) {
-                        const href = link.getAttribute('href');
-                        if (href && href.endsWith('.html')) {
-                            e.preventDefault();
-                            
-                            // Apply blur effect
-                            applyBlurEffect();
-                            
-                            // Navigate to the new page after a short delay
-                            setTimeout(() => {
-                                window.location.href = href;
-                            }, 500);
-                        }
-                    });
-                }
-            });
-        });
-
-        // Loading progress for the 3D model
-        const loadingBar = document.getElementById('loadingBar');
-        const loadingText = document.getElementById('loadingText');
-
-        const modelViewer = document.querySelector('model-viewer');
-        modelViewer.addEventListener('progress', (event) => {
-            const progress = event.detail.totalProgress * 100;
-            loadingBar.style.width = `${progress}%`;
-            loadingText.textContent = `Loading... ${Math.round(progress)}%`;
-        });
-
-        modelViewer.addEventListener('load', () => {
-            // Hide loading screen and show main content
-            document.querySelector('.loading-screen').style.display = 'none';
-            document.querySelector('.main-content').style.display = 'block';
-        });
     </script>
 </body>
 </html>
