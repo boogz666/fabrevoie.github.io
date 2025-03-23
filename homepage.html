@@ -41,22 +41,15 @@
             background-color: #000; /* Fallback background */
         }
 
-        /* Background video styling */
-        .bg-video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -2; /* Ensure it's behind everything */
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            object-position: center;
+        /* Background image styling */
+        body {
+            background-image: url('page bckgrnd.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* Overlay to darken the video */
+        /* Overlay to darken the background */
         .overlay {
             position: fixed;
             top: 0;
@@ -64,7 +57,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
-            z-index: -1; /* Ensure it's above the video but behind other content */
+            z-index: -1; /* Ensure it's behind other content */
         }
 
         /* Sticky Logo */
@@ -144,14 +137,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="bg-video" autoplay muted loop playsinline onerror="console.error('Video failed to load')">
-        <source src="bckgrnd.mp4" type="video/mp4">
-        <source src="bckgrnd.webm" type="video/webm">
-        Your browser does not support background video.
-    </video>
-
-    <!-- Overlay to darken the video -->
+    <!-- Overlay to darken the background -->
     <div class="overlay"></div>
 
     <!-- Sticky Logo -->
