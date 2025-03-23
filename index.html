@@ -519,6 +519,13 @@
                     document.body.style.backgroundColor = "#000000";
                 });
             }
+
+            // Apply blur effect only on first load
+            if (!sessionStorage.getItem('firstLoad')) {
+                applyBlurEffect();
+                sessionStorage.setItem('firstLoad', 'true');
+                setTimeout(removeBlurEffect, 1000); // Remove blur effect after 1 second
+            }
         });
 
         // Handle form submission
