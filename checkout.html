@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrevoie - Checkout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .checkout-container {
+            max-width: 600px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-element {
+            border: 1px solid #9ED9B5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        #payment-button {
+            background: #9ED9B5;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+    </style>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="checkout-container">
+        <h1>Secure Checkout</h1>
+        <div id="card-element" class="card-element"></div>
+        <button id="payment-button">Pay $199</button>
+        <div id="payment-status" style="margin-top: 15px;"></div>
+    </div>
+
+    <script>
+        const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        document.getElementById('payment-button').addEventListener('click', async () => {
+            const { error, paymentIntent } = await stripe.confirmCardPayment(
+                'CLIENT_SECRET_FROM_YOUR_SERVER',
+                {
+                    payment_method: {
+                        card: cardElement
+                    }
+                }
+            );
+
+            if (error) {
+                document.getElementById('payment-status').textContent = error.message;
+            } else if (paymentIntent.status === 'succeeded') {
+                window.location.href = '/order-confirmation';
+            }
+        });
+    </script>
+</body>
+</html>
