@@ -8,6 +8,9 @@
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
     <!-- Keep all favicon links from index.html -->
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         /* Base Styles */
@@ -16,7 +19,7 @@
             padding: 0;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             color: #333;
             background: #f9f9f9;
         }
@@ -64,7 +67,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f9f9f9;
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -74,9 +77,8 @@
 
         .ufo-container {
             position: relative;
-            width: 100px;
-            height: 100px;
-            margin-bottom: 30px;
+            width: 100vw;
+            height: 100vh;
         }
 
         .ufo {
@@ -85,66 +87,69 @@
             background: #9ED9B5;
             border-radius: 10px;
             position: absolute;
-            animation: ufoCrash 2s forwards;
+            left: 20%;
+            animation: ufoEntry 2s ease-out forwards;
         }
 
         .earth {
             position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
+            bottom: 40%;
+            left: 60%;
+            width: 50px;
+            height: 50px;
             background: #7BC097;
             border-radius: 50%;
-            animation: earthBreak 1s 2s forwards;
+            animation: earthGlow 2s infinite;
         }
 
-        @keyframes ufoCrash {
-            0% { transform: translateY(-100vh) rotate(0deg); }
-            70% { transform: translateY(40vh) rotate(180deg); }
-            100% { transform: translateY(70vh) rotate(360deg); }
+        @keyframes ufoEntry {
+            0% { transform: translate(-100px, -100px) scale(0); opacity: 0; }
+            30% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(200px, 200px) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes earthBreak {
-            100% { transform: translateX(-50%) scale(0); }
+        @keyframes earthGlow {
+            0%, 100% { box-shadow: 0 0 10px #9ED9B5; }
+            50% { box-shadow: 0 0 20px #9ED9B5; }
         }
 
-        /* 3D Carousel */
-        .carousel-container {
-            position: fixed;
-            top: 100px;
-            height: 60vh;
-            width: 100%;
-            perspective: 1000px;
+        .explosion {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #9ED9B5 0%, transparent 70%);
+            opacity: 0;
+            animation: explode 0.5s 2s forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Product Gallery */
+        .gallery-container {
+            margin-top: 100px;
+            padding: 20px;
             display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .carousel {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            animation: rotate 30s infinite linear;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
+            gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
         }
 
         .product-card {
-            position: absolute;
-            width: 300px;
+            scroll-snap-align: center;
+            min-width: 300px;
             height: 400px;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
             cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
         }
 
         .product-card img {
@@ -159,8 +164,32 @@
             text-align: center;
         }
 
-        /* Checkout Button */
-        .checkout-button {
+        /* Cart System */
+        .cart-icon {
+            position: fixed;
+            top: 50px;
+            right: 30px;
+            z-index: 1000;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #9ED9B5;
+            color: #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-button {
             position: fixed;
             bottom: 50px;
             left: 50%;
@@ -171,13 +200,12 @@
             border: none;
             border-radius: 30px;
             font-weight: 600;
-            font-size: 18px;
             cursor: pointer;
             transition: transform 0.3s ease;
             box-shadow: 0 5px 15px rgba(158, 217, 181, 0.3);
         }
 
-        .checkout-button:hover {
+        .action-button:hover {
             transform: translateX(-50%) scale(1.05);
         }
 
@@ -190,7 +218,7 @@
             height: 100%;
             background: url('shopbg.png') no-repeat center center/cover;
             z-index: -1;
-            opacity: 0.9;
+            opacity: 0.95;
         }
     </style>
 </head>
@@ -200,6 +228,7 @@
         <div class="ufo-container">
             <div class="ufo"></div>
             <div class="earth"></div>
+            <div class="explosion"></div>
         </div>
         <div class="loading-bar-container">
             <div class="loading-bar" style="width: 0%"></div>
@@ -216,29 +245,33 @@
         <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
 
+    <!-- Cart -->
+    <div class="cart-icon" onclick="window.location.href='/checkout'">
+        🛒
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
+
     <!-- Background -->
     <div class="shop-bg"></div>
 
-    <!-- 3D Carousel -->
-    <div class="carousel-container">
-        <div class="carousel">
-            <!-- Product Cards -->
-            <div class="product-card">
-                <img src="product1.jpg" alt="Product 1">
-                <div class="product-info">
-                    <h3>The Future</h3>
-                    <p>Limited Edition</p>
-                </div>
+    <!-- Product Gallery -->
+    <div class="gallery-container">
+        <!-- Product Cards -->
+        <div class="product-card" onclick="addToCart()">
+            <img src="product1.jpg" alt="Product 1">
+            <div class="product-info">
+                <h3>The Future</h3>
+                <p>$199</p>
+                <button class="action-button">ADD TO CART</button>
             </div>
-            <!-- Add 4 more product cards -->
         </div>
+        <!-- Repeat 4 more product cards -->
     </div>
-
-    <!-- Checkout Button -->
-    <button class="checkout-button" onclick="window.location.href='/checkout'">$199 — CLAIM FUTURE</button>
 
     <script>
         // Loading Animation
+        let cartItems = [];
+        
         document.addEventListener('DOMContentLoaded', () => {
             const loadingBar = document.querySelector('.loading-bar');
             let width = 0;
@@ -257,23 +290,16 @@
             }, 50);
         });
 
-        // 3D Carousel Initialization
-        const carousel = document.querySelector('.carousel');
-        const products = document.querySelectorAll('.product-card');
-        const angle = 360 / products.length;
-
-        products.forEach((product, i) => {
-            product.style.transform = `rotateY(${i * angle}deg) translateZ(400px)`;
-        });
-
-        // Pause animation on hover
-        carousel.addEventListener('mouseenter', () => {
-            carousel.style.animationPlayState = 'paused';
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            carousel.style.animationPlayState = 'running';
-        });
+        // Cart System
+        function addToCart() {
+            cartItems.push({});
+            document.getElementById('cartCount').textContent = cartItems.length;
+            const buttons = document.querySelectorAll('.action-button');
+            buttons.forEach(btn => {
+                btn.textContent = `CHECKOUT (${cartItems.length})`;
+                btn.onclick = () => window.location.href = '/checkout';
+            });
+        }
     </script>
 </body>
 </html>
