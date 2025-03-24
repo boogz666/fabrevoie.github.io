@@ -237,8 +237,8 @@
 
     <!-- Background Video -->
     <video id="backgroundVideo" class="bg-video" autoplay muted loop playsinline>
-        <source src="bckgrnd.mp4" type="video/mp4">
-        <source src="bckgrnd.webm" type="video/webm">
+        <source src="bgffm.mp4" type="video/mp4">
+        <source src="bgffm.webm" type="video/webm">
         Your browser does not support the video tag.
     </video>
 
@@ -357,13 +357,25 @@
         
         // Load the texture separately
         const textureLoader = new THREE.TextureLoader();
+        let texture;
         
         textureLoader.load(
             'texture.png',
-            function(texture) {
+            function(loadedTexture) {
+                texture = loadedTexture;
                 textureLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
+                
+                // If model is already loaded, apply the texture
+                if (model) {
+                    model.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.map = texture;
+                            child.material.needsUpdate = true;
+                        }
+                    });
+                }
             },
             function(xhr) {
                 // Texture loading progress
@@ -380,7 +392,7 @@
         );
         
         // Load the levitating box animation
-        let model, mixer, texture;
+        let model, mixer;
         loader.load(
             'box_rotate.glb',
             function(gltf) {
@@ -394,7 +406,7 @@
                     updateLoadingProgress();
                 }
         
-                // Apply the texture to the model
+                // Apply the texture to the model if it's loaded
                 if (texture) {
                     model.traverse((child) => {
                         if (child.isMesh) {
@@ -407,11 +419,11 @@
                 // Add model to scene
                 scene.add(model);
         
-                // Scale the model to make it smaller
-                model.scale.set(4, 4, 4);
+                // Scale the model to make it smaller (reduced from 4,4,4 to 2.5,2.5,2.5)
+                model.scale.set(2.5, 2.5, 2.5);
         
-                // Position camera
-                camera.position.z = 10;
+                // Position camera closer to center the smaller box
+                camera.position.z = 7;
                 camera.lookAt(0, 0, 0);
         
                 // Animation setup
