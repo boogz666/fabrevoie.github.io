@@ -65,6 +65,19 @@
             display: none;
         }
 
+        /* Error message styling */
+        .model-error {
+            display: none;
+            text-align: center;
+            color: #ff6b6b;
+            margin-top: 20px;
+        }
+
+        model-viewer[ar-status="failed"] .model-error,
+        model-viewer[error] .model-error {
+            display: block;
+        }
+
         /* Reset default margin and padding */
         body, html {
             margin: 0;
@@ -227,14 +240,16 @@
         }
 
         /* Middle Logo */
-        .logo {
+        .logo-container {
             width: 400px;
             height: 400px;
             margin-bottom: 20px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            z-index: 10;
+            position: relative;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
         }
 
         /* MailerLite Form Styling */
@@ -459,25 +474,32 @@
 
         <!-- Main Content -->
         <div class="container">
-            <!-- Middle Logo (3D Logo with auto-rotation) -->
-            <model-viewer 
-                id="logoModel"
-                src="3Dlogo5.glb" 
-                alt="Fabrevoie 3D Logo" 
-                class="logo"
-                auto-rotate
-                camera-controls
-                style="width: 400px; height: 400px;"
-                background-color="transparent"
-                exposure="1.0"
-                environment-intensity="1.2"
-                shadow-intensity="1"
-                camera-orbit="-10deg 90deg 100%"
-                loading="eager"
-                tone-mapping="commerce"
-                environment-image="neutral"
-                skybox-image="none">
-            </model-viewer>
+            <!-- Middle Logo Container -->
+            <div class="logo-container">
+                <!-- 3D Logo with auto-rotation and fallback -->
+                <model-viewer 
+                    id="logoModel"
+                    src="3Dlogo5.glb" 
+                    alt="Fabrevoie 3D Logo" 
+                    class="logo"
+                    auto-rotate
+                    camera-controls
+                    exposure="1.0"
+                    shadow-intensity="1"
+                    camera-orbit="-10deg 90deg 100%"
+                    loading="eager"
+                    tone-mapping="commerce">
+                    
+                    <!-- Loading progress bar -->
+                    <div slot="progress-bar" class="loading-bar"></div>
+                    
+                    <!-- Error message slot -->
+                    <div slot="error" class="model-error">
+                        <p>3D logo failed to load</p>
+                        <img src="logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
+                    </div>
+                </model-viewer>
+            </div>
             
             <!-- MailerLite Email Form -->
             <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
@@ -729,6 +751,15 @@
                 // Setup dynamic environment mapping
                 setupDynamicEnvironment();
             });
+            
+            // Add error listener for 3D model
+            const modelViewer = document.getElementById('logoModel');
+            if (modelViewer) {
+                modelViewer.addEventListener('error', (event) => {
+                    console.error('3D model loading error:', event.detail);
+                    // You could add additional error handling here
+                });
+            }
             
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
