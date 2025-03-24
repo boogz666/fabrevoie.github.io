@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrevoie - Coming Soon</title>
+    <meta name="description" content="Fabrevoie - Under Construction. We're making something amazing.">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/placeholder/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Fabrevoie - Coming Soon">
+    <meta property="og:description" content="Fabrevoie - Under Construction. We're making something amazing.">
+    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
+    <meta property="og:url" content="https://fabrevoie.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fabrevoie - Coming Soon">
+    <meta name="twitter:description" content="Fabrevoie - Under Construction. We're making something amazing.">
+    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
+
+    <!-- Model Viewer Script -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Hide the progress bar */
+        model-viewer::part(progress-bar) {
+            display: none;
+        }
+
+        /* Error message styling */
+        .model-error {
+            display: none;
+            text-align: center;
+            color: #ff6b6b;
+            margin-top: 20px;
+        }
+
+        model-viewer[ar-status="failed"] .model-error,
+        model-viewer[error] .model-error {
+            display: block;
+        }
+
+        /* Reset default margin and padding */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+            background-color: #000;
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .loading-bar-container {
+            width: 200px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #9ED9B5;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: #9ED9B5;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .loading-progress {
+            font-size: 12px;
+            color: #888888;
+            margin-top: 5px;
+        }
+
+        /* Additional animation for loading effect */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Page container */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Overlay to darken the background */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        /* Logo Container */
+        .logo-container {
+            width: 400px;
+            height: 400px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Under Construction Text */
+        .construction-text {
+            color: #9ED9B5;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #9ED9B5;
+            font-size: 28px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #7BC097;
+            transform: scale(1.2);
+        }
+
+        /* Social media container */
+        .social-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Social text */
+        .social-text {
+            text-align: center;
+            color: #9ED9B5;
+            font-size: 16px;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Copyright Text */
+        .copyright {
+            position: fixed;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            color: #888888;
+            font-size: 12px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .copyright a {
+            color: #9ED9B5;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="progressBar"></div>
+        </div>
+        <div class="loading-text">LOADING</div>
+        <div class="loading-progress" id="loadingProgress">0%</div>
+    </div>
+
+    <div class="page" id="mainContent">
+        <!-- Overlay to darken the background -->
+        <div class="overlay"></div>
+
+        <!-- Main Content -->
+        <div class="logo-container">
+            <!-- 3D Logo with auto-rotation and fallback -->
+            <model-viewer 
+                id="logoModel"
+                src="3Dlogo5.glb" 
+                alt="Fabrevoie 3D Logo" 
+                class="logo"
+                auto-rotate
+                auto-rotate-delay="0"
+                camera-controls
+                exposure="1.0"
+                shadow-intensity="1"
+                camera-orbit="-10deg 90deg 100%"
+                loading="eager"
+                tone-mapping="commerce">
+                
+                <!-- Loading progress bar -->
+                <div slot="progress-bar" class="loading-bar"></div>
+                
+                <!-- Error message slot -->
+                <div slot="error" class="model-error">
+                    <p>3D logo failed to load</p>
+                    <img src="logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
+                </div>
+            </model-viewer>
+        </div>
+        
+        <!-- Under Construction Text -->
+        <div class="construction-text">
+            Under Construction<br>
+            Coming Soon
+        </div>
+
+        <!-- Social Media Icons -->
+        <div class="social-container">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            <!-- Text under social icons -->
+            <p class="social-text">Follow us for updates</p>
+        </div>
+
+        <!-- Copyright Text -->
+        <div class="copyright">
+            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+    </div>
+
+    <script>
+        // Simplified assets to preload
+        const assetsToLoad = [
+            { type: 'image', url: 'logo-small.png' },
+            { type: '3d', url: '3Dlogo5.glb' }
+        ];
+        
+        let loadedAssets = 0;
+        const totalAssets = assetsToLoad.length;
+        
+        // Update loading progress
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('progressBar');
+            const loadingProgress = document.getElementById('loadingProgress');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+            if (loadingProgress) {
+                loadingProgress.textContent = `${Math.round(progress)}%`;
+            }
+        }
+        
+        // Preload assets
+        function preloadAssets() {
+            return new Promise((resolve) => {
+                if (totalAssets === 0) {
+                    resolve();
+                    return;
+                }
+                
+                assetsToLoad.forEach(asset => {
+                    switch(asset.type) {
+                        case 'image':
+                            const img = new Image();
+                            img.onload = () => assetLoaded();
+                            img.onerror = () => assetLoaded();
+                            img.src = asset.url;
+                            break;
+                            
+                        case '3d':
+                            // For 3D models, we'll simply add a timeout as loading through model-viewer is handled separately
+                            setTimeout(() => assetLoaded(), 1000);
+                            break;
+                            
+                        default:
+                            assetLoaded();
+                    }
+                });
+                
+                function assetLoaded() {
+                    loadedAssets++;
+                    const progress = (loadedAssets / totalAssets) * 100;
+                    updateProgress(progress);
+                    
+                    if (loadedAssets >= totalAssets) {
+                        // Add a slight delay before resolving to ensure UI smoothness
+                        setTimeout(() => resolve(), 500);
+                    }
+                }
+            });
+        }
+        
+        // Show page content
+        function showPageContent() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Fade out loading screen
+            loadingScreen.classList.add('fade-out');
+            
+            // Fade in main content
+            mainContent.style.opacity = '1';
+            
+            // Remove loading screen after animation completes
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+        
+        // Start the loading sequence when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            preloadAssets().then(() => {
+                showPageContent();
+                
+                // Add error listener for 3D model
+                const modelViewer = document.getElementById('logoModel');
+                if (modelViewer) {
+                    modelViewer.addEventListener('error', (event) => {
+                        console.error('3D model loading error:', event.detail);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
