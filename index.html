@@ -429,22 +429,13 @@
 </head>
 <body>
     <!-- Loading Screen -->
-    <div class="loading-container" id="loadingScreen">
-        <div class="loader">
-            <img src="logo-small.png" alt="Fabrevoie Logo" class="loader-logo">
-            <div class="loader-cube">
-                <div class="loader-face"></div>
-                <div class="loader-face"></div>
-                <div class="loader-face"></div>
-                <div class="loader-face"></div>
-                <div class="loader-face"></div>
-                <div class="loader-face"></div>
-            </div>
+    <div id="loading-screen">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="progressBar"></div>
         </div>
         <div class="loading-text">LOADING</div>
-        <div class="loading-progress">
-            <div class="loading-progress-bar" id="progressBar"></div>
-        </div>
+        <div class="loading-progress" id="loadingProgress">0%</div>
     </div>
 
     <!-- Blur Effect Overlay -->
@@ -482,7 +473,10 @@
                 environment-intensity="1.2"
                 shadow-intensity="1"
                 camera-orbit="-10deg 90deg 100%"
-                loading="eager">
+                loading="eager"
+                tone-mapping="commerce"
+                environment-image="bgffm.webm"
+                skybox-image="none">
             </model-viewer>
             
             <!-- MailerLite Email Form -->
@@ -543,7 +537,7 @@
         // Assets to preload
         const assetsToLoad = [
             { type: 'image', url: 'logo-small.png' },
-            { type: '3d', url: '3Dlogo2.glb' },
+            { type: '3d', url: '3Dlogo5.glb' },
             { type: 'video', url: 'bgffm.mp4' },
             { type: 'audio', url: 'access-granted.mp3' }
         ];
@@ -554,8 +548,12 @@
         // Update loading progress
         function updateProgress(progress) {
             const progressBar = document.getElementById('progressBar');
+            const loadingProgress = document.getElementById('loadingProgress');
             if (progressBar) {
                 progressBar.style.width = `${progress}%`;
+            }
+            if (loadingProgress) {
+                loadingProgress.textContent = `${Math.round(progress)}%`;
             }
         }
         
@@ -617,15 +615,52 @@
         
         // Show page content
         function showPageContent() {
-            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('mainContent');
             
             // Fade out loading screen
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.visibility = 'hidden';
+            loadingScreen.classList.add('fade-out');
             
             // Fade in main content
             mainContent.style.opacity = '1';
+            
+            // Remove loading screen after animation completes
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+        
+        // Setup dynamic environment mapping from video to 3D model
+        function setupDynamicEnvironment() {
+            const logoModel = document.getElementById('logoModel');
+            const video = document.getElementById('bgVideo');
+            
+            if (logoModel && video) {
+                // Create a temporary canvas to capture video frames
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 1024;  // Environment map resolution
+                canvas.height = 512;  // Standard equirectangular format (2:1)
+                
+                // Update environment map when video data is available
+                video.addEventListener('playing', function() {
+                    // Check if we should use dynamic environment mapping
+                    if (logoModel.hasAttribute('environment-image') && 
+                        logoModel.getAttribute('environment-image') === 'bgffm.webm') {
+                        // Update environment map periodically
+                        function updateEnvironmentMap() {
+                            if (video.readyState >= 2) {  // Check if video data is available
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                // Convert canvas to data URL and use as environment
+                                logoModel.setAttribute('environment-image', canvas.toDataURL('image/png'));
+                            }
+                            requestAnimationFrame(updateEnvironmentMap);
+                        }
+                        
+                        updateEnvironmentMap();
+                    }
+                });
+            }
         }
         
         // Countdown to August 21 2025
@@ -690,6 +725,9 @@
                         console.log("Video play failed:", error);
                     });
                 }
+                
+                // Setup dynamic environment mapping
+                setupDynamicEnvironment();
             });
             
             const formSubmitted = localStorage.getItem('formSubmitted');
