@@ -38,16 +38,19 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
-            background-color: #121212; /* Dark background */
+            background-color: #121212; /* Fallback background */
         }
 
         /* Background video styling */
         .bg-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
             object-fit: cover;
             z-index: -2;
         }
@@ -59,11 +62,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
-            z-index: -1; /* Ensure it's behind other content */
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
 
-        /* Sticky Logo */
+        /* Rest of your CSS remains the same */
         .sticky-logo {
             position: fixed;
             top: 20px;
@@ -71,7 +74,7 @@
             z-index: 1000;
             width: 50px;
             height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transition: transform 0.3s ease;
         }
 
@@ -79,7 +82,6 @@
             transform: scale(1.1);
         }
 
-        /* Center the animation container */
         #animation-container {
             width: 100vw;
             height: 100vh;
@@ -90,15 +92,14 @@
             overflow: hidden;
         }
         
-        /* Surprise Button Styling */
         .buy-button {
             display: inline-block;
             position: absolute;
-            bottom: 35%; /* Positioned at the bottom quarter */
+            bottom: 35%;
             left: 50%;
             transform: translateX(-50%);
             padding: 12px 24px;
-            background-color: #9ED9B5; /* Pastel green */
+            background-color: #9ED9B5;
             color: #000;
             text-decoration: none;
             font-size: 16px;
@@ -106,18 +107,17 @@
             border-radius: 5px;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
-            text-transform: uppercase; /* All caps */
-            z-index: 1000; /* Ensure it's above the 3D model */
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            text-transform: uppercase;
+            z-index: 1000;
         }
         
         .buy-button:hover {
-            background-color: #7BC097; /* Darker pastel green */
+            background-color: #7BC097;
             transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8); /* Stronger glow on hover */
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8);
         }
 
-        /* Copyright Text */
         .copyright {
             position: fixed;
             bottom: 15px;
@@ -130,7 +130,7 @@
         }
 
         .copyright a {
-            color: #9ED9B5; /* Pastel green */
+            color: #9ED9B5;
             text-decoration: none;
         }
 
@@ -138,7 +138,6 @@
             text-decoration: underline;
         }
 
-        /* Loading Screen Styles */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -158,23 +157,14 @@
             width: 80px;
             height: 80px;
             margin-bottom: 20px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .loading-bar-container {
@@ -189,10 +179,10 @@
         .loading-bar {
             height: 100%;
             width: 0%;
-            background-color: #9ED9B5; /* Pastel green */
+            background-color: #9ED9B5;
             border-radius: 2px;
             transition: width 0.3s ease-out;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
         }
 
         .loading-text {
@@ -210,7 +200,6 @@
             margin-top: 5px;
         }
 
-        /* Additional animation for loading effect */
         .fade-out {
             opacity: 0;
             pointer-events: none;
@@ -260,6 +249,7 @@
         const loadingScreen = document.getElementById('loading-screen');
         const loadingBar = document.getElementById('loading-bar');
         const loadingProgress = document.getElementById('loading-progress');
+        const bgVideo = document.getElementById('bgVideo');
         
         // Initial loading state variables
         let totalAssets = 3; // Total number of assets to load (3D model, texture, video)
@@ -277,27 +267,46 @@
             }, 500);
         }, 10000); // 10 seconds timeout
 
-        // Check if the video is loaded
-        const backgroundVideo = document.getElementById('bgVideo');
-        
-        backgroundVideo.addEventListener('canplaythrough', function() {
-            console.log('Video loaded');
+        // Video loading handler
+        function handleVideoLoad() {
             if (!videoLoaded) {
+                console.log('Video loaded and playing');
                 videoLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
             }
-        });
+        }
 
-        backgroundVideo.addEventListener('error', function() {
+        // Set up video event listeners
+        bgVideo.addEventListener('loadeddata', handleVideoLoad);
+        bgVideo.addEventListener('canplay', handleVideoLoad);
+        bgVideo.addEventListener('canplaythrough', handleVideoLoad);
+        bgVideo.addEventListener('playing', handleVideoLoad);
+        
+        bgVideo.addEventListener('error', function() {
             console.error('Error loading video');
-            videoLoaded = true; // Mark as loaded even if there's an error
+            videoLoaded = true;
             loadedAssets++;
             updateLoadingProgress();
         });
-        
-        // Start loading the video programmatically (helps with autoplay policies)
-        backgroundVideo.load();
+
+        // Attempt to play the video (helps with some browser autoplay policies)
+        function attemptVideoPlay() {
+            const promise = bgVideo.play();
+            
+            if (promise !== undefined) {
+                promise.then(() => {
+                    console.log('Video autoplay started successfully');
+                }).catch(error => {
+                    console.log('Autoplay prevented, showing fallback:', error);
+                    // Show play button or handle as needed
+                });
+            }
+        }
+
+        // Start loading the video
+        bgVideo.load();
+        attemptVideoPlay();
         
         // Function to update loading progress
         function updateLoadingProgress() {
@@ -306,7 +315,7 @@
             loadingProgress.textContent = progressPercentage + '%';
             
             if (progressPercentage >= 100) {
-                clearTimeout(loadingTimeout); // Clear the timeout
+                clearTimeout(loadingTimeout);
                 setTimeout(function() {
                     loadingScreen.classList.add('fade-out');
                     setTimeout(function() {
@@ -316,25 +325,20 @@
             }
         }
         
-        // Set up Three.js scene
+        // Three.js setup and other code remains the same...
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        // Create renderer with transparent background
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setClearColor(0x000000, 0);
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.0;
         
-        // Get animation container
         const animationContainer = document.getElementById('animation-container');
-        
-        // Set renderer size to match the container size
         renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         animationContainer.appendChild(renderer.domElement);
         
-        // Add lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         
@@ -342,18 +346,14 @@
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
         
-        // Set initial camera position
         camera.position.z = 5;
         
-        // Set up DRACOLoader
         const dracoLoader = new THREE.DRACOLoader();
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
         
-        // Set up GLTFLoader with DRACOLoader
         const loader = new THREE.GLTFLoader();
         loader.setDRACOLoader(dracoLoader);
         
-        // Load the texture separately
         const textureLoader = new THREE.TextureLoader();
         let texture;
         
@@ -365,7 +365,6 @@
                 loadedAssets++;
                 updateLoadingProgress();
                 
-                // If model is already loaded, apply the texture
                 if (model) {
                     model.traverse((child) => {
                         if (child.isMesh) {
@@ -376,20 +375,18 @@
                 }
             },
             function(xhr) {
-                // Texture loading progress
                 const progressPercentage = Math.floor((xhr.loaded / xhr.total) * 100 / 3);
                 loadingBar.style.width = progressPercentage + '%';
                 loadingProgress.textContent = progressPercentage + '%';
             },
             function(error) {
                 console.error('Error loading texture:', error);
-                textureLoaded = true; // Mark as loaded even if there's an error
+                textureLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
             }
         );
         
-        // Load the levitating box animation
         let model, mixer;
         loader.load(
             'box_rotate.glb',
@@ -397,14 +394,12 @@
                 model = gltf.scene;
                 console.log("Model loaded:", model);
                 
-                // Mark model as loaded
                 if (!modelLoaded) {
                     modelLoaded = true;
                     loadedAssets++;
                     updateLoadingProgress();
                 }
         
-                // Apply the texture to the model if it's loaded
                 if (texture) {
                     model.traverse((child) => {
                         if (child.isMesh) {
@@ -414,17 +409,11 @@
                     });
                 }
         
-                // Add model to scene
                 scene.add(model);
-        
-                // Scale the model to make it smaller (reduced from 4,4,4 to 2.5,2.5,2.5)
                 model.scale.set(2.5, 2.5, 2.5);
-        
-                // Position camera closer to center the smaller box
                 camera.position.z = 7;
                 camera.lookAt(0, 0, 0);
         
-                // Animation setup
                 if (gltf.animations.length > 0) {
                     mixer = new THREE.AnimationMixer(model);
                     const action = mixer.clipAction(gltf.animations[0]);
@@ -432,7 +421,6 @@
                 }
             },
             function(xhr) {
-                // Model loading progress
                 if (xhr.lengthComputable) {
                     const progressPercentage = Math.floor((xhr.loaded / xhr.total) * 100 / 3);
                     loadingBar.style.width = progressPercentage + '%';
@@ -441,30 +429,25 @@
             },
             function(error) {
                 console.error('Error loading model:', error);
-                modelLoaded = true; // Mark as loaded even if there's an error
+                modelLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
             }
         );
         
-        // Animation loop
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
         
-            // Update mixer for animations
             if (mixer) {
                 mixer.update(clock.getDelta());
             }
         
-            // Render scene
             renderer.render(scene, camera);
         }
         
-        // Start animation loop
         animate();
         
-        // Handle window resize
         window.addEventListener('resize', function() {
             camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
             camera.updateProjectionMatrix();
