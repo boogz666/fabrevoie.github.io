@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'">
     <title>Fabrevoie - Homepage</title>
     
     <!-- Favicon -->
@@ -26,11 +28,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome for Social Media Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* Reset default margin and padding */
         body, html {
             margin: 0;
             padding: 0;
@@ -38,10 +39,9 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
-            background-color: #121212; /* Fallback background */
+            background-color: #121212;
         }
 
-        /* Background video styling */
         .bg-video {
             position: fixed;
             top: 50%;
@@ -55,7 +55,6 @@
             z-index: -2;
         }
 
-        /* Overlay to darken the background */
         .overlay {
             position: fixed;
             top: 0;
@@ -66,7 +65,6 @@
             z-index: -1;
         }
 
-        /* Rest of your CSS remains the same */
         .sticky-logo {
             position: fixed;
             top: 20px;
@@ -223,10 +221,11 @@
     <!-- Background Video -->
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="bgffm.mp4" type="video/mp4">
+        <source src="bgffm2.mp4" type="video/mp4">
         Your browser does not support background video.
     </video>
 
-    <!-- Overlay to darken the background -->
+    <!-- Overlay -->
     <div class="overlay"></div>
 
     <!-- Sticky Logo -->
@@ -238,10 +237,10 @@
     <div id="animation-container"></div>
     <a href="shop.html" class="buy-button">SURPRISE</a>
 
-    <!-- Copyright Text -->
+    <!-- Copyright -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. |
-        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
     </div>
 
     <script>
@@ -251,8 +250,8 @@
         const loadingProgress = document.getElementById('loading-progress');
         const bgVideo = document.getElementById('bgVideo');
         
-        // Initial loading state variables
-        let totalAssets = 3; // Total number of assets to load (3D model, texture, video)
+        // Initial loading state
+        let totalAssets = 3;
         let loadedAssets = 0;
         let modelLoaded = false;
         let textureLoaded = false;
@@ -260,17 +259,28 @@
         
         // Timeout fallback
         const loadingTimeout = setTimeout(function() {
-            console.warn('Loading timeout reached. Proceeding to the page.');
             loadingScreen.classList.add('fade-out');
             setTimeout(function() {
                 loadingScreen.style.display = 'none';
             }, 500);
-        }, 10000); // 10 seconds timeout
+        }, 10000);
 
         // Video loading handler
         function handleVideoLoad() {
             if (!videoLoaded) {
-                console.log('Video loaded and playing');
+                videoLoaded = true;
+                loadedAssets++;
+                updateLoadingProgress();
+            }
+        }
+
+        // Video error handler
+        function handleVideoError() {
+            const sources = bgVideo.querySelectorAll('source');
+            if (sources.length > 1 && bgVideo.src !== sources[1].src) {
+                bgVideo.src = sources[1].src;
+                bgVideo.load();
+            } else {
                 videoLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
@@ -278,37 +288,24 @@
         }
 
         // Set up video event listeners
-        bgVideo.addEventListener('loadeddata', handleVideoLoad);
-        bgVideo.addEventListener('canplay', handleVideoLoad);
         bgVideo.addEventListener('canplaythrough', handleVideoLoad);
-        bgVideo.addEventListener('playing', handleVideoLoad);
-        
-        bgVideo.addEventListener('error', function() {
-            console.error('Error loading video');
-            videoLoaded = true;
-            loadedAssets++;
-            updateLoadingProgress();
-        });
+        bgVideo.addEventListener('error', handleVideoError);
 
-        // Attempt to play the video (helps with some browser autoplay policies)
+        // Attempt to play video
         function attemptVideoPlay() {
             const promise = bgVideo.play();
-            
             if (promise !== undefined) {
-                promise.then(() => {
-                    console.log('Video autoplay started successfully');
-                }).catch(error => {
-                    console.log('Autoplay prevented, showing fallback:', error);
-                    // Show play button or handle as needed
+                promise.catch(error => {
+                    console.log('Autoplay prevented:', error);
                 });
             }
         }
 
-        // Start loading the video
+        // Start loading
         bgVideo.load();
         attemptVideoPlay();
         
-        // Function to update loading progress
+        // Update loading progress
         function updateLoadingProgress() {
             const progressPercentage = Math.floor((loadedAssets / totalAssets) * 100);
             loadingBar.style.width = progressPercentage + '%';
@@ -324,8 +321,8 @@
                 }, 500);
             }
         }
-        
-        // Three.js setup and other code remains the same...
+
+        // Three.js setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         
@@ -339,6 +336,7 @@
         renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
         animationContainer.appendChild(renderer.domElement);
         
+        // Lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         
@@ -348,6 +346,7 @@
         
         camera.position.z = 5;
         
+        // Model loading
         const dracoLoader = new THREE.DRACOLoader();
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
         
@@ -380,7 +379,6 @@
                 loadingProgress.textContent = progressPercentage + '%';
             },
             function(error) {
-                console.error('Error loading texture:', error);
                 textureLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
@@ -392,7 +390,6 @@
             'box_rotate.glb',
             function(gltf) {
                 model = gltf.scene;
-                console.log("Model loaded:", model);
                 
                 if (!modelLoaded) {
                     modelLoaded = true;
@@ -428,13 +425,13 @@
                 }
             },
             function(error) {
-                console.error('Error loading model:', error);
                 modelLoaded = true;
                 loadedAssets++;
                 updateLoadingProgress();
             }
         );
         
+        // Animation loop
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
@@ -448,6 +445,7 @@
         
         animate();
         
+        // Handle resize
         window.addEventListener('resize', function() {
             camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
             camera.updateProjectionMatrix();
