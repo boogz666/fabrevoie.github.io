@@ -41,12 +41,15 @@
             background-color: #121212; /* Dark background */
         }
 
-        /* Background styling - Keep the same as your index page */
-        body {
-            background-image: url('page bckgrnd.png'); /* Your original background */
-            background-size: cover;
-            background-repeat: repeat;
-            background-attachment: fixed;
+        /* Background video styling */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
 
         /* Overlay to darken the background */
@@ -231,7 +234,6 @@
     <!-- Background Video -->
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="bgffm.mp4" type="video/mp4">
-        <source src="bgffm.webm" type="video/webm">
         Your browser does not support background video.
     </video>
 
@@ -276,7 +278,7 @@
         }, 10000); // 10 seconds timeout
 
         // Check if the video is loaded
-        const backgroundVideo = document.getElementById('backgroundVideo');
+        const backgroundVideo = document.getElementById('bgVideo');
         
         backgroundVideo.addEventListener('canplaythrough', function() {
             console.log('Video loaded');
@@ -293,6 +295,9 @@
             loadedAssets++;
             updateLoadingProgress();
         });
+        
+        // Start loading the video programmatically (helps with autoplay policies)
+        backgroundVideo.load();
         
         // Function to update loading progress
         function updateLoadingProgress() {
