@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSP with nonce (remove PHP if not using server-side) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net 'nonce-3d2b1c4f5e6a7b8c'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com 'nonce-3d2b1c4f5e6a7b8c'; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'">
     <title>Fabrevoie - Homepage</title>
     
     <!-- Favicon -->
@@ -31,8 +29,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- All CSS with nonce -->
-    <style nonce="3d2b1c4f5e6a7b8c">
+    <style>
         body, html {
             margin: 0;
             padding: 0;
@@ -204,6 +201,9 @@
             pointer-events: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -240,13 +240,7 @@
         <a href="privacy-policy.html">Privacy Policy</a>
     </div>
 
-    <!-- External scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
-    
-    <!-- All JavaScript with nonce -->
-    <script nonce="3d2b1c4f5e6a7b8c">
+    <script>
         // Loading screen management
         const loadingScreen = document.getElementById('loading-screen');
         const loadingBar = document.getElementById('loading-bar');
