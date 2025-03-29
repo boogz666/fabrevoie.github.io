@@ -18,27 +18,17 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            background: url('page bckgrnd.png') no-repeat center center fixed;
+            background-size: cover;
         }
         
-        .background-video {
+        .background-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             z-index: -1;
         }
         
@@ -50,7 +40,7 @@
         }
         
         .checkout-container {
-            max-width: 500px;
+            max-width: 900px;
             margin: 40px auto 80px;
             background: white;
             padding: 40px;
@@ -58,47 +48,77 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
         }
         
-        .product-details {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #f0f0f0;
+        .product-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .payment-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-image-container {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
         .product-image {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: auto;
+            display: block;
             background: var(--pastel-green-light);
-            border-radius: 15px;
-            margin-right: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .product-image svg {
-            width: 50px;
-            height: 50px;
-            color: var(--pastel-green-dark);
+            aspect-ratio: 4/3;
+            object-fit: cover;
         }
         
         .product-info {
-            flex: 1;
+            margin-bottom: 25px;
         }
         
         .product-name {
             font-weight: 600;
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
         
         .product-price {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 600;
             color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .shipping-banner {
+            background: var(--pastel-green-light);
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .shipping-banner svg {
+            margin-right: 12px;
+            color: var(--pastel-green-dark);
+        }
+        
+        .shipping-text {
+            font-weight: 600;
         }
         
         h1 {
@@ -179,7 +199,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -196,7 +216,7 @@
         .ufo-scene {
             position: relative;
             width: 200px;
-            height: 300px;
+            height: 200px;
         }
         
         .ufo {
@@ -205,7 +225,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 40px;
+            height: 30px;
             background: var(--pastel-green);
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
@@ -223,57 +243,40 @@
             border-radius: 50% 50% 0 0;
         }
         
+        .ufo-beam {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 0;
+            background: var(--pastel-green);
+            opacity: 0.7;
+            animation: beam 2s forwards;
+        }
+        
         .earth {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 160px;
-            height: 160px;
-            background: #AED9E0;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             overflow: hidden;
-        }
-        
-        .continent {
-            position: absolute;
-            background: #8FBC8F;
-        }
-        
-        .continent:nth-child(1) {
-            top: 30px;
-            left: 20px;
-            width: 50px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
-        .continent:nth-child(2) {
-            top: 70px;
-            right: 25px;
-            width: 60px;
-            height: 30px;
-            border-radius: 50%;
-        }
-        
-        .continent:nth-child(3) {
-            bottom: 40px;
-            left: 30px;
-            width: 40px;
-            height: 30px;
-            border-radius: 40%;
+            border: 2px solid var(--pastel-green);
         }
         
         .explosion {
             position: absolute;
-            top: 65px;
+            bottom: 60px;
             left: 50%;
             transform: translateX(-50%) scale(0);
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 165, 0, 0.8);
+            width: 60px;
+            height: 60px;
+            background: var(--pastel-green);
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 165, 0, 0.8);
+            box-shadow: 0 0 30px var(--pastel-green);
             opacity: 0;
             animation: explode 0.5s 1.5s forwards;
         }
@@ -288,25 +291,25 @@
         }
         
         .debris:nth-child(1) {
-            top: 70px;
+            bottom: 90px;
             left: 70px;
             animation: debris 1s 1.8s forwards;
         }
         
         .debris:nth-child(2) {
-            top: 75px;
+            bottom: 100px;
             left: 120px;
             animation: debris 1.2s 1.85s forwards;
         }
         
         .debris:nth-child(3) {
-            top: 85px;
+            bottom: 85px;
             left: 90px;
             animation: debris 0.9s 1.9s forwards;
         }
         
         .debris:nth-child(4) {
-            top: 65px;
+            bottom: 110px;
             left: 100px;
             animation: debris 1.1s 1.95s forwards;
         }
@@ -314,7 +317,7 @@
         .loading-text {
             margin-top: 30px;
             font-size: 18px;
-            color: var(--pastel-green-dark);
+            color: var(--pastel-green);
             font-weight: 600;
         }
         
@@ -323,11 +326,30 @@
                 top: 0;
             }
             80% {
-                top: 150px;
+                top: 100px;
                 opacity: 1;
             }
             100% {
-                top: 150px;
+                top: 100px;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes beam {
+            0% {
+                height: 0;
+                opacity: 0;
+            }
+            30% {
+                height: 50px;
+                opacity: 0.7;
+            }
+            70% {
+                height: 50px;
+                opacity: 0.7;
+            }
+            100% {
+                height: 0;
                 opacity: 0;
             }
         }
@@ -356,31 +378,40 @@
                 opacity: 1;
             }
             100% {
-                transform: translate(random(80) - 40px, random(80) - 40px);
+                transform: translate(calc(random(80) - 40px), calc(random(80) - 40px));
                 opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 30px;
+                margin: 20px;
+            }
+            
+            .product-name {
+                font-size: 20px;
+            }
+            
+            .product-price {
+                font-size: 24px;
             }
         }
     </style>
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="background-video" autoplay loop muted playsinline>
-        <source src="bgff.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
     
     <!-- Loading Animation -->
     <div class="loader-container" id="loader">
         <div class="ufo-scene">
-            <div class="earth">
-                <div class="continent"></div>
-                <div class="continent"></div>
-                <div class="continent"></div>
-            </div>
             <div class="ufo">
                 <div class="ufo-dome"></div>
+                <div class="ufo-beam"></div>
             </div>
+            <div class="earth"></div>
             <div class="explosion"></div>
             <div class="debris"></div>
             <div class="debris"></div>
@@ -393,35 +424,50 @@
     <div class="logo">Fabrevoie</div>
     
     <div class="checkout-container">
-        <h1>Complete Your Purchase</h1>
-        
-        <div class="product-details">
-            <div class="product-image">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
+        <!-- Product Section -->
+        <div class="product-section">
+            <div class="product-image-container">
+                <img src="/api/placeholder/400/300" alt="Product Image" class="product-image">
             </div>
+            
             <div class="product-info">
                 <div class="product-name">Premium Package</div>
                 <div class="product-price">$199.00</div>
+                <div class="product-description">
+                    Experience our premium offering with all features included. Get unlimited access to our entire platform with priority support.
+                </div>
+            </div>
+            
+            <div class="shipping-banner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+                <span class="shipping-text">Free Shipping Worldwide</span>
             </div>
         </div>
         
-        <div class="form-group">
-            <label class="form-label" for="card-element">Card Details</label>
-            <div id="card-element" class="card-element"></div>
-        </div>
-        
-        <button id="payment-button">Complete Payment</button>
-        <div id="payment-status" style="margin-top: 15px; color: #e74c3c; font-size: 14px;"></div>
-        
-        <div class="secure-badge">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            Secure Checkout - Payments Encrypted
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <h1>Complete Your Purchase</h1>
+            
+            <div class="form-group">
+                <label class="form-label" for="card-element">Card Details</label>
+                <div id="card-element" class="card-element"></div>
+            </div>
+            
+            <button id="payment-button">Complete Payment</button>
+            <div id="payment-status" style="margin-top: 15px; color: #e74c3c; font-size: 14px;"></div>
+            
+            <div class="secure-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Secure Checkout - Payments Encrypted
+            </div>
         </div>
     </div>
     
