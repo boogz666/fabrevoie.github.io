@@ -3,277 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabrevoie - Homepage</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
+    <title>Video Test</title>
     <style>
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             color: white;
-            background-color: #121212;
+            font-family: Arial, sans-serif;
         }
         
-        /* Video Background */
-        #video-background {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -100;
-            background-size: cover;
-        }
-        
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
+        #video {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -99;
+            height: 100%;
+            object-fit: cover;
         }
         
-        /* Logo */
-        .logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: 50px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            transition: transform 0.3s ease;
-        }
-        
-        .logo:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Button */
-        .cta-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 12px 24px;
-            background-color: #9ED9B5;
-            color: #000;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-align: center;
-            text-transform: uppercase;
-        }
-        
-        .cta-button:hover {
-            background-color: #7BC097;
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-        
-        /* Copyright */
-        .copyright {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            color: #888888;
-            font-size: 12px;
-        }
-        
-        .copyright a {
-            color: #9ED9B5;
-            text-decoration: none;
-        }
-        
-        .copyright a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Debug info */
-        #debug-info {
+        .status {
             position: fixed;
             top: 10px;
             right: 10px;
-            background-color: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.7);
             padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 2000;
+            z-index: 1000;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+        
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background: #9ED9B5;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- Debug info panel -->
-    <div id="debug-info">
-        Video status: <span id="video-status">Loading...</span>
-    </div>
+    <div class="status" id="status">Status: Loading...</div>
     
-    <!-- Background Video -->
-    <video id="video-background" autoplay muted loop playsinline poster="poster.jpg">
+    <!-- Video with no positioning tricks -->
+    <video id="video" controls muted>
         <source src="bgffm.mp4" type="video/mp4">
         <source src="bgffm.webm" type="video/webm">
-        Your browser does not support the video tag.
+        Video not supported
     </video>
     
-    <!-- Overlay -->
-    <div class="overlay"></div>
-    
-    <!-- Logo -->
-    <a href="index.html">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="logo">
-    </a>
-    
-    <!-- Call to Action Button -->
-    <a href="shop.html" class="cta-button">SURPRISE</a>
-    
-    <!-- Copyright -->
-    <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. |
-        <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="controls">
+        <button id="play-btn">Play</button>
+        <button id="pause-btn">Pause</button>
+        <button id="debug-btn">Show Video Info</button>
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video-background');
-            const statusElement = document.getElementById('video-status');
-            
-            // Preload the video
-            video.load();
-            
-            // Video event logging
-            video.addEventListener('loadstart', () => {
-                console.log('Video: loadstart');
-                updateStatus('Loading started');
-            });
-            
-            video.addEventListener('loadeddata', () => {
-                console.log('Video: loadeddata');
-                updateStatus('Data loaded');
-            });
-            
-            video.addEventListener('loadedmetadata', () => {
-                console.log('Video: loadedmetadata');
-                updateStatus('Metadata loaded');
-            });
-            
-            video.addEventListener('canplay', () => {
-                console.log('Video: canplay');
-                updateStatus('Can play');
-                tryPlay();
-            });
-            
-            video.addEventListener('canplaythrough', () => {
-                console.log('Video: canplaythrough');
-                updateStatus('Can play through');
-                tryPlay();
-            });
-            
-            video.addEventListener('playing', () => {
-                console.log('Video: playing');
-                updateStatus('Playing');
-            });
-            
-            video.addEventListener('pause', () => {
-                console.log('Video: paused');
-                updateStatus('Paused');
-            });
-            
-            video.addEventListener('error', (e) => {
-                const errorTypes = [
-                    'MEDIA_ERR_ABORTED',
-                    'MEDIA_ERR_NETWORK',
-                    'MEDIA_ERR_DECODE',
-                    'MEDIA_ERR_SRC_NOT_SUPPORTED'
-                ];
-                
-                let errorMessage = 'Unknown error';
-                if (video.error) {
-                    errorMessage = errorTypes[video.error.code - 1] || 'Unknown error';
-                    console.error('Video error:', errorMessage, video.error);
-                }
-                
-                updateStatus('Error: ' + errorMessage);
-            });
-            
-            // Try to play the video
-            function tryPlay() {
-                console.log('Attempting to play video');
-                const playPromise = video.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            console.log('Video playing successfully');
-                        })
-                        .catch(error => {
-                            console.error('Autoplay prevented:', error);
-                            updateStatus('Autoplay prevented - click page to play');
-                            
-                            // Add click handler for user interaction
-                            document.body.addEventListener('click', function bodyClick() {
-                                video.play()
-                                    .then(() => {
-                                        console.log('Video playing after user interaction');
-                                        updateStatus('Playing (user initiated)');
-                                        document.body.removeEventListener('click', bodyClick);
-                                    })
-                                    .catch(err => {
-                                        console.error('Still cannot play video:', err);
-                                        updateStatus('Still cannot play - check console');
-                                    });
-                            });
-                        });
-                }
-            }
-            
-            // Update status display
-            function updateStatus(message) {
-                statusElement.textContent = message;
-            }
-            
-            // Log video source for debugging
-            function logVideoSources() {
-                const sources = video.getElementsByTagName('source');
-                console.log('Video sources:');
-                for (let i = 0; i < sources.length; i++) {
-                    console.log(`Source ${i+1}: ${sources[i].src} (${sources[i].type})`);
-                    
-                    // Test if file exists
-                    fetch(sources[i].src)
-                        .then(response => {
-                            if (response.ok) {
-                                console.log(`Source ${i+1} exists and is accessible`);
-                            } else {
-                                console.error(`Source ${i+1} returned status: ${response.status}`);
-                            }
-                        })
-                        .catch(error => {
-                            console.error(`Source ${i+1} error:`, error);
-                        });
-                }
-            }
-            
-            // Log source info
-            logVideoSources();
-            
-            // Fallback if everything fails
-            setTimeout(() => {
-                if (video.paused) {
-                    console.log('Video still paused after timeout, trying again');
-                    tryPlay();
-                }
-            }, 2000);
+        const video = document.getElementById('video');
+        const status = document.getElementById('status');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const debugBtn = document.getElementById('debug-btn');
+        
+        // Display video status
+        video.addEventListener('loadstart', () => updateStatus('Loading started'));
+        video.addEventListener('loadedmetadata', () => {
+            updateStatus('Metadata loaded - Size: ' + video.videoWidth + 'x' + video.videoHeight);
         });
+        video.addEventListener('canplay', () => updateStatus('Can play'));
+        video.addEventListener('playing', () => updateStatus('Playing'));
+        video.addEventListener('pause', () => updateStatus('Paused'));
+        video.addEventListener('error', () => {
+            updateStatus('Error: ' + (video.error ? video.error.code : 'unknown'));
+        });
+        
+        function updateStatus(msg) {
+            status.textContent = 'Status: ' + msg;
+            console.log('Video: ' + msg);
+        }
+        
+        // Button controls
+        playBtn.addEventListener('click', () => video.play());
+        pauseBtn.addEventListener('click', () => video.pause());
+        
+        // Debug info
+        debugBtn.addEventListener('click', () => {
+            const info = {
+                'Video dimensions': video.videoWidth + 'x' + video.videoHeight,
+                'Duration': video.duration + ' seconds',
+                'Current time': video.currentTime,
+                'Network state': video.networkState,
+                'Ready state': video.readyState,
+                'Is playing': !video.paused,
+                'Volume': video.volume,
+                'Muted': video.muted
+            };
+            
+            console.table(info);
+            alert(
+                'Video Information:\n' +
+                '- Dimensions: ' + info['Video dimensions'] + '\n' +
+                '- Duration: ' + info['Duration'] + '\n' +
+                '- Is playing: ' + info['Is playing'] + '\n' +
+                '- Muted: ' + info['Muted'] + '\n' +
+                '(More details in browser console)'
+            );
+        });
+        
+        // Try to load and play
+        video.load();
     </script>
 </body>
 </html>
