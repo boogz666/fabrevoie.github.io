@@ -3,122 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Test</title>
+    <title>Fabrevoie - Homepage</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            background-color: #000;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+            background-color: #121212;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Logo */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button */
+        .buy-button {
+            display: inline-block;
+            position: absolute;
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background-color: #9ED9B5;
+            color: #000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            text-transform: uppercase;
+            z-index: 1000;
+        }
+        
+        .buy-button:hover {
+            background-color: #7BC097;
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8);
+        }
+
+        /* Copyright */
+        .copyright {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            color: #888888;
+            font-size: 12px;
+            text-align: left;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .copyright a {
+            color: #9ED9B5;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animation Container */
+        #animation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        
-        #video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .status {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 10px;
-            z-index: 1000;
-        }
-        
-        .controls {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 1000;
-        }
-        
-        button {
-            padding: 8px 16px;
-            margin: 0 5px;
-            background: #9ED9B5;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <div class="status" id="status">Status: Loading...</div>
-    
-    <!-- Video with no positioning tricks -->
-    <video id="video" controls muted>
-        <source src="bgffm.mp4" type="video/mp4">
-        <source src="bgffm.webm" type="video/webm">
-        Video not supported
-    </video>
-    
-    <div class="controls">
-        <button id="play-btn">Play</button>
-        <button id="pause-btn">Pause</button>
-        <button id="debug-btn">Show Video Info</button>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video id="bgVideo" autoplay muted loop playsinline>
+            <source src="bgffm.mp4" type="video/mp4">
+            <source src="bgffm.webm" type="video/webm">
+        </video>
     </div>
-    
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Sticky Logo -->
+    <a href="index.html">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
+    <!-- Main Content -->
+    <div id="animation-container"></div>
+    <a href="shop.html" class="buy-button">SURPRISE</a>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. |
+        <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+
     <script>
-        const video = document.getElementById('video');
-        const status = document.getElementById('status');
-        const playBtn = document.getElementById('play-btn');
-        const pauseBtn = document.getElementById('pause-btn');
-        const debugBtn = document.getElementById('debug-btn');
-        
-        // Display video status
-        video.addEventListener('loadstart', () => updateStatus('Loading started'));
-        video.addEventListener('loadedmetadata', () => {
-            updateStatus('Metadata loaded - Size: ' + video.videoWidth + 'x' + video.videoHeight);
-        });
-        video.addEventListener('canplay', () => updateStatus('Can play'));
-        video.addEventListener('playing', () => updateStatus('Playing'));
-        video.addEventListener('pause', () => updateStatus('Paused'));
-        video.addEventListener('error', () => {
-            updateStatus('Error: ' + (video.error ? video.error.code : 'unknown'));
-        });
-        
-        function updateStatus(msg) {
-            status.textContent = 'Status: ' + msg;
-            console.log('Video: ' + msg);
-        }
-        
-        // Button controls
-        playBtn.addEventListener('click', () => video.play());
-        pauseBtn.addEventListener('click', () => video.pause());
-        
-        // Debug info
-        debugBtn.addEventListener('click', () => {
-            const info = {
-                'Video dimensions': video.videoWidth + 'x' + video.videoHeight,
-                'Duration': video.duration + ' seconds',
-                'Current time': video.currentTime,
-                'Network state': video.networkState,
-                'Ready state': video.readyState,
-                'Is playing': !video.paused,
-                'Volume': video.volume,
-                'Muted': video.muted
-            };
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bgVideo');
             
-            console.table(info);
-            alert(
-                'Video Information:\n' +
-                '- Dimensions: ' + info['Video dimensions'] + '\n' +
-                '- Duration: ' + info['Duration'] + '\n' +
-                '- Is playing: ' + info['Is playing'] + '\n' +
-                '- Muted: ' + info['Muted'] + '\n' +
-                '(More details in browser console)'
-            );
+            // Ensure video is muted (crucial for autoplay)
+            video.muted = true;
+            
+            // Function to handle video play
+            function playVideo() {
+                // Create a play promise
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Video playing successfully');
+                    }).catch(error => {
+                        console.error('Autoplay prevented:', error);
+                        
+                        // Add a click handler for user interaction if autoplay fails
+                        document.addEventListener('click', function handleClick() {
+                            video.play();
+                            document.removeEventListener('click', handleClick);
+                        }, { once: true });
+                    });
+                }
+            }
+            
+            // Event listeners to ensure video plays properly
+            video.addEventListener('loadedmetadata', playVideo);
+            video.addEventListener('canplay', playVideo);
+            
+            // Try playing immediately
+            playVideo();
+            
+            // Fallback - try again after a short delay
+            setTimeout(playVideo, 1000);
+            
+            // Handle visibility changes (when user switches tabs or minimizes window)
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    playVideo();
+                }
+            });
         });
-        
-        // Try to load and play
-        video.load();
     </script>
 </body>
 </html>
