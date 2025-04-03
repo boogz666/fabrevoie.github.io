@@ -5,87 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Homepage</title>
     
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com 'unsafe-inline' 'unsafe-eval';">
-    
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/placeholder/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
             color: white;
             background-color: #121212;
         }
-
-        .bg-video-container {
+        
+        /* Video Background */
+        #video-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            right: 0;
+            bottom: 0;
             min-width: 100%;
             min-height: 100%;
             width: auto;
             height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
+            z-index: -100;
+            background-size: cover;
         }
-
-        .fallback-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #121212;
-            z-index: -3;
-        }
-
+        
+        /* Overlay */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
             height: 100%;
+            width: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            z-index: -99;
         }
-
-        .sticky-logo {
+        
+        /* Logo */
+        .logo {
             position: fixed;
             top: 20px;
             left: 20px;
@@ -95,27 +53,17 @@
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transition: transform 0.3s ease;
         }
-
-        .sticky-logo:hover {
+        
+        .logo:hover {
             transform: scale(1.1);
         }
-
-        #animation-container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
         
-        .buy-button {
-            display: inline-block;
+        /* Button */
+        .cta-button {
             position: absolute;
-            bottom: 35%;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             padding: 12px 24px;
             background-color: #9ED9B5;
             color: #000;
@@ -123,401 +71,208 @@
             font-size: 16px;
             font-weight: 600;
             border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
             text-align: center;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             text-transform: uppercase;
-            z-index: 1000;
         }
         
-        .buy-button:hover {
+        .cta-button:hover {
             background-color: #7BC097;
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.8);
+            transform: translate(-50%, -50%) scale(1.05);
         }
-
+        
+        /* Copyright */
         .copyright {
             position: fixed;
             bottom: 15px;
             left: 15px;
             color: #888888;
             font-size: 12px;
-            text-align: left;
-            z-index: 1000;
-            white-space: nowrap;
         }
-
+        
         .copyright a {
             color: #9ED9B5;
             text-decoration: none;
         }
-
+        
         .copyright a:hover {
             text-decoration: underline;
         }
-
-        #loading-screen {
+        
+        /* Debug info */
+        #debug-info {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #121212;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .loading-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .loading-bar-container {
-            width: 200px;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #9ED9B5;
-            border-radius: 2px;
-            transition: width 0.3s ease-out;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-        }
-
-        .loading-text {
-            font-size: 14px;
-            color: #9ED9B5;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .loading-progress {
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
             font-size: 12px;
-            color: #888888;
-            margin-top: 5px;
-        }
-
-        .fade-out {
-            opacity: 0;
-            pointer-events: none;
+            z-index: 2000;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
-        <div class="loading-bar-container">
-            <div id="loading-bar" class="loading-bar"></div>
-        </div>
-        <div id="loading-progress" class="loading-progress">0%</div>
-        <div class="loading-text">Loading Experience</div>
+    <!-- Debug info panel -->
+    <div id="debug-info">
+        Video status: <span id="video-status">Loading...</span>
     </div>
-
-    <!-- Fallback Background -->
-    <div class="fallback-bg"></div>
-
-    <!-- Background Video Container -->
-    <div class="bg-video-container">
-        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-            <source src="bgffm.mp4" type="video/mp4">
-            <source src="bgffm.webm" type="video/webm">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-
+    
+    <!-- Background Video -->
+    <video id="video-background" autoplay muted loop playsinline poster="poster.jpg">
+        <source src="bgffm.mp4" type="video/mp4">
+        <source src="bgffm.webm" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+    
     <!-- Overlay -->
     <div class="overlay"></div>
-
-    <!-- Sticky Logo -->
+    
+    <!-- Logo -->
     <a href="index.html">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="logo">
     </a>
-
-    <!-- Main Content -->
-    <div id="animation-container"></div>
-    <a href="shop.html" class="buy-button">SURPRISE</a>
-
+    
+    <!-- Call to Action Button -->
+    <a href="shop.html" class="cta-button">SURPRISE</a>
+    
     <!-- Copyright -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. |
         <a href="privacy-policy.html">Privacy Policy</a>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/DRACOLoader.js"></script>
     
     <script>
-        // Debug logging
-        console.log('Script initialized');
-        
-        // Video handling
-        const bgVideo = document.getElementById('bgVideo');
-        const loadingScreen = document.getElementById('loading-screen');
-        const loadingBar = document.getElementById('loading-bar');
-        const loadingProgress = document.getElementById('loading-progress');
-        
-        // Video loading state tracking
-        let videoLoaded = false;
-        
-        // Log video events for debugging
-        bgVideo.addEventListener('loadstart', () => console.log('Video: loadstart'));
-        bgVideo.addEventListener('loadeddata', () => console.log('Video: loadeddata'));
-        bgVideo.addEventListener('loadedmetadata', () => console.log('Video: loadedmetadata'));
-        bgVideo.addEventListener('canplay', () => {
-            console.log('Video: canplay');
-            videoLoaded = true;
-            updateLoadingProgress(33); // 1/3 of assets
-        });
-        
-        bgVideo.addEventListener('canplaythrough', () => {
-            console.log('Video: canplaythrough');
-            if (!videoLoaded) {
-                videoLoaded = true;
-                updateLoadingProgress(33); // 1/3 of assets
-            }
-        });
-        
-        bgVideo.addEventListener('error', (e) => {
-            console.error('Video error:', bgVideo.error);
-            videoLoaded = true; // Consider it "loaded" even on error to continue
-            updateLoadingProgress(33);
-        });
-        
-        // Force play (needed for some browsers)
-        function attemptVideoPlay() {
-            console.log('Attempting to play video');
-            const playPromise = bgVideo.play();
-            
-            if (playPromise !== undefined) {
-                playPromise
-                    .then(() => console.log('Video playback started successfully'))
-                    .catch(error => {
-                        console.error('Autoplay prevented:', error);
-                        // Auto-play was prevented, let's try with user interaction later
-                    });
-            }
-        }
-        
-        // Initialize loading variables
-        let modelLoaded = false;
-        let textureLoaded = false;
-        let totalLoadProgress = 0;
-        
-        // Update loading progress
-        function updateLoadingProgress(increment) {
-            totalLoadProgress += increment;
-            const progressPercentage = Math.min(Math.floor(totalLoadProgress), 100);
-            
-            console.log(`Loading progress: ${progressPercentage}%`);
-            loadingBar.style.width = progressPercentage + '%';
-            loadingProgress.textContent = progressPercentage + '%';
-            
-            // Complete loading when everything is ready
-            if (progressPercentage >= 100) {
-                console.log('Loading complete, removing loading screen');
-                setTimeout(() => {
-                    loadingScreen.classList.add('fade-out');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
-                }, 500);
-            }
-        }
-        
-        // Three.js setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setClearColor(0x000000, 0);
-        renderer.outputEncoding = THREE.sRGBEncoding;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0;
-        
-        const animationContainer = document.getElementById('animation-container');
-        renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
-        animationContainer.appendChild(renderer.domElement);
-        
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        scene.add(directionalLight);
-        
-        camera.position.z = 5;
-        
-        // Model loading
-        const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-        
-        const loader = new THREE.GLTFLoader();
-        loader.setDRACOLoader(dracoLoader);
-        
-        const textureLoader = new THREE.TextureLoader();
-        let texture;
-        
-        textureLoader.load(
-            'texture.png',
-            function(loadedTexture) {
-                console.log('Texture loaded successfully');
-                texture = loadedTexture;
-                textureLoaded = true;
-                updateLoadingProgress(33); // 1/3 of assets
-                
-                if (window.model) {
-                    console.log('Applying texture to existing model');
-                    window.model.traverse((child) => {
-                        if (child.isMesh) {
-                            child.material.map = texture;
-                            child.material.needsUpdate = true;
-                        }
-                    });
-                }
-            },
-            function(xhr) {
-                if (xhr.lengthComputable) {
-                    const percent = Math.floor((xhr.loaded / xhr.total) * 100);
-                    console.log(`Texture loading: ${percent}%`);
-                }
-            },
-            function(error) {
-                console.error('Error loading texture:', error);
-                textureLoaded = true;
-                updateLoadingProgress(33);
-            }
-        );
-        
-        window.model = null;
-        let mixer;
-        
-        loader.load(
-            'box_rotate.glb',
-            function(gltf) {
-                console.log('Model loaded successfully');
-                window.model = gltf.scene;
-                
-                if (!modelLoaded) {
-                    modelLoaded = true;
-                    updateLoadingProgress(34); // Remaining progress (100% total)
-                }
-        
-                if (texture) {
-                    console.log('Applying texture to newly loaded model');
-                    window.model.traverse((child) => {
-                        if (child.isMesh) {
-                            child.material.map = texture;
-                            child.material.needsUpdate = true;
-                        }
-                    });
-                }
-        
-                scene.add(window.model);
-                window.model.scale.set(2.5, 2.5, 2.5);
-                camera.position.z = 7;
-                camera.lookAt(0, 0, 0);
-        
-                if (gltf.animations.length > 0) {
-                    console.log('Setting up animation');
-                    mixer = new THREE.AnimationMixer(window.model);
-                    const action = mixer.clipAction(gltf.animations[0]);
-                    action.play();
-                }
-            },
-            function(xhr) {
-                if (xhr.lengthComputable) {
-                    const percent = Math.floor((xhr.loaded / xhr.total) * 100);
-                    console.log(`Model loading: ${percent}%`);
-                }
-            },
-            function(error) {
-                console.error('Error loading model:', error);
-                modelLoaded = true;
-                updateLoadingProgress(34);
-            }
-        );
-        
-        // Animation loop
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-        
-            if (mixer) {
-                mixer.update(clock.getDelta());
-            }
-        
-            renderer.render(scene, camera);
-        }
-        
-        animate();
-        
-        // Handle resize
-        window.addEventListener('resize', function() {
-            console.log('Window resized');
-            camera.aspect = animationContainer.offsetWidth / animationContainer.offsetHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(animationContainer.offsetWidth, animationContainer.offsetHeight);
-        });
-        
-        // Fallback timeout
-        const loadingTimeout = setTimeout(function() {
-            console.log('Loading timeout reached, removing loading screen');
-            
-            // Force all components to be considered "loaded"
-            if (!videoLoaded) updateLoadingProgress(33);
-            if (!textureLoaded) updateLoadingProgress(33);
-            if (!modelLoaded) updateLoadingProgress(34);
-            
-            loadingScreen.classList.add('fade-out');
-            setTimeout(function() {
-                loadingScreen.style.display = 'none';
-                
-                // Try playing video again
-                attemptVideoPlay();
-            }, 500);
-        }, 10000);
-        
-        // Initialize
-        console.log('Starting video load');
-        bgVideo.load();
-        attemptVideoPlay();
-        
-        // Add click handler to ensure video plays (needed for some mobile browsers)
-        document.addEventListener('click', function() {
-            if (bgVideo.paused) {
-                console.log('User interaction detected, playing video');
-                attemptVideoPlay();
-            }
-        }, { once: true });
-        
-        // Document loaded event
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded');
+            const video = document.getElementById('video-background');
+            const statusElement = document.getElementById('video-status');
+            
+            // Preload the video
+            video.load();
+            
+            // Video event logging
+            video.addEventListener('loadstart', () => {
+                console.log('Video: loadstart');
+                updateStatus('Loading started');
+            });
+            
+            video.addEventListener('loadeddata', () => {
+                console.log('Video: loadeddata');
+                updateStatus('Data loaded');
+            });
+            
+            video.addEventListener('loadedmetadata', () => {
+                console.log('Video: loadedmetadata');
+                updateStatus('Metadata loaded');
+            });
+            
+            video.addEventListener('canplay', () => {
+                console.log('Video: canplay');
+                updateStatus('Can play');
+                tryPlay();
+            });
+            
+            video.addEventListener('canplaythrough', () => {
+                console.log('Video: canplaythrough');
+                updateStatus('Can play through');
+                tryPlay();
+            });
+            
+            video.addEventListener('playing', () => {
+                console.log('Video: playing');
+                updateStatus('Playing');
+            });
+            
+            video.addEventListener('pause', () => {
+                console.log('Video: paused');
+                updateStatus('Paused');
+            });
+            
+            video.addEventListener('error', (e) => {
+                const errorTypes = [
+                    'MEDIA_ERR_ABORTED',
+                    'MEDIA_ERR_NETWORK',
+                    'MEDIA_ERR_DECODE',
+                    'MEDIA_ERR_SRC_NOT_SUPPORTED'
+                ];
+                
+                let errorMessage = 'Unknown error';
+                if (video.error) {
+                    errorMessage = errorTypes[video.error.code - 1] || 'Unknown error';
+                    console.error('Video error:', errorMessage, video.error);
+                }
+                
+                updateStatus('Error: ' + errorMessage);
+            });
+            
+            // Try to play the video
+            function tryPlay() {
+                console.log('Attempting to play video');
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('Video playing successfully');
+                        })
+                        .catch(error => {
+                            console.error('Autoplay prevented:', error);
+                            updateStatus('Autoplay prevented - click page to play');
+                            
+                            // Add click handler for user interaction
+                            document.body.addEventListener('click', function bodyClick() {
+                                video.play()
+                                    .then(() => {
+                                        console.log('Video playing after user interaction');
+                                        updateStatus('Playing (user initiated)');
+                                        document.body.removeEventListener('click', bodyClick);
+                                    })
+                                    .catch(err => {
+                                        console.error('Still cannot play video:', err);
+                                        updateStatus('Still cannot play - check console');
+                                    });
+                            });
+                        });
+                }
+            }
+            
+            // Update status display
+            function updateStatus(message) {
+                statusElement.textContent = message;
+            }
+            
+            // Log video source for debugging
+            function logVideoSources() {
+                const sources = video.getElementsByTagName('source');
+                console.log('Video sources:');
+                for (let i = 0; i < sources.length; i++) {
+                    console.log(`Source ${i+1}: ${sources[i].src} (${sources[i].type})`);
+                    
+                    // Test if file exists
+                    fetch(sources[i].src)
+                        .then(response => {
+                            if (response.ok) {
+                                console.log(`Source ${i+1} exists and is accessible`);
+                            } else {
+                                console.error(`Source ${i+1} returned status: ${response.status}`);
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Source ${i+1} error:`, error);
+                        });
+                }
+            }
+            
+            // Log source info
+            logVideoSources();
+            
+            // Fallback if everything fails
+            setTimeout(() => {
+                if (video.paused) {
+                    console.log('Video still paused after timeout, trying again');
+                    tryPlay();
+                }
+            }, 2000);
         });
     </script>
 </body>
