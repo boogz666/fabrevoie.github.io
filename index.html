@@ -1,847 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabrevoie - Footwear store. We make weird things.</title>
-    <meta name="description" content="Fabrevoie - We make weird things.">
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/placeholder/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
-
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta property="og:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
-    <meta property="og:url" content="https://fabrevoie.com">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied'
-        });
-        gtag('js', new Date());
-        gtag('config', 'G-TZJE1XNS2Z');
-    </script>
-
-    <!-- Model Viewer Script -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-    <!-- Font Awesome for Social Media Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <style>
-        /* Hide the progress bar */
-        model-viewer::part(progress-bar) {
-            display: none;
-        }
-        
-        /* Bounce animation for under construction message */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Error message styling */
-        .model-error {
-            display: none;
-            text-align: center;
-            color: #ff6b6b;
-            margin-top: 20px;
-        }
-
-        model-viewer[ar-status="failed"] .model-error,
-        model-viewer[error] .model-error {
-            display: block;
-        }
-
-        /* Reset default margin and padding */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-            color: white;
-            background-color: #000;
-        }
-
-        /* Loading Screen Styles */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #121212;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .loading-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .loading-bar-container {
-            width: 200px;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #9ED9B5; /* Pastel green */
-            border-radius: 2px;
-            transition: width 0.3s ease-out;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
-        }
-
-        .loading-text {
-            font-size: 14px;
-            color: #9ED9B5;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .loading-progress {
-            font-size: 12px;
-            color: #888888;
-            margin-top: 5px;
-        }
-
-        /* Additional animation for loading effect */
-        .fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Page container */
-        .page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        /* Blur effect overlay */
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2000;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(0px);
-            opacity: 0;
-        }
-
-        .blur-active {
-            backdrop-filter: blur(10px);
-            opacity: 1;
-        }
-
-        /* Background video styling */
-        .bg-video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -2;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            object-position: center;
-        }
-
-        /* Overlay to darken the video */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
-        }
-
-        /* Center container */
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 500px;
-            width: 90%;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Middle Logo */
-        .logo-container {
-            width: 400px;
-            height: 400px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .logo {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* MailerLite Form Styling */
-        .ml-embedded {
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        /* Text under the MailerLite form */
-        .signup-text {
-            text-align: center;
-            color: #9ED9B5; /* Pastel green */
-            font-size: 14px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Under Construction Container */
-        .under-construction-container {
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            padding: 20px;
-            border: 2px solid #9ED9B5;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
-        }
-
-        .under-construction-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: #9ED9B5;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .construction-description {
-            font-size: 16px;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        /* Building animation */
-        .building-animation {
-            position: relative;
-            width: 200px;
-            height: 150px;
-            margin-bottom: 20px;
-        }
-
-        .building {
-            position: absolute;
-            bottom: 0;
-            width: 80px;
-            height: 20px;
-            background-color: #9ED9B5;
-            border-radius: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .crane {
-            position: absolute;
-            bottom: 0;
-            right: 40px;
-            width: 10px;
-            height: 100px;
-            background-color: #9ED9B5;
-        }
-
-        .crane-arm {
-            position: absolute;
-            top: 20px;
-            right: 0;
-            width: 80px;
-            height: 6px;
-            background-color: #9ED9B5;
-            transform-origin: left center;
-            animation: craneMove 4s infinite alternate;
-        }
-
-        .crane-cable {
-            position: absolute;
-            top: 0;
-            right: 20px;
-            width: 2px;
-            height: 40px;
-            background-color: #fff;
-            transform-origin: top center;
-            animation: cableSwing 4s infinite alternate;
-        }
-
-        .crane-load {
-            position: absolute;
-            bottom: 0;
-            right: 15px;
-            width: 15px;
-            height: 15px;
-            background-color: #9ED9B5;
-            border-radius: 2px;
-            animation: loadMove 4s infinite alternate;
-        }
-
-        @keyframes craneMove {
-            0% { transform: rotate(-10deg); }
-            100% { transform: rotate(10deg); }
-        }
-
-        @keyframes cableSwing {
-            0% { transform: rotate(-5deg); height: 30px; }
-            100% { transform: rotate(5deg); height: 50px; }
-        }
-
-        @keyframes loadMove {
-            0% { transform: translateY(-20px) translateX(-10px); }
-            100% { transform: translateY(-40px) translateX(10px); }
-        }
-
-        /* Building blocks animation */
-        .blocks-container {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            margin-top: 20px;
-        }
-
-        .block {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #9ED9B5;
-            border-radius: 3px;
-            animation: blockFall 3s infinite;
-            opacity: 0;
-        }
-
-        .block:nth-child(1) {
-            left: 10%;
-            animation-delay: 0.2s;
-        }
-
-        .block:nth-child(2) {
-            left: 30%;
-            animation-delay: 1.1s;
-        }
-
-        .block:nth-child(3) {
-            left: 50%;
-            animation-delay: 0.7s;
-        }
-
-        .block:nth-child(4) {
-            left: 70%;
-            animation-delay: 1.5s;
-        }
-
-        .block:nth-child(5) {
-            left: 90%;
-            animation-delay: 0.3s;
-        }
-
-        @keyframes blockFall {
-            0% { transform: translateY(-40px); opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(40px); opacity: 0; }
-        }
-
-        /* Social Media Icons */
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            color: #9ED9B5; /* Pastel green */
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: #7BC097; /* Darker pastel green */
-        }
-
-        /* Text under social icons */
-        .social-text {
-            text-align: center;
-            color: #9ED9B5; /* Pastel green */
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        /* Social media container at the bottom */
-        .social-container {
-            position: fixed;
-            bottom: 50px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-        }
-
-        /* Copyright Text */
-        .copyright {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            color: #888888;
-            font-size: 12px;
-            text-align: left;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-
-        .copyright a {
-            color: #9ED9B5; /* Pastel green */
-            text-decoration: none;
-        }
-
-        .copyright a:hover {
-            text-decoration: underline;
-        }
-
-        /* Sticky Logo */
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Countdown Timer */
-        .countdown {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-            color: #9ED9B5; /* Pastel green */
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Hourglass animation */
-        @keyframes rotateHourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-
-        .hourglass {
-            font-size: 24px;
-            animation: rotateHourglass 3s linear infinite; /* Rotates every 3 seconds */
-        }
-
-        /* Cookie Consent Banner */
-        .cookie-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #000;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 14px;
-            border: 1px solid #333;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            max-width: 90%;
-            width: 600px;
-            border-radius: 8px;
-        }
-
-        .cookie-text {
-            flex-grow: 1;
-            text-align: left;
-            letter-spacing: 0.5px;
-            font-weight: 400;
-            margin-right: 20px;
-        }
-
-        .cookie-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .cookie-buttons button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .cookie-buttons button:first-child {
-            background-color: #9ED9B5; /* Pastel green */
-            color: #000;
-        }
-
-        .cookie-buttons button:last-child {
-            background-color: transparent;
-            border: 1px solid #9ED9B5; /* Pastel green */
-            color: #9ED9B5; /* Pastel green */
-        }
-    </style>
-</head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="progressBar"></div>
-        </div>
-        <div class="loading-text">LOADING</div>
-        <div class="loading-progress" id="loadingProgress">0%</div>
-    </div>
-
-    <!-- Blur Effect Overlay -->
-    <div class="blur-overlay" id="blurOverlay"></div>
-
-    <div class="page" id="mainContent">
-        <!-- Sticky Logo -->
-        <a href="index.html">
-            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-        </a>
-
-        <!-- Background Video -->
-        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-            <source src="bgffm.mp4" type="video/mp4">
-            <source src="bgffm.webm" type="video/webm">
-            Your browser does not support background video.
-        </video>
-
-        <!-- Overlay to darken the video -->
-        <div class="overlay"></div>
-
-        <!-- Main Content -->
-        <div class="container">
-            <!-- Middle Logo Container -->
-            <div class="logo-container">
-                <!-- 3D Logo with auto-rotation and fallback -->
-                <model-viewer 
-                    id="logoModel"
-                    src="3Dlogo2.glb"
-                    alt="Fabrevoie 3D Logo" 
-                    class="logo"
-                    auto-rotate
-                    camera-controls
-                    exposure="1.0"
-                    shadow-intensity="1"
-                    camera-orbit="-10deg 90deg 100%"
-                    loading="eager"
-                    tone-mapping="commerce">
-                    
-                    <!-- Loading progress bar -->
-                    <div slot="progress-bar" class="loading-bar"></div>
-                    
-                    <!-- Error message slot -->
-                    <div slot="error" class="model-error">
-                        <p>3D logo failed to load</p>
-                        <img src="logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
-                    </div>
-                </model-viewer>
-            </div>
-            
-            <!-- MailerLite Email Form -->
-            <div class="ml-embedded" data-form="xDqLnS" id="mailerLiteForm"></div>
-
-            <!-- Text under the MailerLite form -->
-            <p class="signup-text" id="signupText">Sign up to access the website.</p>
-
-            <!-- Under Construction Container (Initially hidden, will be shown for signed-up users) -->
-            <div id="underConstructionContainer" class="under-construction-container">
-                <h2 class="under-construction-text">Under Construction</h2>
-                <p class="construction-description">We're building something amazing! Our website is currently under construction. Thank you for your patience.</p>
-                
-                <!-- Building Animation -->
-                <div class="building-animation">
-                    <div class="building"></div>
-                    <div class="crane">
-                        <div class="crane-arm">
-                            <div class="crane-cable">
-                                <div class="crane-load"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blocks-container">
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Social Media Icons (Moved to bottom) -->
-        <div class="social-container">
-            <div class="social-icons">
-                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-            </div>
-            <!-- Text under social icons -->
-            <p class="social-text">Show your support by following our socials.</p>
-        </div>
-
-        <!-- Countdown Timer -->
-        <div class="countdown" id="countdown">
-            Days until drop: <span id="days">00</span>
-            <i class="fas fa-hourglass hourglass"></i> <!-- Hourglass icon with animation -->
-        </div>
-
-        <!-- Copyright Text -->
-        <div class="copyright">
-            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-            <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-        </div>
-
-        <!-- Cookie Consent Banner -->
-        <div id="cookieBanner" class="cookie-banner">
-            <div class="cookie-text">
-                This site uses cookies to provide you with a better experience.&nbsp;
-                <a href="privacy-policy.html" target="_blank" style="color: #9ED9B5; text-decoration: underline;">Learn more</a>.
-            </div>
-            <div class="cookie-buttons">
-                <button onclick="acceptCookies()">Accept</button>
-                <button onclick="closeCookieBanner()">Decline</button>
-            </div>
-        </div>
-
-        <!-- Audio Element for signup confirmation only -->
-        <audio id="accessSound" src="access-granted.mp3"></audio>
-    </div>
-
-    <script>
-        // Assets to preload
-        const assetsToLoad = [
-            { type: 'image', url: 'logo-small.png' },
-            { type: '3d', url: '3Dlogo5.glb' },
-            { type: 'video', url: 'bgffm.mp4' },
-            { type: 'audio', url: 'access-granted.mp3' }
-        ];
-        
-        let loadedAssets = 0;
-        const totalAssets = assetsToLoad.length;
-        
-        // Update loading progress
-        function updateProgress(progress) {
-            const progressBar = document.getElementById('progressBar');
-            const loadingProgress = document.getElementById('loadingProgress');
-            if (progressBar) {
-                progressBar.style.width = `${progress}%`;
-            }
-            if (loadingProgress) {
-                loadingProgress.textContent = `${Math.round(progress)}%`;
-            }
-        }
-        
-        // Preload assets
-        function preloadAssets() {
-            return new Promise((resolve) => {
-                if (totalAssets === 0) {
-                    resolve();
-                    return;
-                }
-                
-                assetsToLoad.forEach(asset => {
-                    switch(asset.type) {
-                        case 'image':
-                            const img = new Image();
-                            img.onload = () => assetLoaded();
-                            img.onerror = () => assetLoaded();
-                            img.src = asset.url;
-                            break;
-                            
-                        case 'video':
-                            const video = document.createElement('video');
-                            video.oncanplaythrough = () => assetLoaded();
-                            video.onerror = () => assetLoaded();
-                            video.src = asset.url;
-                            video.load();
-                            break;
-                            
-                        case 'audio':
-                            const audio = new Audio();
-                            audio.oncanplaythrough = () => assetLoaded();
-                            audio.onerror = () => assetLoaded();
-                            audio.src = asset.url;
-                            audio.load();
-                            break;
-                            
-                        case '3d':
-                            // For 3D models, we'll simply add a timeout as loading through model-viewer is handled separately
-                            setTimeout(() => assetLoaded(), 1000);
-                            break;
-                            
-                        default:
-                            assetLoaded();
-                    }
-                });
-                
-                function assetLoaded() {
-                    loadedAssets++;
-                    const progress = (loadedAssets / totalAssets) * 100;
-                    updateProgress(progress);
-                    
-                    if (loadedAssets >= totalAssets) {
-                        // Add a slight delay before resolving to ensure UI smoothness
-                        setTimeout(() => resolve(), 500);
-                    }
-                }
-            });
-        }
-        
-        // Show page content
-        function showPageContent() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const mainContent = document.getElementById('mainContent');
-            
-            // Fade out loading screen
-            loadingScreen.classList.add('fade-out');
-            
-            // Fade in main content
-            mainContent.style.opacity = '1';
-            
-            // Remove loading screen after animation completes
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
-        }
-        
-        // Setup dynamic environment mapping from video to 3D model
-        function setupDynamicEnvironment() {
-            const logoModel = document.getElementById('logoModel');
-            const video = document.getElementById('bgVideo');
-            
-            if (logoModel && video) {
-                // Create a temporary canvas to capture video frames
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = 1024;  // Environment map resolution
-                canvas.height = 512;  // Standard equirectangular format (2:1)
-                
-                // Update environment map when video data is available
-                video.addEventListener('playing', function() {
-                    // Check if we should use dynamic environment mapping
-                    if (logoModel.hasAttribute('environment-image') && 
-                        logoModel.getAttribute('environment-image') === 'bgffm.webm') {
-                        // Update environment map periodically
-                        function updateEnvironmentMap() {
-                            if (video.readyState >= 2) {  // Check if video data is available
-                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                // Convert canvas to data URL and use as environment
-                                logoModel.setAttribute('environment-image', canvas.toDataURL('image/png'));
-                            }
-                            requestAnimationFrame(updateEnvironmentMap);
-                        }
-                        
-                        updateEnvironmentMap();
-                    }
-                });
+});
             }
         }
         
@@ -874,3 +31,168 @@
                 underConstructionContainer.style.display = 'flex';
             }
         }
+
+        // Apply blur effect for page transitions
+        function applyBlurEffect() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            if (blurOverlay) {
+                blurOverlay.classList.add('blur-active');
+            }
+        }
+
+        // Remove blur effect
+        function removeBlurEffect() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            if (blurOverlay) {
+                blurOverlay.classList.remove('blur-active');
+            }
+        }
+
+        // Check if user has already signed up
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start the loading sequence
+            preloadAssets().then(() => {
+                showPageContent();
+                
+                // Start countdown and video after loading is complete
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+                
+                const video = document.getElementById('bgVideo');
+                if (video) {
+                    video.play().catch(function(error) {
+                        console.log("Video play failed:", error);
+                    });
+                }
+                
+                // Setup dynamic environment mapping
+                setupDynamicEnvironment();
+            });
+            
+            // Add error listener for 3D model
+            const modelViewer = document.getElementById('logoModel');
+            if (modelViewer) {
+                modelViewer.addEventListener('error', (event) => {
+                    console.error('3D model loading error:', event.detail);
+                    // You could add additional error handling here
+                });
+            }
+            
+            const formSubmitted = localStorage.getItem('formSubmitted');
+            if (formSubmitted === 'true') {
+                showUnderConstruction();
+            }
+            
+            // Check cookie consent
+            const consent = localStorage.getItem('cookieConsent');
+            const cookieBanner = document.getElementById('cookieBanner');
+
+            if (consent === 'accepted' || consent === 'declined') {
+                if (cookieBanner) {
+                    cookieBanner.style.display = 'none';
+                }
+                if (typeof gtag === 'function') {
+                    gtag('consent', 'update', {
+                        'ad_storage': consent === 'accepted' ? 'granted' : 'denied',
+                        'analytics_storage': consent === 'accepted' ? 'granted' : 'denied'
+                    });
+                }
+            }
+        });
+
+        // Handle form submission
+        document.addEventListener('ml-subscribe', function(event) {
+            if (event.detail && event.detail.success) {
+                localStorage.setItem('formSubmitted', 'true');
+                showUnderConstruction();
+            }
+        });
+
+        // Cookie functions
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieBanner').style.display = 'none';
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+        }
+
+        function closeCookieBanner() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieBanner').style.display = 'none';
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied'
+                });
+            }
+        }
+
+        // Page transition logic with loading effect and access restriction
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                if ((link.hostname === window.location.hostname || link.hostname === '') && !link.target) {
+                    link.addEventListener('click', function(e) {
+                        const href = link.getAttribute('href');
+                        
+                        // Only allow navigation to privacy-policy.html, block other pages
+                        if (href && href.endsWith('.html')) {
+                            e.preventDefault();
+                            
+                            // Apply blur effect
+                            applyBlurEffect();
+                            
+                            // Allow access only to privacy policy page
+                            if (href === 'privacy-policy.html') {
+                                // Store the destination URL in session storage
+                                sessionStorage.setItem('nextPage', href);
+                                
+                                // Navigate to the privacy policy page after a short delay
+                                setTimeout(() => {
+                                    window.location.href = href;
+                                }, 500);
+                            } else if (href === 'index.html' || href === './index.html' || href === '/index.html') {
+                                // Allow navigation back to the index page
+                                setTimeout(() => {
+                                    window.location.href = href;
+                                }, 500);
+                            } else {
+                                // Show under construction message for all other pages
+                                removeBlurEffect();
+                                
+                                // Check if already signed up
+                                const formSubmitted = localStorage.getItem('formSubmitted');
+                                if (formSubmitted === 'true') {
+                                    // Show under construction message if not already showing
+                                    showUnderConstruction();
+                                    
+                                    // Add a subtle bounce animation to the under construction container to draw attention
+                                    const constructionContainer = document.getElementById('underConstructionContainer');
+                                    if (constructionContainer) {
+                                        constructionContainer.style.animation = 'none';
+                                        void constructionContainer.offsetWidth; // Trigger reflow
+                                        constructionContainer.style.animation = 'bounce 0.5s';
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Safety measure to ensure the site loads even if assets fail
+        setTimeout(function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen && loadingScreen.style.display !== 'none') {
+                console.log("Loading screen stuck, forcing display of content");
+                showPageContent();
+            }
+        }, 10000); // Force content to show after 10 seconds
+    </script>
+</body>
+</html>
