@@ -273,160 +273,36 @@
             margin-bottom: 20px;
         }
 
-        /* Under Construction Container */
-        .under-construction-container {
+        /* Coming Soon Container */
+        .coming-soon-container {
             display: none; /* Hidden by default */
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
-            padding: 20px;
+            padding: 30px;
             border: 2px solid #9ED9B5;
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
+            text-align: center;
         }
 
-        .under-construction-text {
-            font-size: 24px;
+        .coming-soon-text {
+            font-size: 32px;
             font-weight: 600;
             color: #9ED9B5;
-            text-align: center;
-            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            animation: pulse 2s infinite;
         }
 
-        .construction-description {
+        .coming-soon-subtext {
             font-size: 16px;
             color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
             line-height: 1.6;
-        }
-
-        /* Building animation */
-        .building-animation {
-            position: relative;
-            width: 200px;
-            height: 150px;
-            margin-bottom: 20px;
-        }
-
-        .building {
-            position: absolute;
-            bottom: 0;
-            width: 80px;
-            height: 20px;
-            background-color: #9ED9B5;
-            border-radius: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .crane {
-            position: absolute;
-            bottom: 0;
-            right: 40px;
-            width: 10px;
-            height: 100px;
-            background-color: #9ED9B5;
-        }
-
-        .crane-arm {
-            position: absolute;
-            top: 20px;
-            right: 0;
-            width: 80px;
-            height: 6px;
-            background-color: #9ED9B5;
-            transform-origin: left center;
-            animation: craneMove 4s infinite alternate;
-        }
-
-        .crane-cable {
-            position: absolute;
-            top: 0;
-            right: 20px;
-            width: 2px;
-            height: 40px;
-            background-color: #fff;
-            transform-origin: top center;
-            animation: cableSwing 4s infinite alternate;
-        }
-
-        .crane-load {
-            position: absolute;
-            bottom: 0;
-            right: 15px;
-            width: 15px;
-            height: 15px;
-            background-color: #9ED9B5;
-            border-radius: 2px;
-            animation: loadMove 4s infinite alternate;
-        }
-
-        @keyframes craneMove {
-            0% { transform: rotate(-10deg); }
-            100% { transform: rotate(10deg); }
-        }
-
-        @keyframes cableSwing {
-            0% { transform: rotate(-5deg); height: 30px; }
-            100% { transform: rotate(5deg); height: 50px; }
-        }
-
-        @keyframes loadMove {
-            0% { transform: translateY(-20px) translateX(-10px); }
-            100% { transform: translateY(-40px) translateX(10px); }
-        }
-
-        /* Building blocks animation */
-        .blocks-container {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            margin-top: 20px;
-        }
-
-        .block {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #9ED9B5;
-            border-radius: 3px;
-            animation: blockFall 3s infinite;
-            opacity: 0;
-        }
-
-        .block:nth-child(1) {
-            left: 10%;
-            animation-delay: 0.2s;
-        }
-
-        .block:nth-child(2) {
-            left: 30%;
-            animation-delay: 1.1s;
-        }
-
-        .block:nth-child(3) {
-            left: 50%;
-            animation-delay: 0.7s;
-        }
-
-        .block:nth-child(4) {
-            left: 70%;
-            animation-delay: 1.5s;
-        }
-
-        .block:nth-child(5) {
-            left: 90%;
-            animation-delay: 0.3s;
-        }
-
-        @keyframes blockFall {
-            0% { transform: translateY(-40px); opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(40px); opacity: 0; }
+            max-width: 300px;
         }
 
         /* Social Media Icons */
@@ -647,29 +523,10 @@
             <!-- Text under the MailerLite form -->
             <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
-            <!-- Under Construction Container (Initially hidden, will be shown for signed-up users) -->
-            <div id="underConstructionContainer" class="under-construction-container">
-                <h2 class="under-construction-text">Under Construction</h2>
-                <p class="construction-description">We're building something amazing! Our website is currently under construction. Thank you for your patience.</p>
-                
-                <!-- Building Animation -->
-                <div class="building-animation">
-                    <div class="building"></div>
-                    <div class="crane">
-                        <div class="crane-arm">
-                            <div class="crane-cable">
-                                <div class="crane-load"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blocks-container">
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                        <div class="block"></div>
-                    </div>
-                </div>
+            <!-- Coming Soon Container (Initially hidden, will be shown for signed-up users) -->
+            <div id="comingSoonContainer" class="coming-soon-container">
+                <div class="coming-soon-text">COMING SOON</div>
+                <p class="coming-soon-subtext">We're crafting something extraordinary. Stay tuned for our launch.</p>
             </div>
         </div>
 
@@ -871,7 +728,7 @@
                         updateEnvironmentMap();
                     }
                 });
-}
+            }
         }
         
         // Countdown to August 21 2025
@@ -891,16 +748,16 @@
             }
         });
 
-        // Function to show Under Construction Container and hide signup form
-        function showUnderConstruction() {
+        // Function to show Coming Soon Container and hide signup form
+        function showComingSoon() {
             const mailerLiteForm = document.getElementById('mailerLiteForm');
             const signupText = document.getElementById('signupText');
-            const underConstructionContainer = document.getElementById('underConstructionContainer');
+            const comingSoonContainer = document.getElementById('comingSoonContainer');
 
-            if (mailerLiteForm && signupText && underConstructionContainer) {
+            if (mailerLiteForm && signupText && comingSoonContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
-                underConstructionContainer.style.display = 'flex';
+                comingSoonContainer.style.display = 'flex';
             }
         }
 
@@ -952,7 +809,7 @@
             
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
-                showUnderConstruction();
+                showComingSoon();
             }
             
             // Check cookie consent
@@ -976,7 +833,7 @@
         document.addEventListener('ml-subscribe', function(event) {
             if (event.detail && event.detail.success) {
                 localStorage.setItem('formSubmitted', 'true');
-                showUnderConstruction();
+                showComingSoon();
             }
         });
 
@@ -1033,21 +890,21 @@
                                     window.location.href = href;
                                 }, 500);
                             } else {
-                                // Show under construction message for all other pages
+                                // Show coming soon message for all other pages
                                 removeBlurEffect();
                                 
                                 // Check if already signed up
                                 const formSubmitted = localStorage.getItem('formSubmitted');
                                 if (formSubmitted === 'true') {
-                                    // Show under construction message if not already showing
-                                    showUnderConstruction();
+                                    // Show coming soon message if not already showing
+                                    showComingSoon();
                                     
-                                    // Add a subtle bounce animation to the under construction container to draw attention
-                                    const constructionContainer = document.getElementById('underConstructionContainer');
-                                    if (constructionContainer) {
-                                        constructionContainer.style.animation = 'none';
-                                        void constructionContainer.offsetWidth; // Trigger reflow
-                                        constructionContainer.style.animation = 'bounce 0.5s';
+                                    // Add a subtle bounce animation to the coming soon container to draw attention
+                                    const comingSoonContainer = document.getElementById('comingSoonContainer');
+                                    if (comingSoonContainer) {
+                                        comingSoonContainer.style.animation = 'none';
+                                        void comingSoonContainer.offsetWidth; // Trigger reflow
+                                        comingSoonContainer.style.animation = 'bounce 0.5s';
                                     }
                                 }
                             }
