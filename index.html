@@ -458,6 +458,284 @@
             border: 1px solid #9ED9B5; /* Pastel green */
             color: #9ED9B5; /* Pastel green */
         }
+
+        /* MOBILE RESPONSIVENESS */
+        
+        /* Tablet styles */
+        @media screen and (max-width: 768px) {
+            .logo-container {
+                width: 300px;
+                height: 300px;
+                margin-bottom: 15px;
+            }
+            
+            .countdown {
+                font-size: 14px;
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+            
+            .hourglass {
+                font-size: 18px;
+            }
+            
+            .sticky-logo {
+                width: 40px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .social-container {
+                bottom: 60px;
+            }
+            
+            .social-icons {
+                gap: 15px;
+            }
+            
+            .social-icons a {
+                font-size: 20px;
+            }
+            
+            .social-text {
+                font-size: 12px;
+                padding: 0 20px;
+            }
+            
+            .coming-soon-text {
+                font-size: 20px;
+                letter-spacing: 1px;
+            }
+            
+            .coming-soon-subtext {
+                font-size: 13px;
+                max-width: 250px;
+            }
+            
+            .coming-soon-container {
+                padding: 15px;
+                max-width: 320px;
+                width: 85%;
+            }
+        }
+
+        /* Mobile styles */
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 0 10px;
+            }
+            
+            .logo-container {
+                width: 250px;
+                height: 250px;
+                margin-bottom: 10px;
+            }
+            
+            .countdown {
+                font-size: 11px;
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+                flex-direction: column;
+                align-items: flex-end;
+                line-height: 1.2;
+            }
+            
+            .hourglass {
+                font-size: 14px;
+                margin-top: 2px;
+            }
+            
+            .sticky-logo {
+                width: 35px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            .social-container {
+                bottom: 50px;
+            }
+            
+            .social-icons {
+                gap: 25px;
+                margin-top: 15px;
+            }
+            
+            .social-icons a {
+                font-size: 28px;
+                padding: 10px;
+            }
+            
+            .social-text {
+                font-size: 11px;
+                padding: 0 15px;
+                margin-top: 8px;
+            }
+            
+            .signup-text {
+                font-size: 12px;
+                margin-top: 8px;
+                margin-bottom: 15px;
+                padding: 0 10px;
+            }
+            
+            .coming-soon-container {
+                padding: 12px;
+                max-width: 280px;
+                width: 90%;
+                margin-top: 5px;
+            }
+            
+            .coming-soon-text {
+                font-size: 18px;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+            }
+            
+            .coming-soon-subtext {
+                font-size: 12px;
+                max-width: 220px;
+                line-height: 1.4;
+            }
+            
+            .copyright {
+                font-size: 10px;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                white-space: normal;
+                line-height: 1.3;
+            }
+            
+            .cookie-banner {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                transform: none;
+                width: auto;
+                max-width: none;
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .cookie-text {
+                margin-right: 0;
+                margin-bottom: 10px;
+                text-align: center;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            .cookie-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .cookie-buttons button {
+                padding: 10px 20px;
+                font-size: 12px;
+                flex: 1;
+                max-width: 120px;
+            }
+            
+            .loading-bar-container {
+                width: 150px;
+            }
+            
+            .loading-text {
+                font-size: 12px;
+            }
+            
+            .loading-progress {
+                font-size: 10px;
+            }
+        }
+
+        /* Extra small mobile devices */
+        @media screen and (max-width: 320px) {
+            .logo-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .countdown {
+                font-size: 10px;
+                top: 8px;
+                right: 8px;
+            }
+            
+            .hourglass {
+                font-size: 12px;
+            }
+            
+            .sticky-logo {
+                width: 30px;
+                top: 8px;
+                left: 8px;
+            }
+            
+            .social-icons a {
+                font-size: 24px;
+                padding: 8px;
+            }
+            
+            .coming-soon-container {
+                max-width: 260px;
+                padding: 10px;
+            }
+            
+            .coming-soon-text {
+                font-size: 16px;
+            }
+            
+            .coming-soon-subtext {
+                font-size: 11px;
+                max-width: 200px;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .container {
+                top: 45%;
+            }
+            
+            .logo-container {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 8px;
+            }
+            
+            .social-container {
+                bottom: 25px;
+            }
+            
+            .social-text {
+                margin-top: 5px;
+            }
+            
+            .coming-soon-container {
+                padding: 8px;
+                margin-top: 5px;
+            }
+            
+            .coming-soon-text {
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+            
+            .coming-soon-subtext {
+                font-size: 11px;
+            }
+            
+            .signup-text {
+                margin-top: 5px;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
