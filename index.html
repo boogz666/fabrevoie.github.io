@@ -492,6 +492,43 @@
             color: #fff;
             line-height: 1.5;
             max-width: 280px;
+            margin-bottom: 20px;
+        }
+
+        /* Enter Button */
+        .enter-button {
+            background: linear-gradient(45deg, var(--color-primary), #7BC097);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.3);
+            margin-top: 15px;
+        }
+
+        .enter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
+            background: linear-gradient(45deg, #7BC097, var(--color-primary));
+        }
+
+        .enter-button i {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .enter-button:hover i {
+            transform: translateX(5px);
         }
 
         /* Social Media Icons */
@@ -691,7 +728,8 @@
             .signup-text { font-size: 12px; margin-top: 8px; margin-bottom: 15px; padding: 0 10px; }
             .coming-soon-container { padding: 12px; max-width: 280px; width: 90%; margin-top: 5px; }
             .coming-soon-text { font-size: 18px; letter-spacing: 1px; margin-bottom: 8px; }
-            .coming-soon-subtext { font-size: 12px; max-width: 220px; line-height: 1.4; }
+            .coming-soon-subtext { font-size: 12px; max-width: 220px; line-height: 1.4; margin-bottom: 15px; }
+            .enter-button { font-size: 14px; padding: 12px 25px; letter-spacing: 0.5px; }
             .copyright { font-size: 10px; bottom: 10px; left: 10px; right: 10px; white-space: normal; line-height: 1.3; }
             .cookie-banner { bottom: 10px; left: 10px; right: 10px; transform: none; width: auto; max-width: none; padding: 12px 15px; flex-direction: column; gap: 10px; }
             .cookie-text { margin-right: 0; margin-bottom: 10px; text-align: center; font-size: 12px; line-height: 1.4; }
@@ -859,8 +897,12 @@
 
             <!-- Coming Soon Container -->
             <div id="comingSoonContainer" class="coming-soon-container">
-                <div class="coming-soon-text">COMING SOON</div>
-                <p class="coming-soon-subtext">We're crafting something extraordinary. Stay tuned for our launch.</p>
+                <div class="coming-soon-text">WELCOME</div>
+                <p class="coming-soon-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
+                <button id="enterButton" class="enter-button" onclick="enterSite()">
+                    ENTER STORE
+                    <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
@@ -1077,6 +1119,13 @@
             if (blurOverlay) {
                 blurOverlay.classList.remove('blur-active');
             }
+        }
+
+        function enterSite() {
+            applyBlurEffect();
+            setTimeout(() => {
+                window.location.href = 'products.html';
+            }, 500);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
