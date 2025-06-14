@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrevoie - Products | Weird Footwear Collection</title>
+    <meta name="description" content="Explore Fabrevoie's unique footwear collection. We make weird things.">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/placeholder/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/placeholder/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/placeholder/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/placeholder/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/placeholder/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/placeholder/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/placeholder/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/placeholder/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/placeholder/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/placeholder/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/placeholder/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/placeholder/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/placeholder/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/placeholder/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/placeholder/ms-icon-144x144.png">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Fabrevoie - Products | Weird Footwear Collection">
+    <meta property="og:description" content="Explore Fabrevoie's unique footwear collection. We make weird things.">
+    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
+    <meta property="og:url" content="https://fabrevoie.com/products">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fabrevoie - Products | Weird Footwear Collection">
+    <meta name="twitter:description" content="Explore Fabrevoie's unique footwear collection. We make weird things.">
+    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+        });
+        gtag('js', new Date());
+        gtag('config', 'G-TZJE1XNS2Z');
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- FIXED FONT SYSTEM -->
+    <link rel="stylesheet" href="css/fonts.css">
+
+    <style>
+        /* Site Variables */
+        :root {
+            --color-primary: #9ED9B5;
+            --color-secondary: #7BC097;
+            --color-dark: #121212;
+            --color-darker: #0a0a0a;
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-darker) 100%);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .loading-text {
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            color: var(--color-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(158, 217, 181, 0.1);
+        }
+
+        .logo-small {
+            width: 50px;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-small:hover {
+            transform: scale(1.1);
+        }
+
+        .back-button {
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        radial-gradient(circle at center, rgba(158, 217, 181, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-title {
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 3.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(158, 217, 181, 0.5); }
+            to { text-shadow: 0 0 30px rgba(158, 217, 181, 0.8); }
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Products Grid */
+        .products-section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            align-items: start;
+        }
+
+        .product-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(158, 217, 181, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--color-primary);
+            box-shadow: 0 20px 40px rgba(158, 217, 181, 0.2);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            background: linear-gradient(45deg, rgba(158, 217, 181, 0.1), rgba(123, 192, 151, 0.1));
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .product-price {
+            font-family: var(--font-numbers) !important;
+            font-weight: var(--font-numbers-weight);
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .buy-button {
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-family: var(--font-headers) !important;
+            font-weight: var(--font-primary-weight);
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 15px 35px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
+            background: linear-gradient(45deg, var(--color-secondary), var(--color-primary));
+        }
+
+        .buy-button i {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .buy-button:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(158, 217, 181, 0.2);
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .social-icons a {
+            color: var(--color-primary);
+            font-size: 28px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 15px;
+            border-radius: 50%;
+            background: rgba(158, 217, 181, 0.1);
+        }
+
+        .social-icons a:hover {
+            color: #000;
+            background: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.3);
+        }
+
+        .copyright {
+            color: #888;
+            font-family: var(--font-body);
+            font-size: 14px;
+        }
+
+        .copyright a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-card {
+                margin: 0 10px;
+            }
+
+            .product-image-container {
+                height: 300px;
+            }
+
+            .back-button {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .logo-small {
+                width: 40px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .hero {
+                padding: 40px 15px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .products-section {
+                padding: 40px 10px;
+            }
+
+            .products-grid {
+                gap: 30px;
+            }
+
+            .product-info {
+                padding: 20px;
+            }
+
+            .product-name {
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+
+            .product-price {
+                font-size: 1.6rem;
+            }
+
+            .buy-button {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+
+            .social-icons {
+                gap: 20px;
+            }
+
+            .social-icons a {
+                font-size: 24px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-text">LOADING STORE</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo-small" onclick="goHome()">
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            BACK
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">The Collection</h1>
+            <p class="hero-subtitle">
+                Discover our exclusive line of weird and wonderful footwear. 
+                Each piece is crafted with precision and designed to make a statement.
+            </p>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="assets/images/prodpic1.png" alt="Fabrevoie Sneaker Model 1" class="product-image">
+                        <div class="product-overlay"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">GENESIS</h3>
+                        <p class="product-description">
+                            The beginning of weird. Our flagship model that started it all. 
+                            Featuring avant-garde design with comfort that defies convention.
+                        </p>
+                        <div class="product-price">$299</div>
+                        <button class="buy-button" onclick="purchaseProduct('genesis')">
+                            BUY NOW
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="assets/images/prodpic2.png" alt="Fabrevoie Sneaker Model 2" class="product-image">
+                        <div class="product-overlay"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">EVOLUTION</h3>
+                        <p class="product-description">
+                            The next step in footwear evolution. Bold silhouettes meet 
+                            cutting-edge materials in this boundary-pushing design.
+                        </p>
+                        <div class="product-price">$349</div>
+                        <button class="buy-button" onclick="purchaseProduct('evolution')">
+                            BUY NOW
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="assets/images/prodpic3.png" alt="Fabrevoie Sneaker Model 3" class="product-image">
+                        <div class="product-overlay"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">TRANSCEND</h3>
+                        <p class="product-description">
+                            Beyond the ordinary. This premium model transcends traditional 
+                            footwear with revolutionary design and uncompromising quality.
+                        </p>
+                        <div class="product-price">$449</div>
+                        <button class="buy-button" onclick="purchaseProduct('transcend')">
+                            BUY NOW
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        function showPageContent() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // Navigation functions
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Purchase function
+        function purchaseProduct(productName) {
+            // You can integrate with your payment system here
+            // For now, we'll show an alert
+            alert(`Redirecting to purchase ${productName.toUpperCase()}...`);
+            
+            // Example: redirect to a checkout page or external store
+            // window.location.href = `checkout.html?product=${productName}`;
+            // or external store:
+            // window.open(`https://your-store.com/product/${productName}`, '_blank');
+        }
+
+        // Load page content
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading time
+            setTimeout(() => {
+                showPageContent();
+            }, 1000);
+
+            // Add scroll animations
+            const cards = document.querySelectorAll('.product-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Cookie consent (inherited from main site)
+        const consent = localStorage.getItem('cookieConsent');
+        if (consent === 'accepted') {
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
