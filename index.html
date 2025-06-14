@@ -67,6 +67,33 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <style>
+    @font-face {
+      font-family: 'ExtendaPeta';
+      src: url('fonts/Extenda-80-Peta-trial.ttf') format('truetype');
+      font-weight: bold;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'ExtendaHecto';
+      src: url('fonts/Extenda-40-Hecto-trial.ttf') format('truetype');
+      font-weight: normal;
+      font-display: swap;
+    }
+
+    /* CSS Variables for Font Hierarchy */
+    :root {
+      --font-primary: 'ExtendaPeta', 'Poppins', sans-serif;
+      --font-secondary: 'ExtendaHecto', 'Poppins', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+      --font-numbers: 'JetBrains Mono', monospace;
+      --color-primary: #9ED9B5;
+    }
+    </style>
 
     <!-- MailerLite CSS -->
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
@@ -732,7 +759,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Poppins', sans-serif;
+            font-family: var(--font-body);
             overflow: hidden;
             color: white;
             background-color: #000;
@@ -789,25 +816,28 @@
         .loading-bar {
             height: 100%;
             width: 0%;
-            background-color: #9ED9B5; /* Pastel green */
+            background-color: var(--color-primary);
             border-radius: 2px;
             transition: width 0.3s ease-out;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
+            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
         }
 
         .loading-text {
+            font-family: var(--font-primary) !important;
             font-size: 14px;
-            color: #9ED9B5;
-            letter-spacing: 1px;
+            color: var(--color-primary);
+            letter-spacing: 2px;
             text-transform: uppercase;
             margin-top: 10px;
-            font-weight: 600;
+            font-weight: bold;
         }
 
         .loading-progress {
+            font-family: var(--font-numbers) !important;
             font-size: 12px;
             color: #888888;
             margin-top: 5px;
+            font-weight: 600;
         }
 
         /* Additional animation for loading effect */
@@ -910,10 +940,12 @@
         /* Text under the MailerLite form */
         .signup-text {
             text-align: center;
-            color: #9ED9B5; /* Pastel green */
+            color: var(--color-primary);
+            font-family: var(--font-secondary) !important;
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
+            letter-spacing: 1px;
         }
 
         /* Coming Soon Container */
@@ -921,33 +953,35 @@
             display: none; /* Hidden by default */
             flex-direction: column;
             align-items: center;
-            margin-top: 10px; /* Reduced from 20px */
-            padding: 20px; /* Reduced from 30px */
-            border: 2px solid #9ED9B5;
+            margin-top: 10px;
+            padding: 20px;
+            border: 2px solid var(--color-primary);
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
             text-align: center;
-            width: 80%; /* Added to control width */
-            max-width: 350px; /* Added to limit maximum size */
+            width: 80%;
+            max-width: 350px;
         }
 
         .coming-soon-text {
-            font-size: 24px; /* Reduced from 32px */
-            font-weight: 600;
-            color: #9ED9B5;
+            font-family: var(--font-primary) !important;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary);
             text-transform: uppercase;
-            letter-spacing: 2px; /* Reduced from 3px */
-            margin-bottom: 10px; /* Reduced from 15px */
+            letter-spacing: 2px;
+            margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             animation: pulse 2s infinite;
         }
 
         .coming-soon-subtext {
-            font-size: 14px; /* Reduced from 16px */
+            font-family: var(--font-body);
+            font-size: 14px;
             color: #fff;
             line-height: 1.5;
-            max-width: 280px; /* Slightly reduced */
+            max-width: 280px;
         }
 
         /* Social Media Icons */
@@ -959,28 +993,30 @@
         }
 
         .social-icons a {
-            color: #9ED9B5; /* Pastel green */
+            color: var(--color-primary);
             font-size: 24px;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
-            color: #7BC097; /* Darker pastel green */
+            color: #7BC097;
         }
 
         /* Text under social icons */
         .social-text {
             text-align: center;
-            color: #9ED9B5; /* Pastel green */
+            color: var(--color-primary);
+            font-family: var(--font-secondary) !important;
             font-size: 14px;
             margin-top: 10px;
+            letter-spacing: 0.5px;
         }
 
-        /* Social media container at the bottom - increased bottom spacing */
+        /* Social media container at the bottom */
         .social-container {
             position: fixed;
-            bottom: 70px; /* Increased from 50px */
+            bottom: 70px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -993,6 +1029,7 @@
             bottom: 15px;
             left: 15px;
             color: #888888;
+            font-family: var(--font-body);
             font-size: 12px;
             text-align: left;
             z-index: 1000;
@@ -1000,7 +1037,7 @@
         }
 
         .copyright a {
-            color: #9ED9B5; /* Pastel green */
+            color: var(--color-primary);
             text-decoration: none;
         }
 
@@ -1016,7 +1053,7 @@
             z-index: 1000;
             width: 50px;
             height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); /* Pastel green color */
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transition: transform 0.3s ease;
         }
 
@@ -1029,14 +1066,21 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            font-family: 'Poppins', sans-serif;
+            font-family: var(--font-secondary) !important;
             font-size: 18px;
-            color: #9ED9B5; /* Pastel green */
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5); /* Pastel green glow */
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .countdown #days {
+            font-family: var(--font-numbers) !important;
+            font-weight: 600;
+            font-size: 1.2em;
         }
 
         /* Hourglass animation */
@@ -1047,7 +1091,7 @@
 
         .hourglass {
             font-size: 24px;
-            animation: rotateHourglass 3s linear infinite; /* Rotates every 3 seconds */
+            animation: rotateHourglass 3s linear infinite;
         }
 
         /* Cookie Consent Banner */
@@ -1076,6 +1120,7 @@
             letter-spacing: 0.5px;
             font-weight: 400;
             margin-right: 20px;
+            font-family: var(--font-body);
         }
 
         .cookie-buttons {
@@ -1089,17 +1134,20 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
+            font-family: var(--font-secondary) !important;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
         
         .cookie-buttons button:first-child {
-            background-color: #9ED9B5; /* Pastel green */
+            background-color: var(--color-primary);
             color: #000;
         }
 
         .cookie-buttons button:last-child {
             background-color: transparent;
-            border: 1px solid #9ED9B5; /* Pastel green */
-            color: #9ED9B5; /* Pastel green */
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
         }
 
         /* MOBILE RESPONSIVENESS */
@@ -1384,7 +1432,7 @@
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
         <div class="loading-bar-container">
             <div class="loading-bar" id="progressBar"></div>
         </div>
@@ -1398,13 +1446,13 @@
     <div class="page" id="mainContent">
         <!-- Sticky Logo -->
         <a href="index.html">
-            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
         </a>
 
         <!-- Background Video -->
         <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-            <source src="bttb2.mp4" type="video/mp4">
-            <source src="bttb2.webm" type="video/webm">
+            <source src="assets/videos/bttb2.mp4" type="video/mp4">
+            <source src="assets/videos/bttb2.webm" type="video/webm">
             Your browser does not support background video.
         </video>
 
@@ -1418,7 +1466,7 @@
                 <!-- 3D Logo with auto-rotation and fallback -->
                 <model-viewer 
                     id="logoModel"
-                    src="3Dlogo2.glb"
+                    src="assets/models/3Dlogo2.glb"
                     alt="Fabrevoie 3D Logo" 
                     class="logo"
                     auto-rotate
@@ -1435,7 +1483,7 @@
                     <!-- Error message slot -->
                     <div slot="error" class="model-error">
                         <p>3D logo failed to load</p>
-                        <img src="logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
+                        <img src="assets/images/logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
                     </div>
                 </model-viewer>
             </div>
@@ -1562,18 +1610,14 @@
                 <button onclick="closeCookieBanner()">Decline</button>
             </div>
         </div>
-
-        <!-- Audio Element for signup confirmation only -->
-        <audio id="accessSound" src="access-granted.mp3"></audio>
     </div>
 
     <script>
-        // Assets to preload
+        // Assets to preload (UPDATED PATHS)
         const assetsToLoad = [
-            { type: 'image', url: 'logo-small.png' },
-            { type: '3d', url: '3Dlogo5.glb' },
-            { type: 'video', url: 'bgffm.mp4' },
-            { type: 'audio', url: 'access-granted.mp3' }
+            { type: 'image', url: 'assets/images/logo-small.png' },
+            { type: '3d', url: 'assets/models/3Dlogo2.glb' },
+            { type: 'video', url: 'assets/videos/bttb2.mp4' }
         ];
         
         let loadedAssets = 0;
@@ -1629,17 +1673,6 @@
                             };
                             video.src = asset.url;
                             video.load();
-                            break;
-                            
-                        case 'audio':
-                            const audio = new Audio();
-                            audio.oncanplaythrough = () => assetLoaded();
-                            audio.onerror = () => {
-                                console.error("Failed to load audio:", asset.url);
-                                assetLoaded();
-                            };
-                            audio.src = asset.url;
-                            audio.load();
                             break;
                             
                         case '3d':
@@ -1745,17 +1778,11 @@
             // Your existing success logic
             localStorage.setItem('formSubmitted', 'true');
             showComingSoon();
-            
-            // Play sound if available
-            const accessSound = document.getElementById('accessSound');
-            if (accessSound) {
-                accessSound.play();
-            }
         }
 
         // Function to show Coming Soon Container and hide signup form
         function showComingSoon() {
-            const mailerLiteForm = document.getElementById('mlb2-23779383'); // Updated ID
+            const mailerLiteForm = document.getElementById('mlb2-23779383');
             const signupText = document.getElementById('signupText');
             const comingSoonContainer = document.getElementById('comingSoonContainer');
 
