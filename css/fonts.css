@@ -1,0 +1,69 @@
+/* 
+FABREVOIE FONT THEME: SPACE GROTESK + INTER
+Theme: Premium Weird (Balenciaga x MSCHF)
+*/
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* Font Variables */
+:root {
+  /* Primary Font - Headers & Numbers */
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-primary-weight-light: 300;
+  --font-primary-weight-normal: 400;
+  --font-primary-weight-medium: 500;
+  --font-primary-weight-semibold: 600;
+  --font-primary-weight-bold: 700;
+  
+  /* Secondary Font - Body Text */
+  --font-secondary: 'Inter', sans-serif;
+  --font-secondary-weight-light: 300;
+  --font-secondary-weight-normal: 400;
+  --font-secondary-weight-medium: 500;
+  --font-secondary-weight-semibold: 600;
+  
+  /* Font Applications */
+  --font-headers: var(--font-primary);
+  --font-numbers: var(--font-primary);
+  --font-buttons: var(--font-primary);
+  --font-body: var(--font-secondary);
+  --font-labels: var(--font-secondary);
+}
+
+/* Font Classes for Easy Application */
+.font-header-main {
+  font-family: var(--font-headers);
+  font-weight: var(--font-primary-weight-bold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.font-header-sub {
+  font-family: var(--font-headers);
+  font-weight: var(--font-primary-weight-semibold);
+  letter-spacing: 1px;
+}
+
+.font-numbers {
+  font-family: var(--font-numbers);
+  font-weight: var(--font-primary-weight-semibold);
+  letter-spacing: 0.5px;
+}
+
+.font-button {
+  font-family: var(--font-buttons);
+  font-weight: var(--font-primary-weight-medium);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.font-body {
+  font-family: var(--font-body);
+  font-weight: var(--font-secondary-weight-normal);
+}
+
+.font-body-bold {
+  font-family: var(--font-body);
+  font-weight: var(--font-secondary-weight-semibold);
+}
