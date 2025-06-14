@@ -65,13 +65,28 @@
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- FONT THEME SYSTEM -->
-    <link rel="stylesheet" href="css/fonts-syne.css">
+    <!-- CUSTOM FONT: SuperRich -->
+    <style>
+    @font-face {
+      font-family: 'SuperRich';
+      src: url('fonts/SuperRichExpandedPersonalUseOnlyStretch-0vKAv.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* Font Variables */
+    :root {
+      --font-primary: 'SuperRich', Arial Black, sans-serif;
+      --font-secondary: 'Arial', sans-serif;
+      --color-primary: #9ED9B5;
+    }
+    </style>
 
     <!-- MailerLite CSS -->
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
     <style type="text/css">
-    /* LOADER */
+    /* MAILERLITE STYLES - KEEPING ORIGINAL */
     .ml-form-embedSubmitLoad {
       display: inline-block;
       width: 20px;
@@ -703,11 +718,6 @@
   </style>
 
     <style>
-        /* Site Variables */
-        :root {
-            --color-primary: #9ED9B5;
-        }
-
         /* Hide the progress bar */
         model-viewer::part(progress-bar) {
             display: none;
@@ -737,7 +747,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: var(--font-body);
+            font-family: var(--font-secondary);
             overflow: hidden;
             color: white;
             background-color: #000;
@@ -801,21 +811,21 @@
         }
 
         .loading-text {
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight-bold);
+            font-family: var(--font-primary) !important;
             font-size: 14px;
             color: var(--color-primary);
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-top: 10px;
+            font-weight: normal;
         }
 
         .loading-progress {
-            font-family: var(--font-numbers) !important;
-            font-weight: var(--font-primary-weight-semibold);
+            font-family: var(--font-primary) !important;
             font-size: 12px;
             color: #888888;
             margin-top: 5px;
+            font-weight: normal;
         }
 
         /* Additional animation for loading effect */
@@ -856,7 +866,7 @@
             opacity: 1;
         }
 
-        /* Background video styling */
+        /* Background video styling - USING ORIGINAL PATHS */
         .bg-video {
             position: fixed;
             top: 50%;
@@ -919,12 +929,12 @@
         .signup-text {
             text-align: center;
             color: var(--color-primary);
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight-medium);
+            font-family: var(--font-primary) !important;
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
             letter-spacing: 1px;
+            font-weight: normal;
         }
 
         /* Coming Soon Container */
@@ -944,8 +954,7 @@
         }
 
         .coming-soon-text {
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight-bold);
+            font-family: var(--font-primary) !important;
             font-size: 24px;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -953,11 +962,11 @@
             margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             animation: pulse 2s infinite;
+            font-weight: normal;
         }
 
         .coming-soon-subtext {
-            font-family: var(--font-body);
-            font-weight: var(--font-secondary-weight-normal);
+            font-family: var(--font-secondary);
             font-size: 14px;
             color: #fff;
             line-height: 1.5;
@@ -987,11 +996,11 @@
         .social-text {
             text-align: center;
             color: var(--color-primary);
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight-medium);
+            font-family: var(--font-primary) !important;
             font-size: 14px;
             margin-top: 10px;
             letter-spacing: 0.5px;
+            font-weight: normal;
         }
 
         /* Social media container at the bottom */
@@ -1010,8 +1019,7 @@
             bottom: 15px;
             left: 15px;
             color: #888888;
-            font-family: var(--font-body);
-            font-weight: var(--font-secondary-weight-normal);
+            font-family: var(--font-secondary);
             font-size: 12px;
             text-align: left;
             z-index: 1000;
@@ -1048,8 +1056,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight-semibold);
+            font-family: var(--font-primary) !important;
             font-size: 18px;
             color: var(--color-primary);
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
@@ -1058,12 +1065,13 @@
             align-items: center;
             gap: 10px;
             letter-spacing: 1px;
+            font-weight: normal;
         }
 
         .countdown #days {
-            font-family: var(--font-numbers) !important;
-            font-weight: var(--font-primary-weight-semibold);
+            font-family: var(--font-primary) !important;
             font-size: 1.2em;
+            font-weight: normal;
         }
 
         /* Hourglass animation */
@@ -1101,9 +1109,8 @@
             flex-grow: 1;
             text-align: left;
             letter-spacing: 0.5px;
-            font-weight: var(--font-secondary-weight-normal);
             margin-right: 20px;
-            font-family: var(--font-body);
+            font-family: var(--font-secondary);
         }
 
         .cookie-buttons {
@@ -1117,9 +1124,9 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            font-family: var(--font-buttons) !important;
-            font-weight: var(--font-primary-weight-medium);
+            font-family: var(--font-primary) !important;
             letter-spacing: 0.5px;
+            font-weight: normal;
         }
         
         .cookie-buttons button:first-child {
@@ -1415,7 +1422,7 @@
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <img src="logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
         <div class="loading-bar-container">
             <div class="loading-bar" id="progressBar"></div>
         </div>
@@ -1429,13 +1436,13 @@
     <div class="page" id="mainContent">
         <!-- Sticky Logo -->
         <a href="index.html">
-            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+            <img src="logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
         </a>
 
-        <!-- Background Video -->
+        <!-- Background Video - USING ORIGINAL PATHS -->
         <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-            <source src="assets/videos/bttb2.mp4" type="video/mp4">
-            <source src="assets/videos/bttb2.webm" type="video/webm">
+            <source src="bttb2.mp4" type="video/mp4">
+            <source src="bttb2.webm" type="video/webm">
             Your browser does not support background video.
         </video>
 
@@ -1446,10 +1453,10 @@
         <div class="container">
             <!-- Middle Logo Container -->
             <div class="logo-container">
-                <!-- 3D Logo with auto-rotation and fallback -->
+                <!-- 3D Logo with auto-rotation and fallback - USING ORIGINAL PATH -->
                 <model-viewer 
                     id="logoModel"
-                    src="assets/models/3Dlogo2.glb"
+                    src="3Dlogo2.glb"
                     alt="Fabrevoie 3D Logo" 
                     class="logo"
                     auto-rotate
@@ -1466,7 +1473,7 @@
                     <!-- Error message slot -->
                     <div slot="error" class="model-error">
                         <p>3D logo failed to load</p>
-                        <img src="assets/images/logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
+                        <img src="logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
                     </div>
                 </model-viewer>
             </div>
@@ -1596,11 +1603,11 @@
     </div>
 
     <script>
-        // Assets to preload (UPDATED PATHS)
+        // Assets to preload - USING ORIGINAL PATHS
         const assetsToLoad = [
-            { type: 'image', url: 'assets/images/logo-small.png' },
-            { type: '3d', url: 'assets/models/3Dlogo2.glb' },
-            { type: 'video', url: 'assets/videos/bttb2.mp4' }
+            { type: 'image', url: 'logo-small.png' },
+            { type: '3d', url: '3Dlogo2.glb' },
+            { type: 'video', url: 'bttb2.mp4' }
         ];
         
         let loadedAssets = 0;
