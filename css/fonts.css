@@ -1,20 +1,28 @@
 /* 
-FABREVOIE FONT THEME: SPACE GROTESK + INTER
-Theme: Premium Weird (Balenciaga x MSCHF)
+FABREVOIE FONT THEME: CUSTOM SUPER RICH + BOLD NUMBERS
+Fixed version with proper number/sign support
 */
 
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+/* Custom Font Import */
+@font-face {
+  font-family: 'SuperRich';
+  src: url('../fonts/SuperRichExpandedPersonalUseOnlyStretch-0vKAv.otf') format('opentype');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* Bold Wide Font for Numbers - Using Anton (free, bold, wide) */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
 
 /* Font Variables */
 :root {
-  /* Primary Font - Headers & Numbers */
-  --font-primary: 'Space Grotesk', sans-serif;
-  --font-primary-weight-light: 300;
-  --font-primary-weight-normal: 400;
-  --font-primary-weight-medium: 500;
-  --font-primary-weight-semibold: 600;
-  --font-primary-weight-bold: 700;
+  /* Primary Font - Your Custom Font for Headers */
+  --font-primary: 'SuperRich', 'Bebas Neue', sans-serif;
+  --font-primary-weight: normal;
+  
+  /* Numbers Font - Bold and Wide */
+  --font-numbers: 'Anton', sans-serif;
+  --font-numbers-weight: 400;
   
   /* Secondary Font - Body Text */
   --font-secondary: 'Inter', sans-serif;
@@ -25,7 +33,6 @@ Theme: Premium Weird (Balenciaga x MSCHF)
   
   /* Font Applications */
   --font-headers: var(--font-primary);
-  --font-numbers: var(--font-primary);
   --font-buttons: var(--font-primary);
   --font-body: var(--font-secondary);
   --font-labels: var(--font-secondary);
@@ -34,26 +41,26 @@ Theme: Premium Weird (Balenciaga x MSCHF)
 /* Font Classes for Easy Application */
 .font-header-main {
   font-family: var(--font-headers);
-  font-weight: var(--font-primary-weight-bold);
+  font-weight: var(--font-primary-weight);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .font-header-sub {
   font-family: var(--font-headers);
-  font-weight: var(--font-primary-weight-semibold);
+  font-weight: var(--font-primary-weight);
   letter-spacing: 1px;
 }
 
 .font-numbers {
   font-family: var(--font-numbers);
-  font-weight: var(--font-primary-weight-semibold);
-  letter-spacing: 0.5px;
+  font-weight: var(--font-numbers-weight);
+  letter-spacing: 1px;
 }
 
 .font-button {
-  font-family: var(--font-buttons);
-  font-weight: var(--font-primary-weight-medium);
+  font-family: var(--font-headers);
+  font-weight: var(--font-primary-weight);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
