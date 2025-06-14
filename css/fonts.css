@@ -1,6 +1,6 @@
 /* 
-FABREVOIE FONT THEME: CUSTOM SUPER RICH + BOLD NUMBERS
-Fixed version with proper number/sign support
+FABREVOIE FONT THEME: CUSTOM SUPER RICH + NUMBERS & SIGNS
+Fixed version with proper punctuation support
 */
 
 /* Custom Font Import */
@@ -9,18 +9,19 @@ Fixed version with proper number/sign support
   src: url('../fonts/SuperRichExpandedPersonalUseOnlyStretch-0vKAv.otf') format('opentype');
   font-weight: normal;
   font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A; /* Only letters */
 }
 
-/* Bold Wide Font for Numbers - Using Anton (free, bold, wide) */
+/* Bold Wide Font for Numbers & Signs */
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
 
 /* Font Variables */
 :root {
-  /* Primary Font - Your Custom Font for Headers */
-  --font-primary: 'SuperRich', 'Bebas Neue', sans-serif;
+  /* Primary Font - Mixed: Custom for letters, Anton for numbers/signs */
+  --font-primary: 'SuperRich', 'Anton', 'Bebas Neue', sans-serif;
   --font-primary-weight: normal;
   
-  /* Numbers Font - Bold and Wide */
+  /* Numbers & Signs Font - Bold and Wide */
   --font-numbers: 'Anton', sans-serif;
   --font-numbers-weight: 400;
   
@@ -31,7 +32,7 @@ Fixed version with proper number/sign support
   --font-secondary-weight-medium: 500;
   --font-secondary-weight-semibold: 600;
   
-  /* Font Applications */
+  /* Font Applications - ALL use mixed font stack */
   --font-headers: var(--font-primary);
   --font-buttons: var(--font-primary);
   --font-body: var(--font-secondary);
