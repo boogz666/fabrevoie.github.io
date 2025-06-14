@@ -65,8 +65,10 @@
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- FIXED FONT SYSTEM -->
-    <link rel="stylesheet" href="css/fonts.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- MailerLite CSS -->
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
@@ -246,6 +248,12 @@
         /* Site Variables */
         :root {
             --color-primary: #9ED9B5;
+            --font-headers: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-numbers: 'Space Mono', monospace;
+            --font-primary-weight: 700;
+            --font-secondary-weight-normal: 400;
+            --font-numbers-weight: 400;
         }
 
         /* Hide the progress bar */
@@ -333,7 +341,7 @@
 
         .loading-text {
             font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight);
+            font-weight: 600;
             font-size: 14px;
             color: var(--color-primary);
             letter-spacing: 2px;
@@ -343,7 +351,7 @@
 
         .loading-progress {
             font-family: var(--font-numbers) !important;
-            font-weight: var(--font-numbers-weight);
+            font-weight: 400;
             font-size: 12px;
             color: #888888;
             margin-top: 5px;
@@ -475,7 +483,7 @@
 
         .coming-soon-text {
             font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight);
+            font-weight: 800;
             font-size: 24px;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -629,8 +637,9 @@
 
         .countdown #days {
             font-family: var(--font-numbers) !important;
-            font-weight: var(--font-numbers-weight);
+            font-weight: 700;
             font-size: 1.2em;
+            letter-spacing: 1px;
         }
 
         /* Hourglass animation */
