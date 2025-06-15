@@ -88,6 +88,16 @@
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <style>
+        /* Immediate hide everything to prevent FOUC */
+        * { 
+            visibility: hidden !important; 
+        }
+        #loading-screen { 
+            visibility: visible !important; 
+        }
+    </style>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -298,11 +308,10 @@
             overflow: hidden;
             color: white;
             background-color: #000;
-            visibility: hidden;
         }
 
-        body.loaded {
-            visibility: visible;
+        body.loaded * {
+            visibility: visible !important;
         }
 
         /* Loading Screen */
@@ -1015,7 +1024,9 @@
 <body>
     <!-- Immediate loading prevention -->
     <script>
-        document.body.classList.add('loaded');
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
     </script>
 
     <!-- Loading Screen -->
