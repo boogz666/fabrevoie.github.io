@@ -69,13 +69,12 @@
             margin: 0 5px;
         }
 
-        /* Adjust main header for announcement bar */
         .main-header {
             position: fixed;
-            top: 44px;
+            top: 0;
             left: 0;
             right: 0;
-            z-index: 10001;
+            z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -717,7 +716,8 @@
         }
 
         .timer-subtitle {
-            font-family: var(--font-body);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.9rem;
             color: #ccc;
             margin-bottom: 20px;
@@ -751,7 +751,8 @@
         }
 
         .timer-label {
-            font-family: var(--font-body);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.7rem;
             color: #888;
             text-transform: uppercase;
@@ -760,7 +761,8 @@
         }
 
         .timer-status {
-            font-family: var(--font-body);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.8rem;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -1401,25 +1403,6 @@
         <div class="loading-text">LOADING</div>
     </div>
 
-    <!-- Announcement Bar -->
-    <div style="position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(90deg, #9ED9B5, #7BC097, #9ED9B5); color: #000; padding: 12px 0; text-align: center; font-size: 14px; font-weight: bold; text-transform: uppercase; z-index: 99999; box-shadow: 0 2px 10px rgba(0,0,0,0.3); overflow: hidden; white-space: nowrap;">
-        <div style="display: inline-block; animation: scroll-left 20s linear infinite; padding-left: 100%;">
-            PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • 
-            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">LIVE DROP OCTOBER 14TH</span> • 
-            LIMITED TO 500 PAIRS ONLY • 
-            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">FREE SHIPPING</span> • 
-            SBHMN REVOLUTIONARY FOOTWEAR • 
-            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">SIGN UP NOW</span>
-        </div>
-    </div>
-
-    <style>
-        @keyframes scroll-left {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
-    </style>
-
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="assets/videos/bibi.mp4" type="video/mp4">
         <source src="assets/videos/bibi.webm" type="video/webm">
@@ -1539,6 +1522,14 @@
                 <button class="back-arrow" onclick="hideProductOverlay()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
+
+                <!-- Floating Announcements -->
+                <div class="floating-announcements">
+                    <div class="announcement-phrase" id="phrase1">PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC)</div>
+                    <div class="announcement-phrase" id="phrase2">LIVE DROP OCTOBER 14TH</div>
+                    <div class="announcement-phrase" id="phrase3">LIMITED TO 500 PAIRS ONLY</div>
+                    <div class="announcement-phrase" id="phrase4">FREE SHIPPING</div>
+                </div>
                 
                 <!-- Drop Timer -->
                 <div class="drop-timer-container">
@@ -1728,6 +1719,7 @@
                 topLogo.classList.add('visible');
                 updateProductImage(); // Initialize the product images
                 updateDropTimer(); // Initialize the timer
+                startAnnouncementCycling(); // Start floating announcements
                 addScrollBehavior();
                 
                 // Start timer interval
@@ -1911,6 +1903,42 @@
                 document.getElementById('timerMinutes').textContent = '00';
                 document.getElementById('timerSeconds').textContent = '00';
                 document.getElementById('timerStatus').textContent = 'Waiting for drop activation...';
+            }
+        }
+
+        let currentPhraseIndex = 0;
+        let announcementInterval;
+
+        function startAnnouncementCycling() {
+            const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
+            
+            // Show first phrase immediately
+            document.getElementById(phrases[0]).classList.add('visible');
+            
+            announcementInterval = setInterval(() => {
+                // Hide current phrase
+                document.getElementById(phrases[currentPhraseIndex]).classList.remove('visible');
+                
+                // Move to next phrase
+                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                
+                // Show next phrase after a brief delay
+                setTimeout(() => {
+                    document.getElementById(phrases[currentPhraseIndex]).classList.add('visible');
+                }, 500);
+                
+            }, 3000); // Change phrase every 3 seconds
+        }
+
+        function stopAnnouncementCycling() {
+            if (announcementInterval) {
+                clearInterval(announcementInterval);
+                // Hide all phrases
+                const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
+                phrases.forEach(id => {
+                    document.getElementById(id).classList.remove('visible');
+                });
+                currentPhraseIndex = 0;
             }
         }
 
