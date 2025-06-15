@@ -57,6 +57,7 @@
             
             img.style.opacity = '0';
             setTimeout(() => {
+                // USE FULL PATH DIRECTLY - NO ADDING PREFIX
                 img.src = imgs[window.currentImageIndex];
                 img.style.opacity = '1';
                 if (currentSpan) currentSpan.textContent = window.currentImageIndex + 1;
@@ -129,9 +130,24 @@
                     testImg.onerror = function() {
                         console.log(`❌ ${color}[${index}]: ${imgPath} - NOT FOUND`);
                     };
-                    testImg.src = imgPath;
+                    testImg.src = imgPath;  // DIRECT PATH - NO PREFIX ADDED
                 });
             });
+        };
+
+        // Test current image loading
+        window.testCurrentImage = function() {
+            const currentImg = window.productImages[window.currentColor][window.currentImageIndex];
+            console.log('Testing current image:', currentImg);
+            
+            const testImg = new Image();
+            testImg.onload = function() {
+                console.log('✅ Current image EXISTS:', currentImg);
+            };
+            testImg.onerror = function() {
+                console.log('❌ Current image NOT FOUND:', currentImg);
+            };
+            testImg.src = currentImg;
         };
 
         console.log('FUNCTIONS LOADED:', typeof window.nextImage, typeof window.previousImage, typeof window.changeColor);
