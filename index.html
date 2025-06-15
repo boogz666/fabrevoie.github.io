@@ -6,7 +6,8 @@
     <title>Fabrevoie - Footwear store. We make weird things.</title>
     <meta name="description" content="Fabrevoie - We make weird things.">
 
-    <!-- Remove problematic favicon completely -->
+    <!-- Favicon using your logo -->
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
 
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
@@ -625,7 +626,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             border: none;
             color: white;
             font-size: 24px;
@@ -638,11 +639,6 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .image-nav-arrow.visible {
             opacity: 1;
             pointer-events: all;
         }
@@ -667,12 +663,8 @@
             font-size: 14px;
             color: #ccc;
             letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-indicator.visible {
             opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
         .image-indicator .current-image {
@@ -1384,6 +1376,16 @@
         let currentColor = 'white';
         let lastScrollTop = 0;
         
+        // Test function for console debugging
+        window.testImageNavigation = function() {
+            console.log('=== IMAGE NAVIGATION TEST ===');
+            console.log('Current color:', currentColor);
+            console.log('Current index:', currentImageIndex);
+            console.log('Available images:', productImages[currentColor]);
+            console.log('Arrow elements found:', document.querySelectorAll('.image-nav-arrow').length);
+            console.log('Indicator element found:', document.querySelector('.image-indicator') ? 'Yes' : 'No');
+        };
+
         // Countdown - Fixed to October 14th, 2025
         const countdownDate = new Date('2025-10-14T00:00:00').getTime();
 
