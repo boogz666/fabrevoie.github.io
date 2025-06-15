@@ -25,6 +25,12 @@
         font-weight: normal;
         font-style: italic;
     }
+    @font-face {
+        font-family: 'NumbersFont';
+        src: url('fonts/GorgaGrotesque-Bolditalic.ttf') format('truetype');
+        font-weight: bold;
+        font-style: italic;
+    }
     </style>
 
     <style>
@@ -33,7 +39,7 @@
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --font-numbers: 'Space Mono', monospace;
+            --font-numbers: 'NumbersFont', 'Space Mono', monospace;
             --font-primary-weight: normal;
             --font-secondary-weight-normal: 400;
             --font-numbers-weight: 400;
@@ -47,7 +53,7 @@
             font-family: var(--font-body);
             color: #333;
             background-color: #fff;
-            background-image: url('assets/images/shopbg.png');
+            background-image: url('shopbg.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
