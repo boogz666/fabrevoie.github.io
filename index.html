@@ -5,247 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabrevoie - Footwear store. We make weird things.</title>
     <meta name="description" content="Fabrevoie - We make weird things.">
-
-    <!-- Favicon using your logo -->
     <link rel="icon" type="image/png" href="assets/images/logo-small.png">
-
-    <!-- Open Graph Tags -->
     <meta property="og:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta property="og:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
     <meta property="og:url" content="https://fabrevoie.com">
     <meta property="og:type" content="website">
-
-    <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
-    <!-- Copyright Text -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
         <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
-
-    <!-- SEPARATE SCRIPT BLOCK FOR GLOBAL FUNCTIONS -->
-    <script>
-        // SIMPLE GLOBAL FUNCTIONS - NOTHING ELSE
-        window.currentColor = 'white';
-        window.currentImageIndex = 0;
-        window.lastScrollTop = 0;
-        
-        window.productImages = {
-            white: [
-                'assets/images/prodp1.png',
-                'https://via.placeholder.com/500x500/FFFFFF/000000?text=White+Sneaker+2',
-                'https://via.placeholder.com/500x500/FFFFFF/000000?text=White+Sneaker+3'
-            ],
-            black: [
-                'assets/images/prodp2.png',
-                'https://via.placeholder.com/500x500/000000/FFFFFF?text=Black+Sneaker+2',
-                'https://via.placeholder.com/500x500/000000/FFFFFF?text=Black+Sneaker+3'
-            ],
-            red: [
-                'assets/images/prodp3.png',
-                'https://via.placeholder.com/500x500/FF0000/FFFFFF?text=Red+Sneaker+2',
-                'https://via.placeholder.com/500x500/FF0000/FFFFFF?text=Red+Sneaker+3'
-            ]
-        };
-
-        // Test specific files
-        window.testSpecificFiles = function() {
-            console.log('=== TESTING SPECIFIC FILES ===');
-            
-            const filesToTest = [
-                'assets/images/prodp1.png',
-                'assets/images/prodp2.png', 
-                'assets/images/prodp3.png'
-            ];
-            
-            filesToTest.forEach(file => {
-                const testImg = new Image();
-                testImg.onload = function() {
-                    console.log(`✅ FILE EXISTS: ${file}`);
-                };
-                testImg.onerror = function() {
-                    console.log(`❌ FILE NOT FOUND: ${file}`);
-                    console.log(`Full URL attempted: ${testImg.src}`);
-                };
-                testImg.src = file;
-            });
-        };
-
-        window.updateImage = function() {
-            console.log('=== UPDATE IMAGE CALLED ===');
-            console.log('Current Color:', window.currentColor);
-            console.log('Current Index:', window.currentImageIndex);
-            
-            if (!window.currentColor || window.currentColor === undefined) {
-                console.log('❌ ERROR: currentColor is undefined!');
-                return;
-            }
-            
-            const imgs = window.productImages[window.currentColor];
-            if (!imgs || imgs.length === 0) {
-                console.log('❌ ERROR: No images array for color:', window.currentColor);
-                return;
-            }
-            
-            const img = document.getElementById('productImage');
-            const currentSpan = document.querySelector('.current-image');
-            const totalSpan = document.querySelector('.total-images');
-            
-            const imageToLoad = imgs[window.currentImageIndex];
-            console.log('Images Array:', imgs);
-            console.log('Trying to load:', imageToLoad);
-            
-            if (!imageToLoad || imageToLoad === undefined) {
-                console.log('❌ ERROR: Image to load is undefined!');
-                console.log('Index:', window.currentImageIndex, 'Array length:', imgs.length);
-                return;
-            }
-            
-            img.style.opacity = '0';
-            setTimeout(() => {
-                // USE FULL PATH DIRECTLY - NO ADDING PREFIX
-                img.src = imageToLoad;
-                img.style.opacity = '1';
-                if (currentSpan) currentSpan.textContent = window.currentImageIndex + 1;
-                if (totalSpan) totalSpan.textContent = imgs.length;
-                
-                // Check if image loads with fallback
-                img.onload = function() {
-                    console.log('✅ SUCCESS: Image loaded -', imageToLoad);
-                };
-                img.onerror = function() {
-                    console.log('❌ FAILED: Image not found -', imageToLoad);
-                    console.log('Full path attempted:', img.src);
-                    
-                    // FALLBACK: Use placeholder if real image fails
-                    const fallbackUrl = `https://via.placeholder.com/500x500/9ED9B5/000000?text=${window.currentColor.toUpperCase()}+Sneaker`;
-                    console.log('🔄 FALLBACK: Using placeholder -', fallbackUrl);
-                    img.src = fallbackUrl;
-                };
-            }, 150);
-        };
-
-        window.nextImage = function() {
-            console.log('NEXT CLICKED - Current color:', window.currentColor, 'Current index:', window.currentImageIndex);
-            const imgs = window.productImages[window.currentColor];
-            window.currentImageIndex = (window.currentImageIndex + 1) % imgs.length;
-            console.log('New index:', window.currentImageIndex);
-            window.updateImage();
-        };
-
-        window.previousImage = function() {
-            console.log('PREV CLICKED - Current color:', window.currentColor, 'Current index:', window.currentImageIndex);
-            const imgs = window.productImages[window.currentColor];
-            window.currentImageIndex = (window.currentImageIndex - 1 + imgs.length) % imgs.length;
-            console.log('New index:', window.currentImageIndex);
-            window.updateImage();
-        };
-
-        // REMOVE ANY OLD CONFLICTING FUNCTIONS
-        window.changeProductColor = undefined;  // Clear any old function
-        
-        window.changeColor = function(color) {
-            console.log('=== WINDOW.CHANGECOLOR CALLED ===');
-            console.log('Requested color:', color);
-            console.log('Type of color:', typeof color);
-            console.log('Color is undefined?', color === undefined);
-            console.log('Before change - currentColor:', window.currentColor, 'currentIndex:', window.currentImageIndex);
-            
-            if (!color || color === undefined) {
-                console.log('❌ ERROR: Color is undefined or null!');
-                return;
-            }
-            
-            if (!window.productImages[color]) {
-                console.log('❌ ERROR: No images found for color:', color);
-                console.log('Available colors:', Object.keys(window.productImages));
-                return;
-            }
-            
-            // Update visual active state
-            document.querySelectorAll('.color-option').forEach(el => {
-                el.classList.remove('active');
-                console.log('Removed active from:', el.className);
-            });
-            
-            const targetElement = document.querySelector('.color-option.' + color);
-            if (targetElement) {
-                targetElement.classList.add('active');
-                console.log('Added active to:', targetElement.className);
-            } else {
-                console.log('❌ Could not find element for color:', color);
-            }
-            
-            // Change color and RESET to first image
-            window.currentColor = color;
-            window.currentImageIndex = 0;
-            console.log('After change - currentColor:', window.currentColor, 'currentIndex:', window.currentImageIndex);
-            
-            console.log('About to call updateImage...');
-            window.updateImage();
-        };
-
-        // Test if images exist
-        window.testImages = function() {
-            console.log('=== TESTING ALL IMAGES ===');
-            Object.keys(window.productImages).forEach(color => {
-                console.log(`Testing ${color} images:`);
-                window.productImages[color].forEach((imgPath, index) => {
-                    const testImg = new Image();
-                    testImg.onload = function() {
-                        console.log(`✅ ${color}[${index}]: ${imgPath} - EXISTS`);
-                    };
-                    testImg.onerror = function() {
-                        console.log(`❌ ${color}[${index}]: ${imgPath} - NOT FOUND`);
-                    };
-                    testImg.src = imgPath;  // DIRECT PATH - NO PREFIX ADDED
-                });
-            });
-        };
-
-        // Test current image loading
-        window.testCurrentImage = function() {
-            const currentImg = window.productImages[window.currentColor][window.currentImageIndex];
-            console.log('Testing current image:', currentImg);
-            
-            const testImg = new Image();
-            testImg.onload = function() {
-                console.log('✅ Current image EXISTS:', currentImg);
-            };
-            testImg.onerror = function() {
-                console.log('❌ Current image NOT FOUND:', currentImg);
-            };
-            testImg.src = currentImg;
-        };
-
-        // Manual test functions
-        window.testColorChange = function(color) {
-            console.log('=== MANUAL COLOR TEST ===');
-            console.log('Testing color:', color);
-            window.changeColor(color);
-        };
-
-        console.log('FUNCTIONS LOADED:', typeof window.nextImage, typeof window.previousImage, typeof window.changeColor);
-        console.log('=== Type these commands to debug: ===');
-        console.log('window.testSpecificFiles() - Test if prodp1, prodp2, prodp3 exist');
-        console.log('window.testImages() - Test all images');
-        console.log('window.testCurrentImage() - Test current image');
-        console.log('window.testColorChange("black") - Test color change manually');
-        
-        // Auto-test the specific files on load
-        setTimeout(() => {
-            console.log('=== AUTO-TESTING YOUR IMAGE FILES ===');
-            window.testSpecificFiles();
-        }, 1000);
-    </script>
-
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -256,8 +30,6 @@
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
-
-    <!-- MailerLite Universal -->
     <script>
         (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
         .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
@@ -265,12 +37,9 @@
         (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
         ml('account', '1391734');
     </script>
-
-    <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
-        /* Prevent FOUC without breaking functionality */
+        /* [All your existing CSS remains exactly the same] */
         body:not(.loaded) #bgVideo,
         body:not(.loaded) .content-container,
         body:not(.loaded) .main-header,
@@ -282,14 +51,11 @@
         body:not(.loaded) #loading-screen {
             opacity: 1;
         }
+        /* [Rest of your CSS remains unchanged] */
     </style>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Custom Font -->
     <style>
     @font-face {
         font-family: 'DrukWide';
@@ -297,24 +63,14 @@
         font-weight: normal;
         font-style: italic;
     }
-    @font-face {
-        font-family: 'NumbersFont';
-        src: url('fonts/GorgaGrotesque-Bolditalic.ttf') format('truetype');
-        font-weight: bold;
-        font-style: italic;
-    }
     </style>
-
-    <!-- MailerLite CSS -->
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
     <style type="text/css">
-    /* MailerLite Styles - keeping original */
     .ml-form-embedSubmitLoad {
       display: inline-block;
       width: 20px;
       height: 20px;
     }
-
     .g-recaptcha {
     transform: scale(1);
     -webkit-transform: scale(1);
@@ -322,7 +78,6 @@
     -webkit-transform-origin: 0 0;
     height: ;
     }
-
     .sr-only {
       position: absolute;
       width: 1px;
@@ -333,7 +88,6 @@
       clip: rect(0,0,0,0);
       border: 0;
     }
-
     .ml-form-embedSubmitLoad:after {
       content: " ";
       display: block;
@@ -478,20 +232,16 @@
       .ml-form-formContent.horozintalForm .ml-button-horizontal { width: 100%!important; }
       .ml-form-formContent.horozintalForm .ml-button-horizontal.labelsOn { padding-top: 0px!important; }
     </style>
-
     <style>
-        /* Site Variables */
         :root {
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --font-numbers: 'NumbersFont', 'Space Mono', monospace;
+            --font-numbers: 'Space Mono', monospace;
             --font-primary-weight: normal;
             --font-secondary-weight-normal: 400;
             --font-numbers-weight: 400;
         }
-
-        /* Product Footer Styles - Fixed from orphaned CSS */
         .product-footer {
             margin-top: 40px;
             text-align: center;
@@ -501,7 +251,6 @@
             width: 100%;
             padding-bottom: 30px;
         }
-
         .product-footer-links {
             display: flex;
             gap: 20px;
@@ -509,7 +258,6 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
-
         .product-footer-links a,
         .product-footer-links a:link,
         .product-footer-links a:visited {
@@ -519,34 +267,28 @@
             font-family: var(--font-body);
             font-size: 14px;
         }
-
         .product-footer-links a:hover,
         .product-footer-links a:active {
             color: var(--color-primary) !important;
         }
-
         .product-footer-social {
             margin-top: 30px;
         }
-
         .product-footer-social .social-icons {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-bottom: 15px;
         }
-
         .product-footer-social .social-icons a {
             color: var(--color-primary);
             font-size: 24px;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
         .product-footer-social .social-icons a:hover {
             color: #7BC097;
         }
-
         .product-footer-social .social-text {
             color: var(--color-primary);
             font-family: var(--font-headers);
@@ -554,7 +296,6 @@
             font-size: 14px;
             margin-bottom: 15px;
         }
-
         .product-footer-social .copyright {
             position: relative;
             color: #888888;
@@ -562,8 +303,6 @@
             font-size: 12px;
             text-align: center;
         }
-
-        /* Reset */
         body, html {
             margin: 0;
             padding: 0;
@@ -573,8 +312,6 @@
             color: white;
             background-color: #000;
         }
-
-        /* Loading Screen */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -590,7 +327,6 @@
             transition: opacity 0.5s ease-out;
             visibility: visible;
         }
-
         .loading-logo {
             width: 80px;
             height: 80px;
@@ -598,13 +334,11 @@
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
-
         .loading-text {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -614,13 +348,10 @@
             text-transform: uppercase;
             margin-top: 10px;
         }
-
         .fade-out {
             opacity: 0;
             pointer-events: none;
         }
-
-        /* Background video */
         .bg-video {
             position: fixed;
             top: 0;
@@ -632,8 +363,6 @@
             object-position: center;
             opacity: 1;
         }
-
-        /* Content Container */
         .content-container {
             position: fixed;
             top: 0;
@@ -644,12 +373,9 @@
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
         }
-
         .content-container > * {
             pointer-events: all;
         }
-
-        /* Landing Page Content */
         .landing-content {
             position: absolute;
             top: 50%;
@@ -665,13 +391,10 @@
             min-height: 600px;
             justify-content: center;
         }
-
         .landing-content.hidden {
             opacity: 0;
             pointer-events: none;
         }
-
-        /* Main Logo */
         .logo-container {
             width: 400px;
             height: 400px;
@@ -681,7 +404,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .main-logo {
             max-width: 100%;
             max-height: 100%;
@@ -689,14 +411,10 @@
             height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
         }
-
-        /* MailerLite Form Styling */
         .ml-embedded {
             margin-bottom: 10px;
             width: 100%;
         }
-
-        /* Text under the MailerLite form */
         .signup-text {
             text-align: center;
             color: var(--color-primary);
@@ -707,8 +425,6 @@
             margin-bottom: 20px;
             letter-spacing: 1px;
         }
-
-        /* Welcome Container */
         .welcome-container {
             display: none;
             flex-direction: column;
@@ -724,7 +440,6 @@
             width: 80%;
             max-width: 350px;
         }
-
         .welcome-text {
             font-family: var(--font-headers);
             font-weight: 800;
@@ -736,7 +451,6 @@
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             animation: pulse 2s infinite;
         }
-
         .welcome-subtext {
             font-family: var(--font-body);
             font-weight: var(--font-secondary-weight-normal);
@@ -746,8 +460,6 @@
             max-width: 280px;
             margin-bottom: 20px;
         }
-
-        /* Enter Button */
         .enter-button {
             background: linear-gradient(45deg, var(--color-primary), #7BC097);
             border: none;
@@ -767,23 +479,18 @@
             box-shadow: 0 0 20px rgba(158, 217, 181, 0.3);
             margin-top: 15px;
         }
-
         .enter-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
-
         .enter-button i {
             font-size: 14px;
             transition: transform 0.3s ease;
         }
-
         .enter-button:hover i {
             transform: translateX(5px);
         }
-
-        /* Product Overlay */
         .product-overlay {
             position: fixed;
             top: 0;
@@ -797,12 +504,10 @@
             overflow-y: auto;
             z-index: 999;
         }
-
         .product-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
-
         .product-overlay-content {
             min-height: 100vh;
             display: flex;
@@ -811,7 +516,6 @@
             justify-content: flex-start;
             padding: 120px 20px 200px 20px;
         }
-
         .product-content {
             display: flex;
             align-items: center;
@@ -819,14 +523,12 @@
             max-width: 1000px;
             width: 90%;
         }
-
         .product-image-section {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .product-image-container {
             position: relative;
             display: flex;
@@ -835,7 +537,6 @@
             max-width: 100%;
             max-height: 500px;
         }
-
         .product-image {
             max-width: 100%;
             max-height: 500px;
@@ -843,7 +544,6 @@
             height: auto;
             transition: opacity 0.3s ease;
         }
-
         .image-nav-arrow {
             position: absolute;
             top: 50%;
@@ -864,21 +564,17 @@
             opacity: 1;
             pointer-events: all;
         }
-
         .image-nav-arrow:hover {
             background: rgba(158, 217, 181, 0.8);
             color: #000;
             transform: translateY(-50%) scale(1.1);
         }
-
         .image-nav-arrow.left {
             left: -25px;
         }
-
         .image-nav-arrow.right {
             right: -25px;
         }
-
         .image-indicator {
             margin-top: 15px;
             font-family: var(--font-numbers);
@@ -888,12 +584,10 @@
             opacity: 1;
             transition: opacity 0.3s ease;
         }
-
         .image-indicator .current-image {
             color: var(--color-primary);
             font-weight: 700;
         }
-
         .color-selector {
             display: flex;
             gap: 15px;
@@ -903,7 +597,6 @@
             border-radius: 50px;
             backdrop-filter: blur(10px);
         }
-
         .color-option {
             width: 40px;
             height: 40px;
@@ -913,34 +606,27 @@
             transition: all 0.3s ease;
             position: relative;
         }
-
         .color-option.active {
             border-color: var(--color-primary);
             transform: scale(1.1);
         }
-
         .color-option.red {
             background: #dc3545;
         }
-
         .color-option.black {
             background: #000000;
         }
-
         .color-option.white {
             background: #ffffff;
             border: 3px solid #ddd;
         }
-
         .color-option.white.active {
             border-color: var(--color-primary);
         }
-
         .product-info-section {
             flex: 1;
             max-width: 400px;
         }
-
         .product-title {
             font-family: var(--font-headers);
             font-weight: 800;
@@ -950,7 +636,6 @@
             letter-spacing: 2px;
             margin-bottom: 20px;
         }
-
         .product-description {
             font-family: var(--font-body);
             font-size: 1.1rem;
@@ -958,7 +643,6 @@
             line-height: 1.6;
             margin-bottom: 30px;
         }
-
         .product-price {
             font-family: var(--font-numbers);
             font-weight: 700;
@@ -967,7 +651,6 @@
             margin-bottom: 30px;
             letter-spacing: 1px;
         }
-
         .buy-button {
             background: linear-gradient(45deg, var(--color-primary), #7BC097);
             border: none;
@@ -988,13 +671,11 @@
             width: 100%;
             justify-content: center;
         }
-
         .buy-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
-
         .back-arrow {
             position: absolute;
             top: 50%;
@@ -1013,20 +694,17 @@
             align-items: center;
             justify-content: center;
         }
-
         .back-arrow:hover {
             background: rgba(255, 255, 255, 0.1);
             color: var(--color-primary);
             transform: translateY(-50%) translateX(-5px);
         }
-
         .product-features {
             margin-top: 50px;
             width: 100%;
             max-width: 800px;
             text-align: center;
         }
-
         .features-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -1036,24 +714,20 @@
             letter-spacing: 1px;
             margin-bottom: 30px;
         }
-
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
             margin-bottom: 40px;
         }
-
         .feature-item {
             text-align: center;
         }
-
         .feature-icon {
             font-size: 2rem;
             color: var(--color-primary);
             margin-bottom: 15px;
         }
-
         .feature-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -1063,15 +737,12 @@
             letter-spacing: 0.5px;
             margin-bottom: 8px;
         }
-
         .feature-description {
             font-family: var(--font-body);
             font-size: 0.8rem;
             color: #ccc;
             line-height: 1.4;
         }
-
-        /* Header Layout */
         .main-header {
             position: fixed;
             top: 0;
@@ -1085,34 +756,28 @@
             background: transparent;
             transition: transform 0.3s ease;
         }
-
         .main-header.hidden {
             transform: translateY(-100%);
         }
-
         .header-left {
             display: flex;
             align-items: center;
             gap: 30px;
         }
-
         .sticky-logo {
             width: 50px;
             height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transition: transform 0.3s ease;
         }
-
         .sticky-logo:hover {
             transform: scale(1.1);
         }
-
         .header-nav {
             display: flex;
             gap: 25px;
             align-items: center;
         }
-
         .nav-link {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -1123,17 +788,14 @@
             letter-spacing: 1px;
             transition: all 0.3s ease;
         }
-
         .nav-link:hover {
             color: var(--color-primary);
         }
-
         .header-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
         }
-
         .top-logo {
             height: 250px;
             width: auto;
@@ -1141,11 +803,9 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-
         .top-logo.visible {
             opacity: 1;
         }
-
         .countdown {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -1157,25 +817,20 @@
             gap: 10px;
             letter-spacing: 1px;
         }
-
         .countdown #days {
             font-family: var(--font-numbers);
             font-weight: 700;
             font-size: 1.2em;
             letter-spacing: 1px;
         }
-
         @keyframes rotateHourglass {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(180deg); }
         }
-
         .hourglass {
             font-size: 20px;
             animation: rotateHourglass 3s linear infinite;
         }
-
-        /* Social Media */
         .social-container {
             position: fixed;
             bottom: 70px;
@@ -1185,30 +840,25 @@
             z-index: 100;
             transition: opacity 0.3s ease;
         }
-
         .social-container.hidden {
             opacity: 0;
             pointer-events: none;
         }
-
         .social-icons {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
         }
-
         .social-icons a {
             color: var(--color-primary);
             font-size: 24px;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
         .social-icons a:hover {
             color: #7BC097;
         }
-
         .social-text {
             text-align: center;
             color: var(--color-primary);
@@ -1218,7 +868,6 @@
             margin-top: 10px;
             letter-spacing: 0.5px;
         }
-
         .copyright {
             position: fixed;
             bottom: 15px;
@@ -1231,119 +880,86 @@
             z-index: 100;
             white-space: nowrap;
         }
-
         .copyright a {
             color: var(--color-primary);
             text-decoration: none;
         }
-
         .copyright a:hover {
             text-decoration: underline;
         }
-
-        @keyframes rotateHourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-
-        .hourglass {
-            font-size: 24px;
-            animation: rotateHourglass 3s linear infinite;
-        }
-
-        /* Mobile Responsiveness */
         @media screen and (max-width: 768px) {
             .product-content {
                 flex-direction: column;
                 gap: 30px;
             }
-
             .product-title {
                 font-size: 2rem;
             }
-
             .logo-container { 
                 width: 300px; 
                 height: 300px; 
                 margin-bottom: 15px; 
             }
-
             .header-nav {
                 left: 70px;
                 gap: 20px;
             }
-
             .nav-link {
                 font-size: 12px;
             }
-
             .landing-content {
                 min-height: calc(100vh - 140px);
                 padding-bottom: 140px;
             }
-
             .top-logo {
                 height: 200px;
             }
-
             .countdown {
                 display: none;
             }
-
             .social-container {
                 display: none;
             }
-
             .copyright {
                 display: none;
             }
-
             .mobile-social {
                 display: block !important;
                 margin-top: 30px;
                 text-align: center;
             }
         }
-
         @media screen and (max-width: 480px) {
             .logo-container { 
                 width: 250px; 
                 height: 250px; 
                 margin-bottom: 10px; 
             }
-
             .product-title {
                 font-size: 1.5rem;
             }
-
             .product-content {
                 gap: 20px;
                 padding: 20px;
             }
-
             .header-nav {
                 display: none;
             }
-
             .landing-content {
                 min-height: calc(100vh - 160px);
                 width: 95%;
                 padding-bottom: 160px;
             }
-
             .top-logo {
                 height: 50px;
                 top: 15px;
             }
-
             .countdown {
                 display: none;
             }
-
             .product-overlay {
                 padding: 80px 10px 120px 10px;
             }
-
             .features-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -1352,18 +968,15 @@
     </style>
 </head>
 <body>
-    <!-- Immediate loading prevention -->
     <script>
         document.body.classList.add('loaded');
     </script>
 
-    <!-- Loading Screen -->
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
         <div class="loading-text">LOADING</div>
     </div>
 
-    <!-- Background Video -->
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="assets/videos/bibi.mp4" type="video/mp4">
         <source src="assets/videos/bibi.webm" type="video/webm">
@@ -1372,7 +985,6 @@
         Your browser does not support background video.
     </video>
 
-    <!-- Main Header -->
     <header class="main-header">
         <div class="header-left">
             <a href="index.html">
@@ -1395,16 +1007,12 @@
         </div>
     </header>
 
-    <!-- Content Container -->
     <div class="content-container">
-        <!-- Landing Page Content -->
         <div class="landing-content" id="landingContent">
-            <!-- Main Logo Container -->
             <div class="logo-container">
                 <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
             </div>
             
-            <!-- MailerLite Email Form -->
             <div id="mlb2-23779383" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-23779383" style="margin-bottom: 10px; width: 100%;">
               <div class="ml-form-align-center">
                 <div class="ml-form-embedWrapper embedForm">
@@ -1471,10 +1079,8 @@
               </div>
             </div>
 
-            <!-- Text under the MailerLite form -->
             <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
-            <!-- Welcome Container -->
             <div id="welcomeContainer" class="welcome-container">
                 <div class="welcome-text">WELCOME</div>
                 <p class="welcome-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
@@ -1485,7 +1091,6 @@
             </div>
         </div>
 
-        <!-- Product Overlay -->
         <div class="product-overlay" id="productOverlay">
             <div class="product-overlay-content">
                 <button class="back-arrow" onclick="hideProductOverlay()">
@@ -1509,9 +1114,9 @@
                         </div>
                         
                         <div class="color-selector">
-                            <div class="color-option white active" data-color="white" title="White"></div>
-                            <div class="color-option black" data-color="black" title="Black"></div>
-                            <div class="color-option red" data-color="red" title="Red"></div>
+                            <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
+                            <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
+                            <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                         </div>
                     </div>
                     
@@ -1571,14 +1176,12 @@
                             </a>
                         </div>
                         <p class="social-text">Show your support by following our socials.</p>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Social Media Icons -->
     <div class="social-container">
         <div class="social-icons">
             <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
@@ -1591,24 +1194,72 @@
         <p class="social-text">Show your support by following our socials.</p>
     </div>
 
-
-
     <script>
-        // Current selected color
+        // Product image variables
         let currentColor = 'white';
-        let lastScrollTop = 0;
-        
-        // Test function for console debugging
-        window.testImageNavigation = function() {
-            console.log('=== IMAGE NAVIGATION TEST ===');
-            console.log('Current color:', currentColor);
-            console.log('Current index:', currentImageIndex);
-            console.log('Available images:', productImages[currentColor]);
-            console.log('Arrow elements found:', document.querySelectorAll('.image-nav-arrow').length);
-            console.log('Indicator element found:', document.querySelector('.image-indicator') ? 'Yes' : 'No');
+        let currentImageIndex = 0;
+        const productImages = {
+            white: ['assets/images/prodp1.png', 'assets/images/prodp12.png', 'assets/images/prodp13.png'],
+            black: ['assets/images/prodp2.png', 'assets/images/prodp22.png', 'assets/images/prodp23.png'],
+            red: ['assets/images/prodp3.png', 'assets/images/prodp32.png', 'assets/images/prodp33.png']
         };
 
-        // Countdown - Fixed to October 14th, 2025
+        // Product image functions
+        function updateProductImage() {
+            const productImage = document.getElementById('productImage');
+            const currentIndicator = document.querySelector('.current-image');
+            const images = productImages[currentColor];
+            
+            productImage.style.opacity = '0';
+            setTimeout(() => {
+                productImage.src = images[currentImageIndex];
+                productImage.style.opacity = '1';
+                currentIndicator.textContent = currentImageIndex + 1;
+                document.querySelector('.total-images').textContent = images.length;
+            }, 150);
+        }
+
+        function nextImage() {
+            const images = productImages[currentColor];
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateProductImage();
+        }
+
+        function previousImage() {
+            const images = productImages[currentColor];
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateProductImage();
+        }
+
+        function changeProductColor(color) {
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => option.classList.remove('active'));
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            currentColor = color;
+            currentImageIndex = 0;
+            updateProductImage();
+        }
+
+        // Initialize product gallery when showing overlay
+        function showProductOverlay() {
+            const landingContent = document.getElementById('landingContent');
+            const productOverlay = document.getElementById('productOverlay');
+            const topLogo = document.getElementById('topLogo');
+            const socialContainer = document.querySelector('.social-container');
+            
+            landingContent.classList.add('hidden');
+            socialContainer.classList.add('hidden');
+            
+            setTimeout(() => {
+                productOverlay.classList.add('active');
+                topLogo.classList.add('visible');
+                updateProductImage(); // Initialize the product images
+                addScrollBehavior();
+            }, 250);
+        }
+
+        // Rest of your existing JavaScript functions remain unchanged
+        let lastScrollTop = 0;
         const countdownDate = new Date('2025-10-14T00:00:00').getTime();
 
         function updateCountdown() {
@@ -1618,7 +1269,6 @@
             document.getElementById('days').textContent = days;
         }
 
-        // MailerLite success callback
         function ml_webform_success_23779383() {
             var $ = ml_jQuery || jQuery;
             $('.ml-subscribe-form-23779383 .row-success').show();
@@ -1640,23 +1290,6 @@
             }
         }
 
-        function showProductOverlay() {
-            const landingContent = document.getElementById('landingContent');
-            const productOverlay = document.getElementById('productOverlay');
-            const topLogo = document.getElementById('topLogo');
-            const socialContainer = document.querySelector('.social-container');
-            
-            landingContent.classList.add('hidden');
-            socialContainer.classList.add('hidden');
-            
-            setTimeout(() => {
-                productOverlay.classList.add('active');
-                topLogo.classList.add('visible');
-                // Add scroll behavior when product overlay is active
-                addScrollBehavior();
-            }, 250);
-        }
-
         function hideProductOverlay() {
             const landingContent = document.getElementById('landingContent');
             const productOverlay = document.getElementById('productOverlay');
@@ -1669,7 +1302,6 @@
             socialContainer.classList.remove('hidden');
             header.classList.remove('hidden');
             
-            // Remove scroll behavior
             removeScrollBehavior();
             
             setTimeout(() => {
@@ -1693,36 +1325,15 @@
             const scrollTop = productOverlay.scrollTop;
             
             if (scrollTop > lastScrollTop && scrollTop > 100) {
-                // Scrolling down
                 header.classList.add('hidden');
             } else {
-                // Scrolling up
                 header.classList.remove('hidden');
             }
             
             lastScrollTop = scrollTop;
         }
 
-        function changeProductColor(color, imageName) {
-            const productImage = document.getElementById('productImage');
-            const colorOptions = document.querySelectorAll('.color-option');
-            
-            // Update image
-            productImage.style.opacity = '0';
-            setTimeout(() => {
-                productImage.src = `assets/images/${imageName}`;
-                productImage.style.opacity = '1';
-            }, 150);
-            
-            // Update active color
-            colorOptions.forEach(option => option.classList.remove('active'));
-            document.querySelector(`[data-color="${color}"]`).classList.add('active');
-            
-            currentColor = color;
-        }
-
         function buyProduct() {
-            // Navigate to checkout with selected color
             window.location.href = `checkout.html?product=${currentColor}`;
         }
 
@@ -1737,7 +1348,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Show page content after loading
             setTimeout(() => {
                 showPageContent();
             }, 1000);
@@ -1745,17 +1355,12 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
             
-            // Force video to play
             const video = document.getElementById('bgVideo');
             if (video) {
-                console.log("Video element found:", video);
-                console.log("Video currentSrc:", video.currentSrc);
-                console.log("Video readyState:", video.readyState);
-                
                 video.muted = true;
                 video.autoplay = true;
                 video.loop = true;
-                video.load(); // Reload the video
+                video.load();
                 
                 video.addEventListener('loadeddata', function() {
                     console.log("Video loaded successfully");
@@ -1769,33 +1374,19 @@
                     console.log("Video playing successfully");
                 }).catch(function(error) {
                     console.log("Video play failed:", error);
-                    // Fallback: try again after user interaction
                     document.addEventListener('click', function() {
                         video.play();
                     }, { once: true });
                 });
-            } else {
-                console.log("Video element not found!");
             }
             
-            // Check if form was already submitted
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
                 showWelcome();
             }
-            
-            // Color selector event listeners
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const color = this.dataset.color;
-                    const image = this.dataset.image;
-                    changeProductColor(color, image);
-                });
-            });
         });
     </script>
 
-    <!-- MailerLite Scripts -->
     <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024" type="text/javascript"></script>
     <script>
         fetch("https://assets.mailerlite.com/jsonp/1391734/forms/149132961884669821/takel")
