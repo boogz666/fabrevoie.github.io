@@ -55,33 +55,79 @@
             ]
         };
 
+        // Test specific files
+        window.testSpecificFiles = function() {
+            console.log('=== TESTING SPECIFIC FILES ===');
+            
+            const filesToTest = [
+                'assets/images/prodp1.png',
+                'assets/images/prodp2.png', 
+                'assets/images/prodp3.png'
+            ];
+            
+            filesToTest.forEach(file => {
+                const testImg = new Image();
+                testImg.onload = function() {
+                    console.log(`✅ FILE EXISTS: ${file}`);
+                };
+                testImg.onerror = function() {
+                    console.log(`❌ FILE NOT FOUND: ${file}`);
+                    console.log(`Full URL attempted: ${testImg.src}`);
+                };
+                testImg.src = file;
+            });
+        };
+
         window.updateImage = function() {
+            console.log('=== UPDATE IMAGE CALLED ===');
+            console.log('Current Color:', window.currentColor);
+            console.log('Current Index:', window.currentImageIndex);
+            
+            if (!window.currentColor || window.currentColor === undefined) {
+                console.log('❌ ERROR: currentColor is undefined!');
+                return;
+            }
+            
             const imgs = window.productImages[window.currentColor];
+            if (!imgs || imgs.length === 0) {
+                console.log('❌ ERROR: No images array for color:', window.currentColor);
+                return;
+            }
+            
             const img = document.getElementById('productImage');
             const currentSpan = document.querySelector('.current-image');
             const totalSpan = document.querySelector('.total-images');
             
-            console.log('=== UPDATE IMAGE DEBUG ===');
-            console.log('Current Color:', window.currentColor);
-            console.log('Current Index:', window.currentImageIndex);
+            const imageToLoad = imgs[window.currentImageIndex];
             console.log('Images Array:', imgs);
-            console.log('Trying to load:', imgs[window.currentImageIndex]);
+            console.log('Trying to load:', imageToLoad);
+            
+            if (!imageToLoad || imageToLoad === undefined) {
+                console.log('❌ ERROR: Image to load is undefined!');
+                console.log('Index:', window.currentImageIndex, 'Array length:', imgs.length);
+                return;
+            }
             
             img.style.opacity = '0';
             setTimeout(() => {
                 // USE FULL PATH DIRECTLY - NO ADDING PREFIX
-                img.src = imgs[window.currentImageIndex];
+                img.src = imageToLoad;
                 img.style.opacity = '1';
                 if (currentSpan) currentSpan.textContent = window.currentImageIndex + 1;
                 if (totalSpan) totalSpan.textContent = imgs.length;
                 
-                // Check if image loads
+                // Check if image loads with fallback
                 img.onload = function() {
-                    console.log('✅ SUCCESS: Image loaded -', imgs[window.currentImageIndex]);
+                    console.log('✅ SUCCESS: Image loaded -', imageToLoad);
                 };
                 img.onerror = function() {
-                    console.log('❌ FAILED: Image not found -', imgs[window.currentImageIndex]);
+                    console.log('❌ FAILED: Image not found -', imageToLoad);
                     console.log('Full path attempted:', img.src);
+                    
+                    // FALLBACK: Use placeholder if real image fails
+                    const fallbackUrl = `https://via.placeholder.com/500x500/9ED9B5/000000?text=${window.currentColor.toUpperCase()}+Sneaker`;
+                    console.log('🔄 FALLBACK: Using placeholder -', fallbackUrl);
+                    img.src = fallbackUrl;
                 };
             }, 150);
         };
@@ -102,10 +148,26 @@
             window.updateImage();
         };
 
+        // REMOVE ANY OLD CONFLICTING FUNCTIONS
+        window.changeProductColor = undefined;  // Clear any old function
+        
         window.changeColor = function(color) {
-            console.log('=== COLOR CHANGE DEBUG ===');
+            console.log('=== WINDOW.CHANGECOLOR CALLED ===');
             console.log('Requested color:', color);
+            console.log('Type of color:', typeof color);
+            console.log('Color is undefined?', color === undefined);
             console.log('Before change - currentColor:', window.currentColor, 'currentIndex:', window.currentImageIndex);
+            
+            if (!color || color === undefined) {
+                console.log('❌ ERROR: Color is undefined or null!');
+                return;
+            }
+            
+            if (!window.productImages[color]) {
+                console.log('❌ ERROR: No images found for color:', color);
+                console.log('Available colors:', Object.keys(window.productImages));
+                return;
+            }
             
             // Update visual active state
             document.querySelectorAll('.color-option').forEach(el => {
@@ -126,6 +188,7 @@
             window.currentImageIndex = 0;
             console.log('After change - currentColor:', window.currentColor, 'currentIndex:', window.currentImageIndex);
             
+            console.log('About to call updateImage...');
             window.updateImage();
         };
 
@@ -162,8 +225,25 @@
             testImg.src = currentImg;
         };
 
+        // Manual test functions
+        window.testColorChange = function(color) {
+            console.log('=== MANUAL COLOR TEST ===');
+            console.log('Testing color:', color);
+            window.changeColor(color);
+        };
+
         console.log('FUNCTIONS LOADED:', typeof window.nextImage, typeof window.previousImage, typeof window.changeColor);
-        console.log('Type window.testImages() to test all image files');
+        console.log('=== Type these commands to debug: ===');
+        console.log('window.testSpecificFiles() - Test if prodp1, prodp2, prodp3 exist');
+        console.log('window.testImages() - Test all images');
+        console.log('window.testCurrentImage() - Test current image');
+        console.log('window.testColorChange("black") - Test color change manually');
+        
+        // Auto-test the specific files on load
+        setTimeout(() => {
+            console.log('=== AUTO-TESTING YOUR IMAGE FILES ===');
+            window.testSpecificFiles();
+        }, 1000);
     </script>
 
     <script>
@@ -1429,9 +1509,9 @@
                         </div>
                         
                         <div class="color-selector">
-                            <div class="color-option white active" data-color="white"></div>
-                            <div class="color-option black" data-color="black"></div>
-                            <div class="color-option red" data-color="red"></div>
+                            <div class="color-option white active" data-color="white" title="White"></div>
+                            <div class="color-option black" data-color="black" title="Black"></div>
+                            <div class="color-option red" data-color="red" title="Red"></div>
                         </div>
                     </div>
                     
