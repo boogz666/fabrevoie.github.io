@@ -312,14 +312,11 @@
         /* Background video */
         .bg-video {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -2;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
             object-fit: cover;
             object-position: center;
         }
@@ -332,7 +329,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            z-index: -5;
         }
 
         /* Content Container */
@@ -1062,11 +1059,22 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
             
-            // Play video
+            // Force video to play
             const video = document.getElementById('bgVideo');
             if (video) {
-                video.play().catch(function(error) {
+                video.muted = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.load(); // Reload the video
+                
+                video.play().then(() => {
+                    console.log("Video playing successfully");
+                }).catch(function(error) {
                     console.log("Video play failed:", error);
+                    // Fallback: try again after user interaction
+                    document.addEventListener('click', function() {
+                        video.play();
+                    }, { once: true });
                 });
             }
             
