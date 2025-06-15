@@ -39,10 +39,10 @@
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --font-numbers: 'NumbersFont', 'Space Mono', monospace;
+            --font-numbers: 'DrukWide', 'Space Mono', monospace;
             --font-primary-weight: normal;
             --font-secondary-weight-normal: 400;
-            --font-numbers-weight: 400;
+            --font-numbers-weight: normal;
         }
 
         /* Reset */
@@ -86,6 +86,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
+            position: relative;
         }
 
         .header-left {
@@ -123,19 +124,16 @@
             filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
         }
 
-        .logo-text {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.5rem;
-            color: #333;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: color 0.3s ease;
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .logo-text:hover {
-            color: var(--color-primary);
+        .top-logo {
+            height: 60px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
         }
 
         .security-badges {
@@ -328,9 +326,9 @@
 
         .product-price {
             font-family: var(--font-numbers);
-            font-weight: 700;
+            font-weight: var(--font-numbers-weight);
             font-size: 1.1rem;
-            color: var(--color-primary);
+            color: #000;
         }
 
         .order-totals {
@@ -350,9 +348,21 @@
             font-size: 14px;
         }
 
+        .total-row.subtotal span:last-child {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            color: #000;
+        }
+
         .total-row.shipping {
             color: #666;
             font-size: 14px;
+        }
+
+        .total-row.shipping span:last-child {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            color: #000;
         }
 
         .total-row.total {
@@ -367,8 +377,8 @@
 
         .total-price {
             font-family: var(--font-numbers);
-            font-weight: 700;
-            color: var(--color-primary);
+            font-weight: var(--font-numbers-weight);
+            color: #000;
         }
 
         /* Complete Order Button */
@@ -457,6 +467,13 @@
                 align-items: flex-start;
             }
 
+            .header-center {
+                position: relative;
+                left: auto;
+                transform: none;
+                order: -1;
+            }
+
             .security-badges {
                 align-self: stretch;
                 justify-content: center;
@@ -474,6 +491,10 @@
                 width: 80px;
                 height: 80px;
             }
+
+            .top-logo {
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -488,10 +509,11 @@
                 </button>
                 <div class="header-logos">
                     <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
-                    <a href="index.html" style="text-decoration: none;">
-                        <span class="logo-text">Fabrevoie</span>
-                    </a>
                 </div>
+            </div>
+
+            <div class="header-center">
+                <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
             </div>
             
             <div class="security-badges">
@@ -623,9 +645,9 @@
                 <h2 class="order-summary-title">Order Summary</h2>
                 
                 <div class="product-item" id="productItem">
-                    <img src="assets/images/prodp1.png" alt="Caillou 11s" class="product-image" id="orderProductImage">
+                    <img src="assets/images/prodp1.png" alt="SBHMN" class="product-image" id="orderProductImage">
                     <div class="product-details">
-                        <div class="product-name" id="orderProductName">Caillou 11s</div>
+                        <div class="product-name" id="orderProductName">SBHMN</div>
                         <div class="product-variant" id="orderProductVariant">White</div>
                         <div class="product-price" id="orderProductPrice">$269.00</div>
                     </div>
