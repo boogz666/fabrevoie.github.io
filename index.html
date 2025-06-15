@@ -59,9 +59,6 @@
         ml('account', '1391734');
     </script>
 
-    <!-- Model Viewer Script -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -256,30 +253,6 @@
             --font-numbers-weight: 400;
         }
 
-        /* Hide the progress bar */
-        model-viewer::part(progress-bar) {
-            display: none;
-        }
-        
-        /* Bounce animation */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Error message styling */
-        .model-error {
-            display: none;
-            text-align: center;
-            color: #ff6b6b;
-            margin-top: 20px;
-        }
-
-        model-viewer[ar-status="failed"] .model-error,
-        model-viewer[error] .model-error {
-            display: block;
-        }
-
         /* Reset */
         body, html {
             margin: 0;
@@ -321,26 +294,8 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .loading-bar-container {
-            width: 200px;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--color-primary);
-            border-radius: 2px;
-            transition: width 0.3s ease-out;
-            box-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-        }
-
         .loading-text {
-            font-family: var(--font-headers) !important;
+            font-family: var(--font-headers);
             font-weight: 600;
             font-size: 14px;
             color: var(--color-primary);
@@ -349,52 +304,12 @@
             margin-top: 10px;
         }
 
-        .loading-progress {
-            font-family: var(--font-numbers) !important;
-            font-weight: 400;
-            font-size: 12px;
-            color: #888888;
-            margin-top: 5px;
-        }
-
         .fade-out {
             opacity: 0;
             pointer-events: none;
         }
 
-        /* Page container */
-        .page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        /* Blur effect overlay */
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2000;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(0px);
-            opacity: 0;
-        }
-
-        .blur-active {
-            backdrop-filter: blur(10px);
-            opacity: 1;
-        }
-
-        /* Background video - UPDATED PATHS */
+        /* Background video */
         .bg-video {
             position: fixed;
             top: 50%;
@@ -420,31 +335,53 @@
             z-index: -1;
         }
 
-        /* Center container */
-        .container {
+        /* Content Container */
+        .content-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Landing Page Content */
+        .landing-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 500px;
             width: 90%;
-            z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
-        /* Middle Logo */
+        .landing-content.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Main Logo */
         .logo-container {
             width: 400px;
             height: 400px;
             margin-bottom: 20px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo {
-            width: 100%;
-            height: 100%;
+        .main-logo {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
         }
 
         /* MailerLite Form Styling */
@@ -457,7 +394,7 @@
         .signup-text {
             text-align: center;
             color: var(--color-primary);
-            font-family: var(--font-headers) !important;
+            font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
             font-size: 14px;
             margin-top: 10px;
@@ -465,8 +402,8 @@
             letter-spacing: 1px;
         }
 
-        /* Coming Soon Container */
-        .coming-soon-container {
+        /* Welcome Container */
+        .welcome-container {
             display: none;
             flex-direction: column;
             align-items: center;
@@ -481,8 +418,8 @@
             max-width: 350px;
         }
 
-        .coming-soon-text {
-            font-family: var(--font-headers) !important;
+        .welcome-text {
+            font-family: var(--font-headers);
             font-weight: 800;
             font-size: 24px;
             color: var(--color-primary);
@@ -493,7 +430,7 @@
             animation: pulse 2s infinite;
         }
 
-        .coming-soon-subtext {
+        .welcome-subtext {
             font-family: var(--font-body);
             font-weight: var(--font-secondary-weight-normal);
             font-size: 14px;
@@ -509,7 +446,7 @@
             border: none;
             border-radius: 50px;
             color: #000;
-            font-family: var(--font-headers) !important;
+            font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
             font-size: 16px;
             letter-spacing: 1px;
@@ -539,7 +476,234 @@
             transform: translateX(5px);
         }
 
-        /* Social Media Icons */
+        /* Product Overlay */
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .product-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 1000px;
+            width: 90%;
+        }
+
+        .product-image-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 500px;
+            width: auto;
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option.active {
+            border-color: var(--color-primary);
+            transform: scale(1.1);
+        }
+
+        .color-option.red {
+            background: #dc3545;
+        }
+
+        .color-option.black {
+            background: #000000;
+        }
+
+        .color-option.white {
+            background: #ffffff;
+            border: 3px solid #ddd;
+        }
+
+        .color-option.white.active {
+            border-color: var(--color-primary);
+        }
+
+        .product-info-section {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .product-title {
+            font-family: var(--font-headers);
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
+        }
+
+        .product-description {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .product-price {
+            font-family: var(--font-numbers);
+            font-weight: 700;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .buy-button {
+            background: linear-gradient(45deg, var(--color-primary), #7BC097);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 18px 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
+            background: linear-gradient(45deg, #7BC097, var(--color-primary));
+        }
+
+        .close-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-primary);
+        }
+
+        /* Static Elements */
+        .sticky-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .countdown {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 18px;
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .countdown #days {
+            font-family: var(--font-numbers);
+            font-weight: 700;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        @keyframes rotateHourglass {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+
+        .hourglass {
+            font-size: 24px;
+            animation: rotateHourglass 3s linear infinite;
+        }
+
+        /* Social Media */
+        .social-container {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
+        }
+
         .social-icons {
             display: flex;
             justify-content: center;
@@ -558,28 +722,16 @@
             color: #7BC097;
         }
 
-        /* Text under social icons */
         .social-text {
             text-align: center;
             color: var(--color-primary);
-            font-family: var(--font-headers) !important;
+            font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
             font-size: 14px;
             margin-top: 10px;
             letter-spacing: 0.5px;
         }
 
-        /* Social media container */
-        .social-container {
-            position: fixed;
-            bottom: 70px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-        }
-
-        /* Copyright Text */
         .copyright {
             position: fixed;
             bottom: 15px;
@@ -602,173 +754,44 @@
             text-decoration: underline;
         }
 
-        /* Sticky Logo */
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Countdown Timer */
-        .countdown {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight);
-            font-size: 18px;
-            color: var(--color-primary);
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-
-        .countdown #days {
-            font-family: var(--font-numbers) !important;
-            font-weight: 700;
-            font-size: 1.2em;
-            letter-spacing: 1px;
-        }
-
-        /* Hourglass animation */
-        @keyframes rotateHourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-
-        .hourglass {
-            font-size: 24px;
-            animation: rotateHourglass 3s linear infinite;
-        }
-
-        /* Cookie Banner */
-        .cookie-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #000;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 14px;
-            border: 1px solid #333;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            max-width: 90%;
-            width: 600px;
-            border-radius: 8px;
-        }
-
-        .cookie-text {
-            flex-grow: 1;
-            text-align: left;
-            letter-spacing: 0.5px;
-            font-weight: var(--font-secondary-weight-normal);
-            margin-right: 20px;
-            font-family: var(--font-body);
-        }
-
-        .cookie-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .cookie-buttons button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: var(--font-headers) !important;
-            font-weight: var(--font-primary-weight);
-            letter-spacing: 0.5px;
-        }
-        
-        .cookie-buttons button:first-child {
-            background-color: var(--color-primary);
-            color: #000;
-        }
-
-        .cookie-buttons button:last-child {
-            background-color: transparent;
-            border: 1px solid var(--color-primary);
-            color: var(--color-primary);
-        }
-
-        /* MOBILE RESPONSIVENESS */
+        /* Mobile Responsiveness */
         @media screen and (max-width: 768px) {
-            .logo-container { width: 300px; height: 300px; margin-bottom: 15px; }
-            .countdown { font-size: 14px; top: 15px; right: 15px; gap: 8px; }
-            .hourglass { font-size: 18px; }
-            .sticky-logo { width: 40px; top: 15px; left: 15px; }
-            .social-container { bottom: 60px; }
-            .social-icons { gap: 15px; }
-            .social-icons a { font-size: 20px; }
-            .social-text { font-size: 12px; padding: 0 20px; }
-            .coming-soon-text { font-size: 20px; letter-spacing: 1px; }
-            .coming-soon-subtext { font-size: 13px; max-width: 250px; }
-            .coming-soon-container { padding: 15px; max-width: 320px; width: 85%; }
+            .product-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .logo-container { 
+                width: 300px; 
+                height: 300px; 
+                margin-bottom: 15px; 
+            }
         }
 
         @media screen and (max-width: 480px) {
-            .container { width: 95%; padding: 0 10px; }
-            .logo-container { width: 250px; height: 250px; margin-bottom: 10px; }
-            .countdown { font-size: 11px; top: 10px; right: 10px; gap: 5px; flex-direction: column; align-items: flex-end; line-height: 1.2; }
-            .hourglass { font-size: 14px; margin-top: 2px; }
-            .sticky-logo { width: 35px; top: 10px; left: 10px; }
-            .social-container { bottom: 50px; }
-            .social-icons { gap: 25px; margin-top: 15px; }
-            .social-icons a { font-size: 28px; padding: 10px; }
-            .social-text { font-size: 11px; padding: 0 15px; margin-top: 8px; }
-            .signup-text { font-size: 12px; margin-top: 8px; margin-bottom: 15px; padding: 0 10px; }
-            .coming-soon-container { padding: 12px; max-width: 280px; width: 90%; margin-top: 5px; }
-            .coming-soon-text { font-size: 18px; letter-spacing: 1px; margin-bottom: 8px; }
-            .coming-soon-subtext { font-size: 12px; max-width: 220px; line-height: 1.4; margin-bottom: 15px; }
-            .enter-button { font-size: 14px; padding: 12px 25px; letter-spacing: 0.5px; }
-            .copyright { font-size: 10px; bottom: 10px; left: 10px; right: 10px; white-space: normal; line-height: 1.3; }
-            .cookie-banner { bottom: 10px; left: 10px; right: 10px; transform: none; width: auto; max-width: none; padding: 12px 15px; flex-direction: column; gap: 10px; }
-            .cookie-text { margin-right: 0; margin-bottom: 10px; text-align: center; font-size: 12px; line-height: 1.4; }
-            .cookie-buttons { width: 100%; justify-content: center; }
-            .cookie-buttons button { padding: 10px 20px; font-size: 12px; flex: 1; max-width: 120px; }
-            .loading-bar-container { width: 150px; }
-            .loading-text { font-size: 12px; }
-            .loading-progress { font-size: 10px; }
-        }
+            .logo-container { 
+                width: 250px; 
+                height: 250px; 
+                margin-bottom: 10px; 
+            }
 
-        @media screen and (max-width: 320px) {
-            .logo-container { width: 200px; height: 200px; }
-            .countdown { font-size: 10px; top: 8px; right: 8px; }
-            .hourglass { font-size: 12px; }
-            .sticky-logo { width: 30px; top: 8px; left: 8px; }
-            .social-icons a { font-size: 24px; padding: 8px; }
-            .coming-soon-container { max-width: 260px; padding: 10px; }
-            .coming-soon-text { font-size: 16px; }
-            .coming-soon-subtext { font-size: 11px; max-width: 200px; }
-        }
+            .product-title {
+                font-size: 1.5rem;
+            }
 
-        @media screen and (max-height: 500px) and (orientation: landscape) {
-            .container { top: 45%; }
-            .logo-container { width: 180px; height: 180px; margin-bottom: 8px; }
-            .social-container { bottom: 25px; }
-            .social-text { margin-top: 5px; }
-            .coming-soon-container { padding: 8px; margin-top: 5px; }
-            .coming-soon-text { font-size: 16px; margin-bottom: 5px; }
-            .coming-soon-subtext { font-size: 11px; }
-            .signup-text { margin-top: 5px; margin-bottom: 10px; }
+            .product-content {
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .close-button {
+                top: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -776,62 +799,28 @@
     <!-- Loading Screen -->
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="progressBar"></div>
-        </div>
         <div class="loading-text">LOADING</div>
-        <div class="loading-progress" id="loadingProgress">0%</div>
     </div>
 
-    <!-- Blur Effect Overlay -->
-    <div class="blur-overlay" id="blurOverlay"></div>
+    <!-- Background Video -->
+    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
+        <source src="assets/videos/bibi.mp4" type="video/mp4">
+        <source src="assets/videos/bibi.webm" type="video/webm">
+        <source src="bibi.mp4" type="video/mp4">
+        <source src="bibi.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
 
-    <div class="page" id="mainContent">
-        <!-- Sticky Logo -->
-        <a href="index.html">
-            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-        </a>
+    <!-- Overlay to darken the video -->
+    <div class="overlay"></div>
 
-        <!-- Background Video - UPDATED PATHS -->
-        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-            <source src="assets/videos/bibi.mp4" type="video/mp4">
-            <source src="assets/videos/bibi.webm" type="video/webm">
-            <!-- FALLBACK PATHS -->
-            <source src="bibi.mp4" type="video/mp4">
-            <source src="bibi.webm" type="video/webm">
-            Your browser does not support background video.
-        </video>
-
-        <!-- Overlay to darken the video -->
-        <div class="overlay"></div>
-
-        <!-- Main Content -->
-        <div class="container">
-            <!-- Middle Logo Container -->
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Landing Page Content -->
+        <div class="landing-content" id="landingContent">
+            <!-- Main Logo Container -->
             <div class="logo-container">
-                <!-- 3D Logo - UPDATED PATHS -->
-                <model-viewer 
-                    id="logoModel"
-                    src="assets/models/3Dlogo5.glb"
-                    alt="Fabrevoie 3D Logo" 
-                    class="logo"
-                    auto-rotate
-                    camera-controls
-                    exposure="1.0"
-                    shadow-intensity="1"
-                    camera-orbit="-10deg 90deg 100%"
-                    loading="eager"
-                    tone-mapping="commerce">
-                    
-                    <!-- Loading progress bar -->
-                    <div slot="progress-bar" class="loading-bar"></div>
-                    
-                    <!-- Error message slot with fallback -->
-                    <div slot="error" class="model-error">
-                        <p>3D logo failed to load</p>
-                        <img src="assets/images/logo-small.png" alt="Fallback 2D Logo" style="width: 200px; height: auto; margin-top: 20px;">
-                    </div>
-                </model-viewer>
+                <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
             </div>
             
             <!-- MailerLite Email Form -->
@@ -904,185 +893,80 @@
             <!-- Text under the MailerLite form -->
             <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
-            <!-- Coming Soon Container -->
-            <div id="comingSoonContainer" class="coming-soon-container">
-                <div class="coming-soon-text">WELCOME</div>
-                <p class="coming-soon-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
-                <button id="enterButton" class="enter-button" onclick="enterSite()">
+            <!-- Welcome Container -->
+            <div id="welcomeContainer" class="welcome-container">
+                <div class="welcome-text">WELCOME</div>
+                <p class="welcome-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
+                <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
                     ENTER STORE
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Social Media Icons -->
-        <div class="social-container">
-            <div class="social-icons">
-                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-            </div>
-            <p class="social-text">Show your support by following our socials.</p>
-        </div>
-
-        <!-- Countdown Timer -->
-        <div class="countdown" id="countdown">
-            Days until drop: <span id="days">00</span>
-            <i class="fas fa-hourglass hourglass"></i>
-        </div>
-
-        <!-- Copyright Text -->
-        <div class="copyright">
-            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-            <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-        </div>
-
-        <!-- Cookie Consent Banner -->
-        <div id="cookieBanner" class="cookie-banner">
-            <div class="cookie-text">
-                This site uses cookies to provide you with a better experience.&nbsp;
-                <a href="privacy-policy.html" target="_blank" style="color: #9ED9B5; text-decoration: underline;">Learn more</a>.
-            </div>
-            <div class="cookie-buttons">
-                <button onclick="acceptCookies()">Accept</button>
-                <button onclick="closeCookieBanner()">Decline</button>
+        <!-- Product Overlay -->
+        <div class="product-overlay" id="productOverlay">
+            <button class="close-button" onclick="hideProductOverlay()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="product-content">
+                <div class="product-image-section">
+                    <img src="assets/images/prodp1.png" alt="Fabrevoie Sneaker" class="product-image" id="productImage">
+                    
+                    <div class="color-selector">
+                        <div class="color-option white active" data-color="white" data-image="prodp1.png"></div>
+                        <div class="color-option black" data-color="black" data-image="prodp2.png"></div>
+                        <div class="color-option red" data-color="red" data-image="prodp3.png"></div>
+                    </div>
+                </div>
+                
+                <div class="product-info-section">
+                    <h2 class="product-title">FABREVOIE</h2>
+                    <p class="product-description">The future of footwear. These aren't just shoes - they're a statement. Bold, unconventional, and designed for those who dare to be different.</p>
+                    <div class="product-price">€349</div>
+                    <button class="buy-button" onclick="buyProduct()">
+                        BUY NOW
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Sticky Logo -->
+    <a href="index.html">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+    </a>
+
+    <!-- Social Media Icons -->
+    <div class="social-container">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+        <p class="social-text">Show your support by following our socials.</p>
+    </div>
+
+    <!-- Countdown Timer -->
+    <div class="countdown" id="countdown">
+        Days until drop: <span id="days">00</span>
+        <i class="fas fa-hourglass hourglass"></i>
+    </div>
+
+    <!-- Copyright Text -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+    </div>
+
     <script>
-        // UPDATED ASSET LOADING WITH NEW PATHS
-        const assetsToLoad = [
-            { type: 'image', url: 'assets/images/logo-small.png', fallback: 'logo-small.png' },
-            { type: '3d', url: 'assets/models/3Dlogo5.glb', fallback: '3Dlogo5.glb' },
-            { type: 'video', url: 'assets/videos/bibi.mp4', fallback: 'bibi.mp4' }
-        ];
-        
-        let loadedAssets = 0;
-        const totalAssets = assetsToLoad.length;
-        
-        function updateProgress(progress) {
-            const progressBar = document.getElementById('progressBar');
-            const loadingProgress = document.getElementById('loadingProgress');
-            if (progressBar) {
-                progressBar.style.width = `${progress}%`;
-            }
-            if (loadingProgress) {
-                loadingProgress.textContent = `${Math.round(progress)}%`;
-            }
-        }
-        
-        function preloadAssets() {
-            return new Promise((resolve) => {
-                if (totalAssets === 0) {
-                    resolve();
-                    return;
-                }
-                
-                const safetyTimeout = setTimeout(() => {
-                    console.log("Loading timed out, continuing anyway");
-                    showPageContent();
-                    resolve();
-                }, 8000);
-                
-                assetsToLoad.forEach(asset => {
-                    console.log("Loading asset:", asset.url);
-                    
-                    switch(asset.type) {
-                        case 'image':
-                            const img = new Image();
-                            img.onload = () => assetLoaded();
-                            img.onerror = () => {
-                                console.error("Failed to load image:", asset.url);
-                                // Try fallback
-                                if (asset.fallback) {
-                                    const fallbackImg = new Image();
-                                    fallbackImg.onload = () => assetLoaded();
-                                    fallbackImg.onerror = () => assetLoaded();
-                                    fallbackImg.src = asset.fallback;
-                                } else {
-                                    assetLoaded();
-                                }
-                            };
-                            img.src = asset.url;
-                            break;
-                            
-                        case 'video':
-                            const video = document.createElement('video');
-                            video.oncanplaythrough = () => assetLoaded();
-                            video.onerror = () => {
-                                console.error("Failed to load video:", asset.url);
-                                // Try fallback
-                                if (asset.fallback) {
-                                    const fallbackVideo = document.createElement('video');
-                                    fallbackVideo.oncanplaythrough = () => assetLoaded();
-                                    fallbackVideo.onerror = () => assetLoaded();
-                                    fallbackVideo.src = asset.fallback;
-                                    fallbackVideo.load();
-                                } else {
-                                    assetLoaded();
-                                }
-                            };
-                            video.src = asset.url;
-                            video.load();
-                            break;
-                            
-                        case '3d':
-                            // Add fallback for 3D model
-                            setTimeout(() => {
-                                const modelViewer = document.getElementById('logoModel');
-                                if (modelViewer) {
-                                    modelViewer.addEventListener('error', () => {
-                                        console.log("3D model failed, trying fallback");
-                                        if (asset.fallback) {
-                                            modelViewer.src = asset.fallback;
-                                        }
-                                    });
-                                }
-                                assetLoaded();
-                            }, 3000);
-                            break;
-                            
-                        default:
-                            assetLoaded();
-                    }
-                });
-                
-                function assetLoaded() {
-                    loadedAssets++;
-                    const progress = (loadedAssets / totalAssets) * 100;
-                    updateProgress(progress);
-                    console.log("Asset loaded:", loadedAssets, "of", totalAssets, "Progress:", progress + "%");
-                    
-                    if (loadedAssets >= totalAssets) {
-                        clearTimeout(safetyTimeout);
-                        setTimeout(() => resolve(), 500);
-                    }
-                }
-            });
-        }
-        
-        function showPageContent() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (loadingScreen) {
-                loadingScreen.classList.add('fade-out');
-            }
-            
-            if (mainContent) {
-                mainContent.style.opacity = '1';
-            }
-            
-            setTimeout(() => {
-                if (loadingScreen) {
-                    loadingScreen.style.display = 'none';
-                }
-            }, 500);
-        }
+        // Current selected color
+        let currentColor = 'white';
         
         // Countdown
         const countdownDate = new Date('2025-08-21T00:00:00').getTime();
@@ -1101,157 +985,106 @@
             $('.ml-subscribe-form-23779383 .row-form').hide();
             
             localStorage.setItem('formSubmitted', 'true');
-            showComingSoon();
+            showWelcome();
         }
 
-        function showComingSoon() {
+        function showWelcome() {
             const mailerLiteForm = document.getElementById('mlb2-23779383');
             const signupText = document.getElementById('signupText');
-            const comingSoonContainer = document.getElementById('comingSoonContainer');
+            const welcomeContainer = document.getElementById('welcomeContainer');
 
-            if (mailerLiteForm && signupText && comingSoonContainer) {
+            if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
-                comingSoonContainer.style.display = 'flex';
+                welcomeContainer.style.display = 'flex';
             }
         }
 
-        function applyBlurEffect() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            if (blurOverlay) {
-                blurOverlay.classList.add('blur-active');
-            }
-        }
-
-        function removeBlurEffect() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            if (blurOverlay) {
-                blurOverlay.classList.remove('blur-active');
-            }
-        }
-
-        function enterSite() {
-            applyBlurEffect();
+        function showProductOverlay() {
+            const landingContent = document.getElementById('landingContent');
+            const productOverlay = document.getElementById('productOverlay');
+            
+            landingContent.classList.add('hidden');
             setTimeout(() => {
-                window.location.href = 'products.html';
-            }, 500);
+                productOverlay.classList.add('active');
+            }, 250);
+        }
+
+        function hideProductOverlay() {
+            const landingContent = document.getElementById('landingContent');
+            const productOverlay = document.getElementById('productOverlay');
+            
+            productOverlay.classList.remove('active');
+            setTimeout(() => {
+                landingContent.classList.remove('hidden');
+            }, 250);
+        }
+
+        function changeProductColor(color, imageName) {
+            const productImage = document.getElementById('productImage');
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            // Update image
+            productImage.style.opacity = '0';
+            setTimeout(() => {
+                productImage.src = `assets/images/${imageName}`;
+                productImage.style.opacity = '1';
+            }, 150);
+            
+            // Update active color
+            colorOptions.forEach(option => option.classList.remove('active'));
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            
+            currentColor = color;
+        }
+
+        function buyProduct() {
+            // Navigate to checkout with selected color
+            window.location.href = `checkout.html?product=${currentColor}`;
+        }
+
+        function showPageContent() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            preloadAssets().then(() => {
+            // Show page content after loading
+            setTimeout(() => {
                 showPageContent();
-                
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-                
-                const video = document.getElementById('bgVideo');
-                if (video) {
-                    video.play().catch(function(error) {
-                        console.log("Video play failed:", error);
-                    });
-                }
-            });
+            }, 1000);
             
-            const modelViewer = document.getElementById('logoModel');
-            if (modelViewer) {
-                modelViewer.addEventListener('error', (event) => {
-                    console.error('3D model loading error:', event.detail);
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Play video
+            const video = document.getElementById('bgVideo');
+            if (video) {
+                video.play().catch(function(error) {
+                    console.log("Video play failed:", error);
                 });
             }
             
+            // Check if form was already submitted
             const formSubmitted = localStorage.getItem('formSubmitted');
             if (formSubmitted === 'true') {
-                showComingSoon();
+                showWelcome();
             }
             
-            const consent = localStorage.getItem('cookieConsent');
-            const cookieBanner = document.getElementById('cookieBanner');
-
-            if (consent === 'accepted' || consent === 'declined') {
-                if (cookieBanner) {
-                    cookieBanner.style.display = 'none';
-                }
-                if (typeof gtag === 'function') {
-                    gtag('consent', 'update', {
-                        'ad_storage': consent === 'accepted' ? 'granted' : 'denied',
-                        'analytics_storage': consent === 'accepted' ? 'granted' : 'denied'
-                    });
-                }
-            }
-        });
-
-        function acceptCookies() {
-            localStorage.setItem('cookieConsent', 'accepted');
-            document.getElementById('cookieBanner').style.display = 'none';
-            if (typeof gtag === 'function') {
-                gtag('consent', 'update', {
-                    'ad_storage': 'granted',
-                    'analytics_storage': 'granted'
+            // Color selector event listeners
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    const image = this.dataset.image;
+                    changeProductColor(color, image);
                 });
-            }
-        }
-
-        function closeCookieBanner() {
-            localStorage.setItem('cookieConsent', 'declined');
-            document.getElementById('cookieBanner').style.display = 'none';
-            if (typeof gtag === 'function') {
-                gtag('consent', 'update', {
-                    'ad_storage': 'denied',
-                    'analytics_storage': 'denied'
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('a');
-            links.forEach(link => {
-                if ((link.hostname === window.location.hostname || link.hostname === '') && !link.target) {
-                    link.addEventListener('click', function(e) {
-                        const href = link.getAttribute('href');
-                        
-                        if (href && href.endsWith('.html')) {
-                            e.preventDefault();
-                            
-                            applyBlurEffect();
-                            
-                            if (href === 'privacy-policy.html') {
-                                sessionStorage.setItem('nextPage', href);
-                                
-                                setTimeout(() => {
-                                    window.location.href = href;
-                                }, 500);
-                            } else if (href === 'index.html' || href === './index.html' || href === '/index.html') {
-                                setTimeout(() => {
-                                    window.location.href = href;
-                                }, 500);
-                            } else {
-                                removeBlurEffect();
-                                
-                                const formSubmitted = localStorage.getItem('formSubmitted');
-                                if (formSubmitted === 'true') {
-                                    showComingSoon();
-                                    
-                                    const comingSoonContainer = document.getElementById('comingSoonContainer');
-                                    if (comingSoonContainer) {
-                                        comingSoonContainer.style.animation = 'none';
-                                        void comingSoonContainer.offsetWidth;
-                                        comingSoonContainer.style.animation = 'bounce 0.5s';
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
             });
         });
-        
-        setTimeout(function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen && loadingScreen.style.display !== 'none') {
-                console.log("Loading screen stuck, forcing display of content");
-                showPageContent();
-            }
-        }, 10000);
     </script>
 
     <!-- MailerLite Scripts -->
