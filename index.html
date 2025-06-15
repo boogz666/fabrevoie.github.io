@@ -1433,6 +1433,14 @@
         </div>
     </header>
 
+    <!-- Main Page Floating Announcements -->
+    <div class="floating-announcements main-page" id="mainPageAnnouncements">
+        <div class="announcement-phrase" id="mainPhrase1">PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC)</div>
+        <div class="announcement-phrase" id="mainPhrase2">LIVE DROP OCTOBER 14TH</div>
+        <div class="announcement-phrase" id="mainPhrase3">LIMITED TO 500 PAIRS ONLY</div>
+        <div class="announcement-phrase" id="mainPhrase4">FREE SHIPPING</div>
+    </div>
+
     <div class="content-container">
         <div class="landing-content" id="landingContent">
             <div class="logo-container">
@@ -1711,6 +1719,10 @@
             // Mark that user has visited shop
             localStorage.setItem('hasVisitedShop', 'true');
             
+            // Stop main page announcements and hide them
+            stopMainAnnouncementCycling();
+            document.getElementById('mainPageAnnouncements').style.display = 'none';
+            
             landingContent.classList.add('hidden');
             socialContainer.classList.add('hidden');
             
@@ -1719,7 +1731,7 @@
                 topLogo.classList.add('visible');
                 updateProductImage(); // Initialize the product images
                 updateDropTimer(); // Initialize the timer
-                startAnnouncementCycling(); // Start floating announcements
+                startAnnouncementCycling(); // Start product page announcements
                 addScrollBehavior();
                 
                 // Start timer interval
@@ -1824,7 +1836,14 @@
             socialContainer.classList.remove('hidden');
             header.classList.remove('hidden');
             
+            stopAnnouncementCycling(); // Stop product page announcements
             removeScrollBehavior();
+            
+            // Show and restart main page announcements
+            document.getElementById('mainPageAnnouncements').style.display = 'block';
+            setTimeout(() => {
+                startMainAnnouncementCycling();
+            }, 500);
             
             setTimeout(() => {
                 landingContent.classList.remove('hidden');
@@ -1907,7 +1926,9 @@
         }
 
         let currentPhraseIndex = 0;
+        let currentMainPhraseIndex = 0;
         let announcementInterval;
+        let mainAnnouncementInterval;
 
         function startAnnouncementCycling() {
             const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
@@ -1942,6 +1963,39 @@
             }
         }
 
+        function startMainAnnouncementCycling() {
+            const mainPhrases = ['mainPhrase1', 'mainPhrase2', 'mainPhrase3', 'mainPhrase4'];
+            
+            // Show first phrase immediately
+            document.getElementById(mainPhrases[0]).classList.add('visible');
+            
+            mainAnnouncementInterval = setInterval(() => {
+                // Hide current phrase
+                document.getElementById(mainPhrases[currentMainPhraseIndex]).classList.remove('visible');
+                
+                // Move to next phrase
+                currentMainPhraseIndex = (currentMainPhraseIndex + 1) % mainPhrases.length;
+                
+                // Show next phrase after a brief delay
+                setTimeout(() => {
+                    document.getElementById(mainPhrases[currentMainPhraseIndex]).classList.add('visible');
+                }, 500);
+                
+            }, 3000); // Change phrase every 3 seconds
+        }
+
+        function stopMainAnnouncementCycling() {
+            if (mainAnnouncementInterval) {
+                clearInterval(mainAnnouncementInterval);
+                // Hide all main phrases
+                const mainPhrases = ['mainPhrase1', 'mainPhrase2', 'mainPhrase3', 'mainPhrase4'];
+                mainPhrases.forEach(id => {
+                    document.getElementById(id).classList.remove('visible');
+                });
+                currentMainPhraseIndex = 0;
+            }
+        }
+
         function getProductImageForCheckout(color) {
             // Return the main product image for each color for checkout display
             const checkoutImages = {
@@ -1965,6 +2019,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 showPageContent();
+                // Start main page announcements after page loads
+                startMainAnnouncementCycling();
             }, 1000);
             
             updateCountdown();
