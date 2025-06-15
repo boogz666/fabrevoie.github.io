@@ -510,26 +510,31 @@
 
         /* Product Overlay */
         .product-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
             background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
             overflow-y: auto;
-            padding: 120px 20px 100px 20px;
+            z-index: 999;
         }
 
         .product-overlay.active {
             opacity: 1;
             pointer-events: all;
+        }
+
+        .product-overlay-content {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 120px 20px 200px 20px;
         }
 
         .product-content {
@@ -732,14 +737,40 @@
             line-height: 1.4;
         }
 
-        /* Static Elements */
-        .header-nav {
+        /* Header Layout */
+        .main-header {
             position: fixed;
-            top: 20px;
-            left: 80px;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: transparent;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
             gap: 30px;
+        }
+
+        .sticky-logo {
+            width: 50px;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 25px;
             align-items: center;
         }
 
@@ -758,30 +789,51 @@
             color: var(--color-primary);
         }
 
-        .sticky-logo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            transition: transform 0.3s ease;
-        }
-
-        .sticky-logo:hover {
-            transform: scale(1.1);
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .top-logo {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            height: 80px;
+            height: 250px;
             width: auto;
             filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .top-logo.visible {
+            opacity: 1;
+        }
+
+        .countdown {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 18px;
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .countdown #days {
+            font-family: var(--font-numbers);
+            font-weight: 700;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        @keyframes rotateHourglass {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+
+        .hourglass {
+            font-size: 20px;
+            animation: rotateHourglass 3s linear infinite;
         }
 
         /* Social Media */
@@ -842,29 +894,6 @@
 
         .copyright a:hover {
             text-decoration: underline;
-        }
-
-        .countdown {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 18px;
-            color: var(--color-primary);
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-
-        .countdown #days {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 1.2em;
-            letter-spacing: 1px;
         }
 
         @keyframes rotateHourglass {
@@ -1085,85 +1114,95 @@
 
         <!-- Product Overlay -->
         <div class="product-overlay" id="productOverlay">
-            <!-- Top Center Logo -->
-            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
-            
-            <button class="back-arrow" onclick="hideProductOverlay()">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            
-            <div class="product-content">
-                <div class="product-image-section">
-                    <img src="assets/images/prodp1.png" alt="Caillou 11s Sneaker" class="product-image" id="productImage">
-                    
-                    <div class="color-selector">
-                        <div class="color-option white active" data-color="white" data-image="prodp1.png"></div>
-                        <div class="color-option black" data-color="black" data-image="prodp2.png"></div>
-                        <div class="color-option red" data-color="red" data-image="prodp3.png"></div>
-                    </div>
-                </div>
+            <div class="product-overlay-content">
+                <button class="back-arrow" onclick="hideProductOverlay()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
                 
-                <div class="product-info-section">
-                    <h2 class="product-title">Caillou 11s</h2>
-                    <p class="product-description">Revolutionary footwear engineered for those who refuse to blend in. The Caillou 11s feature an innovative sole design with aggressive tread patterns and premium materials. Each pair represents the intersection of cutting-edge technology and bold aesthetic vision - designed for individuals who make their own rules.</p>
-                    <div class="product-price">$269</div>
-                    <button class="buy-button" onclick="buyProduct()">
-                        BUY NOW
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
+                <div class="product-content">
+                    <div class="product-image-section">
+                        <img src="assets/images/prodp1.png" alt="Caillou 11s Sneaker" class="product-image" id="productImage">
+                        
+                        <div class="color-selector">
+                            <div class="color-option white active" data-color="white" data-image="prodp1.png"></div>
+                            <div class="color-option black" data-color="black" data-image="prodp2.png"></div>
+                            <div class="color-option red" data-color="red" data-image="prodp3.png"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-info-section">
+                        <h2 class="product-title">Caillou 11s</h2>
+                        <p class="product-description">Revolutionary footwear engineered for those who refuse to blend in. The Caillou 11s feature an innovative sole design with aggressive tread patterns and premium materials. Each pair represents the intersection of cutting-edge technology and bold aesthetic vision - designed for individuals who make their own rules.</p>
+                        <div class="product-price">$269</div>
+                        <button class="buy-button" onclick="buyProduct()">
+                            BUY NOW
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="product-features">
-                <h3 class="features-title">Why Choose Caillou 11s</h3>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
+                <div class="product-features">
+                    <h3 class="features-title">Why Choose Caillou 11s</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="feature-title">Lightning Fast</div>
+                            <div class="feature-description">Advanced sole technology provides unmatched speed and agility</div>
                         </div>
-                        <div class="feature-title">Lightning Fast</div>
-                        <div class="feature-description">Advanced sole technology provides unmatched speed and agility</div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-title">Ultimate Durability</div>
+                            <div class="feature-description">Premium materials built to withstand any challenge</div>
                         </div>
-                        <div class="feature-title">Ultimate Durability</div>
-                        <div class="feature-description">Premium materials built to withstand any challenge</div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-star"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="feature-title">Unique Design</div>
+                            <div class="feature-description">Stand out from the crowd with revolutionary aesthetics</div>
                         </div>
-                        <div class="feature-title">Unique Design</div>
-                        <div class="feature-description">Stand out from the crowd with revolutionary aesthetics</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="product-footer">
-                <div class="product-footer-links">
-                    <a href="#">Size Guide</a>
-                    <a href="#">Returns</a>
-                    <a href="#">Shipping</a>
-                    <a href="#">Support</a>
+                <div class="product-footer">
+                    <div class="product-footer-links">
+                        <a href="#">Size Guide</a>
+                        <a href="#">Returns</a>
+                        <a href="#">Shipping</a>
+                        <a href="#">Support</a>
+                    </div>
+                    <div>&copy; 2025 Fabrevoie. All rights reserved.</div>
                 </div>
-                <div>&copy; 2025 Fabrevoie. All rights reserved.</div>
             </div>
         </div>
     </div>
 
-    <!-- Sticky Logo -->
-    <a href="index.html">
-        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-    </a>
-
-    <!-- Navigation Menu -->
-    <nav class="header-nav">
-        <a href="#" class="nav-link" onclick="hideProductOverlay()">Home</a>
-        <a href="about.html" class="nav-link">About Us</a>
-        <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
-    </nav>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html">
+                <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+            </a>
+            <nav class="header-nav">
+                <a href="#" class="nav-link" onclick="hideProductOverlay()">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
+            </nav>
+        </div>
+        
+        <div class="header-center">
+            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+        </div>
+        
+        <div class="countdown" id="countdown">
+            Days until drop: <span id="days">00</span>
+            <i class="fas fa-hourglass hourglass"></i>
+        </div>
+    </header>
 
     <!-- Social Media Icons -->
     <div class="social-container">
@@ -1229,18 +1268,22 @@
         function showProductOverlay() {
             const landingContent = document.getElementById('landingContent');
             const productOverlay = document.getElementById('productOverlay');
+            const topLogo = document.getElementById('topLogo');
             
             landingContent.classList.add('hidden');
             setTimeout(() => {
                 productOverlay.classList.add('active');
+                topLogo.classList.add('visible');
             }, 250);
         }
 
         function hideProductOverlay() {
             const landingContent = document.getElementById('landingContent');
             const productOverlay = document.getElementById('productOverlay');
+            const topLogo = document.getElementById('topLogo');
             
             productOverlay.classList.remove('active');
+            topLogo.classList.remove('visible');
             setTimeout(() => {
                 landingContent.classList.remove('hidden');
             }, 250);
