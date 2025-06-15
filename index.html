@@ -1209,6 +1209,10 @@
             align-items: center;
             gap: 10px;
             letter-spacing: 1px;
+            position: fixed;
+            top: 130px;
+            right: 30px;
+            z-index: 998;
         }
         .countdown #days {
             font-family: var(--font-numbers);
@@ -1967,7 +1971,9 @@
             const mainPhrases = ['mainPhrase1', 'mainPhrase2', 'mainPhrase3', 'mainPhrase4'];
             
             // Show first phrase immediately
-            document.getElementById(mainPhrases[0]).classList.add('visible');
+            setTimeout(() => {
+                document.getElementById(mainPhrases[0]).classList.add('visible');
+            }, 100);
             
             mainAnnouncementInterval = setInterval(() => {
                 // Hide current phrase
