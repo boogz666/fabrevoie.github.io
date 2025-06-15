@@ -314,11 +314,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -100;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
             object-fit: cover;
             object-position: center;
+            opacity: 1;
         }
 
         /* Overlay to darken the video */
@@ -328,8 +329,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -50;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
         }
 
         /* Content Container */
@@ -339,7 +340,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: 10;
             background: transparent;
             pointer-events: none;
         }
@@ -1111,10 +1112,22 @@
             // Force video to play
             const video = document.getElementById('bgVideo');
             if (video) {
+                console.log("Video element found:", video);
+                console.log("Video currentSrc:", video.currentSrc);
+                console.log("Video readyState:", video.readyState);
+                
                 video.muted = true;
                 video.autoplay = true;
                 video.loop = true;
                 video.load(); // Reload the video
+                
+                video.addEventListener('loadeddata', function() {
+                    console.log("Video loaded successfully");
+                });
+                
+                video.addEventListener('error', function(e) {
+                    console.log("Video error:", e);
+                });
                 
                 video.play().then(() => {
                     console.log("Video playing successfully");
@@ -1125,6 +1138,8 @@
                         video.play();
                     }, { once: true });
                 });
+            } else {
+                console.log("Video element not found!");
             }
             
             // Check if form was already submitted
