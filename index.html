@@ -1,73 +1,4 @@
-.product-footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #888;
-            font-family: var(--font-body);
-            font-size: 12px;
-            width: 100%;
-            padding-bottom: 30px;
-        }
-
-        .product-footer-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .product-footer-links a,
-        .product-footer-links a:link,
-        .product-footer-links a:visited {
-            color: white !important;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-family: var(--font-body);
-            font-size: 14px;
-        }
-
-        .product-footer-links a:hover,
-        .product-footer-links a:active {
-            color: var(--color-primary) !important;
-        }
-
-        .product-footer-social {
-            margin-top: 30px;
-        }
-
-        .product-footer-social .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-
-        .product-footer-social .social-icons a {
-            color: var(--color-primary);
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .product-footer-social .social-icons a:hover {
-            color: #7BC097;
-        }
-
-        .product-footer-social .social-text {
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .product-footer-social .copyright {
-            position: relative;
-            color: #888888;
-            font-family: var(--font-body);
-            font-size: 12px;
-            text-align: center;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" style="background: #000;">
 <head>
     <meta charset="UTF-8">
@@ -345,6 +276,78 @@
             --font-primary-weight: normal;
             --font-secondary-weight-normal: 400;
             --font-numbers-weight: 400;
+        }
+
+        /* Product Footer Styles - Fixed from orphaned CSS */
+        .product-footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #888;
+            font-family: var(--font-body);
+            font-size: 12px;
+            width: 100%;
+            padding-bottom: 30px;
+        }
+
+        .product-footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-footer-links a,
+        .product-footer-links a:link,
+        .product-footer-links a:visited {
+            color: white !important;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-family: var(--font-body);
+            font-size: 14px;
+        }
+
+        .product-footer-links a:hover,
+        .product-footer-links a:active {
+            color: var(--color-primary) !important;
+        }
+
+        .product-footer-social {
+            margin-top: 30px;
+        }
+
+        .product-footer-social .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .product-footer-social .social-icons a {
+            color: var(--color-primary);
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .product-footer-social .social-icons a:hover {
+            color: #7BC097;
+        }
+
+        .product-footer-social .social-text {
+            color: var(--color-primary);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .product-footer-social .copyright {
+            position: relative;
+            color: #888888;
+            font-family: var(--font-body);
+            font-size: 12px;
+            text-align: center;
         }
 
         /* Reset */
@@ -1294,29 +1297,6 @@
         </div>
     </div>
 
-    <!-- Main Header -->
-    <header class="main-header">
-        <div class="header-left">
-            <a href="index.html">
-                <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
-            </a>
-            <nav class="header-nav">
-                <a href="#" class="nav-link" onclick="hideProductOverlay()">Home</a>
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
-            </nav>
-        </div>
-        
-        <div class="header-center">
-            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
-        </div>
-        
-        <div class="countdown" id="countdown">
-            Days until drop: <span id="days">00</span>
-            <i class="fas fa-hourglass hourglass"></i>
-        </div>
-    </header>
-
     <!-- Social Media Icons -->
     <div class="social-container">
         <div class="social-icons">
@@ -1330,12 +1310,6 @@
         <p class="social-text">Show your support by following our socials.</p>
     </div>
 
-    <!-- Countdown Timer -->
-    <div class="countdown" id="countdown">
-        Days until drop: <span id="days">00</span>
-        <i class="fas fa-hourglass hourglass"></i>
-    </div>
-
     <!-- Copyright Text -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
@@ -1347,8 +1321,8 @@
         let currentColor = 'white';
         let lastScrollTop = 0;
         
-        // Countdown
-        const countdownDate = new Date('2025-08-21T00:00:00').getTime();
+        // Countdown - Fixed to October 14th, 2025
+        const countdownDate = new Date('2025-10-14T00:00:00').getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
