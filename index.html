@@ -89,12 +89,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* Immediate hide everything to prevent FOUC */
-        * { 
-            visibility: hidden !important; 
+        /* Prevent FOUC without breaking functionality */
+        body:not(.loaded) #bgVideo,
+        body:not(.loaded) .content-container,
+        body:not(.loaded) .main-header,
+        body:not(.loaded) .social-container,
+        body:not(.loaded) .copyright {
+            opacity: 0;
         }
-        #loading-screen { 
-            visibility: visible !important; 
+        
+        body:not(.loaded) #loading-screen {
+            opacity: 1;
         }
     </style>
 
@@ -308,10 +313,6 @@
             overflow: hidden;
             color: white;
             background-color: #000;
-        }
-
-        body.loaded * {
-            visibility: visible !important;
         }
 
         /* Loading Screen */
@@ -1024,7 +1025,7 @@
 <body>
     <!-- Immediate loading prevention -->
     <script>
-        window.addEventListener('load', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.add('loaded');
         });
     </script>
@@ -1345,9 +1346,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Immediately show body and loading screen
-            document.body.classList.add('loaded');
-            
             // Show page content after loading
             setTimeout(() => {
                 showPageContent();
