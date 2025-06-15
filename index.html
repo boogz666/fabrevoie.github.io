@@ -17,13 +17,21 @@
         }
 
         .product-footer-links a {
-            color: #888;
+            color: #888 !important;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .product-footer-links a:hover {
-            color: var(--color-primary);
+            color: var(--color-primary) !important;
+        }
+
+        .product-footer-links a:visited {
+            color: #888 !important;
+        }
+
+        .product-footer-links a:link {
+            color: #888 !important;
         }<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1025,9 +1033,7 @@
 <body>
     <!-- Immediate loading prevention -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.classList.add('loaded');
-        });
+        document.body.classList.add('loaded');
     </script>
 
     <!-- Loading Screen -->
@@ -1044,6 +1050,29 @@
         <source src="bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html">
+                <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+            </a>
+            <nav class="header-nav">
+                <a href="#" class="nav-link" onclick="hideProductOverlay()">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
+            </nav>
+        </div>
+        
+        <div class="header-center">
+            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+        </div>
+        
+        <div class="countdown" id="countdown">
+            Days until drop: <span id="days">00</span>
+            <i class="fas fa-hourglass hourglass"></i>
+        </div>
+    </header>
 
     <!-- Content Container -->
     <div class="content-container">
@@ -1198,7 +1227,6 @@
                         <a href="#">Shipping</a>
                         <a href="#">Support</a>
                     </div>
-                    <div>&copy; 2025 Fabrevoie. All rights reserved.</div>
                 </div>
             </div>
         </div>
