@@ -326,8 +326,16 @@
         .product-variant {
             font-size: 14px;
             color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             text-transform: capitalize;
+        }
+
+        .product-size {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
         }
 
         .product-price {
@@ -745,6 +753,7 @@
                     <div class="product-details">
                         <div class="product-name" id="orderProductName">SBHMN</div>
                         <div class="product-variant" id="orderProductVariant">White</div>
+                        <div class="product-size" id="orderProductSize">Size: Not selected</div>
                         <div class="product-price" id="orderProductPrice">$269.00</div>
                     </div>
                 </div>
@@ -845,15 +854,16 @@
                 document.getElementById('orderProductImage').src = `assets/images/${selectedProduct.image}`;
                 document.getElementById('orderProductName').textContent = selectedProduct.name;
                 document.getElementById('orderProductVariant').textContent = selectedProduct.color;
-                document.getElementById('orderProductPrice').textContent = `$${selectedProduct.price}.00`;
+                document.getElementById('orderProductSize').textContent = selectedProduct.size ? `Size: US ${selectedProduct.size}` : 'Size: Not selected';
+                document.getElementById('orderProductPrice').textContent = `${selectedProduct.price}.00`;
                 
                 // Update totals
                 const subtotal = selectedProduct.price;
                 const shipping = 15;
                 const total = subtotal + shipping;
                 
-                document.getElementById('subtotalAmount').textContent = `$${subtotal}.00`;
-                document.getElementById('totalAmount').textContent = `$${total}.00`;
+                document.getElementById('subtotalAmount').textContent = `${subtotal}.00`;
+                document.getElementById('totalAmount').textContent = `${total}.00`;
             }
 
             // Form validation and submission
