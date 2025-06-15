@@ -1345,7 +1345,26 @@
         }
 
         function buyProduct() {
+            // Store selected product information in sessionStorage
+            const selectedProduct = {
+                name: 'SBHMN',
+                color: currentColor,
+                price: 269,
+                image: getProductImageForCheckout(currentColor)
+            };
+            
+            sessionStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
             window.location.href = `checkout.html?product=${currentColor}`;
+        }
+
+        function getProductImageForCheckout(color) {
+            // Return the main product image for each color for checkout display
+            const checkoutImages = {
+                white: 'prodp1.png',
+                black: 'prodp2.png', 
+                red: 'prodp3.png'
+            };
+            return checkoutImages[color] || 'prodp1.png';
         }
 
         function showPageContent() {
