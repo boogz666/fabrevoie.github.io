@@ -26,6 +26,62 @@
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied'
+        }
+
+        /* Announcement Bar */
+        .announcement-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--color-primary), #7BC097, var(--color-primary));
+            color: #000;
+            padding: 12px 0;
+            text-align: center;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 10001;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .announcement-content {
+            display: inline-block;
+            animation: scroll-left 20s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .announcement-bar .highlight {
+            color: #000;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 8px;
+            border-radius: 15px;
+            margin: 0 5px;
+        }
+
+        /* Adjust main header for announcement bar */
+        .main-header {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: transparent;
+            transition: transform 0.3s ease;
         });
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
@@ -396,6 +452,7 @@
             transition: opacity 0.5s ease;
             min-height: 600px;
             justify-content: center;
+            padding-top: 30px;
         }
         .landing-content.hidden {
             opacity: 0;
@@ -435,16 +492,17 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            margin-top: 10px;
-            margin-bottom: 80px;
-            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            padding: 25px;
             border: 2px solid var(--color-primary);
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
+            border-radius: 12px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.6);
             text-align: center;
-            width: 80%;
-            max-width: 350px;
+            width: 85%;
+            max-width: 380px;
+            backdrop-filter: blur(10px);
         }
         .welcome-text {
             font-family: var(--font-headers);
@@ -1087,7 +1145,7 @@
         }
         .social-container {
             position: fixed;
-            bottom: 70px;
+            bottom: 90px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -1261,6 +1319,18 @@
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
         <div class="loading-text">LOADING</div>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            🔥 PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • 
+            <span class="highlight">LIVE DROP OCTOBER 14TH</span> • 
+            LIMITED TO 500 PAIRS ONLY • 
+            <span class="highlight">SIGN UP NOW</span> • 
+            SBHMN REVOLUTIONARY FOOTWEAR • 
+            DON'T MISS OUT 🔥
+        </div>
     </div>
 
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
@@ -1570,6 +1640,9 @@
             const topLogo = document.getElementById('topLogo');
             const socialContainer = document.querySelector('.social-container');
             
+            // Mark that user has visited shop
+            localStorage.setItem('hasVisitedShop', 'true');
+            
             landingContent.classList.add('hidden');
             socialContainer.classList.add('hidden');
             
@@ -1610,6 +1683,35 @@
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'flex';
+                
+                // Store welcome state
+                localStorage.setItem('welcomeShown', 'true');
+                localStorage.setItem('formSubmitted', 'true');
+            }
+        }
+
+        function checkUserState() {
+            const formSubmitted = localStorage.getItem('formSubmitted');
+            const welcomeShown = localStorage.getItem('welcomeShown');
+            const hasVisitedShop = localStorage.getItem('hasVisitedShop');
+            
+            if (formSubmitted === 'true') {
+                if (hasVisitedShop === 'true') {
+                    // User has signed up and visited shop - show enter store button
+                    showWelcome();
+                    const welcomeText = document.querySelector('.welcome-text');
+                    const welcomeSubtext = document.querySelector('.welcome-subtext');
+                    const enterButton = document.querySelector('.enter-button');
+                    
+                    if (welcomeText) welcomeText.textContent = 'WELCOME BACK';
+                    if (welcomeSubtext) welcomeSubtext.textContent = 'Ready to continue exploring our revolutionary collection?';
+                    if (enterButton) {
+                        enterButton.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
+                    }
+                } else {
+                    // User has signed up but hasn't visited shop yet - show original welcome
+                    showWelcome();
+                }
             }
         }
 
@@ -1807,6 +1909,9 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
             
+            // Check user state on page load
+            checkUserState();
+            
             const video = document.getElementById('bgVideo');
             if (video) {
                 video.muted = true;
@@ -1830,11 +1935,6 @@
                         video.play();
                     }, { once: true });
                 });
-            }
-            
-            const formSubmitted = localStorage.getItem('formSubmitted');
-            if (formSubmitted === 'true') {
-                showWelcome();
             }
         });
     </script>
