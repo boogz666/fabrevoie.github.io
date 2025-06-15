@@ -614,12 +614,67 @@
             align-items: center;
         }
 
+        .product-image-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 500px;
+        }
+
         .product-image {
             max-width: 100%;
             max-height: 500px;
             width: auto;
             height: auto;
             transition: opacity 0.3s ease;
+        }
+
+        .image-nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .image-nav-arrow:hover {
+            background: rgba(158, 217, 181, 0.8);
+            color: #000;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .image-nav-arrow.left {
+            left: -25px;
+        }
+
+        .image-nav-arrow.right {
+            right: -25px;
+        }
+
+        .image-indicator {
+            margin-top: 15px;
+            font-family: var(--font-numbers);
+            font-size: 14px;
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+
+        .image-indicator .current-image {
+            color: var(--color-primary);
+            font-weight: 700;
         }
 
         .color-selector {
@@ -1222,12 +1277,24 @@
                 
                 <div class="product-content">
                     <div class="product-image-section">
-                        <img src="assets/images/prodp1.png" alt="Caillou 11s Sneaker" class="product-image" id="productImage">
+                        <div class="product-image-container">
+                            <button class="image-nav-arrow left" onclick="previousImage()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <img src="assets/images/prodp1.png" alt="Caillou 11s Sneaker" class="product-image" id="productImage">
+                            <button class="image-nav-arrow right" onclick="nextImage()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="image-indicator">
+                            <span class="current-image">1</span> / <span class="total-images">3</span>
+                        </div>
                         
                         <div class="color-selector">
-                            <div class="color-option white active" data-color="white" data-image="prodp1.png"></div>
-                            <div class="color-option black" data-color="black" data-image="prodp2.png"></div>
-                            <div class="color-option red" data-color="red" data-image="prodp3.png"></div>
+                            <div class="color-option white active" data-color="white"></div>
+                            <div class="color-option black" data-color="black"></div>
+                            <div class="color-option red" data-color="red"></div>
                         </div>
                     </div>
                     
@@ -1287,10 +1354,7 @@
                             </a>
                         </div>
                         <p class="social-text">Show your support by following our socials.</p>
-                        <div class="copyright">
-                            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-                            <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-                        </div>
+
                     </div>
                 </div>
             </div>
