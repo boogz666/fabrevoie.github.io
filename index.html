@@ -692,6 +692,81 @@
             border-color: var(--color-primary);
         }
 
+        /* Drop Timer */
+        .drop-timer-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+            border-radius: 20px;
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(158, 217, 181, 0.3);
+        }
+
+        .timer-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .timer-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 80px;
+        }
+
+        .timer-number {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .timer-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .timer-status {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .size-selector {
             margin-top: 40px;
             padding: 25px;
@@ -1329,12 +1404,12 @@
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
-            🔥 PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • 
+            PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • 
             <span class="highlight">LIVE DROP OCTOBER 14TH</span> • 
             LIMITED TO 500 PAIRS ONLY • 
-            <span class="highlight">SIGN UP NOW</span> • 
+            <span class="highlight">FREE SHIPPING</span> • 
             SBHMN REVOLUTIONARY FOOTWEAR • 
-            DON'T MISS OUT 🔥
+            <span class="highlight">SIGN UP NOW</span>
         </div>
     </div>
 
@@ -1458,6 +1533,27 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
+                <!-- Drop Timer -->
+                <div class="drop-timer-container">
+                    <h3 class="timer-title">DROP COUNTDOWN</h3>
+                    <p class="timer-subtitle">Limited release starts in</p>
+                    <div class="timer-display">
+                        <div class="timer-unit">
+                            <div class="timer-number" id="timerHours">100</div>
+                            <div class="timer-label">Hours</div>
+                        </div>
+                        <div class="timer-unit">
+                            <div class="timer-number" id="timerMinutes">00</div>
+                            <div class="timer-label">Minutes</div>
+                        </div>
+                        <div class="timer-unit">
+                            <div class="timer-number" id="timerSeconds">00</div>
+                            <div class="timer-label">Seconds</div>
+                        </div>
+                    </div>
+                    <div class="timer-status" id="timerStatus">Waiting for drop activation...</div>
+                </div>
+                
                 <div class="product-content">
                     <div class="product-image-section">
                         <div class="product-image-container">
@@ -1478,41 +1574,6 @@
                             <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
                             <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
                             <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
-                        </div>
-
-                        <div class="size-selector">
-                            <div class="size-selector-header">
-                                <h4 class="size-title">Size</h4>
-                                <button class="size-guide-btn" onclick="showSizeGuide()">
-                                    <i class="fas fa-ruler"></i>
-                                    Size Guide
-                                </button>
-                            </div>
-                            <div class="size-options" id="sizeOptions">
-                                <div class="size-option" data-size="4.5" onclick="selectSize('4.5')">4.5</div>
-                                <div class="size-option" data-size="5" onclick="selectSize('5')">5</div>
-                                <div class="size-option" data-size="5.5" onclick="selectSize('5.5')">5.5</div>
-                                <div class="size-option" data-size="6" onclick="selectSize('6')">6</div>
-                                <div class="size-option" data-size="6.5" onclick="selectSize('6.5')">6.5</div>
-                                <div class="size-option" data-size="7" onclick="selectSize('7')">7</div>
-                                <div class="size-option" data-size="7.5" onclick="selectSize('7.5')">7.5</div>
-                                <div class="size-option" data-size="8" onclick="selectSize('8')">8</div>
-                                <div class="size-option" data-size="8.5" onclick="selectSize('8.5')">8.5</div>
-                                <div class="size-option" data-size="9" onclick="selectSize('9')">9</div>
-                                <div class="size-option" data-size="9.5" onclick="selectSize('9.5')">9.5</div>
-                                <div class="size-option" data-size="10" onclick="selectSize('10')">10</div>
-                                <div class="size-option" data-size="10.5" onclick="selectSize('10.5')">10.5</div>
-                                <div class="size-option" data-size="11" onclick="selectSize('11')">11</div>
-                                <div class="size-option" data-size="11.5" onclick="selectSize('11.5')">11.5</div>
-                                <div class="size-option" data-size="12" onclick="selectSize('12')">12</div>
-                                <div class="size-option" data-size="12.5" onclick="selectSize('12.5')">12.5</div>
-                                <div class="size-option" data-size="13" onclick="selectSize('13')">13</div>
-                                <div class="size-option" data-size="13.5" onclick="selectSize('13.5')">13.5</div>
-                                <div class="size-option" data-size="14" onclick="selectSize('14')">14</div>
-                            </div>
-                            <div class="size-warning" id="sizeWarning" style="display: none;">
-                                Please select a size before purchasing
-                            </div>
                         </div>
                     </div>
                     
@@ -1556,7 +1617,6 @@
 
                 <div class="product-footer">
                     <div class="product-footer-links">
-                        <a href="#">Size Guide</a>
                         <a href="#">Returns</a>
                         <a href="#">Shipping</a>
                         <a href="#">Support</a>
@@ -1600,7 +1660,6 @@
         // Product image variables
         let currentColor = 'white';
         let currentImageIndex = 0;
-        let selectedSize = null;
         const productImages = {
             white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
             black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
@@ -1661,7 +1720,11 @@
                 productOverlay.classList.add('active');
                 topLogo.classList.add('visible');
                 updateProductImage(); // Initialize the product images
+                updateDropTimer(); // Initialize the timer
                 addScrollBehavior();
+                
+                // Start timer interval
+                setInterval(updateDropTimer, 1000);
             }, 250);
         }
 
@@ -1794,125 +1857,53 @@
         }
 
         function buyProduct() {
-            // Check if size is selected
-            if (!selectedSize) {
-                const sizeWarning = document.getElementById('sizeWarning');
-                sizeWarning.style.display = 'block';
-                sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => {
-                    sizeWarning.style.display = 'none';
-                }, 3000);
-                return;
-            }
-
             // Store selected product information in sessionStorage
             const selectedProduct = {
                 name: 'SBHMN',
                 color: currentColor,
-                size: selectedSize,
                 price: 269,
                 image: getProductImageForCheckout(currentColor)
             };
             
             sessionStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
-            window.location.href = `checkout.html?product=${currentColor}&size=${selectedSize}`;
-        }
-
-        function selectSize(size) {
-            // Remove previous selection
-            const sizeOptions = document.querySelectorAll('.size-option');
-            sizeOptions.forEach(option => option.classList.remove('selected'));
-            
-            // Add selection to clicked size
-            const selectedOption = document.querySelector(`[data-size="${size}"]`);
-            selectedOption.classList.add('selected');
-            
-            // Store selected size
-            selectedSize = size;
-            
-            // Hide warning if showing
-            document.getElementById('sizeWarning').style.display = 'none';
-            
-            // Update button if needed
-            updateBuyButton();
+            window.location.href = `checkout.html?product=${currentColor}`;
         }
 
         function updateBuyButton() {
             const buyButton = document.getElementById('buyButton');
             const colorText = currentColor.charAt(0).toUpperCase() + currentColor.slice(1);
+            buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} <i class="fas fa-shopping-cart"></i>`;
+        }
+
+        function updateDropTimer() {
+            const dropDate = new Date('2025-10-14T14:00:00+02:00'); // 2PM Paris time
+            const now = new Date();
             
-            if (selectedSize) {
-                buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} - SIZE ${selectedSize} <i class="fas fa-shopping-cart"></i>`;
+            if (now >= dropDate) {
+                // Drop has started, show countdown from 100:00:00
+                const elapsed = Math.floor((now - dropDate) / 1000);
+                const totalSeconds = 100 * 3600; // 100 hours in seconds
+                const remaining = Math.max(0, totalSeconds - elapsed);
+                
+                const hours = Math.floor(remaining / 3600);
+                const minutes = Math.floor((remaining % 3600) / 60);
+                const seconds = remaining % 60;
+                
+                document.getElementById('timerHours').textContent = hours.toString().padStart(3, '0');
+                document.getElementById('timerMinutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('timerSeconds').textContent = seconds.toString().padStart(2, '0');
+                
+                if (remaining > 0) {
+                    document.getElementById('timerStatus').textContent = 'DROP IS LIVE! Limited time remaining!';
+                } else {
+                    document.getElementById('timerStatus').textContent = 'DROP ENDED - Thank you for your interest!';
+                }
             } else {
-                buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} <i class="fas fa-shopping-cart"></i>`;
-            }
-        }
-
-        function showSizeGuide() {
-            // Create size guide modal
-            const modal = document.createElement('div');
-            modal.className = 'size-guide-modal';
-            modal.innerHTML = `
-                <div class="size-guide-content">
-                    <div class="size-guide-header">
-                        <h3>SBHMN Size Guide</h3>
-                        <button class="close-modal" onclick="closeSizeGuide()">&times;</button>
-                    </div>
-                    <div class="size-guide-body">
-                        <div class="size-note">
-                            <p><strong>Perfect Fit:</strong> SBHMN runs true to size with a comfortable fit. If between sizes, we recommend going up.</p>
-                        </div>
-                        <table class="size-chart">
-                            <thead>
-                                <tr>
-                                    <th>US Size</th>
-                                    <th>Foot Length (inches)</th>
-                                    <th>Foot Length (cm)</th>
-                                    <th>Age Range</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>4.5</td><td>8.5"</td><td>21.6 cm</td><td>Kids 8-10</td></tr>
-                                <tr><td>5</td><td>8.75"</td><td>22.2 cm</td><td>Kids 10-12</td></tr>
-                                <tr><td>5.5</td><td>9"</td><td>22.9 cm</td><td>Kids/Teen</td></tr>
-                                <tr><td>6</td><td>9.25"</td><td>23.5 cm</td><td>Teen/Women</td></tr>
-                                <tr><td>6.5</td><td>9.5"</td><td>24.1 cm</td><td>Teen/Women</td></tr>
-                                <tr><td>7</td><td>9.75"</td><td>24.8 cm</td><td>Women/Men</td></tr>
-                                <tr><td>7.5</td><td>10"</td><td>25.4 cm</td><td>Women/Men</td></tr>
-                                <tr><td>8</td><td>10.25"</td><td>26.0 cm</td><td>Women/Men</td></tr>
-                                <tr><td>8.5</td><td>10.5"</td><td>26.7 cm</td><td>Women/Men</td></tr>
-                                <tr><td>9</td><td>10.75"</td><td>27.3 cm</td><td>Men</td></tr>
-                                <tr><td>9.5</td><td>11"</td><td>27.9 cm</td><td>Men</td></tr>
-                                <tr><td>10</td><td>11.25"</td><td>28.6 cm</td><td>Men</td></tr>
-                                <tr><td>10.5</td><td>11.5"</td><td>29.2 cm</td><td>Men</td></tr>
-                                <tr><td>11</td><td>11.75"</td><td>29.8 cm</td><td>Men</td></tr>
-                                <tr><td>11.5</td><td>12"</td><td>30.5 cm</td><td>Men</td></tr>
-                                <tr><td>12</td><td>12.25"</td><td>31.1 cm</td><td>Men</td></tr>
-                                <tr><td>12.5</td><td>12.5"</td><td>31.8 cm</td><td>Men</td></tr>
-                                <tr><td>13</td><td>12.75"</td><td>32.4 cm</td><td>Men</td></tr>
-                                <tr><td>13.5</td><td>13"</td><td>33.0 cm</td><td>Men</td></tr>
-                                <tr><td>14</td><td>13.25"</td><td>33.7 cm</td><td>Men</td></tr>
-                            </tbody>
-                        </table>
-                        <div class="measurement-tip">
-                            <h4>How to Measure:</h4>
-                            <ol>
-                                <li>Place foot on paper, heel against wall</li>
-                                <li>Mark longest toe on paper</li>
-                                <li>Measure from wall to mark</li>
-                                <li>Compare to chart above</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        function closeSizeGuide() {
-            const modal = document.querySelector('.size-guide-modal');
-            if (modal) {
-                modal.remove();
+                // Before drop date
+                document.getElementById('timerHours').textContent = '100';
+                document.getElementById('timerMinutes').textContent = '00';
+                document.getElementById('timerSeconds').textContent = '00';
+                document.getElementById('timerStatus').textContent = 'Waiting for drop activation...';
             }
         }
 
