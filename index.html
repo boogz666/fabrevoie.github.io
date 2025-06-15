@@ -629,6 +629,254 @@
         .color-option.white.active {
             border-color: var(--color-primary);
         }
+
+        .size-selector {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .size-selector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .size-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.1rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .size-guide-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .size-guide-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+        }
+
+        .size-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .size-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 14px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .size-option:hover {
+            border-color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .size-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
+        }
+
+        .size-option.out-of-stock {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .size-option.out-of-stock:hover {
+            transform: none;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .size-warning {
+            color: #ff6b6b;
+            font-family: var(--font-body);
+            font-size: 12px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        /* Size Guide Modal */
+        .size-guide-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .size-guide-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .size-guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 20px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .size-guide-header h3 {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.5rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .size-guide-body {
+            padding: 30px;
+        }
+
+        .size-note {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .size-note p {
+            margin: 0;
+            font-family: var(--font-body);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .size-chart {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-family: var(--font-body);
+        }
+
+        .size-chart th {
+            background: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+            padding: 15px 10px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .size-chart td {
+            padding: 12px 10px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .size-chart tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .size-chart tbody tr:hover {
+            background: rgba(158, 217, 181, 0.1);
+        }
+
+        .measurement-tip {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .measurement-tip h4 {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .measurement-tip ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .measurement-tip li {
+            margin-bottom: 8px;
+            font-family: var(--font-body);
+        }
         .product-info-section {
             flex: 1;
             max-width: 400px;
@@ -970,6 +1218,38 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+
+            .size-options {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+
+            .size-option {
+                padding: 10px 6px;
+                font-size: 13px;
+            }
+
+            .size-guide-content {
+                margin: 10px;
+                max-height: 85vh;
+            }
+
+            .size-guide-header {
+                padding: 20px 20px 15px 20px;
+            }
+
+            .size-guide-body {
+                padding: 20px;
+            }
+
+            .size-chart {
+                font-size: 12px;
+            }
+
+            .size-chart th,
+            .size-chart td {
+                padding: 8px 5px;
+            }
         }
     </style>
 </head>
@@ -1124,6 +1404,41 @@
                             <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
                             <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                         </div>
+
+                        <div class="size-selector">
+                            <div class="size-selector-header">
+                                <h4 class="size-title">Size</h4>
+                                <button class="size-guide-btn" onclick="showSizeGuide()">
+                                    <i class="fas fa-ruler"></i>
+                                    Size Guide
+                                </button>
+                            </div>
+                            <div class="size-options" id="sizeOptions">
+                                <div class="size-option" data-size="4.5" onclick="selectSize('4.5')">4.5</div>
+                                <div class="size-option" data-size="5" onclick="selectSize('5')">5</div>
+                                <div class="size-option" data-size="5.5" onclick="selectSize('5.5')">5.5</div>
+                                <div class="size-option" data-size="6" onclick="selectSize('6')">6</div>
+                                <div class="size-option" data-size="6.5" onclick="selectSize('6.5')">6.5</div>
+                                <div class="size-option" data-size="7" onclick="selectSize('7')">7</div>
+                                <div class="size-option" data-size="7.5" onclick="selectSize('7.5')">7.5</div>
+                                <div class="size-option" data-size="8" onclick="selectSize('8')">8</div>
+                                <div class="size-option" data-size="8.5" onclick="selectSize('8.5')">8.5</div>
+                                <div class="size-option" data-size="9" onclick="selectSize('9')">9</div>
+                                <div class="size-option" data-size="9.5" onclick="selectSize('9.5')">9.5</div>
+                                <div class="size-option" data-size="10" onclick="selectSize('10')">10</div>
+                                <div class="size-option" data-size="10.5" onclick="selectSize('10.5')">10.5</div>
+                                <div class="size-option" data-size="11" onclick="selectSize('11')">11</div>
+                                <div class="size-option" data-size="11.5" onclick="selectSize('11.5')">11.5</div>
+                                <div class="size-option" data-size="12" onclick="selectSize('12')">12</div>
+                                <div class="size-option" data-size="12.5" onclick="selectSize('12.5')">12.5</div>
+                                <div class="size-option" data-size="13" onclick="selectSize('13')">13</div>
+                                <div class="size-option" data-size="13.5" onclick="selectSize('13.5')">13.5</div>
+                                <div class="size-option" data-size="14" onclick="selectSize('14')">14</div>
+                            </div>
+                            <div class="size-warning" id="sizeWarning" style="display: none;">
+                                Please select a size before purchasing
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="product-info-section">
@@ -1204,6 +1519,7 @@
         // Product image variables
         let currentColor = 'white';
         let currentImageIndex = 0;
+        let selectedSize = null;
         const productImages = {
             white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
             black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
@@ -1244,11 +1560,7 @@
             currentColor = color;
             currentImageIndex = 0;
             updateProductImage();
-            
-            // Update buy button text
-            const buyButton = document.getElementById('buyButton');
-            const colorText = color.charAt(0).toUpperCase() + color.slice(1);
-            buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} <i class="fas fa-shopping-cart"></i>`;
+            updateBuyButton();
         }
 
         // Initialize product gallery when showing overlay
@@ -1345,16 +1657,126 @@
         }
 
         function buyProduct() {
+            // Check if size is selected
+            if (!selectedSize) {
+                const sizeWarning = document.getElementById('sizeWarning');
+                sizeWarning.style.display = 'block';
+                sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    sizeWarning.style.display = 'none';
+                }, 3000);
+                return;
+            }
+
             // Store selected product information in sessionStorage
             const selectedProduct = {
                 name: 'SBHMN',
                 color: currentColor,
+                size: selectedSize,
                 price: 269,
                 image: getProductImageForCheckout(currentColor)
             };
             
             sessionStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
-            window.location.href = `checkout.html?product=${currentColor}`;
+            window.location.href = `checkout.html?product=${currentColor}&size=${selectedSize}`;
+        }
+
+        function selectSize(size) {
+            // Remove previous selection
+            const sizeOptions = document.querySelectorAll('.size-option');
+            sizeOptions.forEach(option => option.classList.remove('selected'));
+            
+            // Add selection to clicked size
+            const selectedOption = document.querySelector(`[data-size="${size}"]`);
+            selectedOption.classList.add('selected');
+            
+            // Store selected size
+            selectedSize = size;
+            
+            // Hide warning if showing
+            document.getElementById('sizeWarning').style.display = 'none';
+            
+            // Update button if needed
+            updateBuyButton();
+        }
+
+        function updateBuyButton() {
+            const buyButton = document.getElementById('buyButton');
+            const colorText = currentColor.charAt(0).toUpperCase() + currentColor.slice(1);
+            
+            if (selectedSize) {
+                buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} - SIZE ${selectedSize} <i class="fas fa-shopping-cart"></i>`;
+            } else {
+                buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} <i class="fas fa-shopping-cart"></i>`;
+            }
+        }
+
+        function showSizeGuide() {
+            // Create size guide modal
+            const modal = document.createElement('div');
+            modal.className = 'size-guide-modal';
+            modal.innerHTML = `
+                <div class="size-guide-content">
+                    <div class="size-guide-header">
+                        <h3>SBHMN Size Guide</h3>
+                        <button class="close-modal" onclick="closeSizeGuide()">&times;</button>
+                    </div>
+                    <div class="size-guide-body">
+                        <div class="size-note">
+                            <p><strong>Perfect Fit:</strong> SBHMN runs true to size with a comfortable fit. If between sizes, we recommend going up.</p>
+                        </div>
+                        <table class="size-chart">
+                            <thead>
+                                <tr>
+                                    <th>US Size</th>
+                                    <th>Foot Length (inches)</th>
+                                    <th>Foot Length (cm)</th>
+                                    <th>Age Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>4.5</td><td>8.5"</td><td>21.6 cm</td><td>Kids 8-10</td></tr>
+                                <tr><td>5</td><td>8.75"</td><td>22.2 cm</td><td>Kids 10-12</td></tr>
+                                <tr><td>5.5</td><td>9"</td><td>22.9 cm</td><td>Kids/Teen</td></tr>
+                                <tr><td>6</td><td>9.25"</td><td>23.5 cm</td><td>Teen/Women</td></tr>
+                                <tr><td>6.5</td><td>9.5"</td><td>24.1 cm</td><td>Teen/Women</td></tr>
+                                <tr><td>7</td><td>9.75"</td><td>24.8 cm</td><td>Women/Men</td></tr>
+                                <tr><td>7.5</td><td>10"</td><td>25.4 cm</td><td>Women/Men</td></tr>
+                                <tr><td>8</td><td>10.25"</td><td>26.0 cm</td><td>Women/Men</td></tr>
+                                <tr><td>8.5</td><td>10.5"</td><td>26.7 cm</td><td>Women/Men</td></tr>
+                                <tr><td>9</td><td>10.75"</td><td>27.3 cm</td><td>Men</td></tr>
+                                <tr><td>9.5</td><td>11"</td><td>27.9 cm</td><td>Men</td></tr>
+                                <tr><td>10</td><td>11.25"</td><td>28.6 cm</td><td>Men</td></tr>
+                                <tr><td>10.5</td><td>11.5"</td><td>29.2 cm</td><td>Men</td></tr>
+                                <tr><td>11</td><td>11.75"</td><td>29.8 cm</td><td>Men</td></tr>
+                                <tr><td>11.5</td><td>12"</td><td>30.5 cm</td><td>Men</td></tr>
+                                <tr><td>12</td><td>12.25"</td><td>31.1 cm</td><td>Men</td></tr>
+                                <tr><td>12.5</td><td>12.5"</td><td>31.8 cm</td><td>Men</td></tr>
+                                <tr><td>13</td><td>12.75"</td><td>32.4 cm</td><td>Men</td></tr>
+                                <tr><td>13.5</td><td>13"</td><td>33.0 cm</td><td>Men</td></tr>
+                                <tr><td>14</td><td>13.25"</td><td>33.7 cm</td><td>Men</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="measurement-tip">
+                            <h4>How to Measure:</h4>
+                            <ol>
+                                <li>Place foot on paper, heel against wall</li>
+                                <li>Mark longest toe on paper</li>
+                                <li>Measure from wall to mark</li>
+                                <li>Compare to chart above</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function closeSizeGuide() {
+            const modal = document.querySelector('.size-guide-modal');
+            if (modal) {
+                modal.remove();
+            }
         }
 
         function getProductImageForCheckout(color) {
