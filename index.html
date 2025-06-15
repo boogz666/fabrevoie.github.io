@@ -67,6 +67,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- Custom Font -->
+    <style>
+    @font-face {
+        font-family: 'DrukWide';
+        src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    </style>
+
     <!-- MailerLite CSS -->
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
     <style type="text/css">
@@ -245,10 +255,10 @@
         /* Site Variables */
         :root {
             --color-primary: #9ED9B5;
-            --font-headers: 'Montserrat', sans-serif;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
             --font-numbers: 'Space Mono', monospace;
-            --font-primary-weight: 700;
+            --font-primary-weight: normal;
             --font-secondary-weight-normal: 400;
             --font-numbers-weight: 400;
         }
@@ -271,7 +281,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #121212;
+            background-color: #000000;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -296,7 +306,7 @@
 
         .loading-text {
             font-family: var(--font-headers);
-            font-weight: 600;
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: var(--color-primary);
             letter-spacing: 2px;
@@ -316,21 +326,10 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -1;
+            z-index: 1;
             object-fit: cover;
             object-position: center;
             opacity: 1;
-        }
-
-        /* Overlay to darken the video */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 0;
         }
 
         /* Content Container */
@@ -340,8 +339,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10;
-            background: transparent;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
         }
 
@@ -362,6 +361,8 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
+            min-height: 600px;
+            justify-content: center;
         }
 
         .landing-content.hidden {
@@ -626,29 +627,6 @@
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
 
-        .close-button {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--color-primary);
-        }
-
         .back-arrow {
             position: absolute;
             top: 50%;
@@ -674,7 +652,60 @@
             transform: translateY(-50%) translateX(-5px);
         }
 
+        .product-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #888;
+            font-family: var(--font-body);
+            font-size: 12px;
+        }
+
+        .product-footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .product-footer-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .product-footer-links a:hover {
+            color: var(--color-primary);
+        }
+
         /* Static Elements */
+        .header-nav {
+            position: fixed;
+            top: 20px;
+            left: 80px;
+            z-index: 1000;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
         .sticky-logo {
             position: fixed;
             top: 20px;
@@ -691,14 +722,14 @@
         }
 
         .top-logo {
-            position: fixed;
-            top: 20px;
+            position: absolute;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            height: 40px;
+            height: 60px;
             width: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
         }
 
         .countdown {
@@ -810,6 +841,19 @@
                 height: 300px; 
                 margin-bottom: 15px; 
             }
+
+            .header-nav {
+                left: 70px;
+                gap: 20px;
+            }
+
+            .nav-link {
+                font-size: 12px;
+            }
+
+            .landing-content {
+                min-height: 500px;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -828,9 +872,18 @@
                 padding: 20px;
             }
 
-            .close-button {
-                top: 20px;
-                right: 20px;
+            .header-nav {
+                display: none;
+            }
+
+            .landing-content {
+                min-height: 400px;
+                width: 95%;
+            }
+
+            .top-logo {
+                height: 50px;
+                top: 25px;
             }
         }
     </style>
@@ -850,9 +903,6 @@
         <source src="bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
-
-    <!-- Overlay to darken the video -->
-    <div class="overlay"></div>
 
     <!-- Content Container -->
     <div class="content-container">
@@ -946,9 +996,8 @@
 
         <!-- Product Overlay -->
         <div class="product-overlay" id="productOverlay">
-            <button class="close-button" onclick="hideProductOverlay()">
-                <i class="fas fa-times"></i>
-            </button>
+            <!-- Top Center Logo -->
+            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
             
             <button class="back-arrow" onclick="hideProductOverlay()">
                 <i class="fas fa-arrow-left"></i>
@@ -975,6 +1024,16 @@
                     </button>
                 </div>
             </div>
+
+            <div class="product-footer">
+                <div class="product-footer-links">
+                    <a href="#">Size Guide</a>
+                    <a href="#">Returns</a>
+                    <a href="#">Shipping</a>
+                    <a href="#">Support</a>
+                </div>
+                <div>&copy; 2025 Fabrevoie. All rights reserved.</div>
+            </div>
         </div>
     </div>
 
@@ -983,8 +1042,12 @@
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
 
-    <!-- Top Center Logo -->
-    <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
+    <!-- Navigation Menu -->
+    <nav class="header-nav">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">About Us</a>
+        <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
+    </nav>
 
     <!-- Social Media Icons -->
     <div class="social-container">
