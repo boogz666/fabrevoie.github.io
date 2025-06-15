@@ -82,6 +82,10 @@
             padding: 20px 30px;
             background: transparent;
             transition: transform 0.3s ease;
+        }
+
+        .main-header.hidden {
+            transform: translateY(-100%);
         });
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
@@ -492,8 +496,8 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            margin-top: 30px;
-            margin-bottom: 40px;
+            margin-top: 20px;
+            margin-bottom: 60px;
             padding: 25px;
             border: 2px solid var(--color-primary);
             border-radius: 12px;
@@ -1145,7 +1149,7 @@
         }
         .social-container {
             position: fixed;
-            bottom: 90px;
+            bottom: 80px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -1690,26 +1694,37 @@
             }
         }
 
+        function showEnterStoreOnly() {
+            const mailerLiteForm = document.getElementById('mlb2-23779383');
+            const signupText = document.getElementById('signupText');
+            const welcomeContainer = document.getElementById('welcomeContainer');
+
+            if (mailerLiteForm && signupText && welcomeContainer) {
+                mailerLiteForm.style.display = 'none';
+                signupText.style.display = 'none';
+                
+                // Show only the enter store button without welcome text
+                welcomeContainer.innerHTML = `
+                    <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
+                        ENTER STORE
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                `;
+                welcomeContainer.style.display = 'flex';
+                welcomeContainer.style.padding = '15px 25px';
+            }
+        }
+
         function checkUserState() {
             const formSubmitted = localStorage.getItem('formSubmitted');
-            const welcomeShown = localStorage.getItem('welcomeShown');
             const hasVisitedShop = localStorage.getItem('hasVisitedShop');
             
             if (formSubmitted === 'true') {
                 if (hasVisitedShop === 'true') {
-                    // User has signed up and visited shop - show enter store button
-                    showWelcome();
-                    const welcomeText = document.querySelector('.welcome-text');
-                    const welcomeSubtext = document.querySelector('.welcome-subtext');
-                    const enterButton = document.querySelector('.enter-button');
-                    
-                    if (welcomeText) welcomeText.textContent = 'WELCOME BACK';
-                    if (welcomeSubtext) welcomeSubtext.textContent = 'Ready to continue exploring our revolutionary collection?';
-                    if (enterButton) {
-                        enterButton.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
-                    }
+                    // User has signed up and visited shop - show only enter store button
+                    showEnterStoreOnly();
                 } else {
-                    // User has signed up but hasn't visited shop yet - show original welcome
+                    // User has signed up but hasn't visited shop yet - show welcome message
                     showWelcome();
                 }
             }
