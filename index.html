@@ -298,6 +298,11 @@
             overflow: hidden;
             color: white;
             background-color: #000;
+            visibility: hidden;
+        }
+
+        body.loaded {
+            visibility: visible;
         }
 
         /* Loading Screen */
@@ -314,6 +319,7 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease-out;
+            visibility: visible;
         }
 
         .loading-logo {
@@ -1007,6 +1013,11 @@
     </style>
 </head>
 <body>
+    <!-- Immediate loading prevention -->
+    <script>
+        document.body.classList.add('loaded');
+    </script>
+
     <!-- Loading Screen -->
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
@@ -1323,6 +1334,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Immediately show body and loading screen
+            document.body.classList.add('loaded');
+            
             // Show page content after loading
             setTimeout(() => {
                 showPageContent();
