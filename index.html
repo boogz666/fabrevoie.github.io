@@ -316,7 +316,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -10;
+            z-index: -100;
             object-fit: cover;
             object-position: center;
         }
@@ -329,7 +329,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: -5;
+            z-index: -50;
         }
 
         /* Content Container */
@@ -340,6 +340,12 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .content-container > * {
+            pointer-events: all;
         }
 
         /* Landing Page Content */
@@ -405,6 +411,7 @@
             flex-direction: column;
             align-items: center;
             margin-top: 10px;
+            margin-bottom: 80px;
             padding: 20px;
             border: 2px solid var(--color-primary);
             border-radius: 10px;
@@ -568,17 +575,16 @@
             font-family: var(--font-headers);
             font-weight: 800;
             font-size: 2.5rem;
-            color: var(--color-primary);
+            color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
         }
 
         .product-description {
             font-family: var(--font-body);
             font-size: 1.1rem;
-            color: #ccc;
+            color: white;
             line-height: 1.6;
             margin-bottom: 30px;
         }
@@ -642,6 +648,31 @@
             color: var(--color-primary);
         }
 
+        .back-arrow {
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-primary);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
         /* Static Elements */
         .sticky-logo {
             position: fixed;
@@ -656,6 +687,17 @@
 
         .sticky-logo:hover {
             transform: scale(1.1);
+        }
+
+        .top-logo {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            height: 40px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
         }
 
         .countdown {
@@ -907,9 +949,13 @@
                 <i class="fas fa-times"></i>
             </button>
             
+            <button class="back-arrow" onclick="hideProductOverlay()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
             <div class="product-content">
                 <div class="product-image-section">
-                    <img src="assets/images/prodp1.png" alt="Fabrevoie Sneaker" class="product-image" id="productImage">
+                    <img src="assets/images/prodp1.png" alt="Caillou 11s Sneaker" class="product-image" id="productImage">
                     
                     <div class="color-selector">
                         <div class="color-option white active" data-color="white" data-image="prodp1.png"></div>
@@ -919,8 +965,8 @@
                 </div>
                 
                 <div class="product-info-section">
-                    <h2 class="product-title">FABREVOIE</h2>
-                    <p class="product-description">The future of footwear. These aren't just shoes - they're a statement. Bold, unconventional, and designed for those who dare to be different.</p>
+                    <h2 class="product-title">Caillou 11s</h2>
+                    <p class="product-description">Revolutionary footwear engineered for those who refuse to blend in. The Caillou 11s feature an innovative sole design with aggressive tread patterns and premium materials. Each pair represents the intersection of cutting-edge technology and bold aesthetic vision - designed for individuals who make their own rules.</p>
                     <div class="product-price">€349</div>
                     <button class="buy-button" onclick="buyProduct()">
                         BUY NOW
@@ -935,6 +981,9 @@
     <a href="index.html">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
     </a>
+
+    <!-- Top Center Logo -->
+    <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
 
     <!-- Social Media Icons -->
     <div class="social-container">
