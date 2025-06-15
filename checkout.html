@@ -883,11 +883,10 @@
                     }
                 });
 
-                if (isValid) {
-                    // In a real implementation, this would submit to Shopify or payment processor
-                    alert('Order would be processed here! (Demo mode)');
-                    // window.location.href = 'order-confirmation.html';
-                } else {
+                    if (isValid) {
+                        // Redirect to order confirmation page
+                    window.location.href = 'order-confirmation.html';
+                    } else {
                     alert('Please fill in all required fields.');
                 }
             });
