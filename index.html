@@ -69,9 +69,43 @@
             margin: 0 5px;
         }
 
-        .main-header {
+        /* Announcement Header */
+        .announcement-header {
             position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .announcement-header .announcement-phrase {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 16px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            position: absolute;
+            white-space: nowrap;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .announcement-header .announcement-phrase.visible {
+            opacity: 1;
+        }
+
+        /* Adjust main header */
+        .main-header {
+            position: fixed;
+            top: 50px;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -376,6 +410,11 @@
             overflow: hidden;
             color: white;
             background-color: #000;
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         #loading-screen {
             position: fixed;
@@ -1411,6 +1450,14 @@
         Your browser does not support background video.
     </video>
 
+    <!-- Announcement Header -->
+    <div class="announcement-header">
+        <div class="announcement-phrase" id="headerPhrase1">PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC)</div>
+        <div class="announcement-phrase" id="headerPhrase2">LIVE DROP OCTOBER 14TH</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIMITED TO 500 PAIRS ONLY</div>
+        <div class="announcement-phrase" id="headerPhrase4">FREE SHIPPING</div>
+    </div>
+
     <header class="main-header">
         <div class="header-left">
             <a href="index.html">
@@ -1719,10 +1766,6 @@
             // Mark that user has visited shop
             localStorage.setItem('hasVisitedShop', 'true');
             
-            // Stop main page announcements and hide them
-            stopMainAnnouncementCycling();
-            document.getElementById('mainPageAnnouncements').style.display = 'none';
-            
             landingContent.classList.add('hidden');
             socialContainer.classList.add('hidden');
             
@@ -1839,12 +1882,6 @@
             stopAnnouncementCycling(); // Stop product page announcements
             removeScrollBehavior();
             
-            // Show and restart main page announcements
-            document.getElementById('mainPageAnnouncements').style.display = 'block';
-            setTimeout(() => {
-                startMainAnnouncementCycling();
-            }, 500);
-            
             setTimeout(() => {
                 landingContent.classList.remove('hidden');
             }, 250);
@@ -1926,9 +1963,9 @@
         }
 
         let currentPhraseIndex = 0;
-        let currentMainPhraseIndex = 0;
+        let currentHeaderPhraseIndex = 0;
         let announcementInterval;
-        let mainAnnouncementInterval;
+        let headerAnnouncementInterval;
 
         function startAnnouncementCycling() {
             const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
@@ -1963,39 +2000,27 @@
             }
         }
 
-        function startMainAnnouncementCycling() {
-            const mainPhrases = ['mainPhrase1', 'mainPhrase2', 'mainPhrase3', 'mainPhrase4'];
+        function startHeaderAnnouncementCycling() {
+            const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
             
             // Show first phrase immediately
             setTimeout(() => {
-                document.getElementById(mainPhrases[0]).classList.add('visible');
+                document.getElementById(headerPhrases[0]).classList.add('visible');
             }, 100);
             
-            mainAnnouncementInterval = setInterval(() => {
+            headerAnnouncementInterval = setInterval(() => {
                 // Hide current phrase
-                document.getElementById(mainPhrases[currentMainPhraseIndex]).classList.remove('visible');
+                document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.remove('visible');
                 
                 // Move to next phrase
-                currentMainPhraseIndex = (currentMainPhraseIndex + 1) % mainPhrases.length;
+                currentHeaderPhraseIndex = (currentHeaderPhraseIndex + 1) % headerPhrases.length;
                 
                 // Show next phrase after a brief delay
                 setTimeout(() => {
-                    document.getElementById(mainPhrases[currentMainPhraseIndex]).classList.add('visible');
+                    document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.add('visible');
                 }, 500);
                 
             }, 3000); // Change phrase every 3 seconds
-        }
-
-        function stopMainAnnouncementCycling() {
-            if (mainAnnouncementInterval) {
-                clearInterval(mainAnnouncementInterval);
-                // Hide all main phrases
-                const mainPhrases = ['mainPhrase1', 'mainPhrase2', 'mainPhrase3', 'mainPhrase4'];
-                mainPhrases.forEach(id => {
-                    document.getElementById(id).classList.remove('visible');
-                });
-                currentMainPhraseIndex = 0;
-            }
         }
 
         function getProductImageForCheckout(color) {
@@ -2021,8 +2046,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 showPageContent();
-                // Start main page announcements after page loads
-                startMainAnnouncementCycling();
+                // Start header announcements after page loads
+                startHeaderAnnouncementCycling();
             }, 1000);
             
             updateCountdown();
