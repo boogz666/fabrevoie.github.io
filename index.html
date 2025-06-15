@@ -389,7 +389,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 99999;
             transition: opacity 0.5s ease-out;
             visibility: visible;
         }
@@ -1320,6 +1320,7 @@
         document.body.classList.add('loaded');
     </script>
 
+    <!-- Loading Screen -->
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
         <div class="loading-text">LOADING</div>
@@ -1589,6 +1590,12 @@
         <p class="social-text">Show your support by following our socials.</p>
     </div>
 
+    <!-- Copyright -->
+    <div class="copyright">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
+    </div>
+
     <script>
         // Product image variables
         let currentColor = 'white';
@@ -1682,11 +1689,17 @@
             const mailerLiteForm = document.getElementById('mlb2-23779383');
             const signupText = document.getElementById('signupText');
             const welcomeContainer = document.getElementById('welcomeContainer');
+            const standaloneBtn = document.getElementById('standaloneEnterBtn');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'flex';
+                
+                // Hide standalone button if it exists
+                if (standaloneBtn) {
+                    standaloneBtn.style.display = 'none';
+                }
                 
                 // Store welcome state
                 localStorage.setItem('welcomeShown', 'true');
@@ -1702,16 +1715,23 @@
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
+                welcomeContainer.style.display = 'none';
                 
-                // Show only the enter store button without welcome text
-                welcomeContainer.innerHTML = `
-                    <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
-                        ENTER STORE
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                `;
-                welcomeContainer.style.display = 'flex';
-                welcomeContainer.style.padding = '15px 25px';
+                // Create standalone enter store button without box
+                const landingContent = document.getElementById('landingContent');
+                let enterStoreBtn = document.getElementById('standaloneEnterBtn');
+                
+                if (!enterStoreBtn) {
+                    enterStoreBtn = document.createElement('button');
+                    enterStoreBtn.id = 'standaloneEnterBtn';
+                    enterStoreBtn.className = 'enter-button';
+                    enterStoreBtn.onclick = showProductOverlay;
+                    enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
+                    enterStoreBtn.style.marginTop = '30px';
+                    landingContent.appendChild(enterStoreBtn);
+                } else {
+                    enterStoreBtn.style.display = 'flex';
+                }
             }
         }
 
