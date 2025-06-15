@@ -1402,16 +1402,23 @@
     </div>
 
     <!-- Announcement Bar -->
-    <div class="announcement-bar">
-        <div class="announcement-content">
+    <div style="position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(90deg, #9ED9B5, #7BC097, #9ED9B5); color: #000; padding: 12px 0; text-align: center; font-size: 14px; font-weight: bold; text-transform: uppercase; z-index: 99999; box-shadow: 0 2px 10px rgba(0,0,0,0.3); overflow: hidden; white-space: nowrap;">
+        <div style="display: inline-block; animation: scroll-left 20s linear infinite; padding-left: 100%;">
             PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • 
-            <span class="highlight">LIVE DROP OCTOBER 14TH</span> • 
+            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">LIVE DROP OCTOBER 14TH</span> • 
             LIMITED TO 500 PAIRS ONLY • 
-            <span class="highlight">FREE SHIPPING</span> • 
+            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">FREE SHIPPING</span> • 
             SBHMN REVOLUTIONARY FOOTWEAR • 
-            <span class="highlight">SIGN UP NOW</span>
+            <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 15px; margin: 0 5px;">SIGN UP NOW</span>
         </div>
     </div>
+
+    <style>
+        @keyframes scroll-left {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+    </style>
 
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="assets/videos/bibi.mp4" type="video/mp4">
