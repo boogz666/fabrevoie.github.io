@@ -30,6 +30,59 @@
         <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
 
+    <!-- SEPARATE SCRIPT BLOCK FOR GLOBAL FUNCTIONS -->
+    <script>
+        // SIMPLE GLOBAL FUNCTIONS - NOTHING ELSE
+        window.currentColor = 'white';
+        window.currentImageIndex = 0;
+        
+        window.productImages = {
+            white: ['assets/images/prodp1.png', 'assets/images/prodp12.png', 'assets/images/prodp13.png'],
+            black: ['assets/images/prodp2.png', 'assets/images/prodp22.png', 'assets/images/prodp23.png'],
+            red: ['assets/images/prodp3.png', 'assets/images/prodp32.png', 'assets/images/prodp33.png']
+        };
+
+        window.nextImage = function() {
+            console.log('NEXT CLICKED');
+            const imgs = window.productImages[window.currentColor];
+            window.currentImageIndex = (window.currentImageIndex + 1) % imgs.length;
+            
+            const img = document.getElementById('productImage');
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = imgs[window.currentImageIndex];
+                img.style.opacity = '1';
+                document.querySelector('.current-image').textContent = window.currentImageIndex + 1;
+            }, 150);
+        };
+
+        window.previousImage = function() {
+            console.log('PREV CLICKED');
+            const imgs = window.productImages[window.currentColor];
+            window.currentImageIndex = (window.currentImageIndex - 1 + imgs.length) % imgs.length;
+            
+            const img = document.getElementById('productImage');
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = imgs[window.currentImageIndex];
+                img.style.opacity = '1';
+                document.querySelector('.current-image').textContent = window.currentImageIndex + 1;
+            }, 150);
+        };
+
+        window.changeColor = function(color) {
+            console.log('COLOR:', color);
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('active'));
+            document.querySelector('.color-option.' + color).classList.add('active');
+            
+            window.currentColor = color;
+            window.currentImageIndex = 0;
+            window.nextImage(); // Use existing function
+        };
+
+        console.log('FUNCTIONS LOADED:', typeof window.nextImage, typeof window.previousImage);
+    </script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
