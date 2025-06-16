@@ -313,19 +313,23 @@
             border-color: var(--color-primary);
         }
 
+        /* UPDATED: Check mark for active color instead of dot */
         .color-option::after {
-            content: '';
+            content: '✓';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--color-primary);
-            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .color-option.active::after {
             opacity: 1;
+        }
+
+        .color-option.white::after {
+            color: #333; /* Dark check for white background */
         }
 
         /* UPDATED: Size type selection (Men's/Women's) */
@@ -1347,51 +1351,7 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: Color Selection with rectangle styling -->
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <i class="fas fa-palette"></i>
-                            Choose Color
-                        </h2>
-                        <div class="color-selection-section">
-                            <div class="color-selection-title">Select Your Preferred Color</div>
-                            <div class="color-selector">
-                                <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
-                                <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
-                                <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- UPDATED: Size Selection with Men's/Women's option and sizes 4-14 -->
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <i class="fas fa-shoe-prints"></i>
-                            Select Size & Quantity
-                        </h2>
-                        
-                        <!-- Size Type Selection -->
-                        <div class="size-type-selection">
-                            <div class="size-type-title">Choose Size Type</div>
-                            <div class="size-type-options">
-                                <div class="size-type-option selected" data-type="mens" onclick="changeSizeType('mens')">Men's</div>
-                                <div class="size-type-option" data-type="womens" onclick="changeSizeType('womens')">Women's</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Choose your size - Click + to add multiple pairs</label>
-                            <div class="size-selector" id="sizeSelector">
-                                <!-- Sizes 4-14 will be populated by JavaScript -->
-                            </div>
-                            <a href="#" class="size-guide-link" onclick="openSizeGuide()">
-                                <i class="fas fa-ruler"></i>
-                                Size Guide
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- UPDATED: Bundle Selection -->
+                    <!-- UPDATED: Bundle Selection moved under email -->
                     <div class="form-section">
                         <div class="bundle-selection">
                             <h2 class="bundle-title">
@@ -1432,6 +1392,50 @@
                                     <div class="bundle-badge">Exclusive</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- UPDATED: Color Selection with rectangle styling and red first -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-palette"></i>
+                            Choose Color
+                        </h2>
+                        <div class="color-selection-section">
+                            <div class="color-selection-title">Select Your Preferred Color</div>
+                            <div class="color-selector">
+                                <div class="color-option red active" data-color="red" onclick="changeProductColor('red')"></div>
+                                <div class="color-option white" data-color="white" onclick="changeProductColor('white')"></div>
+                                <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UPDATED: Size Selection with Men's/Women's option and sizes 4-14 -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-shoe-prints"></i>
+                            Select Size & Quantity
+                        </h2>
+                        
+                        <!-- Size Type Selection -->
+                        <div class="size-type-selection">
+                            <div class="size-type-title">Choose Size Type</div>
+                            <div class="size-type-options">
+                                <div class="size-type-option selected" data-type="mens" onclick="changeSizeType('mens')">Men's</div>
+                                <div class="size-type-option" data-type="womens" onclick="changeSizeType('womens')">Women's</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Choose your size - Click + to add multiple pairs</label>
+                            <div class="size-selector" id="sizeSelector">
+                                <!-- Sizes 4-14 will be populated by JavaScript -->
+                            </div>
+                            <a href="#" class="size-guide-link" onclick="openSizeGuide()">
+                                <i class="fas fa-ruler"></i>
+                                Size Guide
+                            </a>
                         </div>
                     </div>
 
@@ -1758,7 +1762,7 @@
             'FABREVOIE': { discount: 50, type: 'fixed', description: '$50 off bundle orders' }
         };
 
-        // UPDATED: Size conversion data
+        // UPDATED: Different size conversion data for women
         const sizeConversions = {
             mens: {
                 4: { eu: 36, uk: 3.5, footLength: 23.0 },
@@ -1784,31 +1788,31 @@
                 14: { eu: 48.5, uk: 13.5, footLength: 33.0 }
             },
             womens: {
-                4: { eu: 34.5, uk: 1.5, footLength: 21.5 },
-                4.5: { eu: 35, uk: 2, footLength: 22.0 },
-                5: { eu: 35.5, uk: 2.5, footLength: 22.5 },
-                5.5: { eu: 36, uk: 3, footLength: 23.0 },
+                4: { eu: 35, uk: 2, footLength: 22.2 },
+                4.5: { eu: 35, uk: 2.5, footLength: 22.5 },
+                5: { eu: 35.5, uk: 2.5, footLength: 22.9 },
+                5.5: { eu: 36, uk: 3, footLength: 23.2 },
                 6: { eu: 36.5, uk: 3.5, footLength: 23.5 },
-                6.5: { eu: 37, uk: 4, footLength: 24.0 },
-                7: { eu: 37.5, uk: 4.5, footLength: 24.5 },
-                7.5: { eu: 38, uk: 5, footLength: 25.0 },
-                8: { eu: 38.5, uk: 5.5, footLength: 25.5 },
-                8.5: { eu: 39, uk: 6, footLength: 26.0 },
-                9: { eu: 39.5, uk: 6.5, footLength: 26.5 },
-                9.5: { eu: 40, uk: 7, footLength: 27.0 },
-                10: { eu: 40.5, uk: 7.5, footLength: 27.5 },
-                10.5: { eu: 41, uk: 8, footLength: 28.0 },
-                11: { eu: 41.5, uk: 8.5, footLength: 28.5 },
-                11.5: { eu: 42, uk: 9, footLength: 29.0 },
-                12: { eu: 42.5, uk: 9.5, footLength: 29.5 },
-                12.5: { eu: 43, uk: 10, footLength: 30.0 },
-                13: { eu: 43.5, uk: 10.5, footLength: 30.5 },
-                13.5: { eu: 44, uk: 11, footLength: 31.0 },
-                14: { eu: 44.5, uk: 11.5, footLength: 31.5 }
+                6.5: { eu: 37, uk: 4, footLength: 23.8 },
+                7: { eu: 37.5, uk: 4.5, footLength: 24.1 },
+                7.5: { eu: 38, uk: 5, footLength: 24.4 },
+                8: { eu: 38.5, uk: 5.5, footLength: 24.8 },
+                8.5: { eu: 39, uk: 6, footLength: 25.1 },
+                9: { eu: 40, uk: 6.5, footLength: 25.4 },
+                9.5: { eu: 40.5, uk: 7, footLength: 25.7 },
+                10: { eu: 41, uk: 7.5, footLength: 26.0 },
+                10.5: { eu: 42, uk: 8, footLength: 26.4 },
+                11: { eu: 42.5, uk: 8.5, footLength: 26.7 },
+                11.5: { eu: 43, uk: 9, footLength: 27.0 },
+                12: { eu: 43.5, uk: 9.5, footLength: 27.3 },
+                12.5: { eu: 44, uk: 10, footLength: 27.6 },
+                13: { eu: 44.5, uk: 10.5, footLength: 27.9 },
+                13.5: { eu: 45, uk: 11, footLength: 28.3 },
+                14: { eu: 45.5, uk: 11.5, footLength: 28.6 }
             }
         };
 
-        let selectedColor = 'white';
+        let selectedColor = 'red'; // UPDATED: Default to red
         let currentSizeType = 'mens';
         let selectedBundle = 'single';
         let appliedPromo = null;
@@ -2033,13 +2037,13 @@
                 const productItem = document.createElement('div');
                 productItem.className = 'product-item';
                 productItem.innerHTML = `
-                    <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN" class="product-image">
+                    <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN 1" class="product-image">
                     <div class="product-details">
                         <div class="product-quantity">Qty: ${item.quantity}</div>
-                        <div class="product-name">SBHMN</div>
+                        <div class="product-name">SBHMN 1</div>
                         <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
                         <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
-                        <div class="product-price">$${itemTotal}.00</div>
+                        <div class="product-price">${itemTotal}.00</div>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
                             <span class="quantity-display">${item.quantity}</span>
@@ -2156,9 +2160,12 @@
             const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct') || '{}');
             
             if (selectedProduct.name && selectedProduct.size) {
-                selectedColor = selectedProduct.color || 'white';
+                selectedColor = selectedProduct.color || 'red';
                 changeProductColor(selectedColor);
                 addSize(selectedProduct.size);
+            } else {
+                // Default to red color
+                changeProductColor('red');
             }
 
             // Initialize order summary
