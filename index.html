@@ -258,7 +258,7 @@
 
         .announcement-content {
             display: inline-block;
-            animation: scroll-left 20s linear infinite;
+            animation: scroll-left 35s linear infinite;
             padding-left: 100%;
         }
 
@@ -312,7 +312,7 @@
         /* Adjust main header */
         .main-header {
             position: fixed;
-            top: 44px;
+            top: 100px;
             left: 0;
             right: 0;
             z-index: 10001;
@@ -805,6 +805,33 @@
             letter-spacing: 1px;
         }
 
+        .timer-sales-counter {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-sales-counter .sales-label {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.8rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .timer-sales-counter .sales-display {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+        }
+        }
+
         .size-selector {
             margin-top: 40px;
             padding: 25px;
@@ -1252,6 +1279,24 @@
             font-size: 1.2em;
             letter-spacing: 1px;
         }
+        .sales-counter {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 16px;
+            color: var(--color-primary);
+            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        .sales-counter #salesCount {
+            font-family: var(--font-numbers);
+            font-weight: 700;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
         @keyframes rotateHourglass {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(180deg); }
@@ -1481,6 +1526,9 @@
         <div class="countdown" id="countdown">
             Days until drop: <span id="days">00</span>
             <i class="fas fa-hourglass hourglass"></i>
+        </div>
+        <div class="sales-counter">
+            Sales: <span id="salesCount">0</span>/100
         </div>
     </header>
 
