@@ -250,6 +250,164 @@
             color: #999;
         }
 
+        /* Size selector styling */
+        .size-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .size-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: #333;
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 14px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .size-option:hover {
+            border-color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .size-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
+        }
+
+        .size-guide-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .size-guide-link:hover {
+            color: #7BC097;
+            text-decoration: underline;
+        }
+
+        /* Size Guide Modal */
+        .size-guide-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .size-guide-modal.active {
+            display: flex;
+        }
+
+        .size-guide-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .size-guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 20px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .size-guide-header h3 {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.5rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .size-guide-body {
+            padding: 30px;
+        }
+
+        .size-chart {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-family: var(--font-body);
+        }
+
+        .size-chart th {
+            background: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+            padding: 15px 10px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .size-chart td {
+            padding: 12px 10px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .size-chart tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .size-chart tbody tr:hover {
+            background: rgba(158, 217, 181, 0.1);
+        }
+
         /* Checkbox styling */
         .checkbox-group {
             display: flex;
@@ -376,7 +534,8 @@
         .total-row.shipping span:last-child {
             font-family: var(--font-numbers);
             font-weight: var(--font-numbers-weight);
-            color: #000;
+            color: var(--color-primary);
+            font-weight: 600;
         }
 
         .total-row.total {
@@ -421,6 +580,12 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(158, 217, 181, 0.4);
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
+        }
+
+        .complete-order-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Security Notice */
@@ -580,6 +745,38 @@
                 align-self: stretch;
                 justify-content: center;
             }
+
+            .size-selector {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+
+            .size-option {
+                padding: 10px 6px;
+                font-size: 13px;
+            }
+
+            .size-guide-content {
+                margin: 10px;
+                max-height: 85vh;
+            }
+
+            .size-guide-header {
+                padding: 20px 20px 15px 20px;
+            }
+
+            .size-guide-body {
+                padding: 20px;
+            }
+
+            .size-chart {
+                font-size: 12px;
+            }
+
+            .size-chart th,
+            .size-chart td {
+                padding: 8px 5px;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -636,6 +833,122 @@
             </div>
         </header>
 
+        <!-- Size Guide Modal -->
+        <div class="size-guide-modal" id="sizeGuideModal">
+            <div class="size-guide-content">
+                <div class="size-guide-header">
+                    <h3>Size Guide</h3>
+                    <button class="close-modal" onclick="closeSizeGuide()">×</button>
+                </div>
+                <div class="size-guide-body">
+                    <table class="size-chart">
+                        <thead>
+                            <tr>
+                                <th>US Size</th>
+                                <th>EU Size</th>
+                                <th>UK Size</th>
+                                <th>Foot Length (cm)</th>
+                                <th>Foot Length (inches)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>6</td>
+                                <td>39</td>
+                                <td>5.5</td>
+                                <td>24.1</td>
+                                <td>9.5</td>
+                            </tr>
+                            <tr>
+                                <td>6.5</td>
+                                <td>39.5</td>
+                                <td>6</td>
+                                <td>24.5</td>
+                                <td>9.6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>40</td>
+                                <td>6.5</td>
+                                <td>25.0</td>
+                                <td>9.8</td>
+                            </tr>
+                            <tr>
+                                <td>7.5</td>
+                                <td>40.5</td>
+                                <td>7</td>
+                                <td>25.4</td>
+                                <td>10.0</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>41</td>
+                                <td>7.5</td>
+                                <td>25.9</td>
+                                <td>10.2</td>
+                            </tr>
+                            <tr>
+                                <td>8.5</td>
+                                <td>42</td>
+                                <td>8</td>
+                                <td>26.3</td>
+                                <td>10.4</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>42.5</td>
+                                <td>8.5</td>
+                                <td>26.7</td>
+                                <td>10.5</td>
+                            </tr>
+                            <tr>
+                                <td>9.5</td>
+                                <td>43</td>
+                                <td>9</td>
+                                <td>27.1</td>
+                                <td>10.7</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>44</td>
+                                <td>9.5</td>
+                                <td>27.6</td>
+                                <td>10.9</td>
+                            </tr>
+                            <tr>
+                                <td>10.5</td>
+                                <td>44.5</td>
+                                <td>10</td>
+                                <td>28.0</td>
+                                <td>11.0</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>45</td>
+                                <td>10.5</td>
+                                <td>28.4</td>
+                                <td>11.2</td>
+                            </tr>
+                            <tr>
+                                <td>11.5</td>
+                                <td>45.5</td>
+                                <td>11</td>
+                                <td>28.8</td>
+                                <td>11.3</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>46</td>
+                                <td>11.5</td>
+                                <td>29.2</td>
+                                <td>11.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <main class="checkout-main">
             <!-- Left Column - Forms -->
@@ -654,6 +967,36 @@
                         <div class="checkbox-group">
                             <input type="checkbox" id="newsletter" name="newsletter" class="checkbox">
                             <label for="newsletter" class="checkbox-label">Keep me updated on new releases and exclusive offers</label>
+                        </div>
+                    </div>
+
+                    <!-- Product Size Selection -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-shoe-prints"></i>
+                            Select Size
+                        </h2>
+                        <div class="form-group">
+                            <label>Choose your size (US)</label>
+                            <div class="size-selector">
+                                <div class="size-option" data-size="6">6</div>
+                                <div class="size-option" data-size="6.5">6.5</div>
+                                <div class="size-option" data-size="7">7</div>
+                                <div class="size-option" data-size="7.5">7.5</div>
+                                <div class="size-option" data-size="8">8</div>
+                                <div class="size-option" data-size="8.5">8.5</div>
+                                <div class="size-option" data-size="9">9</div>
+                                <div class="size-option" data-size="9.5">9.5</div>
+                                <div class="size-option" data-size="10">10</div>
+                                <div class="size-option" data-size="10.5">10.5</div>
+                                <div class="size-option" data-size="11">11</div>
+                                <div class="size-option" data-size="11.5">11.5</div>
+                                <div class="size-option" data-size="12">12</div>
+                            </div>
+                            <a href="#" class="size-guide-link" onclick="openSizeGuide()">
+                                <i class="fas fa-ruler"></i>
+                                Size Guide
+                            </a>
                         </div>
                     </div>
 
@@ -689,13 +1032,7 @@
                             <div class="form-group">
                                 <label for="state">State/Province</label>
                                 <select id="state" name="state" required>
-                                    <option value="">Select state</option>
-                                    <option value="AL">Alabama</option>
-                                    <option value="CA">California</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="NY">New York</option>
-                                    <option value="TX">Texas</option>
-                                    <!-- Add more states as needed -->
+                                    <option value="">Select state/province</option>
                                 </select>
                             </div>
                         </div>
@@ -707,10 +1044,33 @@
                             <div class="form-group">
                                 <label for="country">Country</label>
                                 <select id="country" name="country" required>
+                                    <option value="">Select country</option>
                                     <option value="US">United States</option>
                                     <option value="CA">Canada</option>
                                     <option value="GB">United Kingdom</option>
-                                    <!-- Add more countries as needed -->
+                                    <option value="FR">France</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="KR">South Korea</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="HK">Hong Kong</option>
+                                    <option value="CH">Switzerland</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="DK">Denmark</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="NO">Norway</option>
+                                    <option value="FI">Finland</option>
+                                    <option value="IE">Ireland</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="CZ">Czech Republic</option>
+                                    <option value="HU">Hungary</option>
+                                    <option value="GR">Greece</option>
                                 </select>
                             </div>
                         </div>
@@ -765,15 +1125,15 @@
                     </div>
                     <div class="total-row shipping">
                         <span>Shipping</span>
-                        <span id="shippingAmount">$15.00</span>
+                        <span id="shippingAmount">FREE SHIPPING ANYWHERE</span>
                     </div>
                     <div class="total-row total">
                         <span>Total</span>
-                        <span class="total-price" id="totalAmount">$284.00</span>
+                        <span class="total-price" id="totalAmount">$269.00</span>
                     </div>
                 </div>
 
-                <button type="submit" form="checkoutForm" class="complete-order-btn">
+                <button type="submit" form="checkoutForm" class="complete-order-btn" id="completeOrderBtn" disabled>
                     <i class="fas fa-lock"></i>
                     Complete Order
                 </button>
@@ -793,7 +1153,7 @@
                     <h4>Customer Care</h4>
                     <ul>
                         <li><a href="#">Contact Support</a></li>
-                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#" onclick="openSizeGuide()">Size Guide</a></li>
                         <li><a href="#">Shipping Info</a></li>
                         <li><a href="#">Returns & Exchanges</a></li>
                         <li><a href="#">FAQ</a></li>
@@ -845,7 +1205,152 @@
     </div>
 
     <script>
+        // Country and state data
+        const countryStates = {
+            'US': [
+                { value: 'AL', text: 'Alabama' },
+                { value: 'AK', text: 'Alaska' },
+                { value: 'AZ', text: 'Arizona' },
+                { value: 'AR', text: 'Arkansas' },
+                { value: 'CA', text: 'California' },
+                { value: 'CO', text: 'Colorado' },
+                { value: 'CT', text: 'Connecticut' },
+                { value: 'DE', text: 'Delaware' },
+                { value: 'FL', text: 'Florida' },
+                { value: 'GA', text: 'Georgia' },
+                { value: 'HI', text: 'Hawaii' },
+                { value: 'ID', text: 'Idaho' },
+                { value: 'IL', text: 'Illinois' },
+                { value: 'IN', text: 'Indiana' },
+                { value: 'IA', text: 'Iowa' },
+                { value: 'KS', text: 'Kansas' },
+                { value: 'KY', text: 'Kentucky' },
+                { value: 'LA', text: 'Louisiana' },
+                { value: 'ME', text: 'Maine' },
+                { value: 'MD', text: 'Maryland' },
+                { value: 'MA', text: 'Massachusetts' },
+                { value: 'MI', text: 'Michigan' },
+                { value: 'MN', text: 'Minnesota' },
+                { value: 'MS', text: 'Mississippi' },
+                { value: 'MO', text: 'Missouri' },
+                { value: 'MT', text: 'Montana' },
+                { value: 'NE', text: 'Nebraska' },
+                { value: 'NV', text: 'Nevada' },
+                { value: 'NH', text: 'New Hampshire' },
+                { value: 'NJ', text: 'New Jersey' },
+                { value: 'NM', text: 'New Mexico' },
+                { value: 'NY', text: 'New York' },
+                { value: 'NC', text: 'North Carolina' },
+                { value: 'ND', text: 'North Dakota' },
+                { value: 'OH', text: 'Ohio' },
+                { value: 'OK', text: 'Oklahoma' },
+                { value: 'OR', text: 'Oregon' },
+                { value: 'PA', text: 'Pennsylvania' },
+                { value: 'RI', text: 'Rhode Island' },
+                { value: 'SC', text: 'South Carolina' },
+                { value: 'SD', text: 'South Dakota' },
+                { value: 'TN', text: 'Tennessee' },
+                { value: 'TX', text: 'Texas' },
+                { value: 'UT', text: 'Utah' },
+                { value: 'VT', text: 'Vermont' },
+                { value: 'VA', text: 'Virginia' },
+                { value: 'WA', text: 'Washington' },
+                { value: 'WV', text: 'West Virginia' },
+                { value: 'WI', text: 'Wisconsin' },
+                { value: 'WY', text: 'Wyoming' }
+            ],
+            'CA': [
+                { value: 'AB', text: 'Alberta' },
+                { value: 'BC', text: 'British Columbia' },
+                { value: 'MB', text: 'Manitoba' },
+                { value: 'NB', text: 'New Brunswick' },
+                { value: 'NL', text: 'Newfoundland and Labrador' },
+                { value: 'NS', text: 'Nova Scotia' },
+                { value: 'ON', text: 'Ontario' },
+                { value: 'PE', text: 'Prince Edward Island' },
+                { value: 'QC', text: 'Quebec' },
+                { value: 'SK', text: 'Saskatchewan' },
+                { value: 'NT', text: 'Northwest Territories' },
+                { value: 'NU', text: 'Nunavut' },
+                { value: 'YT', text: 'Yukon' }
+            ],
+            'GB': [
+                { value: 'ENG', text: 'England' },
+                { value: 'SCT', text: 'Scotland' },
+                { value: 'WLS', text: 'Wales' },
+                { value: 'NIR', text: 'Northern Ireland' }
+            ]
+        };
+
+        let selectedSize = null;
+
+        function openSizeGuide() {
+            document.getElementById('sizeGuideModal').classList.add('active');
+        }
+
+        function closeSizeGuide() {
+            document.getElementById('sizeGuideModal').classList.remove('active');
+        }
+
+        function updateStateOptions() {
+            const countrySelect = document.getElementById('country');
+            const stateSelect = document.getElementById('state');
+            const selectedCountry = countrySelect.value;
+
+            // Clear existing options
+            stateSelect.innerHTML = '<option value="">Select state/province</option>';
+
+            if (countryStates[selectedCountry]) {
+                // Show the state field
+                stateSelect.parentElement.style.display = 'block';
+                
+                // Add options for the selected country
+                countryStates[selectedCountry].forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.value;
+                    option.textContent = state.text;
+                    stateSelect.appendChild(option);
+                });
+            } else {
+                // Hide the state field for countries without states/provinces
+                stateSelect.parentElement.style.display = 'none';
+                stateSelect.removeAttribute('required');
+            }
+        }
+
+        function updateCompleteButton() {
+            const completeBtn = document.getElementById('completeOrderBtn');
+            if (selectedSize) {
+                completeBtn.disabled = false;
+                completeBtn.style.opacity = '1';
+            } else {
+                completeBtn.disabled = true;
+                completeBtn.style.opacity = '0.6';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Country change handler
+            document.getElementById('country').addEventListener('change', updateStateOptions);
+
+            // Size selection
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('selected');
+                    selectedSize = this.dataset.size;
+                    
+                    // Update order summary
+                    document.getElementById('orderProductSize').textContent = `Size: US ${selectedSize}`;
+                    
+                    // Update complete button state
+                    updateCompleteButton();
+                });
+            });
+
             // Load selected product from session storage
             const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct') || '{}');
             
@@ -854,21 +1359,26 @@
                 document.getElementById('orderProductImage').src = `assets/images/${selectedProduct.image}`;
                 document.getElementById('orderProductName').textContent = selectedProduct.name;
                 document.getElementById('orderProductVariant').textContent = selectedProduct.color;
-                document.getElementById('orderProductSize').textContent = selectedProduct.size ? `Size: US ${selectedProduct.size}` : 'Size: Not selected';
-                document.getElementById('orderProductPrice').textContent = `${selectedProduct.price}.00`;
+                document.getElementById('orderProductPrice').textContent = `$${selectedProduct.price}.00`;
                 
-                // Update totals
+                // Update totals - no shipping cost
                 const subtotal = selectedProduct.price;
-                const shipping = 15;
-                const total = subtotal + shipping;
+                const total = subtotal; // No shipping added
                 
-                document.getElementById('subtotalAmount').textContent = `${subtotal}.00`;
-                document.getElementById('totalAmount').textContent = `${total}.00`;
+                document.getElementById('subtotalAmount').textContent = `$${subtotal}.00`;
+                document.getElementById('totalAmount').textContent = `$${total}.00`;
             }
 
             // Form validation and submission
             document.getElementById('checkoutForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                // Check if size is selected
+                if (!selectedSize) {
+                    alert('Please select a size before completing your order.');
+                    document.querySelector('.size-selector').scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
                 
                 // Basic form validation
                 const requiredFields = this.querySelectorAll('[required]');
@@ -879,7 +1389,7 @@
                         field.style.borderColor = '#ff4444';
                         isValid = false;
                     } else {
-                        field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                        field.style.borderColor = 'rgba(0, 0, 0, 0.2)';
                     }
                 });
 
@@ -912,6 +1422,9 @@
             document.getElementById('cvv').addEventListener('input', function(e) {
                 e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 4);
             });
+
+            // Initialize button state
+            updateCompleteButton();
         });
     </script>
 </body>
