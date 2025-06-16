@@ -491,8 +491,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 2;
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
@@ -554,7 +554,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 15px; /* REDUCED from 20px to bring closer to logo */
             margin-bottom: 60px;
             padding: 25px;
             border: 2px solid var(--color-primary);
@@ -667,47 +667,52 @@
             flex: 1;
         }
 
-        /* Bundle Promotion Section - UPDATED: Smaller size and better button */
+        /* Bundle promo to fit in fixed height */
         .bundle-promo {
             width: 100%;
+            height: 100%;
             text-align: center;
             background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
             border-radius: 15px;
             border: 2px solid var(--color-primary);
             backdrop-filter: blur(10px);
             box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            padding: 20px 15px; /* Reduced padding */
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .bundle-promo-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 1.1rem; /* Reduced from 1.2rem */
+            font-size: 1.1rem;
             color: white;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 12px; /* Reduced from 15px */
+            margin-bottom: 10px;
         }
 
         .bundle-promo-subtitle {
             font-family: var(--font-body);
-            font-size: 0.8rem; /* Reduced from 0.85rem */
+            font-size: 0.8rem;
             color: #ccc;
-            margin-bottom: 15px; /* Reduced from 20px */
+            margin-bottom: 15px;
             line-height: 1.4;
         }
 
         .bundle-offers {
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Reduced from 15px */
-            margin-bottom: 15px; /* Reduced from 20px */
+            gap: 10px;
+            margin-bottom: 15px;
+            flex: 1;
         }
 
         .bundle-offer {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 12px; /* Reduced from 15px */
+            padding: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             text-align: left;
@@ -722,55 +727,55 @@
         .bundle-offer-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.85rem; /* Reduced from 0.9rem */
+            font-size: 0.8rem;
             color: var(--color-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 5px; /* Reduced from 6px */
+            margin-bottom: 4px;
         }
 
         .bundle-offer-savings {
             font-family: var(--font-numbers);
             font-weight: var(--font-numbers-weight);
-            font-size: 1rem; /* Reduced from 1.1rem */
+            font-size: 0.9rem;
             color: #fff;
-            margin-bottom: 3px; /* Reduced from 4px */
+            margin-bottom: 3px;
         }
 
         .bundle-offer-description {
             font-family: var(--font-body);
-            font-size: 0.7rem; /* Reduced from 0.75rem */
+            font-size: 0.65rem;
             color: #ccc;
             line-height: 1.3;
         }
 
         .bundle-promo-cta {
             font-family: var(--font-body);
-            font-size: 0.75rem; /* Reduced from 0.8rem */
+            font-size: 0.7rem;
             color: var(--color-primary);
-            margin-bottom: 12px; /* Reduced from 15px */
+            margin-bottom: 10px;
         }
 
         .bundle-checkout-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid var(--color-primary);
-            border-radius: 20px; /* Reduced from 25px */
+            border-radius: 20px;
             color: var(--color-primary);
             font-family: var(--font-headers);
             font-weight: 700;
-            font-size: 11px; /* Reduced from 13px */
+            font-size: 10px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            padding: 10px 16px; /* Reduced from 12px 20px */
+            padding: 8px 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 6px; /* Reduced from 8px */
+            gap: 4px;
             text-decoration: none;
-            width: calc(100% - 4px); /* Ensure it fits within the container */
+            width: calc(100% - 4px);
             justify-content: center;
-            box-sizing: border-box; /* Include padding and border in width calculation */
+            box-sizing: border-box;
         }
 
         .bundle-checkout-btn:hover {
@@ -1683,28 +1688,35 @@
             padding: 8px 4px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 45px;
-            height: 50px;
+            width: 50px;
+            height: 55px;
+            box-sizing: border-box;
         }
 
         .compact-timer-number {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
             font-size: 1.2rem;
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
             line-height: 1;
             margin-bottom: 2px;
+            width: 100%;
+            text-align: center;
+            display: block;
         }
 
         .compact-timer-label {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1;
+            width: 100%;
+            text-align: center;
+            display: block;
         }
 
         .compact-countdown-text {
@@ -1987,15 +1999,32 @@
             .product-top-section {
                 flex-direction: column;
                 gap: 30px;
+                min-height: auto;
             }
             
             .product-left-sidebar {
                 flex: none;
                 width: 100%;
+                height: auto;
+            }
+            
+            .product-image-section {
+                height: auto;
+                width: 100%;
+            }
+            
+            .color-selector {
+                width: 100%;
+            }
+            
+            .color-option {
+                width: 100px;
+                height: 35px;
             }
             
             .bundle-promo {
                 padding: 20px 15px;
+                height: auto;
             }
             
             .bundle-promo-title {
@@ -2311,19 +2340,19 @@
                     ENTER STORE
                     <i class="fas fa-arrow-right"></i>
                 </button>
-            </div>
-
-            <!-- Social container now inside landing content -->
-            <div class="social-container" id="landingSocial">
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                
+                <!-- Social container moved below enter button -->
+                <div class="social-container" id="landingSocial" style="margin-top: 20px;">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p class="social-text">Show your support by following our socials.</p>
                 </div>
-                <p class="social-text">Show your support by following our socials.</p>
             </div>
         </div>
 
@@ -2969,9 +2998,11 @@
             localStorage.setItem('formSubmitted', 'true');
             showWelcome();
             
-            // Show social icons
+            // Show social icons and footer
             const landingSocial = document.getElementById('landingSocial');
+            const landingFooter = document.getElementById('landingFooter');
             if (landingSocial) landingSocial.style.display = 'block';
+            if (landingFooter) landingFooter.style.display = 'block';
         }
 
         function showWelcome() {
@@ -2980,12 +3011,14 @@
             const welcomeContainer = document.getElementById('welcomeContainer');
             const standaloneBtn = document.getElementById('standaloneEnterBtn');
             const landingSocial = document.getElementById('landingSocial');
+            const landingFooter = document.getElementById('landingFooter');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'flex';
                 if (landingSocial) landingSocial.style.display = 'block';
+                if (landingFooter) landingFooter.style.display = 'block';
                 
                 // Hide standalone button if it exists
                 if (standaloneBtn) {
@@ -3003,12 +3036,14 @@
             const signupText = document.getElementById('signupText');
             const welcomeContainer = document.getElementById('welcomeContainer');
             const landingSocial = document.getElementById('landingSocial');
+            const landingFooter = document.getElementById('landingFooter');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'none';
                 if (landingSocial) landingSocial.style.display = 'block';
+                if (landingFooter) landingFooter.style.display = 'block';
                 
                 // Create standalone enter store button without box
                 const landingContent = document.getElementById('landingContent');
@@ -3020,8 +3055,26 @@
                     enterStoreBtn.className = 'enter-button';
                     enterStoreBtn.onclick = showProductOverlay;
                     enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
-                    enterStoreBtn.style.marginTop = '30px';
+                    enterStoreBtn.style.marginTop = '15px'; /* Closer to logo */
+                    
+                    // Create social section for standalone button
+                    const socialDiv = document.createElement('div');
+                    socialDiv.className = 'social-container';
+                    socialDiv.style.marginTop = '20px';
+                    socialDiv.innerHTML = `
+                        <div class="social-icons">
+                            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                        <p class="social-text">Show your support by following our socials.</p>
+                    `;
+                    
                     landingContent.appendChild(enterStoreBtn);
+                    landingContent.appendChild(socialDiv);
                 } else {
                     enterStoreBtn.style.display = 'flex';
                 }
