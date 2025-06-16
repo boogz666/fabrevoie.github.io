@@ -432,10 +432,7 @@
         }
         
         body.loaded {
-            background-image: url('assets/images/patterned1.png');
-            background-size: cover;
-            background-position: center top;
-            background-repeat: repeat-y;
+            background: url('assets/images/patterned1.png') center/cover no-repeat;
             background-attachment: scroll;
             min-height: 100vh;
         }
@@ -515,7 +512,6 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
-            min-height: 600px;
             justify-content: center;
             padding-top: 30px;
         }
@@ -1155,7 +1151,7 @@
             color: white;
             line-height: 1.6;
             margin-bottom: 30px;
-            margin-top: 60px; /* ADDED: Margin to prevent timer overlap */
+            margin-top: 20px;
         }
         .product-price {
             font-family: var(--font-numbers);
@@ -1682,12 +1678,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             background: rgba(0, 0, 0, 0.7);
-            padding: 8px 6px;
+            padding: 8px 4px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 40px; /* INCREASED: From 35px to prevent movement */
-            width: 40px; /* ADDED: Fixed width to prevent jumping */
+            width: 45px;
+            height: 50px;
         }
 
         .compact-timer-number {
@@ -1696,21 +1693,18 @@
             font-size: 1.2rem;
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            display: inline-block;
-            width: 24px;
-            text-align: center;
-            font-feature-settings: "tnum";
-            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            margin-bottom: 2px;
         }
 
         .compact-timer-label {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-top: 2px;
+            line-height: 1;
         }
 
         .compact-countdown-text {
@@ -1990,12 +1984,14 @@
                 gap: 30px;
             }
             
+            .product-top-section {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
             .product-left-sidebar {
                 flex: none;
                 width: 100%;
-                position: relative;
-                top: auto;
-                margin-left: 0; /* Reset margin on mobile */
             }
             
             .bundle-promo {
@@ -2010,7 +2006,7 @@
                 gap: 12px;
             }
             
-            /* UPDATED: Mobile footer adjustments */
+            /* Mobile footer adjustments */
             .main-footer {
                 padding: 30px 0;
             }
@@ -2024,6 +2020,17 @@
             .footer-social {
                 justify-content: center;
                 margin-top: 20px;
+            }
+            
+            /* UPDATED: Mobile footer adjustments */
+            .main-footer {
+                padding: 30px 0;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 0 20px;
             }
             
             .product-content {
@@ -2048,7 +2055,8 @@
             .landing-content {
                 min-height: calc(100vh - 100px);
                 padding-bottom: 100px;
-                top: 10%;
+                top: 45%;
+                transform: translate(-50%, -50%);
             }
             .countdown {
                 display: none;
@@ -2085,7 +2093,8 @@
                 min-height: calc(100vh - 160px);
                 width: 95%;
                 padding-bottom: 160px;
-                top: 5%;
+                top: 45%;
+                transform: translate(-50%, -50%);
             }
             .top-logo {
                 height: 50px;
@@ -2203,7 +2212,9 @@
         </div>
         
         <div class="header-center">
-            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+            <a href="#" onclick="hideProductOverlay(); return false;">
+                <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+            </a>
         </div>
         
         <div class="header-right">
@@ -2236,7 +2247,7 @@
                 <div class="compact-timer-label">Seconds</div>
             </div>
         </div>
-        <div class="compact-timer-status" id="timerStatus">Pre-sale starts in...</div>
+        <div class="compact-timer-status" id="timerStatus">STARTS IN...</div>
         <div class="compact-countdown-text" id="countdownText">116 days:12 hours:34 minutes:56 seconds</div>
         <div class="compact-pairs-left">
             <span id="compactPairsLeft">100</span>/100 PAIRS LEFT
@@ -2301,77 +2312,20 @@
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
+
+            <!-- Social container now inside landing content -->
+            <div class="social-container" id="landingSocial">
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+                <p class="social-text">Show your support by following our socials.</p>
+            </div>
         </div>
-
-        <!-- ADDED: Social container now inside landing content -->
-        <div class="social-container" id="landingSocial">
-            <div class="social-icons">
-                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-            </div>
-            <p class="social-text">Show your support by following our socials.</p>
-        </div>
-
-        <!-- ADDED: Main Footer for Landing Page -->
-        <footer class="main-footer" id="landingFooter" style="margin-top: 40px;">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About Fabrevoie</h4>
-                    <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
-                    <div class="footer-social">
-                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                        <a href="#" target="_blank" aria-label="Follow us on Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Customer Care</h4>
-                    <ul>
-                        <li><a href="#">Contact Support</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Sustainability</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Refund Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
-            </div>
-        </footer>
 
         <div class="product-overlay" id="productOverlay">
             <div class="product-overlay-content">
@@ -2379,44 +2333,45 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
-                <!-- UPDATED: New layout with bundle on left, product on right -->
+                <!-- UPDATED: New centered layout -->
                 <div class="product-main-layout">
-                    <!-- Left Sidebar - Bundle Promotion -->
-                    <div class="product-left-sidebar">
-                        <div class="bundle-promo">
-                            <h3 class="bundle-promo-title">Exclusive Bundles</h3>
-                            <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
-                            
-                            <div class="bundle-offers">
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Duo Pack</div>
-                                    <div class="bundle-offer-savings">Save $58</div>
-                                    <div class="bundle-offer-description">Choose any 2 colors for versatile styling.</div>
+                    <!-- Top Section - Bundle and Images side by side -->
+                    <div class="product-top-section">
+                        <!-- Left - Bundle Promotion -->
+                        <div class="product-left-sidebar">
+                            <div class="bundle-promo">
+                                <h3 class="bundle-promo-title">Exclusive Bundles</h3>
+                                <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
+                                
+                                <div class="bundle-offers">
+                                    <div class="bundle-offer">
+                                        <div class="bundle-offer-title">Duo Pack</div>
+                                        <div class="bundle-offer-savings">Save $58</div>
+                                        <div class="bundle-offer-description">Choose any 2 colors for versatile styling.</div>
+                                    </div>
+                                    
+                                    <div class="bundle-offer">
+                                        <div class="bundle-offer-title">Triple Pack</div>
+                                        <div class="bundle-offer-savings">Save $108</div>
+                                        <div class="bundle-offer-description">All 3 colors - the complete collection.</div>
+                                    </div>
+                                    
+                                    <div class="bundle-offer">
+                                        <div class="bundle-offer-title">Complete Set</div>
+                                        <div class="bundle-offer-savings">Save $200+</div>
+                                        <div class="bundle-offer-description">3 + 1 exclusive colorway. Only 10 pairs worldwide.</div>
+                                    </div>
                                 </div>
                                 
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Triple Pack</div>
-                                    <div class="bundle-offer-savings">Save $108</div>
-                                    <div class="bundle-offer-description">All 3 colors - the complete collection.</div>
-                                </div>
-                                
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Complete Set</div>
-                                    <div class="bundle-offer-savings">Save $200+</div>
-                                    <div class="bundle-offer-description">3 + 1 exclusive colorway. Only 10 pairs worldwide.</div>
-                                </div>
+                                <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
+                                <a href="checkout.html" class="bundle-checkout-btn">
+                                    <i class="fas fa-gifts"></i>
+                                    View Bundles
+                                </a>
                             </div>
-                            
-                            <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
-                            <a href="checkout.html" class="bundle-checkout-btn">
-                                <i class="fas fa-gifts"></i>
-                                View Bundles
-                            </a>
                         </div>
-                    </div>
 
-                    <!-- Main Product Content -->
-                    <div class="product-content">
+                        <!-- Right - Product Images -->
                         <div class="product-image-section">
                             <div class="product-image-container">
                                 <button class="image-nav-arrow left" onclick="previousImage()">
@@ -2438,44 +2393,45 @@
                                 <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Bottom Section - Product Info -->
+                    <div class="product-info-section">
+                        <h2 class="product-title">SBHMN 1.</h2>
+                        <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN 1. features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
+                        <div class="product-price">$269</div>
                         
-                        <div class="product-info-section">
-                            <h2 class="product-title">SBHMN 1.</h2>
-                            <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN 1. features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
-                            <div class="product-price">$269</div>
-                            
-                            <!-- Size Selector -->
-                            <div class="size-selector">
-                                <div class="size-selector-header">
-                                    <h4 class="size-title">Select Size</h4>
-                                    <button class="size-guide-btn" onclick="openSizeGuide()">
-                                        <i class="fas fa-ruler"></i>
-                                        Size Guide
-                                    </button>
-                                </div>
-                                <div class="size-options">
-                                    <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
-                                    <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
-                                    <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
-                                    <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
-                                    <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
-                                    <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
-                                    <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
-                                    <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
-                                    <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
-                                    <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
-                                    <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
-                                </div>
-                                <div class="size-warning" id="sizeWarning" style="display: none;">
-                                    Please select a size before adding to cart.
-                                </div>
+                        <!-- Size Selector -->
+                        <div class="size-selector">
+                            <div class="size-selector-header">
+                                <h4 class="size-title">Select Size</h4>
+                                <button class="size-guide-btn" onclick="openSizeGuide()">
+                                    <i class="fas fa-ruler"></i>
+                                    Size Guide
+                                </button>
                             </div>
-                            
-                            <button class="buy-button" id="buyButton" onclick="buyProduct()">
-                                BUY NOW
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
+                            <div class="size-options">
+                                <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
+                                <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
+                                <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
+                                <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
+                                <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
+                                <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
+                                <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
+                                <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
+                                <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
+                                <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
+                                <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                            </div>
+                            <div class="size-warning" id="sizeWarning" style="display: none;">
+                                Please select a size before adding to cart.
+                            </div>
                         </div>
+                        
+                        <button class="buy-button" id="buyButton" onclick="buyProduct()">
+                            BUY NOW
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -2511,7 +2467,7 @@
                     <div class="footer-content">
                         <div class="footer-section">
                             <h4>About Fabrevoie</h4>
-                            <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                            <p>Forward-thinking footwear designed for those who refuse to follow conventional paths. Each piece represents a commitment to innovation and individual expression.</p>
                             <div class="footer-social">
                                 <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                                     <i class="fab fa-instagram"></i>
@@ -2565,6 +2521,63 @@
             </div>
         </div>
     </div>
+
+    <!-- Main Footer for Landing Page - At bottom -->
+    <footer class="main-footer" id="landingFooter">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Fabrevoie</h4>
+                <p>Forward-thinking footwear designed for those who refuse to follow conventional paths. Each piece represents a commitment to innovation and individual expression.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+        </div>
+    </footer>
 
     <!-- Copyright (for product overlay) -->
     <div class="copyright" id="productCopyright" style="display: none;">
@@ -2853,7 +2866,7 @@
                 presaleSeconds.textContent = '00';
                 
                 // Status text
-                timerStatus.textContent = 'Pre-sale starts in...';
+                timerStatus.textContent = 'STARTS IN...';
                 
                 // Countdown text
                 countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
@@ -2871,7 +2884,7 @@
                 presaleSeconds.textContent = seconds.toString().padStart(2, '0');
                 
                 // Status text
-                timerStatus.textContent = 'Pre-sale ends in...';
+                timerStatus.textContent = 'ENDS IN...';
                 
                 // Countdown text shows time to main drop
                 const dropTimeDiff = dropDate - now;
@@ -2896,7 +2909,7 @@
                 presaleSeconds.textContent = '00';
                 
                 // Status text
-                timerStatus.textContent = 'Main drop starts in...';
+                timerStatus.textContent = 'MAIN DROP STARTS IN...';
                 
                 // Countdown text
                 countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
