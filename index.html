@@ -311,7 +311,7 @@
 
         .main-header {
             position: fixed;
-            top: 30px !important;
+            top: 20px !important;
             left: 0;
             right: 0;
             z-index: 10001;
@@ -405,6 +405,9 @@
             overflow: hidden;
             color: white;
             background-color: #000;
+        }
+        
+        body.loaded {
             background-image: url('assets/images/patterned1.png');
             background-size: cover;
             background-position: center;
@@ -1998,11 +2001,17 @@
                     document.getElementById('timerStatus').textContent = 'DROP ENDED - Thank you for your interest!';
                 }
             } else {
-                // Before drop date
+                // Before drop date - show countdown to drop
+                const timeUntilDrop = dropDate - now;
+                const days = Math.floor(timeUntilDrop / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeUntilDrop % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeUntilDrop % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeUntilDrop % (1000 * 60)) / 1000);
+                
                 document.getElementById('timerHours').textContent = '100';
                 document.getElementById('timerMinutes').textContent = '00';
                 document.getElementById('timerSeconds').textContent = '00';
-                document.getElementById('timerStatus').textContent = 'Waiting for drop activation...';
+                document.getElementById('timerStatus').textContent = `Waiting for drop activation...${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
         }
 
