@@ -428,6 +428,8 @@
             font-family: var(--font-body);
             color: white;
             background-color: #000;
+            height: auto; /* CHANGED: From 100% to auto for natural scrolling */
+            overflow-x: hidden; /* ADDED: Prevent horizontal scroll */
         }
         
         body.loaded {
@@ -435,7 +437,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: scroll; /* CHANGED: Background moves with scroll */
+            background-attachment: scroll; /* CONFIRMED: Background moves with scroll */
+            min-height: 100vh;
         }
         #loading-screen {
             position: fixed;
@@ -477,26 +480,35 @@
             opacity: 0;
             pointer-events: none;
         }
+        /* ADDED: Page wrapper for proper scrolling */
+        .page-wrapper {
+            position: relative;
+            min-height: 100vh;
+            background: #000;
+        }
+
         .bg-video {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             z-index: 1;
             object-fit: cover;
             object-position: center;
             opacity: 1;
         }
         .content-container {
-            position: relative; /* CHANGED: From fixed to relative for scrolling */
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
-            min-height: 100vh; /* CHANGED: From height to min-height */
+            min-height: 100vh;
             z-index: 2;
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
+            /* ADDED: Ensure overlay extends with content */
+            padding-bottom: 50px;
         }
         .content-container > * {
             pointer-events: all;
@@ -516,7 +528,7 @@
             min-height: auto; /* CHANGED: From 600px to auto */
             justify-content: center;
             padding-top: 30px;
-            padding-bottom: 50px; /* ADDED: Bottom padding for spacing */
+            padding-bottom: 400px; /* INCREASED: To account for fixed footer */
         }
         .landing-content.hidden {
             opacity: 0;
@@ -1695,6 +1707,9 @@
             font-size: 1.2rem;
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
+            width: 28px; /* ADDED: Fixed width to prevent movement */
+            text-align: center; /* ADDED: Center the numbers */
+            font-variant-numeric: tabular-nums; /* ADDED: Monospace numbers */
         }
 
         .compact-timer-label {
@@ -1724,6 +1739,15 @@
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
             letter-spacing: 0.5px;
+        }
+
+        /* UPDATED: Landing Footer - Fixed at bottom */
+        #landingFooter {
+            position: fixed !important;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
         }
 
         /* UPDATED: Footer Styles - Fixed positioning to stay at bottom */
@@ -2033,7 +2057,7 @@
             }
             .landing-content {
                 min-height: calc(100vh - 100px);
-                padding-bottom: 20px; /* REDUCED: From 100px for mobile */
+                padding-bottom: 350px; /* ADJUSTED: For mobile with fixed footer */
                 top: 10%; /* REDUCED: From default for mobile */
             }
             .countdown {
@@ -2046,9 +2070,20 @@
                 display: none !important; /* Hide copyright on mobile */
             }
             
-            /* ADDED: Show landing footer on mobile */
+            /* ADDED: Mobile footer adjustments */
             #landingFooter {
-                display: block !important;
+                position: fixed !important;
+                bottom: 0;
+            }
+            
+            #landingFooter .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 15px;
+            }
+            
+            #landingFooter .main-footer {
+                padding: 25px 0;
             }
 
             /* Mobile description adjustment */
@@ -2075,7 +2110,7 @@
             .landing-content {
                 min-height: calc(100vh - 160px);
                 width: 95%;
-                padding-bottom: 20px; /* REDUCED: From 160px for smaller screens */
+                padding-bottom: 300px; /* ADJUSTED: For smaller screens with fixed footer */
                 top: 5%; /* REDUCED: For smaller screens */
             }
             .top-logo {
@@ -2152,13 +2187,14 @@
         <div class="loading-text">LOADING</div>
     </div>
 
-    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-        <source src="assets/videos/bibi.mp4" type="video/mp4">
-        <source src="assets/videos/bibi.webm" type="video/webm">
-        <source src="bibi.mp4" type="video/mp4">
-        <source src="bibi.webm" type="video/webm">
-        Your browser does not support background video.
-    </video>
+    <div class="page-wrapper">
+        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
+            <source src="assets/videos/bibi.mp4" type="video/mp4">
+            <source src="assets/videos/bibi.webm" type="video/webm">
+            <source src="bibi.mp4" type="video/mp4">
+            <source src="bibi.webm" type="video/webm">
+            Your browser does not support background video.
+        </video>
 
     <!-- Cart Icon -->
     <div class="cart-icon" onclick="toggleCart()">
@@ -2227,7 +2263,7 @@
                 <div class="compact-timer-label">Seconds</div>
             </div>
         </div>
-        <div class="compact-timer-status" id="timerStatus">Starts in...</div>
+        <div class="compact-timer-status" id="timerStatus">Pre-sale starts in...</div>
         <div class="compact-countdown-text" id="countdownText">116 days:12 hours:34 minutes:56 seconds</div>
         <div class="compact-pairs-left">
             <span id="compactPairsLeft">100</span>/100 PAIRS LEFT
@@ -2556,6 +2592,7 @@
             </div>
         </div>
     </div>
+    </div> <!-- Close page-wrapper -->
 
     <!-- Copyright (for product overlay) -->
     <div class="copyright" id="productCopyright" style="display: none;">
