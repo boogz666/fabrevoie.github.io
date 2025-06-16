@@ -309,16 +309,17 @@
             opacity: 1;
         }
 
+        /* UPDATED: Main header positioning - moved higher to match cart level */
         .main-header {
             position: fixed;
-            top: 20px !important;
+            top: 50px !important; /* Moved from 20px to 50px to clear announcement bar */
             left: 0;
             right: 0;
             z-index: 10001;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 30px;
+            padding: 15px 30px; /* Reduced from 20px to make it more compact */
             background: transparent;
             transition: transform 0.3s ease;
         }
@@ -331,22 +332,24 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            height: 50px;
+            height: 40px; /* Reduced from 50px */
         }
 
         .header-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            height: 50px;
+            height: 40px; /* Reduced from 50px */
             display: flex;
             align-items: center;
         }
 
+        /* UPDATED: Shopping cart positioning - moved down to avoid overlap */
         .countdown-and-cart {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-top: 8px; /* Added margin to push cart down */
         }
 
         :root {
@@ -1402,29 +1405,14 @@
             color: #ccc;
             line-height: 1.4;
         }
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            background: transparent;
-            transition: transform 0.3s ease;
-        }
-        .main-header.hidden {
-            transform: translateY(-100%);
-        }
+        
         .header-left {
             display: flex;
             align-items: center;
             gap: 30px;
         }
         .sticky-logo {
-            width: 50px;
+            width: 40px; /* Reduced from 50px */
             height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transition: transform 0.3s ease;
@@ -1456,7 +1444,7 @@
             transform: translateX(-50%);
         }
         .top-logo {
-            height: 250px;
+            height: 200px; /* Reduced from 250px */
             width: auto;
             filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
             opacity: 0;
@@ -1513,17 +1501,27 @@
             font-family: var(--font-numbers);
         }
 
-        /* Compact Timer Container */
+        /* UPDATED: Compact Timer Container - now sticky and follows scroll */
         .compact-timer-container {
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+            position: fixed !important; /* Made sticky */
+            top: 120px; /* Position below header */
+            right: 30px; /* Fixed to right side */
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.15), rgba(0, 0, 0, 0.9));
             border-radius: 12px;
-            border: 1px solid var(--color-primary);
-            backdrop-filter: blur(10px);
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(15px);
             padding: 15px;
-            margin-top: 8px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.2);
-            min-width: 180px;
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
+            min-width: 200px;
+            z-index: 9999; /* High z-index to stay above content */
+            animation: timerPulse 3s infinite; /* Added urgency animation */
+        }
+
+        @keyframes timerPulse {
+            0% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(158, 217, 181, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
         }
 
         .compact-timer-display {
@@ -1537,10 +1535,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             padding: 8px 6px;
             border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             min-width: 35px;
         }
 
@@ -1565,11 +1563,12 @@
         .compact-timer-status {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             color: var(--color-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
         }
 
         .compact-pairs-left {
@@ -1701,6 +1700,29 @@
         }
 
         @media screen and (max-width: 768px) {
+            /* UPDATED: Mobile adjustments for header positioning */
+            .main-header {
+                top: 50px !important;
+                padding: 10px 20px;
+            }
+            
+            .sticky-logo {
+                width: 35px;
+            }
+            
+            .top-logo {
+                height: 150px;
+            }
+            
+            /* UPDATED: Mobile timer positioning */
+            .compact-timer-container {
+                position: relative !important;
+                top: auto !important;
+                right: auto !important;
+                margin: 20px auto;
+                min-width: 180px;
+            }
+            
             .product-content {
                 flex-direction: column;
                 gap: 30px;
@@ -1724,13 +1746,7 @@
                 min-height: calc(100vh - 140px);
                 padding-bottom: 140px;
             }
-            .top-logo {
-                height: 200px;
-            }
             .countdown {
-                display: none;
-            }
-            .compact-timer-container {
                 display: none;
             }
             .header-cart-icon {
@@ -1902,30 +1918,34 @@
                     <span class="cart-count" id="headerCartCount">0</span>
                 </div>
             </div>
-            
-            <!-- Compact Timer Box -->
-            <div class="compact-timer-container" id="compactTimer">
-                <div class="compact-timer-display">
-                    <div class="compact-timer-unit">
-                        <div class="compact-timer-number" id="compactHours">72</div>
-                        <div class="compact-timer-label">H</div>
-                    </div>
-                    <div class="compact-timer-unit">
-                        <div class="compact-timer-number" id="compactMinutes">00</div>
-                        <div class="compact-timer-label">M</div>
-                    </div>
-                    <div class="compact-timer-unit">
-                        <div class="compact-timer-number" id="compactSeconds">00</div>
-                        <div class="compact-timer-label">S</div>
-                    </div>
-                </div>
-                <div class="compact-timer-status" id="compactStatus">Pre-sale starts soon</div>
-                <div class="compact-pairs-left">
-                    <strong>PAIRS LEFT:</strong> <span id="compactPairsLeft">100</span>/100
-                </div>
-            </div>
         </div>
     </header>
+
+    <!-- UPDATED: Compact Timer Box - now sticky and with real countdown -->
+    <div class="compact-timer-container" id="compactTimer">
+        <div class="compact-timer-display">
+            <div class="compact-timer-unit">
+                <div class="compact-timer-number" id="timerDays">00</div>
+                <div class="compact-timer-label">D</div>
+            </div>
+            <div class="compact-timer-unit">
+                <div class="compact-timer-number" id="timerHours">00</div>
+                <div class="compact-timer-label">H</div>
+            </div>
+            <div class="compact-timer-unit">
+                <div class="compact-timer-number" id="timerMinutes">00</div>
+                <div class="compact-timer-label">M</div>
+            </div>
+            <div class="compact-timer-unit">
+                <div class="compact-timer-number" id="timerSeconds">00</div>
+                <div class="compact-timer-label">S</div>
+            </div>
+        </div>
+        <div class="compact-timer-status" id="timerStatus">Pre-sale starts soon</div>
+        <div class="compact-pairs-left">
+            <strong>PAIRS LEFT:</strong> <span id="compactPairsLeft">100</span>/100
+        </div>
+    </div>
 
     <div class="content-container">
         <div class="landing-content" id="landingContent">
@@ -2276,6 +2296,10 @@
             red: ['assets/images/prodp3.png', 'assets/images/r2.png', 'assets/images/r3.png']
         };
 
+        // UPDATED: Timer variables with real target date
+        const presaleDate = new Date('2025-10-07T14:00:00+02:00'); // October 7th, 2PM Paris time
+        const dropDate = new Date('2025-10-14T14:00:00+02:00'); // October 14th, 2PM Paris time
+
         function selectSize(size) {
             // Remove previous selection
             document.querySelectorAll('.size-option').forEach(option => {
@@ -2390,6 +2414,51 @@
             updateBuyButtonText();
         }
 
+        // UPDATED: Real timer functionality
+        function updateRealTimer() {
+            const now = new Date();
+            const timerDays = document.getElementById('timerDays');
+            const timerHours = document.getElementById('timerHours');
+            const timerMinutes = document.getElementById('timerMinutes');
+            const timerSeconds = document.getElementById('timerSeconds');
+            const timerStatus = document.getElementById('timerStatus');
+            
+            let targetDate, statusText;
+            
+            if (now < presaleDate) {
+                // Before pre-sale
+                targetDate = presaleDate;
+                statusText = 'Pre-sale starts in';
+            } else if (now < dropDate) {
+                // During pre-sale period
+                targetDate = dropDate;
+                statusText = 'Main drop in';
+            } else {
+                // After main drop
+                timerDays.textContent = '00';
+                timerHours.textContent = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
+                timerStatus.textContent = 'LIVE NOW!';
+                return;
+            }
+            
+            const timeDiff = targetDate - now;
+            
+            if (timeDiff > 0) {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                
+                timerDays.textContent = days.toString().padStart(2, '0');
+                timerHours.textContent = hours.toString().padStart(2, '0');
+                timerMinutes.textContent = minutes.toString().padStart(2, '0');
+                timerSeconds.textContent = seconds.toString().padStart(2, '0');
+                timerStatus.textContent = statusText;
+            }
+        }
+
         // Initialize product gallery when showing overlay
         function showProductOverlay() {
             const landingContent = document.getElementById('landingContent');
@@ -2415,51 +2484,12 @@
 
         // Rest of your existing JavaScript functions remain unchanged
         let lastScrollTop = 0;
-        const dropDate = new Date('2025-10-14T14:00:00+02:00'); // 2PM Paris time
-        const presaleDate = new Date(dropDate.getTime() - (72 * 60 * 60 * 1000)); // 72 hours before drop
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = presaleDate.getTime() - now;
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById('days').textContent = days;
-        }
-
-        function updateCompactTimer() {
-            const now = new Date();
-            
-            if (now >= presaleDate && now < dropDate) {
-                // Pre-sale is active, show countdown from 72 hours
-                const elapsed = Math.floor((now - presaleDate) / 1000);
-                const totalSeconds = 72 * 3600; // 72 hours in seconds
-                const remaining = Math.max(0, totalSeconds - elapsed);
-                
-                const hours = Math.floor(remaining / 3600);
-                const minutes = Math.floor((remaining % 3600) / 60);
-                const seconds = remaining % 60;
-                
-                document.getElementById('compactHours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('compactMinutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('compactSeconds').textContent = seconds.toString().padStart(2, '0');
-                
-                if (remaining > 0) {
-                    document.getElementById('compactStatus').textContent = 'PRE-SALE LIVE!';
-                } else {
-                    document.getElementById('compactStatus').textContent = 'Main drop soon';
-                }
-            } else if (now >= dropDate) {
-                // Main drop is active
-                document.getElementById('compactHours').textContent = '00';
-                document.getElementById('compactMinutes').textContent = '00';
-                document.getElementById('compactSeconds').textContent = '00';
-                document.getElementById('compactStatus').textContent = 'LIVE DROP!';
-            } else {
-                // Before pre-sale date
-                document.getElementById('compactHours').textContent = '72';
-                document.getElementById('compactMinutes').textContent = '00';
-                document.getElementById('compactSeconds').textContent = '00';
-                document.getElementById('compactStatus').textContent = 'Pre-sale starts soon';
-            }
         }
 
         function ml_webform_success_23779383() {
@@ -2581,10 +2611,6 @@
             lastScrollTop = scrollTop;
         }
 
-        function updateDropTimer() {
-            // Timer elements removed - function kept for backward compatibility
-        }
-
         let currentHeaderPhraseIndex = 0;
         let headerAnnouncementInterval;
         let pairsLeft = 100;
@@ -2702,9 +2728,9 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
             
-            // Start compact timer
-            updateCompactTimer();
-            setInterval(updateCompactTimer, 1000);
+            // UPDATED: Start real timer
+            updateRealTimer();
+            setInterval(updateRealTimer, 1000);
             
             // Check user state on page load
             checkUserState();
