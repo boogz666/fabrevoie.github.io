@@ -642,7 +642,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 120px 20px 200px 20px;
+            padding: 120px 20px 50px 20px; /* Reduced bottom padding */
         }
 
         /* UPDATED: New layout with bundle on the left */
@@ -652,7 +652,7 @@
             gap: 40px;
             max-width: 1400px;
             width: 100%;
-            margin-bottom: 50px;
+            margin-bottom: 30px; /* Reduced margin */
         }
 
         .product-left-sidebar {
@@ -779,8 +779,16 @@
             transform: translateY(-1px);
             box-shadow: 0 5px 15px rgba(158, 217, 181, 0.4);
         }
+
+        /* Product layout reorganization */
+        .product-info-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+            align-items: start;
+        }
+
         .product-image-section {
-            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -844,27 +852,51 @@
             color: var(--color-primary);
             font-weight: 700;
         }
-        .color-selector {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            padding: 15px;
+
+        /* Color selector with rectangle box and text */
+        .color-selection-section {
+            margin-top: 20px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
         }
+
+        .color-selection-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
         .color-option {
-            width: 40px;
+            width: 60px;
             height: 40px;
-            border-radius: 50%;
+            border-radius: 8px;
             cursor: pointer;
             border: 3px solid transparent;
             transition: all 0.3s ease;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .color-option.active {
             border-color: var(--color-primary);
             transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
         }
         .color-option.red {
             background: #dc3545;
@@ -1128,7 +1160,6 @@
             font-family: var(--font-body);
         }
         .product-info-section {
-            flex: 1;
             max-width: 400px;
         }
         .product-title {
@@ -1179,118 +1210,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
-        }
-
-        /* Bundle Promotion Section */
-        .bundle-promo {
-            margin-top: 25px;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 900px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
-            border-radius: 15px;
-            border: 2px solid var(--color-primary);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            padding: 25px 30px;
-        }
-
-        .bundle-promo-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.6rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .bundle-promo-subtitle {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .bundle-offers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .bundle-offer {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .bundle-offer:hover {
-            transform: translateY(-3px);
-            border-color: var(--color-primary);
-            box-shadow: 0 8px 20px rgba(158, 217, 181, 0.2);
-        }
-
-        .bundle-offer-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .bundle-offer-savings {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-
-        .bundle-offer-description {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: #ccc;
-            line-height: 1.3;
-        }
-
-        .bundle-promo-cta {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-
-        .bundle-checkout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--color-primary);
-            border-radius: 50px;
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 15px 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .bundle-checkout-btn:hover {
-            background: var(--color-primary);
-            color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(158, 217, 181, 0.4);
         }
 
         /* Cart Modal */
@@ -1627,11 +1546,11 @@
             font-family: var(--font-numbers);
         }
 
-        /* UPDATED: Compact Timer Container - now sticky and follows scroll */
+        /* UPDATED: Fixed width timer to prevent movement */
         .compact-timer-container {
-            position: fixed !important; /* Made sticky */
-            top: 120px; /* Position below header */
-            right: 30px; /* Fixed to right side */
+            position: fixed !important;
+            top: 120px;
+            right: 30px;
             background: linear-gradient(135deg, rgba(158, 217, 181, 0.15), rgba(0, 0, 0, 0.9));
             border-radius: 12px;
             border: 2px solid var(--color-primary);
@@ -1639,9 +1558,9 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            min-width: 220px; /* Fixed width to prevent movement */
-            z-index: 9999; /* High z-index to stay above content */
-            animation: timerPulse 3s infinite; /* Added urgency animation */
+            width: 220px; /* Fixed width */
+            z-index: 9999;
+            animation: timerPulse 3s infinite;
         }
 
         @keyframes timerPulse {
@@ -1659,6 +1578,10 @@
             letter-spacing: 0.5px;
             margin-bottom: 8px;
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
+            height: 20px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .compact-timer-display {
@@ -1676,6 +1599,7 @@
             padding: 8px 6px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 35px; /* Fixed width */
             min-width: 35px;
         }
 
@@ -1685,8 +1609,12 @@
             font-size: 1.2rem;
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            min-width: 22px; /* Fixed width for numbers */
+            width: 22px; /* Fixed width */
             text-align: center;
+            height: 20px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .compact-timer-label {
@@ -1707,6 +1635,10 @@
             text-align: center;
             margin-bottom: 8px;
             letter-spacing: 0.5px;
+            height: 18px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .compact-pairs-left {
@@ -1716,15 +1648,55 @@
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
             letter-spacing: 0.5px;
+            height: 16px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Footer Styles - UPDATED: Normal footer, not fixed overlay */
+        /* UPDATED: Social icons positioned under enter button */
+        .social-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            margin-top: 20px; /* Reduced margin */
+        }
+        .social-container.hidden {
+            display: none;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .social-icons a {
+            color: var(--color-primary);
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #7BC097;
+        }
+        .social-text {
+            text-align: center;
+            color: var(--color-primary);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* UPDATED: Footer positioned closer to dark overlay */
         .main-footer {
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
-            margin-top: 60px;
+            margin-top: 20px; /* Reduced from 60px */
             position: relative;
             z-index: 10;
         }
@@ -1812,102 +1784,6 @@
             text-decoration: underline;
         }
 
-        /* UPDATED: Ensure footer doesn't interfere with main content */
-        .content-container {
-            position: relative;
-            min-height: 100vh;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.4);
-            pointer-events: none;
-        }
-
-        /* Landing Page Countdown */
-        .countdown-landing {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 16px;
-            color: var(--color-primary);
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-        .countdown-landing #daysLanding {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 1.1em;
-            letter-spacing: 1px;
-        }
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            position: relative;
-            z-index: 10003;
-        }
-        
-        .cart-count {
-            background: var(--color-primary);
-            color: #000;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 50%;
-            min-width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-numbers);
-            margin-left: 5px;
-        }
-        @keyframes rotateHourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-        .hourglass {
-            font-size: 20px;
-            animation: rotateHourglass 3s linear infinite;
-        }
-        .social-container {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            z-index: 100;
-            margin-top: 30px;
-            /* UPDATED: Removed fixed positioning and bottom placement */
-        }
-        .social-container.hidden {
-            display: none;
-            /* UPDATED: Changed from opacity to display for cleaner hiding */
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .social-icons a {
-            color: var(--color-primary);
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .social-icons a:hover {
-            color: #7BC097;
-        }
-        .social-text {
-            text-align: center;
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-        }
         .copyright {
             position: fixed;
             bottom: 15px;
@@ -1959,7 +1835,7 @@
                 top: auto !important;
                 right: auto !important;
                 margin: 20px auto;
-                min-width: 180px;
+                width: 180px; /* Smaller but still fixed width */
             }
             
             /* UPDATED: Mobile product layout - stack vertically */
@@ -1973,6 +1849,11 @@
                 width: 100%;
                 position: relative;
                 top: auto;
+            }
+
+            .product-info-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             .bundle-promo {
@@ -2033,7 +1914,7 @@
                 display: none;
             }
             .social-container {
-                display: none;
+                display: block !important; /* Show on mobile */
             }
             .copyright {
                 display: none;
@@ -2194,7 +2075,7 @@
         </div>
     </header>
 
-    <!-- UPDATED: Compact Timer Box - now sticky and with real countdown -->
+    <!-- UPDATED: Fixed width timer -->
     <div class="compact-timer-container" id="compactTimer">
         <div class="compact-timer-display">
             <div class="compact-timer-unit">
@@ -2274,6 +2155,19 @@
                     ENTER STORE
                     <i class="fas fa-arrow-right"></i>
                 </button>
+                
+                <!-- UPDATED: Social icons under enter button -->
+                <div class="social-container">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p class="social-text">Show your support by following our socials.</p>
+                </div>
             </div>
         </div>
 
@@ -2283,7 +2177,7 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
-                <!-- UPDATED: New layout with bundle on left, product on right -->
+                <!-- UPDATED: Reorganized layout -->
                 <div class="product-main-layout">
                     <!-- Left Sidebar - Bundle Promotion -->
                     <div class="product-left-sidebar">
@@ -2319,66 +2213,72 @@
                         </div>
                     </div>
 
-                    <!-- Main Product Content -->
+                    <!-- Main Product Content - Reorganized -->
                     <div class="product-content">
-                        <div class="product-image-section">
-                            <div class="product-image-container">
-                                <button class="image-nav-arrow left" onclick="previousImage()">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <img src="assets/images/prodp1.png" alt="SBHMN Sneaker" class="product-image" id="productImage">
-                                <button class="image-nav-arrow right" onclick="nextImage()">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="image-indicator">
-                                <span class="current-image">1</span> / <span class="total-images">3</span>
-                            </div>
-                            
-                            <div class="color-selector">
-                                <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
-                                <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
-                                <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="product-info-section">
-                            <h2 class="product-title">SBHMN</h2>
-                            <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
-                            <div class="product-price">$269</div>
-                            
-                            <!-- Size Selector -->
-                            <div class="size-selector">
-                                <div class="size-selector-header">
-                                    <h4 class="size-title">Select Size</h4>
-                                    <button class="size-guide-btn" onclick="openSizeGuide()">
-                                        <i class="fas fa-ruler"></i>
-                                        Size Guide
+                        <div class="product-info-layout">
+                            <div class="product-image-section">
+                                <div class="product-image-container">
+                                    <button class="image-nav-arrow left" onclick="previousImage()">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <img src="assets/images/prodp1.png" alt="SBHMN Sneaker" class="product-image" id="productImage">
+                                    <button class="image-nav-arrow right" onclick="nextImage()">
+                                        <i class="fas fa-chevron-right"></i>
                                     </button>
                                 </div>
-                                <div class="size-options">
-                                    <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
-                                    <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
-                                    <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
-                                    <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
-                                    <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
-                                    <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
-                                    <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
-                                    <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
-                                    <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
-                                    <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
-                                    <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                                
+                                <div class="image-indicator">
+                                    <span class="current-image">1</span> / <span class="total-images">3</span>
                                 </div>
-                                <div class="size-warning" id="sizeWarning" style="display: none;">
-                                    Please select a size before adding to cart.
+                                
+                                <!-- UPDATED: Rectangle color selector with text -->
+                                <div class="color-selection-section">
+                                    <div class="color-selection-title">Choose Your Color</div>
+                                    <div class="color-selector">
+                                        <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
+                                        <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
+                                        <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <button class="buy-button" id="buyButton" onclick="buyProduct()">
-                                BUY NOW
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
+                            <div class="product-info-section">
+                                <h2 class="product-title">SBHMN</h2>
+                                <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
+                                <div class="product-price">$269</div>
+                                
+                                <!-- Size Selector -->
+                                <div class="size-selector">
+                                    <div class="size-selector-header">
+                                        <h4 class="size-title">Select Size</h4>
+                                        <button class="size-guide-btn" onclick="openSizeGuide()">
+                                            <i class="fas fa-ruler"></i>
+                                            Size Guide
+                                        </button>
+                                    </div>
+                                    <div class="size-options">
+                                        <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
+                                        <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
+                                        <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
+                                        <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
+                                        <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
+                                        <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
+                                        <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
+                                        <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
+                                        <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
+                                        <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
+                                        <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                                    </div>
+                                    <div class="size-warning" id="sizeWarning" style="display: none;">
+                                        Please select a size before adding to cart.
+                                    </div>
+                                </div>
+                                
+                                <button class="buy-button" id="buyButton" onclick="buyProduct()">
+                                    BUY NOW
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2410,25 +2310,62 @@
                     </div>
                 </div>
 
-                <div class="product-footer">
-                    <div class="product-footer-links">
-                        <a href="#">Returns</a>
-                        <a href="#">Shipping</a>
-                        <a href="#">Support</a>
-                    </div>
-                    
-                    <div class="product-footer-social">
-                        <div class="social-icons">
-                            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
+                <!-- UPDATED: Footer moved to main overlay and closer to content -->
+                <footer class="main-footer" id="mainFooter">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>About Fabrevoie</h4>
+                            <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                            <div class="footer-social">
+                                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
                         </div>
-                        <p class="social-text">Show your support by following our socials.</p>
+
+                        <div class="footer-section">
+                            <h4>Customer Care</h4>
+                            <ul>
+                                <li><a href="#">Contact Support</a></li>
+                                <li><a href="#">Size Guide</a></li>
+                                <li><a href="#">Shipping Info</a></li>
+                                <li><a href="#">Returns & Exchanges</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="#">Our Story</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Sustainability</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Refund Policy</a></li>
+                                <li><a href="#">Cookie Policy</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
@@ -2560,63 +2497,6 @@
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
         <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
-
-    <!-- Main Footer - UPDATED: Positioned at bottom of page, not as overlay -->
-    <footer class="main-footer" id="mainFooter">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About Fabrevoie</h4>
-                <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="#" target="_blank" aria-label="Follow us on Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4>Customer Care</h4>
-                <ul>
-                    <li><a href="#">Contact Support</a></li>
-                    <li><a href="#">Size Guide</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns & Exchanges</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Refund Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
-        </div>
-    </footer>
 
     <script>
         // Product image variables
