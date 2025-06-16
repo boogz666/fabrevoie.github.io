@@ -348,7 +348,7 @@
         .countdown-and-cart {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px; /* INCREASED: From 15px to move countdown left */
             margin-top: 8px; /* Added margin to push cart down */
         }
 
@@ -435,7 +435,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-attachment: scroll; /* CHANGED: Background moves with scroll */
         }
         #loading-screen {
             position: fixed;
@@ -489,11 +489,11 @@
             opacity: 1;
         }
         .content-container {
-            position: fixed;
+            position: relative; /* CHANGED: From fixed to relative for scrolling */
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh; /* CHANGED: From height to min-height */
             z-index: 2;
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
@@ -502,10 +502,10 @@
             pointer-events: all;
         }
         .landing-content {
-            position: absolute;
-            top: 45%;
+            position: relative; /* CHANGED: From absolute to relative */
+            top: 15%; /* REDUCED: From 45% to accommodate footer */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%); /* CHANGED: Only translate X, not Y */
             max-width: 500px;
             width: 90%;
             display: flex;
@@ -513,9 +513,10 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
-            min-height: 600px;
+            min-height: auto; /* CHANGED: From 600px to auto */
             justify-content: center;
             padding-top: 30px;
+            padding-bottom: 50px; /* ADDED: Bottom padding for spacing */
         }
         .landing-content.hidden {
             opacity: 0;
@@ -645,11 +646,11 @@
             padding: 120px 20px 50px 20px; /* Reduced bottom padding */
         }
 
-        /* UPDATED: New layout with bundle on the left - reduced width and positioned more left */
+        /* UPDATED: New layout with bundle on the left - matched gaps */
         .product-main-layout {
             display: flex;
             align-items: flex-start;
-            gap: 30px; /* Reduced from 40px */
+            gap: 60px; /* CHANGED: Match the gap between pictures and description */
             max-width: 1400px;
             width: 100%;
             margin-bottom: 50px;
@@ -1133,10 +1134,10 @@
             font-family: var(--font-body);
         }
 
-        /* UPDATED: Product info section - added margin to prevent timer overlap */
+        /* UPDATED: Product info section - made description less wide */
         .product-info-section {
             flex: 1;
-            max-width: 400px;
+            max-width: 350px; /* REDUCED: From 400px to make description narrower */
         }
         .product-title {
             font-family: var(--font-headers);
@@ -1684,7 +1685,8 @@
             padding: 8px 6px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 35px;
+            min-width: 40px; /* INCREASED: From 35px to prevent movement */
+            width: 40px; /* ADDED: Fixed width to prevent jumping */
         }
 
         .compact-timer-number {
@@ -1883,7 +1885,7 @@
             width: 100%;
             text-align: center;
             z-index: 100;
-            margin-top: 30px;
+            margin-top: 15px; /* REDUCED: From 30px to move closer to button */
             /* UPDATED: Removed fixed positioning and bottom placement */
         }
         .social-container.hidden {
@@ -2031,7 +2033,8 @@
             }
             .landing-content {
                 min-height: calc(100vh - 100px);
-                padding-bottom: 100px;
+                padding-bottom: 20px; /* REDUCED: From 100px for mobile */
+                top: 10%; /* REDUCED: From default for mobile */
             }
             .countdown {
                 display: none;
@@ -2039,16 +2042,13 @@
             .header-cart-icon {
                 display: none;
             }
-            .social-container {
-                display: none;
-            }
             .copyright {
-                display: none;
+                display: none !important; /* Hide copyright on mobile */
             }
-            .mobile-social {
+            
+            /* ADDED: Show landing footer on mobile */
+            #landingFooter {
                 display: block !important;
-                margin-top: 30px;
-                text-align: center;
             }
 
             /* Mobile description adjustment */
@@ -2075,7 +2075,8 @@
             .landing-content {
                 min-height: calc(100vh - 160px);
                 width: 95%;
-                padding-bottom: 160px;
+                padding-bottom: 20px; /* REDUCED: From 160px for smaller screens */
+                top: 5%; /* REDUCED: For smaller screens */
             }
             .top-logo {
                 height: 50px;
@@ -2199,7 +2200,7 @@
         <div class="header-right">
             <div class="countdown-and-cart">
                 <div class="countdown" id="countdown">
-                    Pre sales open in: <span id="days">00</span>
+                    Pre-sale Opens In: <span id="days">00</span>
                     <i class="fas fa-hourglass hourglass"></i>
                 </div>
                 <div class="header-cart-icon" onclick="toggleCart()">
@@ -2226,7 +2227,7 @@
                 <div class="compact-timer-label">Seconds</div>
             </div>
         </div>
-        <div class="compact-timer-status" id="timerStatus">Pre-sale starts in...</div>
+        <div class="compact-timer-status" id="timerStatus">Starts in...</div>
         <div class="compact-countdown-text" id="countdownText">116 days:12 hours:34 minutes:56 seconds</div>
         <div class="compact-pairs-left">
             <span id="compactPairsLeft">100</span>/100 PAIRS LEFT
@@ -2292,6 +2293,76 @@
                 </button>
             </div>
         </div>
+
+        <!-- ADDED: Social container now inside landing content -->
+        <div class="social-container" id="landingSocial">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            <p class="social-text">Show your support by following our socials.</p>
+        </div>
+
+        <!-- ADDED: Main Footer for Landing Page -->
+        <footer class="main-footer" id="landingFooter" style="margin-top: 40px;">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Fabrevoie</h4>
+                    <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+            </div>
+        </footer>
 
         <div class="product-overlay" id="productOverlay">
             <div class="product-overlay-content">
@@ -2484,6 +2555,12 @@
                 </footer>
             </div>
         </div>
+    </div>
+
+    <!-- Copyright (for product overlay) -->
+    <div class="copyright" id="productCopyright" style="display: none;">
+        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
+        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
 
     <!-- Size Guide Modal -->
@@ -2830,14 +2907,18 @@
             const landingContent = document.getElementById('landingContent');
             const productOverlay = document.getElementById('productOverlay');
             const topLogo = document.getElementById('topLogo');
-            const socialContainer = document.querySelector('.social-container');
+            const landingSocial = document.getElementById('landingSocial');
+            const landingFooter = document.getElementById('landingFooter');
+            const productCopyright = document.getElementById('productCopyright');
             const fixedCartIcon = document.getElementById('fixedCartIcon');
             
             // Mark that user has visited shop
             localStorage.setItem('hasVisitedShop', 'true');
             
             landingContent.classList.add('hidden');
-            socialContainer.classList.add('hidden');
+            if (landingSocial) landingSocial.classList.add('hidden');
+            if (landingFooter) landingFooter.style.display = 'none';
+            if (productCopyright) productCopyright.style.display = 'block';
             
             setTimeout(() => {
                 productOverlay.classList.add('active');
@@ -2936,13 +3017,17 @@
             const landingContent = document.getElementById('landingContent');
             const productOverlay = document.getElementById('productOverlay');
             const topLogo = document.getElementById('topLogo');
-            const socialContainer = document.querySelector('.social-container');
+            const landingSocial = document.getElementById('landingSocial');
+            const landingFooter = document.getElementById('landingFooter');
+            const productCopyright = document.getElementById('productCopyright');
             const header = document.querySelector('.main-header');
             const fixedCartIcon = document.getElementById('fixedCartIcon');
             
             productOverlay.classList.remove('active');
             topLogo.classList.remove('visible');
-            socialContainer.classList.remove('hidden');
+            if (landingSocial) landingSocial.classList.remove('hidden');
+            if (landingFooter) landingFooter.style.display = 'block';
+            if (productCopyright) productCopyright.style.display = 'none';
             header.classList.remove('hidden');
             if (fixedCartIcon) fixedCartIcon.style.display = 'none';
             
