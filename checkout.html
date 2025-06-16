@@ -1239,7 +1239,7 @@
                                     <div class="bundle-option-savings">Save $200+</div>
                                     <div class="bundle-option-price">$876</div>
                                     <div class="bundle-option-original">$1076</div>
-                                    <div class="bundle-option-description">4 pairs + exclusive limited edition</div>
+                                    <div class="bundle-option-description">3 + 1 exclusive red & blue sole colorway. <strong id="completeSetRemaining">Only 10 pairs</strong> worldwide.</div>
                                 </div>
                             </div>
                         </div>
@@ -1581,7 +1581,7 @@
             single: { price: 269, pairs: 1, name: 'Single Pair', originalPrice: 269 },
             duo: { price: 480, pairs: 2, name: 'Duo Pack', originalPrice: 538 },
             triple: { price: 699, pairs: 3, name: 'Triple Pack', originalPrice: 807 },
-            complete: { price: 876, pairs: 4, name: 'Complete Set', originalPrice: 1076 }
+            complete: { price: 876, pairs: 4, name: 'Complete Set (3+1 Exclusive)', originalPrice: 1076, limitedStock: 10 }
         };
 
         // Valid promo codes
@@ -1721,6 +1721,33 @@
             }
         }
 
+        function updateCompleteSetStock() {
+            const stockElement = document.getElementById('completeSetRemaining');
+            if (stockElement) {
+                if (completeSetStock > 0) {
+                    stockElement.innerHTML = `Only <span style="color: var(--color-primary);">${completeSetStock} pairs left</span>`;
+                } else {
+                    stockElement.innerHTML = '<span style="color: #ff6b6b;">SOLD OUT</span>';
+                    // Disable the complete set option
+                    const completeOption = document.querySelector('[data-bundle="complete"]');
+                    if (completeOption) {
+                        completeOption.style.opacity = '0.5';
+                        completeOption.style.cursor = 'not-allowed';
+                    }
+                }
+            }
+        }
+
+        function simulateCompleteSetSales() {
+            // Simulate random sales of complete sets every 2-5 minutes
+            setInterval(() => {
+                if (completeSetStock > 0 && Math.random() > 0.85) {
+                    completeSetStock -= 1;
+                    updateCompleteSetStock();
+                }
+            }, Math.random() * 180000 + 120000); // Random interval between 2-5 minutes
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Country change handler
             document.getElementById('country').addEventListener('change', updateStateOptions);
@@ -1770,6 +1797,10 @@
 
             // Initialize order summary
             updateOrderSummary();
+            
+            // Initialize complete set stock display and simulation
+            updateCompleteSetStock();
+            simulateCompleteSetSales();
 
             // Form validation and submission
             document.getElementById('checkoutForm').addEventListener('submit', function(e) {
