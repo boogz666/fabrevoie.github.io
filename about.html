@@ -45,7 +45,9 @@
         body, html {
             font-family: var(--font-body);
             background-color: #000;
-            background-image: url('assets/images/patterned1.png');
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+                url('assets/images/pat2.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -146,7 +148,7 @@
         /* Main Content */
         .about-container {
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.4);
             padding-top: 120px;
         }
 
@@ -174,12 +176,13 @@
         }
 
         .hero-tagline {
-            font-family: var(--font-body);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.5rem;
             color: var(--color-primary);
-            font-weight: 300;
             letter-spacing: 1px;
             margin-bottom: 40px;
+            text-transform: uppercase;
         }
 
         .hero-description {
@@ -252,69 +255,6 @@
         .story-content .highlight {
             color: var(--color-primary);
             font-weight: 600;
-        }
-
-        /* Timeline Section */
-        .timeline-section {
-            margin: 100px 0;
-            text-align: center;
-        }
-
-        .timeline-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 3rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 60px;
-        }
-
-        .timeline {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-
-        .timeline-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--color-primary);
-            box-shadow: 0 20px 40px rgba(158, 217, 181, 0.2);
-        }
-
-        .timeline-date {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.1rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-
-        .timeline-title-item {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .timeline-description {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: #ccc;
-            line-height: 1.6;
         }
 
         /* Future Section */
@@ -513,15 +453,6 @@
                 font-size: 2rem;
             }
 
-            .timeline-title {
-                font-size: 2rem;
-            }
-
-            .timeline {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
             .future-section {
                 padding: 40px 20px;
             }
@@ -554,10 +485,6 @@
             }
 
             .story-content h2 {
-                font-size: 1.5rem;
-            }
-
-            .timeline-title {
                 font-size: 1.5rem;
             }
 
@@ -604,11 +531,11 @@
         <div class="about-content">
             <!-- Hero Section -->
             <section class="about-hero">
-                <h1>Our Story</h1>
-                <p class="hero-tagline">From Dream to Reality</p>
+                <h1>The Story</h1>
+                <p class="hero-tagline">From dream to reality</p>
                 <p class="hero-description">
                     What started as a single dream has evolved into a mission to revolutionize footwear. 
-                    This is the story of how eccentric vision, relentless determination, and a viral moment 
+                    This is how eccentric vision, relentless determination, and a viral moment 
                     on Reddit changed everything.
                 </p>
             </section>
@@ -624,7 +551,7 @@
                     <p>
                         It started with a dream. Not a metaphorical one, but an actual dream where I visualized 
                         this <span class="highlight">crazy sneaker</span> unlike anything I'd ever seen. The design was bold, 
-                        eccentric, and completely out-of-the-box - everything that traditional footwear wasn't.
+                        eccentric, and completely out of the box. Everything that traditional footwear wasn't.
                     </p>
                     <p>
                         When I woke up, I couldn't shake the image from my mind. I had to bring this vision to life, 
@@ -666,65 +593,16 @@
                     <h3>When Everything Changed</h3>
                     <p>
                         Then came the moment that changed everything. I shared my first drawings on Reddit, 
-                        not expecting much. But something magical happened - <span class="highlight">they went viral</span>.
+                        not expecting much. But something magical happened. <span class="highlight">They went viral</span>.
                     </p>
                     <p>
-                        The response was incredible. People understood the vision. They saw what I saw - 
-                        footwear that dared to be different, that challenged every convention, 
+                        The response was incredible. People understood the vision. They saw what I saw. 
+                        Footwear that dared to be different, that challenged every convention, 
                         that made a statement just by existing.
                     </p>
                     <p>
                         That viral moment validated everything. The rest, as they say, is history.
                     </p>
-                </div>
-            </section>
-
-            <!-- Timeline -->
-            <section class="timeline-section">
-                <h2 class="timeline-title">The Journey Timeline</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">Day 1</div>
-                        <div class="timeline-title-item">The Dream</div>
-                        <div class="timeline-description">
-                            Visualized the crazy sneaker design in a dream that would change everything
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Month 1</div>
-                        <div class="timeline-title-item">Project Launch</div>
-                        <div class="timeline-description">
-                            Put the vision in motion, began the long journey of bringing dreams to reality
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Year 1</div>
-                        <div class="timeline-title-item">Setbacks & Learning</div>
-                        <div class="timeline-description">
-                            Multiple failed prototypes, constant adjustments, but never giving up
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Year 2</div>
-                        <div class="timeline-title-item">Reddit Viral Moment</div>
-                        <div class="timeline-description">
-                            First drawings shared on Reddit went viral, validating the vision
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Year 2.5</div>
-                        <div class="timeline-title-item">SBHMN Launch</div>
-                        <div class="timeline-description">
-                            First collection completed, Fabrevoie officially launched to the world
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Today</div>
-                        <div class="timeline-title-item">Life Dedication</div>
-                        <div class="timeline-description">
-                            Fully committed to revolutionizing footwear, with big surprises ahead
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -734,7 +612,7 @@
                 <p>
                     Now I'm dedicating my life to bringing new sneakers that challenge conventions and push boundaries. 
                     The SBHMN is just the beginning. I've been designing a few surprises for next year that will 
-                    blow your mind - each one more eccentric and revolutionary than the last.
+                    blow your mind. Each one more eccentric and revolutionary than the last.
                 </p>
                 <p>
                     This is more than a brand. This is a movement. A statement that footwear doesn't have to be boring, 
