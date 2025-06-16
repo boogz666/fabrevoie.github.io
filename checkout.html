@@ -250,21 +250,37 @@
             color: #999;
         }
 
-        /* Color selector styling */
-        .color-selector {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            padding: 15px;
+        /* UPDATED: Color selector with rectangle styling and text */
+        .color-selection-section {
+            margin-top: 20px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
+            border-radius: 15px;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
+        .color-selection-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.1rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
         .color-option {
-            width: 50px;
+            width: 80px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 8px;
             cursor: pointer;
             border: 3px solid transparent;
             transition: all 0.3s ease;
@@ -277,6 +293,7 @@
         .color-option.active {
             border-color: var(--color-primary);
             transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
         }
 
         .color-option.red {
@@ -311,7 +328,64 @@
             opacity: 1;
         }
 
-        /* Size selector styling */
+        /* UPDATED: Size type selection (Men's/Women's) */
+        .size-type-selection {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .size-type-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .size-type-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .size-type-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-radius: 25px;
+            color: #333;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            padding: 12px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .size-type-option:hover {
+            border-color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .size-type-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
+        }
+
+        /* UPDATED: Size selector styling - sizes 4-14 */
         .size-selector {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -516,7 +590,7 @@
             cursor: pointer;
         }
 
-        /* Bundle Selection */
+        /* UPDATED: Bundle Selection with automatic discount application */
         .bundle-selection {
             margin-top: 30px;
             padding: 25px;
@@ -744,12 +818,14 @@
             text-align: center;
         }
 
+        /* UPDATED: Product item with minus button */
         .product-item {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
             padding-bottom: 20px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .product-item:last-of-type {
@@ -812,6 +888,52 @@
             margin-bottom: 8px;
         }
 
+        /* UPDATED: Quantity controls with minus button */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .quantity-btn {
+            background: var(--color-primary);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            width: 24px;
+            height: 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #7BC097;
+            transform: scale(1.1);
+        }
+
+        .quantity-btn.minus {
+            background: #ff6b6b;
+        }
+
+        .quantity-btn.minus:hover {
+            background: #ff5252;
+        }
+
+        .quantity-display {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 14px;
+            color: #333;
+            min-width: 20px;
+            text-align: center;
+        }
+
         /* Order Summary Promo Section */
         .order-promo-section {
             margin-bottom: 30px;
@@ -865,7 +987,7 @@
         .total-row.shipping span:last-child {
             font-family: var(--font-numbers);
             font-weight: var(--font-numbers-weight);
-            color: #000; /* UPDATED: Changed from green to black */
+            color: #000;
             font-weight: 600;
         }
 
@@ -1197,109 +1319,8 @@
                     <button class="close-modal" onclick="closeSizeGuide()">×</button>
                 </div>
                 <div class="size-guide-body">
-                    <table class="size-chart">
-                        <thead>
-                            <tr>
-                                <th>US Size</th>
-                                <th>EU Size</th>
-                                <th>UK Size</th>
-                                <th>Foot Length (cm)</th>
-                                <th>Foot Length (inches)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>6</td>
-                                <td>39</td>
-                                <td>5.5</td>
-                                <td>24.1</td>
-                                <td>9.5</td>
-                            </tr>
-                            <tr>
-                                <td>6.5</td>
-                                <td>39.5</td>
-                                <td>6</td>
-                                <td>24.5</td>
-                                <td>9.6</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>40</td>
-                                <td>6.5</td>
-                                <td>25.0</td>
-                                <td>9.8</td>
-                            </tr>
-                            <tr>
-                                <td>7.5</td>
-                                <td>40.5</td>
-                                <td>7</td>
-                                <td>25.4</td>
-                                <td>10.0</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>41</td>
-                                <td>7.5</td>
-                                <td>25.9</td>
-                                <td>10.2</td>
-                            </tr>
-                            <tr>
-                                <td>8.5</td>
-                                <td>42</td>
-                                <td>8</td>
-                                <td>26.3</td>
-                                <td>10.4</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>42.5</td>
-                                <td>8.5</td>
-                                <td>26.7</td>
-                                <td>10.5</td>
-                            </tr>
-                            <tr>
-                                <td>9.5</td>
-                                <td>43</td>
-                                <td>9</td>
-                                <td>27.1</td>
-                                <td>10.7</td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>44</td>
-                                <td>9.5</td>
-                                <td>27.6</td>
-                                <td>10.9</td>
-                            </tr>
-                            <tr>
-                                <td>10.5</td>
-                                <td>44.5</td>
-                                <td>10</td>
-                                <td>28.0</td>
-                                <td>11.0</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>45</td>
-                                <td>10.5</td>
-                                <td>28.4</td>
-                                <td>11.2</td>
-                            </tr>
-                            <tr>
-                                <td>11.5</td>
-                                <td>45.5</td>
-                                <td>11</td>
-                                <td>28.8</td>
-                                <td>11.3</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>46</td>
-                                <td>11.5</td>
-                                <td>29.2</td>
-                                <td>11.5</td>
-                            </tr>
-                        </tbody>
+                    <table class="size-chart" id="sizeChartTable">
+                        <!-- Size chart will be populated by JavaScript based on selected size type -->
                     </table>
                 </div>
             </div>
@@ -1326,14 +1347,14 @@
                         </div>
                     </div>
 
-                    <!-- Color Selection -->
+                    <!-- UPDATED: Color Selection with rectangle styling -->
                     <div class="form-section">
                         <h2 class="section-title">
                             <i class="fas fa-palette"></i>
                             Choose Color
                         </h2>
-                        <div class="form-group">
-                            <label>Select your preferred color</label>
+                        <div class="color-selection-section">
+                            <div class="color-selection-title">Select Your Preferred Color</div>
                             <div class="color-selector">
                                 <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
                                 <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
@@ -1342,33 +1363,75 @@
                         </div>
                     </div>
 
-                    <!-- Product Size Selection -->
+                    <!-- UPDATED: Size Selection with Men's/Women's option and sizes 4-14 -->
                     <div class="form-section">
                         <h2 class="section-title">
                             <i class="fas fa-shoe-prints"></i>
                             Select Size & Quantity
                         </h2>
+                        
+                        <!-- Size Type Selection -->
+                        <div class="size-type-selection">
+                            <div class="size-type-title">Choose Size Type</div>
+                            <div class="size-type-options">
+                                <div class="size-type-option selected" data-type="mens" onclick="changeSizeType('mens')">Men's</div>
+                                <div class="size-type-option" data-type="womens" onclick="changeSizeType('womens')">Women's</div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label>Choose your size (US) - Click + to add multiple pairs</label>
-                            <div class="size-selector">
-                                <div class="size-option" data-size="6">6 <button class="size-add-btn" onclick="addSize('6')" type="button">+</button></div>
-                                <div class="size-option" data-size="6.5">6.5 <button class="size-add-btn" onclick="addSize('6.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="7">7 <button class="size-add-btn" onclick="addSize('7')" type="button">+</button></div>
-                                <div class="size-option" data-size="7.5">7.5 <button class="size-add-btn" onclick="addSize('7.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="8">8 <button class="size-add-btn" onclick="addSize('8')" type="button">+</button></div>
-                                <div class="size-option" data-size="8.5">8.5 <button class="size-add-btn" onclick="addSize('8.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="9">9 <button class="size-add-btn" onclick="addSize('9')" type="button">+</button></div>
-                                <div class="size-option" data-size="9.5">9.5 <button class="size-add-btn" onclick="addSize('9.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="10">10 <button class="size-add-btn" onclick="addSize('10')" type="button">+</button></div>
-                                <div class="size-option" data-size="10.5">10.5 <button class="size-add-btn" onclick="addSize('10.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="11">11 <button class="size-add-btn" onclick="addSize('11')" type="button">+</button></div>
-                                <div class="size-option" data-size="11.5">11.5 <button class="size-add-btn" onclick="addSize('11.5')" type="button">+</button></div>
-                                <div class="size-option" data-size="12">12 <button class="size-add-btn" onclick="addSize('12')" type="button">+</button></div>
+                            <label>Choose your size - Click + to add multiple pairs</label>
+                            <div class="size-selector" id="sizeSelector">
+                                <!-- Sizes 4-14 will be populated by JavaScript -->
                             </div>
                             <a href="#" class="size-guide-link" onclick="openSizeGuide()">
                                 <i class="fas fa-ruler"></i>
                                 Size Guide
                             </a>
+                        </div>
+                    </div>
+
+                    <!-- UPDATED: Bundle Selection -->
+                    <div class="form-section">
+                        <div class="bundle-selection">
+                            <h2 class="bundle-title">
+                                <i class="fas fa-gifts"></i>
+                                Bundle Packages
+                            </h2>
+                            <p class="bundle-subtitle">Save more when you buy multiple pairs! Discounts are automatically applied.</p>
+                            <div class="bundle-options">
+                                <div class="bundle-option" data-bundle="single" onclick="selectBundle('single')">
+                                    <div class="bundle-option-title">Single Pair</div>
+                                    <div class="bundle-option-price">$269</div>
+                                    <div class="bundle-option-description">Perfect for trying our unique style</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="duo" onclick="selectBundle('duo')">
+                                    <div class="bundle-option-title">Duo Pack</div>
+                                    <div class="bundle-option-savings">Save $58</div>
+                                    <div class="bundle-option-price">$480</div>
+                                    <div class="bundle-option-original">$538</div>
+                                    <div class="bundle-option-description">Choose any 2 colors for versatile styling</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="triple" onclick="selectBundle('triple')">
+                                    <div class="bundle-option-title">Triple Pack</div>
+                                    <div class="bundle-option-savings">Save $108</div>
+                                    <div class="bundle-option-price">$699</div>
+                                    <div class="bundle-option-original">$807</div>
+                                    <div class="bundle-option-description">All 3 colors - the complete collection</div>
+                                    <div class="bundle-badge">Popular</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="complete" onclick="selectBundle('complete')">
+                                    <div class="bundle-option-title">Complete Set</div>
+                                    <div class="bundle-option-savings">Save $200+</div>
+                                    <div class="bundle-option-price">$876</div>
+                                    <div class="bundle-option-original">$1076</div>
+                                    <div class="bundle-option-description">3 + 1 exclusive colorway. Only 10 pairs worldwide</div>
+                                    <div class="bundle-badge">Exclusive</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1679,7 +1742,7 @@
             ]
         };
 
-        // Bundle and pricing data
+        // UPDATED: Bundle and pricing data with automatic discounts
         const bundleData = {
             single: { price: 269, pairs: 1, name: 'Single Pair', originalPrice: 269, discount: 0 },
             duo: { price: 480, pairs: 2, name: 'Duo Pack', originalPrice: 538, discount: 58 },
@@ -1695,16 +1758,129 @@
             'FABREVOIE': { discount: 50, type: 'fixed', description: '$50 off bundle orders' }
         };
 
+        // UPDATED: Size conversion data
+        const sizeConversions = {
+            mens: {
+                4: { eu: 36, uk: 3.5, footLength: 23.0 },
+                4.5: { eu: 37, uk: 4, footLength: 23.5 },
+                5: { eu: 37.5, uk: 4.5, footLength: 24.0 },
+                5.5: { eu: 38, uk: 5, footLength: 24.5 },
+                6: { eu: 39, uk: 5.5, footLength: 25.0 },
+                6.5: { eu: 39.5, uk: 6, footLength: 25.5 },
+                7: { eu: 40, uk: 6.5, footLength: 26.0 },
+                7.5: { eu: 41, uk: 7, footLength: 26.5 },
+                8: { eu: 41.5, uk: 7.5, footLength: 27.0 },
+                8.5: { eu: 42, uk: 8, footLength: 27.5 },
+                9: { eu: 42.5, uk: 8.5, footLength: 28.0 },
+                9.5: { eu: 43, uk: 9, footLength: 28.5 },
+                10: { eu: 44, uk: 9.5, footLength: 29.0 },
+                10.5: { eu: 44.5, uk: 10, footLength: 29.5 },
+                11: { eu: 45, uk: 10.5, footLength: 30.0 },
+                11.5: { eu: 45.5, uk: 11, footLength: 30.5 },
+                12: { eu: 46, uk: 11.5, footLength: 31.0 },
+                12.5: { eu: 47, uk: 12, footLength: 31.5 },
+                13: { eu: 47.5, uk: 12.5, footLength: 32.0 },
+                13.5: { eu: 48, uk: 13, footLength: 32.5 },
+                14: { eu: 48.5, uk: 13.5, footLength: 33.0 }
+            },
+            womens: {
+                4: { eu: 34.5, uk: 1.5, footLength: 21.5 },
+                4.5: { eu: 35, uk: 2, footLength: 22.0 },
+                5: { eu: 35.5, uk: 2.5, footLength: 22.5 },
+                5.5: { eu: 36, uk: 3, footLength: 23.0 },
+                6: { eu: 36.5, uk: 3.5, footLength: 23.5 },
+                6.5: { eu: 37, uk: 4, footLength: 24.0 },
+                7: { eu: 37.5, uk: 4.5, footLength: 24.5 },
+                7.5: { eu: 38, uk: 5, footLength: 25.0 },
+                8: { eu: 38.5, uk: 5.5, footLength: 25.5 },
+                8.5: { eu: 39, uk: 6, footLength: 26.0 },
+                9: { eu: 39.5, uk: 6.5, footLength: 26.5 },
+                9.5: { eu: 40, uk: 7, footLength: 27.0 },
+                10: { eu: 40.5, uk: 7.5, footLength: 27.5 },
+                10.5: { eu: 41, uk: 8, footLength: 28.0 },
+                11: { eu: 41.5, uk: 8.5, footLength: 28.5 },
+                11.5: { eu: 42, uk: 9, footLength: 29.0 },
+                12: { eu: 42.5, uk: 9.5, footLength: 29.5 },
+                12.5: { eu: 43, uk: 10, footLength: 30.0 },
+                13: { eu: 43.5, uk: 10.5, footLength: 30.5 },
+                13.5: { eu: 44, uk: 11, footLength: 31.0 },
+                14: { eu: 44.5, uk: 11.5, footLength: 31.5 }
+            }
+        };
+
         let selectedColor = 'white';
+        let currentSizeType = 'mens';
+        let selectedBundle = 'single';
         let appliedPromo = null;
         let cartItems = []; // Array to store all cart items with sizes/colors
 
         function openSizeGuide() {
+            updateSizeGuideTable();
             document.getElementById('sizeGuideModal').classList.add('active');
         }
 
         function closeSizeGuide() {
             document.getElementById('sizeGuideModal').classList.remove('active');
+        }
+
+        function updateSizeGuideTable() {
+            const sizeChartTable = document.getElementById('sizeChartTable');
+            const conversions = sizeConversions[currentSizeType];
+            
+            let tableHTML = `
+                <thead>
+                    <tr>
+                        <th>US ${currentSizeType === 'mens' ? 'Men' : 'Women'}</th>
+                        <th>EU Size</th>
+                        <th>UK Size</th>
+                        <th>Foot Length (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            
+            Object.keys(conversions).forEach(usSize => {
+                const conversion = conversions[usSize];
+                tableHTML += `
+                    <tr>
+                        <td>${usSize}</td>
+                        <td>${conversion.eu}</td>
+                        <td>${conversion.uk}</td>
+                        <td>${conversion.footLength}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody>';
+            sizeChartTable.innerHTML = tableHTML;
+        }
+
+        function changeSizeType(type) {
+            currentSizeType = type;
+            
+            // Update UI
+            document.querySelectorAll('.size-type-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            
+            // Regenerate size options
+            generateSizeOptions();
+        }
+
+        function generateSizeOptions() {
+            const sizeSelector = document.getElementById('sizeSelector');
+            const sizes = Object.keys(sizeConversions[currentSizeType]);
+            
+            sizeSelector.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const sizeOption = document.createElement('div');
+                sizeOption.className = 'size-option';
+                sizeOption.setAttribute('data-size', size);
+                sizeOption.innerHTML = `${size} <button class="size-add-btn" onclick="addSize('${size}')" type="button">+</button>`;
+                sizeSelector.appendChild(sizeOption);
+            });
         }
 
         function changeProductColor(color) {
@@ -1715,10 +1891,23 @@
             updateOrderSummary();
         }
 
+        function selectBundle(bundleType) {
+            selectedBundle = bundleType;
+            
+            // Update UI
+            document.querySelectorAll('.bundle-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`[data-bundle="${bundleType}"]`).classList.add('selected');
+            
+            // Auto-apply bundle discount
+            updateOrderSummary();
+        }
+
         function addSize(size) {
             // Find if this color/size combination already exists
             const existingItemIndex = cartItems.findIndex(item => 
-                item.color === selectedColor && item.size === size
+                item.color === selectedColor && item.size === size && item.sizeType === currentSizeType
             );
 
             if (existingItemIndex >= 0) {
@@ -1729,12 +1918,39 @@
                 cartItems.push({
                     color: selectedColor,
                     size: size,
+                    sizeType: currentSizeType,
                     quantity: 1,
                     price: 269
                 });
             }
 
             updateOrderSummary();
+        }
+
+        function removeFromCart(color, size, sizeType) {
+            const itemIndex = cartItems.findIndex(item => 
+                item.color === color && item.size === size && item.sizeType === sizeType
+            );
+            
+            if (itemIndex >= 0) {
+                if (cartItems[itemIndex].quantity > 1) {
+                    cartItems[itemIndex].quantity -= 1;
+                } else {
+                    cartItems.splice(itemIndex, 1);
+                }
+                updateOrderSummary();
+            }
+        }
+
+        function increaseQuantity(color, size, sizeType) {
+            const itemIndex = cartItems.findIndex(item => 
+                item.color === color && item.size === size && item.sizeType === sizeType
+            );
+            
+            if (itemIndex >= 0) {
+                cartItems[itemIndex].quantity += 1;
+                updateOrderSummary();
+            }
         }
 
         function applyPromoCode() {
@@ -1791,6 +2007,11 @@
         }
 
         function getBundleDiscount(totalPairs) {
+            if (selectedBundle === 'complete' && totalPairs >= 4) return bundleData.complete.discount;
+            if (selectedBundle === 'triple' && totalPairs >= 3) return bundleData.triple.discount;
+            if (selectedBundle === 'duo' && totalPairs >= 2) return bundleData.duo.discount;
+            
+            // Auto-detect bundle based on quantity
             if (totalPairs >= 4) return bundleData.complete.discount;
             if (totalPairs >= 3) return bundleData.triple.discount;
             if (totalPairs >= 2) return bundleData.duo.discount;
@@ -1805,7 +2026,7 @@
             const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
             // Display each unique item
-            cartItems.forEach(item => {
+            cartItems.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 subtotal += itemTotal;
 
@@ -1817,8 +2038,13 @@
                         <div class="product-quantity">Qty: ${item.quantity}</div>
                         <div class="product-name">SBHMN</div>
                         <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
-                        <div class="product-size">Size: US ${item.size}</div>
+                        <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
                         <div class="product-price">$${itemTotal}.00</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="increaseQuantity('${item.color}', '${item.size}', '${item.sizeType}')" type="button">+</button>
+                        </div>
                     </div>
                 `;
                 productsList.appendChild(productItem);
@@ -1905,6 +2131,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Generate initial size options
+            generateSizeOptions();
+            
             // Country change handler
             document.getElementById('country').addEventListener('change', updateStateOptions);
 
