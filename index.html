@@ -1871,17 +1871,16 @@
             animation: rotateHourglass 3s linear infinite;
         }
         .social-container {
-            position: fixed;
-            bottom: 120px;
-            left: 0;
+            position: relative;
             width: 100%;
             text-align: center;
             z-index: 100;
-            transition: opacity 0.3s ease;
+            margin-top: 30px;
+            /* UPDATED: Removed fixed positioning and bottom placement */
         }
         .social-container.hidden {
-            opacity: 0;
-            pointer-events: none;
+            display: none;
+            /* UPDATED: Changed from opacity to display for cleaner hiding */
         }
         .social-icons {
             display: flex;
