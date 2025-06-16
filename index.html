@@ -1999,32 +1999,15 @@
             .product-top-section {
                 flex-direction: column;
                 gap: 30px;
-                min-height: auto;
             }
             
             .product-left-sidebar {
                 flex: none;
                 width: 100%;
-                height: auto;
-            }
-            
-            .product-image-section {
-                height: auto;
-                width: 100%;
-            }
-            
-            .color-selector {
-                width: 100%;
-            }
-            
-            .color-option {
-                width: 100px;
-                height: 35px;
             }
             
             .bundle-promo {
                 padding: 20px 15px;
-                height: auto;
             }
             
             .bundle-promo-title {
@@ -2998,11 +2981,9 @@
             localStorage.setItem('formSubmitted', 'true');
             showWelcome();
             
-            // Show social icons and footer
+            // Show social icons
             const landingSocial = document.getElementById('landingSocial');
-            const landingFooter = document.getElementById('landingFooter');
             if (landingSocial) landingSocial.style.display = 'block';
-            if (landingFooter) landingFooter.style.display = 'block';
         }
 
         function showWelcome() {
@@ -3055,26 +3036,8 @@
                     enterStoreBtn.className = 'enter-button';
                     enterStoreBtn.onclick = showProductOverlay;
                     enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
-                    enterStoreBtn.style.marginTop = '15px'; /* Closer to logo */
-                    
-                    // Create social section for standalone button
-                    const socialDiv = document.createElement('div');
-                    socialDiv.className = 'social-container';
-                    socialDiv.style.marginTop = '20px';
-                    socialDiv.innerHTML = `
-                        <div class="social-icons">
-                            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                        </div>
-                        <p class="social-text">Show your support by following our socials.</p>
-                    `;
-                    
+                    enterStoreBtn.style.marginTop = '30px';
                     landingContent.appendChild(enterStoreBtn);
-                    landingContent.appendChild(socialDiv);
                 } else {
                     enterStoreBtn.style.display = 'flex';
                 }
