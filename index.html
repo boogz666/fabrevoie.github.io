@@ -233,7 +233,7 @@
       .ml-form-formContent.horozintalForm .ml-button-horizontal.labelsOn { padding-top: 0px!important; }
     </style>
     <style>
-        /* Announcement Bar */
+        /* UPDATED: Announcement bar with countdown on right */
         .announcement-bar {
             position: fixed;
             top: 0;
@@ -252,12 +252,29 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 30px;
         }
 
         .announcement-content {
+            flex: 1;
             display: inline-block;
             animation: scroll-left 35s linear infinite;
             padding-left: 100%;
+        }
+
+        .announcement-countdown {
+            position: relative;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            z-index: 10003;
         }
 
         @keyframes scroll-left {
@@ -1546,7 +1563,7 @@
             font-family: var(--font-numbers);
         }
 
-        /* UPDATED: Fixed width timer to prevent movement */
+        /* UPDATED: Wider timer to prevent text overlap */
         .compact-timer-container {
             position: fixed !important;
             top: 120px;
@@ -1555,10 +1572,10 @@
             border-radius: 12px;
             border: 2px solid var(--color-primary);
             backdrop-filter: blur(15px);
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            width: 220px; /* Fixed width */
+            width: 280px; /* Increased width */
             z-index: 9999;
             animation: timerPulse 3s infinite;
         }
@@ -1596,22 +1613,22 @@
             flex-direction: column;
             align-items: center;
             background: rgba(0, 0, 0, 0.7);
-            padding: 8px 6px;
+            padding: 12px 8px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 35px; /* Fixed width */
-            min-width: 35px;
+            width: 50px; /* Increased width */
+            min-width: 50px;
         }
 
         .compact-timer-number {
             font-family: var(--font-numbers);
             font-weight: var(--font-numbers-weight);
-            font-size: 1.2rem;
+            font-size: 1.4rem; /* Increased font size */
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            width: 22px; /* Fixed width */
+            width: auto; /* Changed from fixed width */
             text-align: center;
-            height: 20px; /* Fixed height */
+            height: 24px; /* Increased height */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1620,35 +1637,36 @@
         .compact-timer-label {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.6rem;
+            font-size: 0.7rem; /* Slightly increased */
             color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .compact-countdown-text {
             font-family: var(--font-numbers);
             font-weight: var(--font-numbers-weight);
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Increased font size */
             color: #ccc;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             letter-spacing: 0.5px;
-            height: 18px; /* Fixed height */
+            height: auto; /* Changed from fixed height */
             display: flex;
             align-items: center;
             justify-content: center;
+            line-height: 1.3;
         }
 
         .compact-pairs-left {
             font-family: var(--font-headers);
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.75rem; /* Slightly increased */
             color: var(--color-primary);
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
             letter-spacing: 0.5px;
-            height: 16px; /* Fixed height */
+            height: auto; /* Changed from fixed height */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1835,7 +1853,7 @@
                 top: auto !important;
                 right: auto !important;
                 margin: 20px auto;
-                width: 180px; /* Smaller but still fixed width */
+                width: 240px; /* Adjusted for mobile */
             }
             
             /* UPDATED: Mobile product layout - stack vertically */
@@ -2030,10 +2048,13 @@
         <span class="cart-count" id="cartCount">0</span>
     </div>
 
-    <!-- Announcement Bar -->
+    <!-- UPDATED: Announcement Bar with countdown on right -->
     <div class="announcement-bar">
         <div class="announcement-content">
             PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • LIVE DROP OCTOBER 14TH • LIMITED TO 500 PAIRS ONLY • FREE SHIPPING
+        </div>
+        <div class="announcement-countdown" id="announcementCountdown">
+            PRE-SALE OPENS IN: <span id="daysAnnouncement">116</span> DAYS
         </div>
     </div>
 
@@ -2221,7 +2242,7 @@
                                     <button class="image-nav-arrow left" onclick="previousImage()">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
-                                    <img src="assets/images/prodp1.png" alt="SBHMN Sneaker" class="product-image" id="productImage">
+                                    <img src="assets/images/prodp3.png" alt="SBHMN 1 Sneaker" class="product-image" id="productImage">
                                     <button class="image-nav-arrow right" onclick="nextImage()">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
@@ -2231,20 +2252,20 @@
                                     <span class="current-image">1</span> / <span class="total-images">3</span>
                                 </div>
                                 
-                                <!-- UPDATED: Rectangle color selector with text -->
+                                <!-- UPDATED: Red color first, rectangle color selector with text -->
                                 <div class="color-selection-section">
                                     <div class="color-selection-title">Choose Your Color</div>
                                     <div class="color-selector">
+                                        <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                                         <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
                                         <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
-                                        <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="product-info-section">
-                                <h2 class="product-title">SBHMN</h2>
-                                <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
+                                <h2 class="product-title">SBHMN 1</h2>
+                                <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN 1 features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
                                 <div class="product-price">$269</div>
                                 
                                 <!-- Size Selector -->
@@ -2492,6 +2513,63 @@
         <p class="social-text">Show your support by following our socials.</p>
     </div>
 
+    <!-- UPDATED: Main footer added to landing page -->
+    <footer class="main-footer" id="landingFooter">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Fabrevoie</h4>
+                <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+        </div>
+    </footer>
+
     <!-- Copyright -->
     <div class="copyright">
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
@@ -2500,7 +2578,7 @@
 
     <script>
         // Product image variables
-        let currentColor = 'white';
+        let currentColor = 'red'; // UPDATED: Default to red
         let currentImageIndex = 0;
         let selectedSize = null;
         const productImages = {
@@ -2562,7 +2640,7 @@
             
             // Store product data for checkout
             const productData = {
-                name: 'SBHMN',
+                name: 'SBHMN 1',
                 color: currentColor,
                 size: selectedSize,
                 price: 269,
@@ -2741,7 +2819,14 @@
             const now = new Date().getTime();
             const distance = presaleStartDate.getTime() - now;
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById('days').textContent = days;
+            
+            // Update main countdown
+            const daysElement = document.getElementById('days');
+            if (daysElement) daysElement.textContent = days;
+            
+            // Update announcement countdown
+            const daysAnnouncementElement = document.getElementById('daysAnnouncement');
+            if (daysAnnouncementElement) daysAnnouncementElement.textContent = days;
         }
 
         function ml_webform_success_23779383() {
