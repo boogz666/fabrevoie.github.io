@@ -16,109 +16,12 @@
     <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
     <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
-    <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
-    </div>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied'
-        }
-
-        /* Announcement Bar */
-        .announcement-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, var(--color-primary), #7BC097, var(--color-primary));
-            color: #000;
-            padding: 12px 0;
-            text-align: center;
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            z-index: 10002;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .announcement-content {
-            display: inline-block;
-            animation: scroll-left 20s linear infinite;
-            padding-left: 100%;
-        }
-
-        @keyframes scroll-left {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
-
-        .announcement-bar .highlight {
-            color: #000;
-            font-weight: 800;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 2px 8px;
-            border-radius: 15px;
-            margin: 0 5px;
-        }
-
-        /* Announcement Header */
-        .announcement-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 44px;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 10002;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .announcement-header .announcement-phrase {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            position: absolute;
-            white-space: nowrap;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .announcement-header .announcement-phrase.visible {
-            opacity: 1;
-        }
-
-        /* Adjust main header */
-        .main-header {
-            position: fixed;
-            top: 44px;
-            left: 0;
-            right: 0;
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            background: transparent;
-            transition: transform 0.3s ease;
-        }
-
-        .main-header.hidden {
-            transform: translateY(-100%);
         });
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
@@ -332,6 +235,99 @@
       .ml-form-formContent.horozintalForm .ml-button-horizontal.labelsOn { padding-top: 0px!important; }
     </style>
     <style>
+        /* Announcement Bar */
+        .announcement-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--color-primary), #7BC097, var(--color-primary));
+            color: #000;
+            padding: 12px 0;
+            text-align: center;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 10002;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .announcement-content {
+            display: inline-block;
+            animation: scroll-left 20s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .announcement-bar .highlight {
+            color: #000;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 8px;
+            border-radius: 15px;
+            margin: 0 5px;
+        }
+
+        /* Announcement Header */
+        .announcement-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .announcement-header .announcement-phrase {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .announcement-header .announcement-phrase.visible {
+            opacity: 1;
+        }
+
+        /* Adjust main header */
+        .main-header {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .main-header.hidden {
+            transform: translateY(-100%);
+        }
+
         :root {
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
@@ -1450,6 +1446,13 @@
         <source src="bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • LIVE DROP OCTOBER 14TH • LIMITED TO 500 PAIRS ONLY • FREE SHIPPING
+        </div>
+    </div>
 
     <!-- Announcement Header -->
     <div class="announcement-header">
