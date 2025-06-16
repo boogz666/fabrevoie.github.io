@@ -425,9 +425,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
             font-family: var(--font-body);
-            overflow: hidden;
             color: white;
             background-color: #000;
         }
@@ -646,12 +644,140 @@
             justify-content: flex-start;
             padding: 120px 20px 200px 20px;
         }
+
+        /* UPDATED: New layout with bundle on the left */
+        .product-main-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            max-width: 1400px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .product-left-sidebar {
+            flex: 0 0 300px;
+            position: sticky;
+            top: 120px;
+        }
+
         .product-content {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 60px;
-            max-width: 1000px;
-            width: 90%;
+            flex: 1;
+        }
+
+        /* Bundle Promotion Section - UPDATED: Vertical layout for sidebar */
+        .bundle-promo {
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+            border-radius: 15px;
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
+            padding: 25px 20px;
+        }
+
+        .bundle-promo-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.2rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .bundle-promo-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .bundle-offers {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bundle-offer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .bundle-offer:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-primary);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.2);
+        }
+
+        .bundle-offer-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .bundle-offer-savings {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .bundle-offer-description {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: #ccc;
+            line-height: 1.3;
+        }
+
+        .bundle-promo-cta {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .bundle-checkout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--color-primary);
+            border-radius: 25px;
+            color: var(--color-primary);
+            font-family: var(--font-headers);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .bundle-checkout-btn:hover {
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.4);
         }
         .product-image-section {
             flex: 1;
@@ -1590,23 +1716,15 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer Styles */
+        /* Footer Styles - UPDATED: Normal footer, not fixed overlay */
         .main-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
-            z-index: 100;
-            transition: opacity 0.3s ease;
-        }
-
-        .main-footer.hidden {
-            opacity: 0;
-            pointer-events: none;
+            margin-top: 60px;
+            position: relative;
+            z-index: 10;
         }
 
         .footer-content {
@@ -1690,6 +1808,15 @@
 
         .footer-bottom a:hover {
             text-decoration: underline;
+        }
+
+        /* UPDATED: Ensure footer doesn't interfere with main content */
+        .content-container {
+            position: relative;
+            min-height: 100vh;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.4);
+            pointer-events: none;
         }
 
         /* Landing Page Countdown */
@@ -1834,9 +1961,33 @@
                 min-width: 180px;
             }
             
+            /* UPDATED: Mobile product layout - stack vertically */
+            .product-main-layout {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .product-left-sidebar {
+                flex: none;
+                width: 100%;
+                position: relative;
+                top: auto;
+            }
+            
+            .bundle-promo {
+                padding: 20px 15px;
+            }
+            
+            .bundle-promo-title {
+                font-size: 1.1rem;
+            }
+            
+            .bundle-offers {
+                gap: 12px;
+            }
+            
             /* UPDATED: Mobile footer adjustments */
             .main-footer {
-                position: relative;
                 padding: 30px 0;
             }
             
@@ -1871,8 +2022,8 @@
                 font-size: 12px;
             }
             .landing-content {
-                min-height: calc(100vh - 140px);
-                padding-bottom: 140px;
+                min-height: calc(100vh - 100px);
+                padding-bottom: 100px;
             }
             .countdown {
                 display: none;
@@ -1890,13 +2041,6 @@
                 display: block !important;
                 margin-top: 30px;
                 text-align: center;
-            }
-            .bundle-offers {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .bundle-promo-title {
-                font-size: 1.5rem;
             }
         }
         @media screen and (max-width: 480px) {
@@ -2138,97 +2282,103 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
-                <!-- Bundle Promotion Section -->
-                <div class="bundle-promo">
-                    <h3 class="bundle-promo-title">Exclusive Bundle Deals</h3>
-                    <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection? Our exclusive bundles offer incredible savings and the complete SBHMN experience.</p>
-                    
-                    <div class="bundle-offers">
-                        <div class="bundle-offer">
-                            <div class="bundle-offer-title">Duo Pack</div>
-                            <div class="bundle-offer-savings">Save $58</div>
-                            <div class="bundle-offer-description">Choose any 2 colors. Perfect for versatile styling and double the impact.</div>
-                        </div>
-                        
-                        <div class="bundle-offer">
-                            <div class="bundle-offer-title">Triple Pack</div>
-                            <div class="bundle-offer-savings">Save $108</div>
-                            <div class="bundle-offer-description">All 3 colors included. The complete SBHMN collection in your wardrobe.</div>
-                        </div>
-                        
-                        <div class="bundle-offer">
-                            <div class="bundle-offer-title">Complete Set</div>
-                            <div class="bundle-offer-savings">Save $200+</div>
-                            <div class="bundle-offer-description">3 + 1 exclusive red & blue sole colorway. Limited to only 10 pairs worldwide.</div>
-                        </div>
-                    </div>
-                    
-                    <p class="bundle-promo-cta">Unlock massive savings and complete your eccentric transformation at checkout</p>
-                    <a href="checkout.html" class="bundle-checkout-btn">
-                        <i class="fas fa-gifts"></i>
-                        Explore Bundles at Checkout
-                    </a>
-                </div>
-                
-                <div class="product-content">
-                    <div class="product-image-section">
-                        <div class="product-image-container">
-                            <button class="image-nav-arrow left" onclick="previousImage()">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <img src="assets/images/prodp1.png" alt="SBHMN Sneaker" class="product-image" id="productImage">
-                            <button class="image-nav-arrow right" onclick="nextImage()">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="image-indicator">
-                            <span class="current-image">1</span> / <span class="total-images">3</span>
-                        </div>
-                        
-                        <div class="color-selector">
-                            <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
-                            <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
-                            <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
+                <!-- UPDATED: New layout with bundle on left, product on right -->
+                <div class="product-main-layout">
+                    <!-- Left Sidebar - Bundle Promotion -->
+                    <div class="product-left-sidebar">
+                        <div class="bundle-promo">
+                            <h3 class="bundle-promo-title">Exclusive Bundles</h3>
+                            <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
+                            
+                            <div class="bundle-offers">
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">Duo Pack</div>
+                                    <div class="bundle-offer-savings">Save $58</div>
+                                    <div class="bundle-offer-description">Choose any 2 colors for versatile styling.</div>
+                                </div>
+                                
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">Triple Pack</div>
+                                    <div class="bundle-offer-savings">Save $108</div>
+                                    <div class="bundle-offer-description">All 3 colors - the complete collection.</div>
+                                </div>
+                                
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">Complete Set</div>
+                                    <div class="bundle-offer-savings">Save $200+</div>
+                                    <div class="bundle-offer-description">3 + 1 exclusive colorway. Only 10 pairs worldwide.</div>
+                                </div>
+                            </div>
+                            
+                            <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
+                            <a href="checkout.html" class="bundle-checkout-btn">
+                                <i class="fas fa-gifts"></i>
+                                View Bundles
+                            </a>
                         </div>
                     </div>
-                    
-                    <div class="product-info-section">
-                        <h2 class="product-title">SBHMN</h2>
-                        <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
-                        <div class="product-price">$269</div>
-                        
-                        <!-- Size Selector -->
-                        <div class="size-selector">
-                            <div class="size-selector-header">
-                                <h4 class="size-title">Select Size</h4>
-                                <button class="size-guide-btn" onclick="openSizeGuide()">
-                                    <i class="fas fa-ruler"></i>
-                                    Size Guide
+
+                    <!-- Main Product Content -->
+                    <div class="product-content">
+                        <div class="product-image-section">
+                            <div class="product-image-container">
+                                <button class="image-nav-arrow left" onclick="previousImage()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <img src="assets/images/prodp1.png" alt="SBHMN Sneaker" class="product-image" id="productImage">
+                                <button class="image-nav-arrow right" onclick="nextImage()">
+                                    <i class="fas fa-chevron-right"></i>
                                 </button>
                             </div>
-                            <div class="size-options">
-                                <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
-                                <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
-                                <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
-                                <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
-                                <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
-                                <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
-                                <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
-                                <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
-                                <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
-                                <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
-                                <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                            
+                            <div class="image-indicator">
+                                <span class="current-image">1</span> / <span class="total-images">3</span>
                             </div>
-                            <div class="size-warning" id="sizeWarning" style="display: none;">
-                                Please select a size before adding to cart.
+                            
+                            <div class="color-selector">
+                                <div class="color-option white active" data-color="white" onclick="changeProductColor('white')"></div>
+                                <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
+                                <div class="color-option red" data-color="red" onclick="changeProductColor('red')"></div>
                             </div>
                         </div>
                         
-                        <button class="buy-button" id="buyButton" onclick="buyProduct()">
-                            BUY NOW
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
+                        <div class="product-info-section">
+                            <h2 class="product-title">SBHMN</h2>
+                            <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
+                            <div class="product-price">$269</div>
+                            
+                            <!-- Size Selector -->
+                            <div class="size-selector">
+                                <div class="size-selector-header">
+                                    <h4 class="size-title">Select Size</h4>
+                                    <button class="size-guide-btn" onclick="openSizeGuide()">
+                                        <i class="fas fa-ruler"></i>
+                                        Size Guide
+                                    </button>
+                                </div>
+                                <div class="size-options">
+                                    <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
+                                    <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
+                                    <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
+                                    <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
+                                    <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
+                                    <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
+                                    <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
+                                    <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
+                                    <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
+                                    <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
+                                    <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                                </div>
+                                <div class="size-warning" id="sizeWarning" style="display: none;">
+                                    Please select a size before adding to cart.
+                                </div>
+                            </div>
+                            
+                            <button class="buy-button" id="buyButton" onclick="buyProduct()">
+                                BUY NOW
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -2410,7 +2560,7 @@
         <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
 
-    <!-- Main Footer -->
+    <!-- Main Footer - UPDATED: Positioned at bottom of page, not as overlay -->
     <footer class="main-footer" id="mainFooter">
         <div class="footer-content">
             <div class="footer-section">
@@ -2692,7 +2842,7 @@
             
             landingContent.classList.add('hidden');
             socialContainer.classList.add('hidden');
-            if (mainFooter) mainFooter.classList.add('hidden');
+            if (mainFooter) mainFooter.classList.add('show-on-product');
             
             setTimeout(() => {
                 productOverlay.classList.add('active');
@@ -2800,7 +2950,7 @@
             topLogo.classList.remove('visible');
             socialContainer.classList.remove('hidden');
             header.classList.remove('hidden');
-            if (mainFooter) mainFooter.classList.remove('hidden');
+            if (mainFooter) mainFooter.classList.remove('show-on-product');
             if (fixedCartIcon) fixedCartIcon.style.display = 'none';
             
             removeScrollBehavior();
