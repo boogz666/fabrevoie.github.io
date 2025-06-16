@@ -312,7 +312,7 @@
         /* Adjust main header */
         .main-header {
             position: fixed;
-            top: 100px;
+            top: 50px;
             left: 0;
             right: 0;
             z-index: 10001;
@@ -1279,10 +1279,15 @@
             font-size: 1.2em;
             letter-spacing: 1px;
         }
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
         .sales-counter {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 16px;
+            font-size: 14px;
             color: var(--color-primary);
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             display: flex;
@@ -1523,22 +1528,16 @@
             <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
         </div>
         
-        <div class="countdown" id="countdown">
-            Days until drop: <span id="days">00</span>
-            <i class="fas fa-hourglass hourglass"></i>
-        </div>
-        <div class="sales-counter">
-            Sales: <span id="salesCount">0</span>/100
+        <div class="header-right">
+            <div class="countdown" id="countdown">
+                Days until drop: <span id="days">00</span>
+                <i class="fas fa-hourglass hourglass"></i>
+            </div>
+            <div class="sales-counter">
+                Sales: <span id="salesCount">0</span>/100
+            </div>
         </div>
     </header>
-
-    <!-- Main Page Floating Announcements -->
-    <div class="floating-announcements main-page" id="mainPageAnnouncements">
-        <div class="announcement-phrase" id="mainPhrase1">PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC)</div>
-        <div class="announcement-phrase" id="mainPhrase2">LIVE DROP OCTOBER 14TH</div>
-        <div class="announcement-phrase" id="mainPhrase3">LIMITED TO 500 PAIRS ONLY</div>
-        <div class="announcement-phrase" id="mainPhrase4">FREE SHIPPING</div>
-    </div>
 
     <div class="content-container">
         <div class="landing-content" id="landingContent">
@@ -1629,19 +1628,11 @@
                 <button class="back-arrow" onclick="hideProductOverlay()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-
-                <!-- Floating Announcements -->
-                <div class="floating-announcements">
-                    <div class="announcement-phrase" id="phrase1">PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC)</div>
-                    <div class="announcement-phrase" id="phrase2">LIVE DROP OCTOBER 14TH</div>
-                    <div class="announcement-phrase" id="phrase3">LIMITED TO 500 PAIRS ONLY</div>
-                    <div class="announcement-phrase" id="phrase4">FREE SHIPPING</div>
-                </div>
                 
                 <!-- Drop Timer -->
                 <div class="drop-timer-container">
-                    <h3 class="timer-title">DROP COUNTDOWN</h3>
-                    <p class="timer-subtitle">Limited release starts in</p>
+                    <h3 class="timer-title">DROP TIME LIMIT</h3>
+                    <p class="timer-subtitle">Time remaining for this exclusive release</p>
                     <div class="timer-display">
                         <div class="timer-unit">
                             <div class="timer-number" id="timerHours">100</div>
@@ -1657,6 +1648,10 @@
                         </div>
                     </div>
                     <div class="timer-status" id="timerStatus">Waiting for drop activation...</div>
+                    <div class="timer-sales-counter">
+                        <div class="sales-label">Sales Progress</div>
+                        <div class="sales-display"><span id="timerSalesCount">0</span>/100</div>
+                    </div>
                 </div>
                 
                 <div class="product-content">
@@ -1826,7 +1821,6 @@
                 topLogo.classList.add('visible');
                 updateProductImage(); // Initialize the product images
                 updateDropTimer(); // Initialize the timer
-                startAnnouncementCycling(); // Start product page announcements
                 addScrollBehavior();
                 
                 // Start timer interval
@@ -1931,7 +1925,6 @@
             socialContainer.classList.remove('hidden');
             header.classList.remove('hidden');
             
-            stopAnnouncementCycling(); // Stop product page announcements
             removeScrollBehavior();
             
             setTimeout(() => {
@@ -2014,43 +2007,31 @@
             }
         }
 
-        let currentPhraseIndex = 0;
         let currentHeaderPhraseIndex = 0;
-        let announcementInterval;
         let headerAnnouncementInterval;
+        let salesCount = 0;
 
-        function startAnnouncementCycling() {
-            const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
+        function updateSalesCounter() {
+            // Simulate sales progress (you can replace this with real data)
+            const headerSalesElement = document.getElementById('salesCount');
+            const timerSalesElement = document.getElementById('timerSalesCount');
             
-            // Show first phrase immediately
-            document.getElementById(phrases[0]).classList.add('visible');
-            
-            announcementInterval = setInterval(() => {
-                // Hide current phrase
-                document.getElementById(phrases[currentPhraseIndex]).classList.remove('visible');
-                
-                // Move to next phrase
-                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-                
-                // Show next phrase after a brief delay
-                setTimeout(() => {
-                    document.getElementById(phrases[currentPhraseIndex]).classList.add('visible');
-                }, 500);
-                
-            }, 3000); // Change phrase every 3 seconds
+            if (headerSalesElement) {
+                headerSalesElement.textContent = salesCount;
+            }
+            if (timerSalesElement) {
+                timerSalesElement.textContent = salesCount;
+            }
         }
 
-        function stopAnnouncementCycling() {
-            if (announcementInterval) {
-                clearInterval(announcementInterval);
-                // Hide all phrases
-                const phrases = ['phrase1', 'phrase2', 'phrase3', 'phrase4'];
-                phrases.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) element.classList.remove('visible');
-                });
-                currentPhraseIndex = 0;
-            }
+        function simulateSales() {
+            // Simulate random sales every 30-60 seconds (for demo purposes)
+            setInterval(() => {
+                if (salesCount < 100 && Math.random() > 0.7) {
+                    salesCount++;
+                    updateSalesCounter();
+                }
+            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
         }
 
         function startHeaderAnnouncementCycling() {
@@ -2112,6 +2093,10 @@
                 showPageContent();
                 // Start header announcements after page loads
                 startHeaderAnnouncementCycling();
+                // Initialize sales counter
+                updateSalesCounter();
+                // Start sales simulation
+                simulateSales();
             }, 1000);
             
             updateCountdown();
