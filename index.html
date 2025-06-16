@@ -833,7 +833,6 @@
             color: var(--color-primary);
             text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
         }
-        }
 
         .size-selector {
             margin-top: 40px;
@@ -1136,154 +1135,115 @@
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
 
-        /* Bundles Section */
-        .bundles-section {
-            margin-top: 80px;
+        /* Bundle Promotion Section */
+        .bundle-promo {
+            margin-top: 50px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 800px;
             text-align: center;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+            border-radius: 20px;
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(158, 217, 181, 0.3);
+            padding: 40px;
         }
 
-        .bundles-title {
+        .bundle-promo-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .bundles-subtitle {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 50px;
-        }
-
-        .bundles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .bundle-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .bundle-card.featured {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 30px rgba(158, 217, 181, 0.3);
-            transform: scale(1.05);
-        }
-
-        .bundle-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--color-primary);
-            box-shadow: 0 20px 40px rgba(158, 217, 181, 0.2);
-        }
-
-        .bundle-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
-        }
-
-        .bundle-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
         }
 
-        .bundle-header h4 {
+        .bundle-promo-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .bundle-offers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bundle-offer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bundle-offer:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 25px rgba(158, 217, 181, 0.2);
+        }
+
+        .bundle-offer-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 1.5rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .bundle-save {
-            background: var(--color-primary);
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.9rem;
-            padding: 8px 15px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .bundle-content {
-            text-align: center;
-        }
-
-        .bundle-price {
-            margin-bottom: 15px;
-        }
-
-        .bundle-original {
-            font-family: var(--font-numbers);
-            font-size: 1rem;
-            color: #666;
-            text-decoration: line-through;
-            margin-right: 10px;
-        }
-
-        .bundle-new {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 2rem;
+            font-size: 1.2rem;
             color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
-        .bundle-description {
+        .bundle-offer-savings {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .bundle-offer-description {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .bundle-promo-cta {
             font-family: var(--font-body);
             font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 25px;
+            color: var(--color-primary);
+            margin-bottom: 20px;
         }
 
-        .bundle-button {
+        .bundle-checkout-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid var(--color-primary);
-            border-radius: 30px;
+            border-radius: 50px;
             color: var(--color-primary);
             font-family: var(--font-headers);
             font-weight: 700;
-            font-size: 14px;
+            font-size: 16px;
             letter-spacing: 1px;
             text-transform: uppercase;
-            padding: 15px 30px;
+            padding: 15px 40px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
         }
 
-        .bundle-button:hover {
+        .bundle-checkout-btn:hover {
             background: var(--color-primary);
             color: #000;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(158, 217, 181, 0.3);
-        }
-
-        .bundle-button.featured {
-            background: var(--color-primary);
-            color: #000;
-        }
-
-        .bundle-button.featured:hover {
-            background: #7BC097;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(158, 217, 181, 0.5);
+            box-shadow: 0 10px 25px rgba(158, 217, 181, 0.4);
         }
 
         /* Cart Modal */
@@ -1784,18 +1744,12 @@
                 margin-top: 30px;
                 text-align: center;
             }
-            .bundles-grid {
+            .bundle-offers {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 15px;
             }
-            .bundle-card.featured {
-                transform: none;
-            }
-            .bundle-card.featured:hover {
-                transform: translateY(-10px);
-            }
-            .bundles-title {
-                font-size: 2rem;
+            .bundle-promo-title {
+                font-size: 1.5rem;
             }
         }
         @media screen and (max-width: 480px) {
@@ -2066,8 +2020,36 @@
                         <h2 class="product-title">SBHMN</h2>
                         <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN features bold, oversized proportions with surprisingly lightweight construction - a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
                         <div class="product-price">$269</div>
+                        
+                        <!-- Size Selector -->
+                        <div class="size-selector">
+                            <div class="size-selector-header">
+                                <h4 class="size-title">Select Size</h4>
+                                <button class="size-guide-btn" onclick="openSizeGuide()">
+                                    <i class="fas fa-ruler"></i>
+                                    Size Guide
+                                </button>
+                            </div>
+                            <div class="size-options">
+                                <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
+                                <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
+                                <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
+                                <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
+                                <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
+                                <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
+                                <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
+                                <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
+                                <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
+                                <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
+                                <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                            </div>
+                            <div class="size-warning" id="sizeWarning" style="display: none;">
+                                Please select a size before adding to cart.
+                            </div>
+                        </div>
+                        
                         <button class="buy-button" id="buyButton" onclick="buyProduct()">
-                            BUY IN WHITE
+                            BUY NOW
                             <i class="fas fa-shopping-cart"></i>
                         </button>
                     </div>
@@ -2100,6 +2082,38 @@
                     </div>
                 </div>
 
+                <!-- Bundle Promotion Section -->
+                <div class="bundle-promo">
+                    <h3 class="bundle-promo-title">Exclusive Bundle Deals</h3>
+                    <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection? Our exclusive bundles offer incredible savings and the complete SBHMN experience.</p>
+                    
+                    <div class="bundle-offers">
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">Duo Pack</div>
+                            <div class="bundle-offer-savings">Save $58</div>
+                            <div class="bundle-offer-description">Choose any 2 colors. Perfect for versatile styling and double the impact.</div>
+                        </div>
+                        
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">Triple Pack</div>
+                            <div class="bundle-offer-savings">Save $108</div>
+                            <div class="bundle-offer-description">All 3 colors included. The complete SBHMN collection in your wardrobe.</div>
+                        </div>
+                        
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">Complete Set</div>
+                            <div class="bundle-offer-savings">Save $200+</div>
+                            <div class="bundle-offer-description">4 pairs + exclusive limited edition colorway. Only for true revolutionaries.</div>
+                        </div>
+                    </div>
+                    
+                    <p class="bundle-promo-cta">Unlock massive savings and complete your eccentric transformation at checkout</p>
+                    <a href="checkout.html" class="bundle-checkout-btn">
+                        <i class="fas fa-gifts"></i>
+                        Explore Bundles at Checkout
+                    </a>
+                </div>
+
                 <div class="product-footer">
                     <div class="product-footer-links">
                         <a href="#">Returns</a>
@@ -2118,6 +2132,116 @@
                         </div>
                         <p class="social-text">Show your support by following our socials.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Guide Modal -->
+    <div class="size-guide-modal" id="sizeGuideModal" style="display: none;">
+        <div class="size-guide-content">
+            <div class="size-guide-header">
+                <h3>Size Guide</h3>
+                <button class="close-modal" onclick="closeSizeGuide()">×</button>
+            </div>
+            <div class="size-guide-body">
+                <div class="size-note">
+                    <p>Our SBHMN sneakers run true to size. For the best fit, we recommend measuring your foot and comparing it to our size chart below.</p>
+                </div>
+                
+                <table class="size-chart">
+                    <thead>
+                        <tr>
+                            <th>EU Size</th>
+                            <th>US Men</th>
+                            <th>US Women</th>
+                            <th>UK Size</th>
+                            <th>Foot Length (cm)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>36</td>
+                            <td>4</td>
+                            <td>5.5</td>
+                            <td>3.5</td>
+                            <td>23.0</td>
+                        </tr>
+                        <tr>
+                            <td>37</td>
+                            <td>4.5</td>
+                            <td>6</td>
+                            <td>4</td>
+                            <td>23.5</td>
+                        </tr>
+                        <tr>
+                            <td>38</td>
+                            <td>5</td>
+                            <td>6.5</td>
+                            <td>4.5</td>
+                            <td>24.0</td>
+                        </tr>
+                        <tr>
+                            <td>39</td>
+                            <td>6</td>
+                            <td>7.5</td>
+                            <td>5.5</td>
+                            <td>24.5</td>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>7</td>
+                            <td>8.5</td>
+                            <td>6.5</td>
+                            <td>25.0</td>
+                        </tr>
+                        <tr>
+                            <td>41</td>
+                            <td>8</td>
+                            <td>9.5</td>
+                            <td>7.5</td>
+                            <td>25.5</td>
+                        </tr>
+                        <tr>
+                            <td>42</td>
+                            <td>9</td>
+                            <td>10.5</td>
+                            <td>8.5</td>
+                            <td>26.0</td>
+                        </tr>
+                        <tr>
+                            <td>43</td>
+                            <td>10</td>
+                            <td>11.5</td>
+                            <td>9.5</td>
+                            <td>26.5</td>
+                        </tr>
+                        <tr>
+                            <td>44</td>
+                            <td>11</td>
+                            <td>12.5</td>
+                            <td>10.5</td>
+                            <td>27.0</td>
+                        </tr>
+                        <tr>
+                            <td>45</td>
+                            <td>12</td>
+                            <td>13.5</td>
+                            <td>11.5</td>
+                            <td>27.5</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="measurement-tip">
+                    <h4>How to Measure Your Foot</h4>
+                    <ol>
+                        <li>Place a piece of paper on the floor against a wall</li>
+                        <li>Stand on the paper with your heel against the wall</li>
+                        <li>Mark the tip of your longest toe on the paper</li>
+                        <li>Measure the distance from the wall to the mark</li>
+                        <li>Compare your measurement to our size chart</li>
+                    </ol>
                 </div>
             </div>
         </div>
@@ -2145,11 +2269,81 @@
         // Product image variables
         let currentColor = 'white';
         let currentImageIndex = 0;
+        let selectedSize = null;
         const productImages = {
             white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
             black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
             red: ['assets/images/prodp3.png', 'assets/images/r2.png', 'assets/images/r3.png']
         };
+
+        function selectSize(size) {
+            // Remove previous selection
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked size (if not out of stock)
+            const sizeElement = document.querySelector(`[data-size="${size}"]`);
+            if (!sizeElement.classList.contains('out-of-stock')) {
+                sizeElement.classList.add('selected');
+                selectedSize = size;
+                
+                // Hide size warning
+                document.getElementById('sizeWarning').style.display = 'none';
+                
+                // Update buy button
+                updateBuyButtonText();
+            }
+        }
+
+        function updateBuyButtonText() {
+            const buyButton = document.getElementById('buyButton');
+            const colorText = currentColor.charAt(0).toUpperCase() + currentColor.slice(1);
+            
+            if (selectedSize) {
+                buyButton.innerHTML = `BUY ${colorText.toUpperCase()} - SIZE ${selectedSize} <i class="fas fa-shopping-cart"></i>`;
+            } else {
+                buyButton.innerHTML = `BUY NOW <i class="fas fa-shopping-cart"></i>`;
+            }
+        }
+
+        function openSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'flex';
+        }
+
+        function closeSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'none';
+        }
+
+        function buyProduct() {
+            if (!selectedSize) {
+                document.getElementById('sizeWarning').style.display = 'block';
+                document.getElementById('sizeWarning').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Store product data for checkout
+            const productData = {
+                name: 'SBHMN',
+                color: currentColor,
+                size: selectedSize,
+                price: 269,
+                image: getProductImageForCheckout(currentColor)
+            };
+            sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+            
+            // Redirect to checkout
+            window.location.href = 'checkout.html';
+        }
+
+        function getProductImageForCheckout(color) {
+            const checkoutImages = {
+                white: 'prodp1.png',
+                black: 'prodp2.png', 
+                red: 'prodp3.png'
+            };
+            return checkoutImages[color] || 'prodp1.png';
+        }
 
         // Product image functions
         function updateProductImage() {
@@ -2181,477 +2375,3 @@
         function changeProductColor(color) {
             const colorOptions = document.querySelectorAll('.color-option');
             colorOptions.forEach(option => option.classList.remove('active'));
-            document.querySelector(`[data-color="${color}"]`).classList.add('active');
-            currentColor = color;
-            currentImageIndex = 0;
-            updateProductImage();
-            updateBuyButtonText();
-        }
-
-        // Initialize product gallery when showing overlay
-        function showProductOverlay() {
-            const landingContent = document.getElementById('landingContent');
-            const productOverlay = document.getElementById('productOverlay');
-            const topLogo = document.getElementById('topLogo');
-            const socialContainer = document.querySelector('.social-container');
-            
-            // Mark that user has visited shop
-            localStorage.setItem('hasVisitedShop', 'true');
-            
-            landingContent.classList.add('hidden');
-            socialContainer.classList.add('hidden');
-            
-            setTimeout(() => {
-                productOverlay.classList.add('active');
-                topLogo.classList.add('visible');
-                updateProductImage(); // Initialize the product images
-                updateDropTimer(); // Initialize the timer
-                addScrollBehavior();
-                
-                // Start timer interval
-                setInterval(updateDropTimer, 1000);
-            }, 250);
-        }
-
-        // Rest of your existing JavaScript functions remain unchanged
-        let lastScrollTop = 0;
-        const dropDate = new Date('2025-10-14T14:00:00+02:00'); // 2PM Paris time
-        const presaleDate = new Date(dropDate.getTime() - (72 * 60 * 60 * 1000)); // 72 hours before drop
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = presaleDate.getTime() - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById('days').textContent = days;
-        }
-
-        function ml_webform_success_23779383() {
-            var $ = ml_jQuery || jQuery;
-            $('.ml-subscribe-form-23779383 .row-success').show();
-            $('.ml-subscribe-form-23779383 .row-form').hide();
-            
-            localStorage.setItem('formSubmitted', 'true');
-            showWelcome();
-        }
-
-        function showWelcome() {
-            const mailerLiteForm = document.getElementById('mlb2-23779383');
-            const signupText = document.getElementById('signupText');
-            const welcomeContainer = document.getElementById('welcomeContainer');
-            const standaloneBtn = document.getElementById('standaloneEnterBtn');
-
-            if (mailerLiteForm && signupText && welcomeContainer) {
-                mailerLiteForm.style.display = 'none';
-                signupText.style.display = 'none';
-                welcomeContainer.style.display = 'flex';
-                
-                // Hide standalone button if it exists
-                if (standaloneBtn) {
-                    standaloneBtn.style.display = 'none';
-                }
-                
-                // Store welcome state
-                localStorage.setItem('welcomeShown', 'true');
-                localStorage.setItem('formSubmitted', 'true');
-            }
-        }
-
-        function showEnterStoreOnly() {
-            const mailerLiteForm = document.getElementById('mlb2-23779383');
-            const signupText = document.getElementById('signupText');
-            const welcomeContainer = document.getElementById('welcomeContainer');
-
-            if (mailerLiteForm && signupText && welcomeContainer) {
-                mailerLiteForm.style.display = 'none';
-                signupText.style.display = 'none';
-                welcomeContainer.style.display = 'none';
-                
-                // Create standalone enter store button without box
-                const landingContent = document.getElementById('landingContent');
-                let enterStoreBtn = document.getElementById('standaloneEnterBtn');
-                
-                if (!enterStoreBtn) {
-                    enterStoreBtn = document.createElement('button');
-                    enterStoreBtn.id = 'standaloneEnterBtn';
-                    enterStoreBtn.className = 'enter-button';
-                    enterStoreBtn.onclick = showProductOverlay;
-                    enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
-                    enterStoreBtn.style.marginTop = '30px';
-                    landingContent.appendChild(enterStoreBtn);
-                } else {
-                    enterStoreBtn.style.display = 'flex';
-                }
-            }
-        }
-
-        function checkUserState() {
-            const formSubmitted = localStorage.getItem('formSubmitted');
-            const hasVisitedShop = localStorage.getItem('hasVisitedShop');
-            
-            if (formSubmitted === 'true') {
-                if (hasVisitedShop === 'true') {
-                    // User has signed up and visited shop - show only enter store button
-                    showEnterStoreOnly();
-                } else {
-                    // User has signed up but hasn't visited shop yet - show welcome message
-                    showWelcome();
-                }
-            }
-        }
-
-        function hideProductOverlay() {
-            const landingContent = document.getElementById('landingContent');
-            const productOverlay = document.getElementById('productOverlay');
-            const topLogo = document.getElementById('topLogo');
-            const socialContainer = document.querySelector('.social-container');
-            const header = document.querySelector('.main-header');
-            
-            productOverlay.classList.remove('active');
-            topLogo.classList.remove('visible');
-            socialContainer.classList.remove('hidden');
-            header.classList.remove('hidden');
-            
-            removeScrollBehavior();
-            
-            setTimeout(() => {
-                landingContent.classList.remove('hidden');
-            }, 250);
-        }
-
-        function addScrollBehavior() {
-            const productOverlay = document.getElementById('productOverlay');
-            productOverlay.addEventListener('scroll', handleScroll);
-        }
-
-        function removeScrollBehavior() {
-            const productOverlay = document.getElementById('productOverlay');
-            productOverlay.removeEventListener('scroll', handleScroll);
-        }
-
-        function handleScroll() {
-            const header = document.querySelector('.main-header');
-            const productOverlay = document.getElementById('productOverlay');
-            const scrollTop = productOverlay.scrollTop;
-            
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-            
-            lastScrollTop = scrollTop;
-        }
-
-        function buyProduct() {
-            // For single purchases, add to cart instead
-            addToCart('single');
-        }
-
-        function updateBuyButton() {
-            const buyButton = document.getElementById('buyButton');
-            const colorText = currentColor.charAt(0).toUpperCase() + currentColor.slice(1);
-            buyButton.innerHTML = `BUY IN ${colorText.toUpperCase()} <i class="fas fa-shopping-cart"></i>`;
-        }
-
-        function updateDropTimer() {
-            const now = new Date();
-            
-            if (now >= presaleDate && now < dropDate) {
-                // Pre-sale is active, show countdown from 72 hours
-                const elapsed = Math.floor((now - presaleDate) / 1000);
-                const totalSeconds = 72 * 3600; // 72 hours in seconds
-                const remaining = Math.max(0, totalSeconds - elapsed);
-                
-                const hours = Math.floor(remaining / 3600);
-                const minutes = Math.floor((remaining % 3600) / 60);
-                const seconds = remaining % 60;
-                
-                document.getElementById('timerHours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('timerMinutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('timerSeconds').textContent = seconds.toString().padStart(2, '0');
-                
-                if (remaining > 0) {
-                    document.getElementById('timerStatus').textContent = 'PRE-SALE IS LIVE! Limited time remaining!';
-                } else {
-                    document.getElementById('timerStatus').textContent = 'PRE-SALE ENDED - Main drop starting soon!';
-                }
-            } else if (now >= dropDate) {
-                // Main drop is active
-                document.getElementById('timerHours').textContent = '00';
-                document.getElementById('timerMinutes').textContent = '00';
-                document.getElementById('timerSeconds').textContent = '00';
-                document.getElementById('timerStatus').textContent = 'MAIN DROP IS LIVE!';
-            } else {
-                // Before pre-sale date - show countdown to pre-sale
-                const timeUntilPresale = presaleDate - now;
-                const days = Math.floor(timeUntilPresale / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeUntilPresale % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeUntilPresale % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeUntilPresale % (1000 * 60)) / 1000);
-                
-                document.getElementById('timerHours').textContent = '72';
-                document.getElementById('timerMinutes').textContent = '00';
-                document.getElementById('timerSeconds').textContent = '00';
-                document.getElementById('timerStatus').textContent = `Pre-sale starts in ${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }
-
-        let currentHeaderPhraseIndex = 0;
-        let headerAnnouncementInterval;
-        let pairsLeft = 100;
-        let cart = [];
-
-        function updatePairsCounter() {
-            const headerPairsElement = document.getElementById('pairsLeft');
-            const timerPairsElement = document.getElementById('timerPairsLeft');
-            
-            if (headerPairsElement) {
-                headerPairsElement.textContent = pairsLeft;
-            }
-            if (timerPairsElement) {
-                timerPairsElement.textContent = pairsLeft;
-            }
-        }
-
-        function updateCartCount() {
-            const cartCountElement = document.getElementById('cartCount');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCountElement.textContent = totalItems;
-        }
-
-        function addToCart(bundleType) {
-            let item;
-            
-            switch(bundleType) {
-                case 'single':
-                    item = {
-                        type: 'single',
-                        name: 'SBHMN 1',
-                        color: currentColor,
-                        price: 269,
-                        quantity: 1,
-                        pairsCount: 1
-                    };
-                    break;
-                case 'duo':
-                    item = {
-                        type: 'duo',
-                        name: 'SBHMN 1 Duo Pack',
-                        colors: 'Any 2 colors',
-                        price: 480,
-                        quantity: 1,
-                        pairsCount: 2
-                    };
-                    break;
-                case 'triple':
-                    item = {
-                        type: 'triple',
-                        name: 'SBHMN 1 Triple Pack',
-                        colors: 'All 3 colors',
-                        price: 699,
-                        quantity: 1,
-                        pairsCount: 3
-                    };
-                    break;
-                case 'complete':
-                    item = {
-                        type: 'complete',
-                        name: 'SBHMN 1 Complete Set',
-                        colors: '4 pairs + exclusive',
-                        price: 876,
-                        quantity: 1,
-                        pairsCount: 4
-                    };
-                    break;
-            }
-            
-            // Check if enough pairs left
-            if (pairsLeft < item.pairsCount) {
-                alert(`Sorry, only ${pairsLeft} pairs left!`);
-                return;
-            }
-            
-            // Add to cart
-            const existingItem = cart.find(cartItem => cartItem.type === item.type && cartItem.color === item.color);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push(item);
-            }
-            
-            // Update pairs left and cart count
-            pairsLeft -= item.pairsCount;
-            updatePairsCounter();
-            updateCartCount();
-            
-            // Show success notification and open cart
-            showAddToCartNotification(item.name);
-            setTimeout(() => {
-                toggleCart();
-            }, 500);
-        }
-
-        function showAddToCartNotification(itemName) {
-            // Create temporary notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: var(--color-primary);
-                color: #000;
-                padding: 15px 20px;
-                border-radius: 10px;
-                font-family: var(--font-headers);
-                font-weight: 700;
-                font-size: 14px;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                z-index: 10010;
-                box-shadow: 0 5px 20px rgba(158, 217, 181, 0.4);
-                animation: slideInRight 0.3s ease;
-            `;
-            notification.textContent = `${itemName} added to cart!`;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        }
-
-        function toggleCart() {
-            // Simple cart display for now
-            if (cart.length === 0) {
-                alert('Your cart is empty');
-                return;
-            }
-            
-            let cartDisplay = 'Your Cart:\\n\\n';
-            let total = 0;
-            
-            cart.forEach(item => {
-                cartDisplay += `${item.name} x${item.quantity} - ${item.price * item.quantity}\\n`;
-                total += item.price * item.quantity;
-            });
-            
-            cartDisplay += `\\nTotal: ${total}`;
-            alert(cartDisplay);
-        }
-
-        function simulateSales() {
-            // Simulate random sales every 30-60 seconds (for demo purposes)
-            setInterval(() => {
-                if (pairsLeft > 0 && Math.random() > 0.8) {
-                    pairsLeft -= Math.floor(Math.random() * 3) + 1;
-                    if (pairsLeft < 0) pairsLeft = 0;
-                    updatePairsCounter();
-                }
-            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
-        }
-
-        function startHeaderAnnouncementCycling() {
-            const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
-            
-            // Show first phrase immediately
-            document.getElementById(headerPhrases[0]).classList.add('visible');
-            
-            headerAnnouncementInterval = setInterval(() => {
-                // Hide current phrase
-                document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.remove('visible');
-                
-                // Move to next phrase
-                currentHeaderPhraseIndex = (currentHeaderPhraseIndex + 1) % headerPhrases.length;
-                
-                // Show next phrase after a brief delay
-                setTimeout(() => {
-                    document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.add('visible');
-                }, 500);
-                
-            }, 3000); // Change phrase every 3 seconds
-        }
-
-        function stopHeaderAnnouncementCycling() {
-            if (headerAnnouncementInterval) {
-                clearInterval(headerAnnouncementInterval);
-                // Hide all header phrases
-                const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
-                headerPhrases.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) element.classList.remove('visible');
-                });
-                currentHeaderPhraseIndex = 0;
-            }
-        }
-
-        function getProductImageForCheckout(color) {
-            // Return the main product image for each color for checkout display
-            const checkoutImages = {
-                white: 'prodp1.png',
-                black: 'prodp2.png', 
-                red: 'prodp3.png'
-            };
-            return checkoutImages[color] || 'prodp1.png';
-        }
-
-        function showPageContent() {
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                showPageContent();
-                // Start header announcements after page loads
-                startHeaderAnnouncementCycling();
-                // Initialize pairs counter
-                updatePairsCounter();
-                updateCartCount();
-                // Start sales simulation
-                simulateSales();
-            }, 1000);
-            
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-            
-            // Check user state on page load
-            checkUserState();
-            
-            const video = document.getElementById('bgVideo');
-            if (video) {
-                video.muted = true;
-                video.autoplay = true;
-                video.loop = true;
-                video.load();
-                
-                video.addEventListener('loadeddata', function() {
-                    console.log("Video loaded successfully");
-                });
-                
-                video.addEventListener('error', function(e) {
-                    console.log("Video error:", e);
-                });
-                
-                video.play().then(() => {
-                    console.log("Video playing successfully");
-                }).catch(function(error) {
-                    console.log("Video play failed:", error);
-                    document.addEventListener('click', function() {
-                        video.play();
-                    }, { once: true });
-                });
-            }
-        });
-    </script>
-
-    <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024" type="text/javascript"></script>
-    <script>
-        fetch("https://assets.mailerlite.com/jsonp/1391734/forms/149132961884669821/takel")
-    </script>
-</body>
-</html>
