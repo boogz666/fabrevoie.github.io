@@ -428,6 +428,210 @@
             cursor: pointer;
         }
 
+        /* Bundle Selection */
+        .bundle-selection {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(158, 217, 181, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(158, 217, 181, 0.3);
+        }
+
+        .bundle-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.2rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bundle-subtitle {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .bundle-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bundle-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .bundle-option:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
+        }
+
+        .bundle-option.selected {
+            border-color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.4);
+        }
+
+        .bundle-option-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.1rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .bundle-option-savings {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .bundle-option-price {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .bundle-option-original {
+            font-family: var(--font-numbers);
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        .bundle-option-description {
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .bundle-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--color-primary);
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Promo Code Section */
+        .promo-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .promo-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1.1rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .promo-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            background: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .promo-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(158, 217, 181, 0.2);
+        }
+
+        .apply-promo-btn {
+            background: var(--color-primary);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .apply-promo-btn:hover {
+            background: #7BC097;
+            transform: translateY(-2px);
+        }
+
+        .promo-message {
+            margin-top: 10px;
+            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .promo-message.success {
+            background: rgba(158, 217, 181, 0.2);
+            color: var(--color-primary);
+            border: 1px solid rgba(158, 217, 181, 0.5);
+        }
+
+        .promo-message.error {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+
         /* Right Column - Order Summary */
         .checkout-right {
             background: rgba(255, 255, 255, 0.9);
@@ -536,6 +740,17 @@
             font-weight: var(--font-numbers-weight);
             color: var(--color-primary);
             font-weight: 600;
+        }
+
+        .total-row.discount {
+            color: var(--color-primary);
+            font-size: 14px;
+        }
+
+        .total-row.discount span:last-child {
+            font-family: var(--font-numbers);
+            font-weight: var(--font-numbers-weight);
+            color: var(--color-primary);
         }
 
         .total-row.total {
@@ -756,6 +971,11 @@
                 font-size: 13px;
             }
 
+            .bundle-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
             .size-guide-content {
                 margin: 10px;
                 max-height: 85vh;
@@ -793,6 +1013,15 @@
 
             .top-logo {
                 height: 40px;
+            }
+
+            .promo-input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .apply-promo-btn {
+                width: 100%;
             }
         }
     </style>
@@ -970,6 +1199,52 @@
                         </div>
                     </div>
 
+                    <!-- Bundle Selection -->
+                    <div class="form-section">
+                        <div class="bundle-selection">
+                            <h2 class="bundle-title">
+                                <i class="fas fa-gifts"></i>
+                                Choose Your Bundle
+                            </h2>
+                            <p class="bundle-subtitle">Maximize your savings and complete your eccentric transformation with our exclusive bundle deals.</p>
+                            
+                            <div class="bundle-options">
+                                <div class="bundle-option selected" data-bundle="single" onclick="selectBundle('single')">
+                                    <div class="bundle-option-title">Single Pair</div>
+                                    <div class="bundle-option-price">$269</div>
+                                    <div class="bundle-option-description">Perfect for trying our revolutionary design</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="duo" onclick="selectBundle('duo')">
+                                    <div class="bundle-badge">Save $58</div>
+                                    <div class="bundle-option-title">Duo Pack</div>
+                                    <div class="bundle-option-savings">Save $58</div>
+                                    <div class="bundle-option-price">$480</div>
+                                    <div class="bundle-option-original">$538</div>
+                                    <div class="bundle-option-description">Choose any 2 colors for versatile styling</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="triple" onclick="selectBundle('triple')">
+                                    <div class="bundle-badge">Most Popular</div>
+                                    <div class="bundle-option-title">Triple Pack</div>
+                                    <div class="bundle-option-savings">Save $108</div>
+                                    <div class="bundle-option-price">$699</div>
+                                    <div class="bundle-option-original">$807</div>
+                                    <div class="bundle-option-description">All 3 colors - the complete collection</div>
+                                </div>
+                                
+                                <div class="bundle-option" data-bundle="complete" onclick="selectBundle('complete')">
+                                    <div class="bundle-badge">Best Value</div>
+                                    <div class="bundle-option-title">Complete Set</div>
+                                    <div class="bundle-option-savings">Save $200+</div>
+                                    <div class="bundle-option-price">$876</div>
+                                    <div class="bundle-option-original">$1076</div>
+                                    <div class="bundle-option-description">4 pairs + exclusive limited edition</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Product Size Selection -->
                     <div class="form-section">
                         <h2 class="section-title">
@@ -997,6 +1272,21 @@
                                 <i class="fas fa-ruler"></i>
                                 Size Guide
                             </a>
+                        </div>
+                    </div>
+
+                    <!-- Promo Code Section -->
+                    <div class="form-section">
+                        <div class="promo-section">
+                            <h2 class="promo-title">
+                                <i class="fas fa-ticket-alt"></i>
+                                Promo Code
+                            </h2>
+                            <div class="promo-input-group">
+                                <input type="text" id="promoCode" class="promo-input" placeholder="Enter promo code" maxlength="20">
+                                <button type="button" class="apply-promo-btn" onclick="applyPromoCode()">Apply</button>
+                            </div>
+                            <div class="promo-message" id="promoMessage"></div>
                         </div>
                     </div>
 
@@ -1122,6 +1412,10 @@
                     <div class="total-row subtotal">
                         <span>Subtotal</span>
                         <span id="subtotalAmount">$269.00</span>
+                    </div>
+                    <div class="total-row discount" id="discountRow" style="display: none;">
+                        <span id="discountLabel">Discount</span>
+                        <span id="discountAmount">-$0.00</span>
                     </div>
                     <div class="total-row shipping">
                         <span>Shipping</span>
@@ -1282,7 +1576,25 @@
             ]
         };
 
+        // Bundle and pricing data
+        const bundleData = {
+            single: { price: 269, pairs: 1, name: 'Single Pair', originalPrice: 269 },
+            duo: { price: 480, pairs: 2, name: 'Duo Pack', originalPrice: 538 },
+            triple: { price: 699, pairs: 3, name: 'Triple Pack', originalPrice: 807 },
+            complete: { price: 876, pairs: 4, name: 'Complete Set', originalPrice: 1076 }
+        };
+
+        // Valid promo codes
+        const promoCodes = {
+            'WELCOME10': { discount: 0.10, type: 'percentage', description: '10% off your first order' },
+            'SAVE25': { discount: 25, type: 'fixed', description: '$25 off' },
+            'ECCENTRIC': { discount: 0.15, type: 'percentage', description: '15% off for being eccentric' },
+            'FABREVOIE': { discount: 50, type: 'fixed', description: '$50 off bundle orders' }
+        };
+
         let selectedSize = null;
+        let selectedBundle = 'single';
+        let appliedPromo = null;
 
         function openSizeGuide() {
             document.getElementById('sizeGuideModal').classList.add('active');
@@ -1290,6 +1602,86 @@
 
         function closeSizeGuide() {
             document.getElementById('sizeGuideModal').classList.remove('active');
+        }
+
+        function selectBundle(bundleType) {
+            // Remove previous selection
+            document.querySelectorAll('.bundle-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked bundle
+            document.querySelector(`[data-bundle="${bundleType}"]`).classList.add('selected');
+            selectedBundle = bundleType;
+            
+            // Update order summary
+            updateOrderSummary();
+        }
+
+        function applyPromoCode() {
+            const promoCode = document.getElementById('promoCode').value.trim().toUpperCase();
+            const messageEl = document.getElementById('promoMessage');
+            
+            if (!promoCode) {
+                showPromoMessage('Please enter a promo code', 'error');
+                return;
+            }
+            
+            if (promoCodes[promoCode]) {
+                appliedPromo = {
+                    code: promoCode,
+                    ...promoCodes[promoCode]
+                };
+                showPromoMessage(`✓ Promo code applied: ${promoCodes[promoCode].description}`, 'success');
+                updateOrderSummary();
+            } else {
+                showPromoMessage('Invalid promo code. Please try again.', 'error');
+                appliedPromo = null;
+                updateOrderSummary();
+            }
+        }
+
+        function showPromoMessage(message, type) {
+            const messageEl = document.getElementById('promoMessage');
+            messageEl.textContent = message;
+            messageEl.className = `promo-message ${type}`;
+            messageEl.style.display = 'block';
+        }
+
+        function updateOrderSummary() {
+            const bundle = bundleData[selectedBundle];
+            let subtotal = bundle.price;
+            let discount = 0;
+            
+            // Calculate discount
+            if (appliedPromo) {
+                if (appliedPromo.type === 'percentage') {
+                    discount = subtotal * appliedPromo.discount;
+                } else {
+                    discount = appliedPromo.discount;
+                }
+                discount = Math.min(discount, subtotal); // Don't exceed subtotal
+            }
+            
+            const total = subtotal - discount;
+            
+            // Update product details
+            document.getElementById('orderProductName').textContent = bundle.name;
+            document.getElementById('orderProductPrice').textContent = `$${bundle.price}.00`;
+            
+            // Update totals
+            document.getElementById('subtotalAmount').textContent = `$${subtotal}.00`;
+            document.getElementById('totalAmount').textContent = `$${total}.00`;
+            
+            // Show/hide discount row
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('discountLabel').textContent = `Discount (${appliedPromo.code})`;
+                document.getElementById('discountAmount').textContent = `-$${discount.toFixed(2)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
         }
 
         function updateStateOptions() {
@@ -1351,6 +1743,14 @@
                 });
             });
 
+            // Promo code input - apply on Enter key
+            document.getElementById('promoCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyPromoCode();
+                }
+            });
+
             // Load selected product from session storage
             const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct') || '{}');
             
@@ -1359,15 +1759,17 @@
                 document.getElementById('orderProductImage').src = `assets/images/${selectedProduct.image}`;
                 document.getElementById('orderProductName').textContent = selectedProduct.name;
                 document.getElementById('orderProductVariant').textContent = selectedProduct.color;
-                document.getElementById('orderProductPrice').textContent = `$${selectedProduct.price}.00`;
                 
-                // Update totals - no shipping cost
-                const subtotal = selectedProduct.price;
-                const total = subtotal; // No shipping added
-                
-                document.getElementById('subtotalAmount').textContent = `$${subtotal}.00`;
-                document.getElementById('totalAmount').textContent = `$${total}.00`;
+                if (selectedProduct.size) {
+                    selectedSize = selectedProduct.size;
+                    document.getElementById('orderProductSize').textContent = `Size: US ${selectedProduct.size}`;
+                    // Select the size visually
+                    document.querySelector(`[data-size="${selectedProduct.size}"]`)?.classList.add('selected');
+                }
             }
+
+            // Initialize order summary
+            updateOrderSummary();
 
             // Form validation and submission
             document.getElementById('checkoutForm').addEventListener('submit', function(e) {
@@ -1394,9 +1796,15 @@
                 });
 
                 if (isValid) {
-                    // In a real implementation, this would submit to Shopify or payment processor
-                    alert('Order would be processed here! (Demo mode)');
-                    // window.location.href = 'order-confirmation.html';
+                    // Store order data and redirect to confirmation
+                    const orderData = {
+                        bundle: bundleData[selectedBundle],
+                        size: selectedSize,
+                        promo: appliedPromo,
+                        total: document.getElementById('totalAmount').textContent
+                    };
+                    sessionStorage.setItem('orderData', JSON.stringify(orderData));
+                    window.location.href = 'order-confirmation.html';
                 } else {
                     alert('Please fill in all required fields.');
                 }
