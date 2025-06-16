@@ -1589,16 +1589,17 @@
         .compact-timer-status {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 0.8rem;
+            font-size: 0.85rem; /* Slightly increased */
             color: var(--color-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px; /* Increased margin */
             text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            height: 20px; /* Fixed height */
+            height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            line-height: 1.2;
         }
 
         .compact-timer-display {
@@ -1929,7 +1930,15 @@
                 display: none;
             }
             .header-cart-icon {
-                display: none;
+                background: linear-gradient(45deg, var(--color-primary), #7BC097);
+                padding: 6px 10px;
+                border-radius: 20px;
+                font-size: 14px;
+                gap: 6px;
+            }
+            
+            .header-cart-icon span:not(.cart-count) {
+                display: none; /* Hide "CART" text on mobile */
             }
             .social-container {
                 display: block !important; /* Show on mobile */
@@ -2042,11 +2051,7 @@
         Your browser does not support background video.
     </video>
 
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count" id="cartCount">0</span>
-    </div>
+    <!-- UPDATED: Removed old cart icon, now handled in header -->
 
     <!-- UPDATED: Announcement Bar with countdown on right -->
     <div class="announcement-bar">
@@ -2089,7 +2094,8 @@
                     <i class="fas fa-hourglass hourglass"></i>
                 </div>
                 <div class="header-cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>CART</span>
                     <span class="cart-count" id="headerCartCount">0</span>
                 </div>
             </div>
@@ -2305,7 +2311,7 @@
                 </div>
 
                 <div class="product-features">
-                    <h3 class="features-title">Why Choose SBHMN</h3>
+                    <h3 class="features-title">Why Choose SBHMN 1</h3>
                     <div class="features-grid">
                         <div class="feature-item">
                             <div class="feature-icon">
@@ -2329,6 +2335,19 @@
                             <div class="feature-description">Out-of-the-box thinking translated into wearable art for the fearless</div>
                         </div>
                     </div>
+                </div>
+
+                <!-- UPDATED: Social icons positioned above footer on product page -->
+                <div class="social-container" style="margin-top: 40px; margin-bottom: 20px;">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p class="social-text">Show your support by following our socials.</p>
                 </div>
 
                 <!-- UPDATED: Footer moved to main overlay and closer to content -->
@@ -2706,7 +2725,7 @@
             updateBuyButtonText();
         }
 
-        // UPDATED: Real timer functionality for new layout
+        // UPDATED: Real timer functionality with consistent display
         function updateRealTimer() {
             const now = new Date();
             const presaleHours = document.getElementById('presaleHours');
@@ -2718,21 +2737,24 @@
             if (now < presaleStartDate) {
                 // Before pre-sale starts - show countdown to pre-sale start
                 const timeDiff = presaleStartDate - now;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
                 
-                // Top timer shows 72:00:00
-                presaleHours.textContent = '72';
-                presaleMinutes.textContent = '00';
-                presaleSeconds.textContent = '00';
+                // Convert total time to hours for consistency
+                const totalHours = (totalDays * 24) + hours;
+                
+                // Top timer shows total hours remaining until pre-sale
+                presaleHours.textContent = totalHours.toString().padStart(2, '0');
+                presaleMinutes.textContent = minutes.toString().padStart(2, '0');
+                presaleSeconds.textContent = seconds.toString().padStart(2, '0');
                 
                 // Status text
                 timerStatus.textContent = 'Pre-sale starts in...';
                 
-                // Countdown text
-                countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
+                // Countdown text - show same format
+                countdownText.textContent = `${totalDays} days : ${hours.toString().padStart(2, '0')} hours : ${minutes.toString().padStart(2, '0')} minutes : ${seconds.toString().padStart(2, '0')} seconds`;
                 
             } else if (now >= presaleStartDate && now < presaleEndDate) {
                 // During 72-hour pre-sale period - countdown the 72 hours
@@ -2749,19 +2771,15 @@
                 // Status text
                 timerStatus.textContent = 'Pre-sale ends in...';
                 
-                // Countdown text shows time to main drop
-                const dropTimeDiff = dropDate - now;
-                const dropDays = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
-                const dropHours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
-                
-                countdownText.textContent = `Main drop in: ${dropDays} days:${dropHours.toString().padStart(2, '0')} hours:${dropMinutes.toString().padStart(2, '0')} minutes:${dropSeconds.toString().padStart(2, '0')} seconds`;
+                // Countdown text shows same format
+                const days = Math.floor(totalHours / 24);
+                const remainingHours = totalHours % 24;
+                countdownText.textContent = `${days} days : ${remainingHours.toString().padStart(2, '0')} hours : ${minutes.toString().padStart(2, '0')} minutes : ${seconds.toString().padStart(2, '0')} seconds`;
                 
             } else if (now >= presaleEndDate && now < dropDate) {
                 // Between pre-sale end and main drop
                 const timeDiff = dropDate - now;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
@@ -2775,7 +2793,7 @@
                 timerStatus.textContent = 'Main drop starts in...';
                 
                 // Countdown text
-                countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
+                countdownText.textContent = `${totalDays} days : ${hours.toString().padStart(2, '0')} hours : ${minutes.toString().padStart(2, '0')} minutes : ${seconds.toString().padStart(2, '0')} seconds`;
                 
             } else {
                 // After main drop
@@ -2963,11 +2981,9 @@
         }
 
         function updateCartCount() {
-            const cartCountElement = document.getElementById('cartCount');
             const headerCartCountElement = document.getElementById('headerCartCount');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             
-            if (cartCountElement) cartCountElement.textContent = totalItems;
             if (headerCartCountElement) headerCartCountElement.textContent = totalItems;
         }
 
