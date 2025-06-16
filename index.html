@@ -2375,3 +2375,370 @@
         function changeProductColor(color) {
             const colorOptions = document.querySelectorAll('.color-option');
             colorOptions.forEach(option => option.classList.remove('active'));
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            currentColor = color;
+            currentImageIndex = 0;
+            updateProductImage();
+            
+            // Reset size selection when changing color
+            selectedSize = null;
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('sizeWarning').style.display = 'none';
+            
+            updateBuyButtonText();
+        }
+
+        // Initialize product gallery when showing overlay
+        function showProductOverlay() {
+            const landingContent = document.getElementById('landingContent');
+            const productOverlay = document.getElementById('productOverlay');
+            const topLogo = document.getElementById('topLogo');
+            const socialContainer = document.querySelector('.social-container');
+            
+            // Mark that user has visited shop
+            localStorage.setItem('hasVisitedShop', 'true');
+            
+            landingContent.classList.add('hidden');
+            socialContainer.classList.add('hidden');
+            
+            setTimeout(() => {
+                productOverlay.classList.add('active');
+                topLogo.classList.add('visible');
+                updateProductImage(); // Initialize the product images
+                updateDropTimer(); // Initialize the timer
+                addScrollBehavior();
+                
+                // Start timer interval
+                setInterval(updateDropTimer, 1000);
+            }, 250);
+        }
+
+        // Rest of your existing JavaScript functions remain unchanged
+        let lastScrollTop = 0;
+        const dropDate = new Date('2025-10-14T14:00:00+02:00'); // 2PM Paris time
+        const presaleDate = new Date(dropDate.getTime() - (72 * 60 * 60 * 1000)); // 72 hours before drop
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = presaleDate.getTime() - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('days').textContent = days;
+        }
+
+        function ml_webform_success_23779383() {
+            var $ = ml_jQuery || jQuery;
+            $('.ml-subscribe-form-23779383 .row-success').show();
+            $('.ml-subscribe-form-23779383 .row-form').hide();
+            
+            localStorage.setItem('formSubmitted', 'true');
+            showWelcome();
+        }
+
+        function showWelcome() {
+            const mailerLiteForm = document.getElementById('mlb2-23779383');
+            const signupText = document.getElementById('signupText');
+            const welcomeContainer = document.getElementById('welcomeContainer');
+            const standaloneBtn = document.getElementById('standaloneEnterBtn');
+
+            if (mailerLiteForm && signupText && welcomeContainer) {
+                mailerLiteForm.style.display = 'none';
+                signupText.style.display = 'none';
+                welcomeContainer.style.display = 'flex';
+                
+                // Hide standalone button if it exists
+                if (standaloneBtn) {
+                    standaloneBtn.style.display = 'none';
+                }
+                
+                // Store welcome state
+                localStorage.setItem('welcomeShown', 'true');
+                localStorage.setItem('formSubmitted', 'true');
+            }
+        }
+
+        function showEnterStoreOnly() {
+            const mailerLiteForm = document.getElementById('mlb2-23779383');
+            const signupText = document.getElementById('signupText');
+            const welcomeContainer = document.getElementById('welcomeContainer');
+
+            if (mailerLiteForm && signupText && welcomeContainer) {
+                mailerLiteForm.style.display = 'none';
+                signupText.style.display = 'none';
+                welcomeContainer.style.display = 'none';
+                
+                // Create standalone enter store button without box
+                const landingContent = document.getElementById('landingContent');
+                let enterStoreBtn = document.getElementById('standaloneEnterBtn');
+                
+                if (!enterStoreBtn) {
+                    enterStoreBtn = document.createElement('button');
+                    enterStoreBtn.id = 'standaloneEnterBtn';
+                    enterStoreBtn.className = 'enter-button';
+                    enterStoreBtn.onclick = showProductOverlay;
+                    enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
+                    enterStoreBtn.style.marginTop = '30px';
+                    landingContent.appendChild(enterStoreBtn);
+                } else {
+                    enterStoreBtn.style.display = 'flex';
+                }
+            }
+        }
+
+        function checkUserState() {
+            const formSubmitted = localStorage.getItem('formSubmitted');
+            const hasVisitedShop = localStorage.getItem('hasVisitedShop');
+            
+            if (formSubmitted === 'true') {
+                if (hasVisitedShop === 'true') {
+                    // User has signed up and visited shop - show only enter store button
+                    showEnterStoreOnly();
+                } else {
+                    // User has signed up but hasn't visited shop yet - show welcome message
+                    showWelcome();
+                }
+            }
+        }
+
+        function hideProductOverlay() {
+            const landingContent = document.getElementById('landingContent');
+            const productOverlay = document.getElementById('productOverlay');
+            const topLogo = document.getElementById('topLogo');
+            const socialContainer = document.querySelector('.social-container');
+            const header = document.querySelector('.main-header');
+            
+            productOverlay.classList.remove('active');
+            topLogo.classList.remove('visible');
+            socialContainer.classList.remove('hidden');
+            header.classList.remove('hidden');
+            
+            removeScrollBehavior();
+            
+            setTimeout(() => {
+                landingContent.classList.remove('hidden');
+            }, 250);
+        }
+
+        function addScrollBehavior() {
+            const productOverlay = document.getElementById('productOverlay');
+            productOverlay.addEventListener('scroll', handleScroll);
+        }
+
+        function removeScrollBehavior() {
+            const productOverlay = document.getElementById('productOverlay');
+            productOverlay.removeEventListener('scroll', handleScroll);
+        }
+
+        function handleScroll() {
+            const header = document.querySelector('.main-header');
+            const productOverlay = document.getElementById('productOverlay');
+            const scrollTop = productOverlay.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        }
+
+        function updateDropTimer() {
+            const now = new Date();
+            
+            if (now >= presaleDate && now < dropDate) {
+                // Pre-sale is active, show countdown from 72 hours
+                const elapsed = Math.floor((now - presaleDate) / 1000);
+                const totalSeconds = 72 * 3600; // 72 hours in seconds
+                const remaining = Math.max(0, totalSeconds - elapsed);
+                
+                const hours = Math.floor(remaining / 3600);
+                const minutes = Math.floor((remaining % 3600) / 60);
+                const seconds = remaining % 60;
+                
+                document.getElementById('timerHours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('timerMinutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('timerSeconds').textContent = seconds.toString().padStart(2, '0');
+                
+                if (remaining > 0) {
+                    document.getElementById('timerStatus').textContent = 'PRE-SALE IS LIVE! Limited time remaining!';
+                } else {
+                    document.getElementById('timerStatus').textContent = 'PRE-SALE ENDED - Main drop starting soon!';
+                }
+            } else if (now >= dropDate) {
+                // Main drop is active
+                document.getElementById('timerHours').textContent = '00';
+                document.getElementById('timerMinutes').textContent = '00';
+                document.getElementById('timerSeconds').textContent = '00';
+                document.getElementById('timerStatus').textContent = 'MAIN DROP IS LIVE!';
+            } else {
+                // Before pre-sale date - show countdown to pre-sale
+                const timeUntilPresale = presaleDate - now;
+                const days = Math.floor(timeUntilPresale / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeUntilPresale % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeUntilPresale % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeUntilPresale % (1000 * 60)) / 1000);
+                
+                document.getElementById('timerHours').textContent = '72';
+                document.getElementById('timerMinutes').textContent = '00';
+                document.getElementById('timerSeconds').textContent = '00';
+                document.getElementById('timerStatus').textContent = `Pre-sale starts in ${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        let currentHeaderPhraseIndex = 0;
+        let headerAnnouncementInterval;
+        let pairsLeft = 100;
+        let cart = [];
+
+        function updatePairsCounter() {
+            const headerPairsElement = document.getElementById('pairsLeft');
+            const timerPairsElement = document.getElementById('timerPairsLeft');
+            
+            if (headerPairsElement) {
+                headerPairsElement.textContent = pairsLeft;
+            }
+            if (timerPairsElement) {
+                timerPairsElement.textContent = pairsLeft;
+            }
+        }
+
+        function updateCartCount() {
+            const cartCountElement = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = totalItems;
+        }
+
+        function toggleCart() {
+            // Simple cart display for now
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            let cartDisplay = 'Your Cart:\\n\\n';
+            let total = 0;
+            
+            cart.forEach(item => {
+                cartDisplay += `${item.name} x${item.quantity} - ${item.price * item.quantity}\\n`;
+                total += item.price * item.quantity;
+            });
+            
+            cartDisplay += `\\nTotal: ${total}`;
+            alert(cartDisplay);
+        }
+
+        function simulateSales() {
+            // Simulate random sales every 30-60 seconds (for demo purposes)
+            setInterval(() => {
+                if (pairsLeft > 0 && Math.random() > 0.8) {
+                    pairsLeft -= Math.floor(Math.random() * 3) + 1;
+                    if (pairsLeft < 0) pairsLeft = 0;
+                    updatePairsCounter();
+                }
+            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
+        }
+
+        function startHeaderAnnouncementCycling() {
+            const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
+            
+            // Show first phrase immediately
+            document.getElementById(headerPhrases[0]).classList.add('visible');
+            
+            headerAnnouncementInterval = setInterval(() => {
+                // Hide current phrase
+                document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.remove('visible');
+                
+                // Move to next phrase
+                currentHeaderPhraseIndex = (currentHeaderPhraseIndex + 1) % headerPhrases.length;
+                
+                // Show next phrase after a brief delay
+                setTimeout(() => {
+                    document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.add('visible');
+                }, 500);
+                
+            }, 3000); // Change phrase every 3 seconds
+        }
+
+        function stopHeaderAnnouncementCycling() {
+            if (headerAnnouncementInterval) {
+                clearInterval(headerAnnouncementInterval);
+                // Hide all header phrases
+                const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
+                headerPhrases.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) element.classList.remove('visible');
+                });
+                currentHeaderPhraseIndex = 0;
+            }
+        }
+
+        function showPageContent() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // Close size guide when clicking outside
+        document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSizeGuide();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                showPageContent();
+                // Start header announcements after page loads
+                startHeaderAnnouncementCycling();
+                // Initialize pairs counter
+                updatePairsCounter();
+                updateCartCount();
+                // Start sales simulation
+                simulateSales();
+            }, 1000);
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Check user state on page load
+            checkUserState();
+            
+            const video = document.getElementById('bgVideo');
+            if (video) {
+                video.muted = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.load();
+                
+                video.addEventListener('loadeddata', function() {
+                    console.log("Video loaded successfully");
+                });
+                
+                video.addEventListener('error', function(e) {
+                    console.log("Video error:", e);
+                });
+                
+                video.play().then(() => {
+                    console.log("Video playing successfully");
+                }).catch(function(error) {
+                    console.log("Video play failed:", error);
+                    document.addEventListener('click', function() {
+                        video.play();
+                    }, { once: true });
+                });
+            }
+        });
+    </script>
+
+    <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024" type="text/javascript"></script>
+    <script>
+        fetch("https://assets.mailerlite.com/jsonp/1391734/forms/149132961884669821/takel")
+    </script>
+</body>
+</html>
