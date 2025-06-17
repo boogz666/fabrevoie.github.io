@@ -449,6 +449,7 @@
             color: white;
             background-color: #000;
             height: 100%;
+            overflow: hidden; /* Prevent body scrollbar */
         }
         
         body.loaded {
@@ -1760,15 +1761,20 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer Styles - UPDATED: Show on main page, extend overlay background */
+        /* Footer Styles - UPDATED: Hidden by default, solid background */
         .main-footer {
-            background: rgba(0, 0, 0, 0.4); /* Match overlay background */
+            display: none; /* Hidden by default */
+            background: rgba(0, 0, 0, 0.95); /* Solid background */
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
             position: relative;
             z-index: 10;
             margin-top: 0;
+        }
+
+        .main-footer.show-on-main {
+            display: block; /* Show when needed */
         }
 
         .main-footer.show-on-product {
@@ -2573,7 +2579,7 @@
                     </div>
 
                     <div class="footer-bottom">
-                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a></p>
                     </div>
                 </footer>
             </div>
@@ -2937,6 +2943,7 @@
             landingContent.classList.add('hidden');
             if (mainFooter) {
                 mainFooter.classList.add('hide-on-product');
+                mainFooter.classList.remove('show-on-main');
                 mainFooter.classList.remove('show-on-product');
             }
             
@@ -2974,12 +2981,16 @@
             const mailerLiteForm = document.getElementById('mlb2-23779383');
             const signupText = document.getElementById('signupText');
             const welcomeContainer = document.getElementById('welcomeContainer');
+            const mainFooter = document.getElementById('mainFooter');
             const standaloneBtn = document.getElementById('standaloneEnterBtn');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'flex';
+                
+                // Show footer when user signs up
+                if (mainFooter) mainFooter.classList.add('show-on-main');
                 
                 // Hide standalone button if it exists
                 if (standaloneBtn) {
@@ -2996,11 +3007,17 @@
             const mailerLiteForm = document.getElementById('mlb2-23779383');
             const signupText = document.getElementById('signupText');
             const welcomeContainer = document.getElementById('welcomeContainer');
+            const socialContainer = document.querySelector('.social-container');
+            const mainFooter = document.getElementById('mainFooter');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
                 signupText.style.display = 'none';
                 welcomeContainer.style.display = 'none';
+                
+                // Show social container and footer for returning users
+                if (socialContainer) socialContainer.style.display = 'block';
+                if (mainFooter) mainFooter.classList.add('show-on-main');
                 
                 // Create standalone enter store button without box
                 const landingContent = document.getElementById('landingContent');
@@ -3046,10 +3063,19 @@
             productOverlay.classList.remove('active');
             topLogo.classList.remove('visible');
             header.classList.remove('hidden');
+            
+            // Restore footer visibility based on user state
             if (mainFooter) {
                 mainFooter.classList.remove('hide-on-product');
                 mainFooter.classList.remove('show-on-product');
+                
+                // Show footer if user has signed up
+                const formSubmitted = localStorage.getItem('formSubmitted');
+                if (formSubmitted === 'true') {
+                    mainFooter.classList.add('show-on-main');
+                }
             }
+            
             if (fixedCartIcon) fixedCartIcon.style.display = 'none';
             
             removeScrollBehavior();
