@@ -11,21 +11,16 @@
     <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
     <meta property="og:url" content="https://fabrevoie.com">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta name="twitter:description" content="Fabrevoie - Footwear store. The Future of Fashion.">
-    <meta name="twitter:image" content="https://fabrevoie.com/images/logo.png">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied'
-        });
+        gtag('consent', 'default', {'ad_storage': 'denied', 'analytics_storage': 'denied'});
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
+    
     <script>
         (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
         .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
@@ -33,23 +28,14 @@
         (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
         ml('account', '1391734');
     </script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body:not(.loaded) #bgVideo,
-        body:not(.loaded) .content-container,
-        body:not(.loaded) .main-header,
-        body:not(.loaded) .social-container,
-        body:not(.loaded) .copyright {
-            opacity: 0;
-        }
-        
-        body:not(.loaded) #loading-screen {
-            opacity: 1;
-        }
-    </style>
+    
+    <!-- Optimized Font Loading - Removed unused fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
     @font-face {
         font-family: 'DrukWide';
@@ -57,26 +43,14 @@
         font-weight: normal;
         font-style: italic;
     }
-    @font-face {
-        font-family: 'GorgaGrotesque';
-        src: url('fonts/GorgaGrotesque-Bolditalic.ttf') format('truetype');
-        font-weight: bold;
-        font-style: italic;
-    }
     </style>
+    
     <style type="text/css">@import url("https://assets.mlcdn.com/fonts.css?version=1741947");</style>
     <style type="text/css">
     .ml-form-embedSubmitLoad {
       display: inline-block;
       width: 20px;
       height: 20px;
-    }
-    .g-recaptcha {
-    transform: scale(1);
-    -webkit-transform: scale(1);
-    transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
-    height: ;
     }
     .sr-only {
       position: absolute;
@@ -100,12 +74,8 @@
     animation: ml-form-embedSubmitLoad 1.2s linear infinite;
     }
     @keyframes ml-form-embedSubmitLoad {
-      0% {
-      transform: rotate(0deg);
-      }
-      100% {
-      transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
       #mlb2-23779383.ml-form-embedContainer {
         box-sizing: border-box;
@@ -163,7 +133,7 @@
         border-radius: 4px !important;
         border-style: solid !important;
         border-width: 1px !important;
-        font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        font-family: 'Inter', Arial, Helvetica, sans-serif;
         font-size: 14px !important;
         height: auto;
         line-height: 21px !important;
@@ -191,7 +161,7 @@
         border-radius: 4px;
         border-style: solid;
         border-width: 1px;
-        font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        font-family: 'Inter', Arial, Helvetica, sans-serif;
         font-size: 14px;
         line-height: 20px;
         margin-bottom: 0;
@@ -210,7 +180,7 @@
         box-shadow: none;
         color: #ffffff !important;
         cursor: pointer;
-        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-family: 'DrukWide', Arial, Helvetica, sans-serif;
         font-size: 14px !important;
         font-weight: 700;
         line-height: 20px;
@@ -232,7 +202,99 @@
       .ml-form-formContent.horozintalForm .ml-button-horizontal { width: 100%!important; }
       .ml-form-formContent.horozintalForm .ml-button-horizontal.labelsOn { padding-top: 0px!important; }
     </style>
+    
     <style>
+        /* CSS Variables */
+        :root {
+            --color-primary: #9ED9B5;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-weight-normal: 400;
+            --font-weight-bold: 700;
+        }
+
+        /* Base Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: white;
+            background-color: #000;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body.loaded {
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10003;
+            transition: opacity 0.5s ease-out;
+            visibility: visible;
+        }
+
+        body:not(.loaded) #loading-screen { opacity: 1; }
+        body:not(.loaded) #bgVideo,
+        body:not(.loaded) .content-container,
+        body:not(.loaded) .main-header { opacity: 0; }
+
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .loading-text {
+            font-family: var(--font-headers);
+            font-size: 14px;
+            color: var(--color-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            object-fit: cover;
+            object-position: center;
+            opacity: 1;
+        }
+
         /* Announcement Bar */
         .announcement-bar {
             position: fixed;
@@ -244,7 +306,6 @@
             padding: 12px 0;
             text-align: center;
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 14px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -265,7 +326,6 @@
 
         .announcement-countdown {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: #000;
             text-transform: uppercase;
@@ -277,7 +337,7 @@
         }
 
         .announcement-countdown #days {
-            font-family: var(--font-numbers);
+            font-family: var(--font-headers);
             font-weight: 700;
             font-size: 1.1em;
         }
@@ -313,7 +373,6 @@
 
         .announcement-header .announcement-phrase {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: white;
             text-transform: uppercase;
@@ -329,187 +388,196 @@
             opacity: 1;
         }
 
-        /* UPDATED: Main header positioning - moved higher to match cart level */
+        /* Header */
         .main-header {
             position: fixed;
-            top: 50px !important; /* Moved from 20px to 50px to clear announcement bar */
+            top: 50px;
             left: 0;
             right: 0;
             z-index: 10001;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 30px; /* Reduced from 20px to make it more compact */
+            padding: 15px 30px;
             background: transparent;
             transition: transform 0.3s ease;
         }
         
-        .main-header.hidden {
-            transform: translateY(-100%);
-        }
+        .main-header.hidden { transform: translateY(-100%); }
 
         .header-left {
             display: flex;
             align-items: center;
             gap: 30px;
-            height: 40px; /* Reduced from 50px */
+            height: 40px;
         }
 
         .header-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            height: 40px; /* Reduced from 50px */
+            height: 40px;
             display: flex;
             align-items: center;
         }
 
-        /* UPDATED: Shopping cart positioning - moved down to avoid overlap */
-        .countdown-and-cart {
+        .header-right {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-top: 8px; /* Added margin to push cart down */
         }
 
-        :root {
-            --color-primary: #9ED9B5;
-            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --font-numbers: 'DrukWide', 'Space Mono', monospace;
-            --font-primary-weight: normal;
-            --font-secondary-weight-normal: 400;
-            --font-numbers-weight: normal;
+        .sticky-logo {
+            width: 40px;
+            height: auto;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transition: transform 0.3s ease;
         }
-        .product-footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #888;
-            font-family: var(--font-body);
-            font-size: 12px;
-            width: 100%;
-            padding-bottom: 30px;
-        }
-        .product-footer-links {
+
+        .sticky-logo:hover { transform: scale(1.1); }
+
+        .header-nav {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 25px;
+            align-items: center;
         }
-        .product-footer-links a,
-        .product-footer-links a:link,
-        .product-footer-links a:visited {
-            color: white !important;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-family: var(--font-body);
+
+        .nav-link {
+            font-family: var(--font-headers);
             font-size: 14px;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
-        .product-footer-links a:hover,
-        .product-footer-links a:active {
-            color: var(--color-primary) !important;
+
+        .nav-link:hover { color: var(--color-primary); }
+
+        .top-logo {
+            height: 200px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .product-footer-social {
-            margin-top: 30px;
-        }
-        .product-footer-social .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        .product-footer-social .social-icons a {
+
+        .top-logo.visible { opacity: 1; }
+
+        /* Cart Icon */
+        .header-cart-icon {
             color: var(--color-primary);
             font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .product-footer-social .social-icons a:hover {
-            color: #7BC097;
-        }
-        .product-footer-social .social-text {
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .product-footer-social .copyright {
-            position: relative;
-            color: #888888;
-            font-family: var(--font-body);
-            font-size: 12px;
-            text-align: center;
-        }
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-body);
-            color: white;
-            background-color: #000;
-            height: 100%;
-            overflow: hidden; /* Prevent body scrollbar */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        body.loaded {
-            background-image: url('assets/images/patterned1.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        .header-cart-icon:hover {
+            color: #7BC097;
+            transform: scale(1.05);
         }
-        #loading-screen {
+
+        .cart-count {
+            background: var(--color-primary);
+            color: #000;
+            font-size: 12px;
+            font-weight: var(--font-weight-bold);
+            border-radius: 50%;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-headers);
+        }
+
+        /* Timer Container */
+        .timer-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
+            top: 120px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.15), rgba(0, 0, 0, 0.9));
+            border-radius: 12px;
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(15px);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
+            min-width: 220px;
+            z-index: 9999;
+            animation: timerPulse 3s infinite;
+        }
+
+        @keyframes timerPulse {
+            0% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(158, 217, 181, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
+        }
+
+        .timer-status {
+            font-family: var(--font-headers);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .timer-unit {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 10003;
-            transition: opacity 0.5s ease-out;
-            visibility: visible;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 6px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 35px;
         }
-        .loading-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .loading-text {
+
+        .timer-number {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
+            font-size: 1.2rem;
             color: var(--color-primary);
-            letter-spacing: 2px;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-family: var(--font-headers);
+            font-size: 0.6rem;
+            color: #888;
             text-transform: uppercase;
-            margin-top: 10px;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
-        .fade-out {
-            opacity: 0;
-            pointer-events: none;
+
+        .timer-text {
+            font-family: var(--font-headers);
+            font-size: 0.75rem;
+            color: #ccc;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
-        .bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            object-fit: cover;
-            object-position: center;
-            opacity: 1;
+
+        .pairs-left {
+            font-family: var(--font-headers);
+            font-size: 0.7rem;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
         }
+
+        /* Content Container */
         .content-container {
             position: fixed;
             top: 0;
@@ -521,9 +589,8 @@
             pointer-events: none;
             overflow-y: auto;
         }
-        .content-container > * {
-            pointer-events: all;
-        }
+
+        .content-container > * { pointer-events: all; }
 
         .content-wrapper {
             width: 100%;
@@ -534,10 +601,7 @@
             padding: 80px 20px 40px 20px;
         }
 
-        /* Add bottom padding when footer is visible */
-        .content-wrapper.footer-visible {
-            padding-bottom: 400px; /* Account for footer height */
-        }
+        /* Landing Content */
         .landing-content {
             max-width: 500px;
             width: 90%;
@@ -546,12 +610,14 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
-            padding: 30px 0; /* Simplified padding */
+            padding: 30px 0;
         }
+
         .landing-content.hidden {
             opacity: 0;
             pointer-events: none;
         }
+
         .logo-container {
             width: 400px;
             height: 400px;
@@ -561,6 +627,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .main-logo {
             max-width: 100%;
             max-height: 100%;
@@ -568,20 +635,23 @@
             height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
         }
+
         .ml-embedded {
             margin-bottom: 10px;
             width: 100%;
         }
+
         .signup-text {
             text-align: center;
             color: var(--color-primary);
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
             letter-spacing: 1px;
         }
+
+        /* Welcome Container */
         .welcome-container {
             display: none;
             flex-direction: column;
@@ -599,6 +669,7 @@
             max-width: 380px;
             backdrop-filter: blur(10px);
         }
+
         .welcome-text {
             font-family: var(--font-headers);
             font-weight: 800;
@@ -607,49 +678,70 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
             animation: pulse 2s infinite;
         }
+
         .welcome-subtext {
             font-family: var(--font-body);
-            font-weight: var(--font-secondary-weight-normal);
             font-size: 14px;
             color: #fff;
             line-height: 1.5;
             max-width: 280px;
             margin-bottom: 20px;
         }
-        .enter-button {
-            background: linear-gradient(45deg, var(--color-primary), #7BC097);
+
+        /* Consolidated Button Styles */
+        .btn {
             border: none;
             border-radius: 50px;
-            color: #000;
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 16px;
-            letter-spacing: 1px;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            padding: 15px 30px;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.3);
-            margin-top: 15px;
+            text-decoration: none;
         }
-        .enter-button:hover {
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--color-primary), #7BC097);
+            color: #000;
+            font-size: 16px;
+            padding: 15px 30px;
+            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
-        .enter-button i {
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
             font-size: 14px;
-            transition: transform 0.3s ease;
+            padding: 12px 20px;
         }
-        .enter-button:hover i {
-            transform: translateX(5px);
+
+        .btn-secondary:hover {
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-1px);
         }
+
+        .btn-large {
+            font-size: 18px;
+            padding: 18px 40px;
+            width: 100%;
+        }
+
+        /* Product Overlay */
         .product-overlay {
             position: fixed;
             top: 0;
@@ -663,10 +755,12 @@
             overflow-y: auto;
             z-index: 1000;
         }
+
         .product-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
+
         .product-overlay-content {
             min-height: 100vh;
             display: flex;
@@ -676,7 +770,6 @@
             padding: 120px 20px 200px 20px;
         }
 
-        /* UPDATED: New layout without left sidebar */
         .product-main-layout {
             display: flex;
             align-items: flex-start;
@@ -693,124 +786,14 @@
             flex: 1;
         }
 
-        /* Bundle Promotion Section - UPDATED: Horizontal layout under product description */
-        .bundle-promo {
-            width: 100%;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
-            border-radius: 15px;
-            border: 2px solid var(--color-primary);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            padding: 25px 30px;
-            margin-top: 30px;
-        }
-
-        .bundle-promo-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.4rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .bundle-promo-subtitle {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        .bundle-offers {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .bundle-offer {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .bundle-offer:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-primary);
-            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.2);
-        }
-
-        .bundle-offer-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        .bundle-offer-savings {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .bundle-offer-description {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: #ccc;
-            line-height: 1.3;
-        }
-
-        .bundle-promo-cta {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-
-        .bundle-checkout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--color-primary);
-            border-radius: 25px;
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .bundle-checkout-btn:hover {
-            background: var(--color-primary);
-            color: #000;
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.4);
-        }
+        /* Product Image Section */
         .product-image-section {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .product-image-container {
             position: relative;
             display: flex;
@@ -822,6 +805,7 @@
             overflow: hidden;
             padding: 30px;
         }
+
         .product-image {
             max-width: 100%;
             max-height: 400px;
@@ -830,6 +814,7 @@
             transition: opacity 0.3s ease;
             border-radius: 15px;
         }
+
         .image-nav-arrow {
             position: absolute;
             top: 50%;
@@ -847,35 +832,30 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
-            opacity: 1;
-            pointer-events: all;
         }
+
         .image-nav-arrow:hover {
             background: rgba(158, 217, 181, 0.8);
             color: #000;
             transform: translateY(-50%) scale(1.1);
         }
-        .image-nav-arrow.left {
-            left: -25px;
-        }
-        .image-nav-arrow.right {
-            right: -25px;
-        }
+
+        .image-nav-arrow.left { left: -25px; }
+        .image-nav-arrow.right { right: -25px; }
+
         .image-indicator {
             margin-top: 15px;
-            font-family: var(--font-numbers);
+            font-family: var(--font-headers);
             font-size: 14px;
             color: #ccc;
             letter-spacing: 1px;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-        .image-indicator .current-image {
-            color: var(--color-primary);
-            font-weight: 700;
         }
 
-        /* UPDATED: New thumbnail container */
+        .image-indicator .current-image {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
         .thumbnail-container {
             display: flex;
             gap: 1rem;
@@ -891,7 +871,7 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s ease;
-            background: var(--dark-card, rgba(255, 255, 255, 0.1));
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .thumbnail.active {
@@ -905,6 +885,7 @@
             object-fit: cover;
         }
 
+        /* Color Selector */
         .color-selector {
             display: flex;
             gap: 15px;
@@ -916,7 +897,6 @@
             justify-content: center;
         }
 
-        /* UPDATED: Rectangle color options */
         .color-option {
             width: 60px;
             height: 40px;
@@ -926,25 +906,55 @@
             transition: all 0.3s ease;
             position: relative;
         }
+
         .color-option.active {
             border-color: var(--color-primary);
             transform: scale(1.1);
             box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
         }
-        .color-option.red {
-            background: #dc3545;
-        }
-        .color-option.black {
-            background: #000000;
-        }
-        .color-option.white {
+
+        .color-option.red { background: #dc3545; }
+        .color-option.black { background: #000000; }
+        .color-option.white { 
             background: #ffffff;
             border: 3px solid #ddd;
         }
-        .color-option.white.active {
-            border-color: var(--color-primary);
+        .color-option.white.active { border-color: var(--color-primary); }
+
+        /* Product Info Section */
+        .product-info-section {
+            flex: 1;
+            max-width: 400px;
         }
 
+        .product-title {
+            font-family: var(--font-headers);
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .product-price {
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* Size Selector */
         .size-selector {
             margin-top: 40px;
             padding: 25px;
@@ -963,7 +973,6 @@
 
         .size-title {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 1.1rem;
             color: white;
             text-transform: uppercase;
@@ -1004,8 +1013,7 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             color: white;
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
+            font-family: var(--font-headers);
             font-size: 14px;
             padding: 12px 8px;
             text-align: center;
@@ -1050,6 +1058,292 @@
             border: 1px solid rgba(255, 107, 107, 0.3);
         }
 
+        /* Bundle Promotion */
+        .bundle-promo {
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+            border-radius: 15px;
+            border: 2px solid var(--color-primary);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
+            padding: 25px 30px;
+            margin-top: 30px;
+        }
+
+        .bundle-promo-title {
+            font-family: var(--font-headers);
+            font-size: 1.4rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .bundle-promo-subtitle {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .bundle-offers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bundle-offer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .bundle-offer:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-primary);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.2);
+        }
+
+        .bundle-offer-title {
+            font-family: var(--font-headers);
+            font-size: 1rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .bundle-offer-savings {
+            font-family: var(--font-headers);
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .bundle-offer-description {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.3;
+        }
+
+        .bundle-promo-cta {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        /* Back Arrow */
+        .back-arrow {
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-primary);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        /* Product Features */
+        .product-features {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .features-title {
+            font-family: var(--font-headers);
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-family: var(--font-headers);
+            font-size: 0.9rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        /* Social Container */
+        .social-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            margin-top: 20px;
+        }
+
+        .social-container.hidden { display: none; }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: var(--color-primary);
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover { color: #7BC097; }
+
+        .social-text {
+            text-align: center;
+            color: var(--color-primary);
+            font-family: var(--font-headers);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        .main-footer {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(158, 217, 181, 0.3);
+            padding: 40px 0;
+            z-index: 1001;
+        }
+
+        .main-footer.show { display: block; }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding: 0 40px;
+        }
+
+        .footer-section h4 {
+            font-family: var(--font-headers);
+            font-size: 1rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--color-primary); }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .footer-social a {
+            color: var(--color-primary);
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover { color: #7BC097; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: #888;
+            margin: 0;
+        }
+
+        .footer-bottom a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover { text-decoration: underline; }
+
         /* Size Guide Modal */
         .size-guide-modal {
             position: fixed;
@@ -1086,7 +1380,6 @@
 
         .size-guide-header h3 {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 1.5rem;
             color: #333;
             text-transform: uppercase;
@@ -1109,9 +1402,7 @@
             justify-content: center;
         }
 
-        .close-modal:hover {
-            color: #333;
-        }
+        .close-modal:hover { color: #333; }
 
         .size-guide-body {
             padding: 30px;
@@ -1157,13 +1448,8 @@
             color: #333;
         }
 
-        .size-chart tbody tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-        .size-chart tbody tr:hover {
-            background: rgba(158, 217, 181, 0.1);
-        }
+        .size-chart tbody tr:nth-child(even) { background: #f8f9fa; }
+        .size-chart tbody tr:hover { background: rgba(158, 217, 181, 0.1); }
 
         .measurement-tip {
             background: #f8f9fa;
@@ -1173,7 +1459,6 @@
 
         .measurement-tip h4 {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
@@ -1192,827 +1477,30 @@
             margin-bottom: 8px;
             font-family: var(--font-body);
         }
-        .product-info-section {
-            flex: 1;
-            max-width: 400px;
-        }
-        .product-title {
-            font-family: var(--font-headers);
-            font-weight: 800;
-            font-size: 2.5rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-        .product-description {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: white;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .product-price {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 2rem;
-            color: white;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-        }
-        .buy-button {
-            background: linear-gradient(45deg, var(--color-primary), #7BC097);
-            border: none;
-            border-radius: 50px;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 18px 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
-            width: 100%;
-            justify-content: center;
-        }
-        .buy-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
-            background: linear-gradient(45deg, #7BC097, var(--color-primary));
-        }
 
-        /* Bundle Promotion Section */
-        .bundle-promo {
-            margin-top: 25px;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 900px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
-            border-radius: 15px;
-            border: 2px solid var(--color-primary);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            padding: 25px 30px;
-        }
-
-        .bundle-promo-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.6rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .bundle-promo-subtitle {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .bundle-offers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .bundle-offer {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .bundle-offer:hover {
-            transform: translateY(-3px);
-            border-color: var(--color-primary);
-            box-shadow: 0 8px 20px rgba(158, 217, 181, 0.2);
-        }
-
-        .bundle-offer-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .bundle-offer-savings {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-
-        .bundle-offer-description {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: #ccc;
-            line-height: 1.3;
-        }
-
-        .bundle-promo-cta {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-
-        .bundle-checkout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--color-primary);
-            border-radius: 50px;
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 15px 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .bundle-checkout-btn:hover {
-            background: var(--color-primary);
-            color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(158, 217, 181, 0.4);
-        }
-
-        /* Cart Modal */
-        .cart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 20000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .cart-modal.active {
-            display: flex;
-        }
-
-        .cart-content {
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--color-primary);
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            backdrop-filter: blur(15px);
-        }
-
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 30px 20px 30px;
-            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
-        }
-
-        .cart-header h3 {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.5rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0;
-        }
-
-        .close-cart {
-            background: none;
-            border: none;
-            font-size: 30px;
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            padding: 0;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-cart:hover {
-            color: var(--color-primary);
-        }
-
-        .cart-body {
-            padding: 30px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            color: #ccc;
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            padding: 40px 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-name {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            color: white;
-            font-size: 1rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .cart-item-details {
-            font-family: var(--font-body);
-            color: #ccc;
-            font-size: 0.9rem;
-        }
-
-        .cart-item-price {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            color: var(--color-primary);
-            font-size: 1.1rem;
-            margin-left: 20px;
-        }
-
-        .cart-total {
-            border-top: 2px solid var(--color-primary);
-            padding-top: 20px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .cart-total-text {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            color: white;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .cart-total-price {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            color: var(--color-primary);
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .checkout-button {
-            background: linear-gradient(45deg, var(--color-primary), #7BC097);
-            border: none;
-            border-radius: 50px;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 15px 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .checkout-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(158, 217, 181, 0.5);
-            background: linear-gradient(45deg, #7BC097, var(--color-primary));
-        }
-        .back-arrow {
-            position: absolute;
-            top: 50%;
-            left: 30px;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .back-arrow:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--color-primary);
-            transform: translateY(-50%) translateX(-5px);
-        }
-        .product-features {
-            margin-top: 50px;
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
-        .features-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1.5rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        .feature-item {
-            text-align: center;
-        }
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-        .feature-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.9rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        .feature-description {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            color: #ccc;
-            line-height: 1.4;
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-        .sticky-logo {
-            width: 40px; /* Reduced from 50px */
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            transition: transform 0.3s ease;
-        }
-        .sticky-logo:hover {
-            transform: scale(1.1);
-        }
-        .header-nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-        .nav-link {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            color: white;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            color: var(--color-primary);
-        }
-        .header-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .top-logo {
-            height: 200px; /* Reduced from 250px */
-            width: auto;
-            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .top-logo.visible {
-            opacity: 1;
-        }
-        /* Header Cart Icon */
-        .header-cart-icon {
-            color: var(--color-primary);
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .header-cart-icon:hover {
-            color: #7BC097;
-            transform: scale(1.05);
-        }
-
-        .header-cart-icon .cart-count {
-            background: var(--color-primary);
-            color: #000;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 50%;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-numbers);
-        }
-
-        /* UPDATED: Compact Timer Container - now sticky and follows scroll */
-        .compact-timer-container {
-            position: fixed !important; /* Made sticky */
-            top: 120px; /* Position below header */
-            right: 30px; /* Fixed to right side */
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.15), rgba(0, 0, 0, 0.9));
-            border-radius: 12px;
-            border: 2px solid var(--color-primary);
-            backdrop-filter: blur(15px);
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-            min-width: 220px; /* Fixed width to prevent movement */
-            z-index: 9999; /* High z-index to stay above content */
-            animation: timerPulse 3s infinite; /* Added urgency animation */
-        }
-
-        @keyframes timerPulse {
-            0% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
-            50% { box-shadow: 0 0 35px rgba(158, 217, 181, 0.6); }
-            100% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
-        }
-
-        .compact-timer-status {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.8rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-        }
-
-        .compact-timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .compact-timer-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px 6px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 35px;
-        }
-
-        .compact-timer-number {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.2rem;
-            color: var(--color-primary);
-            text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            min-width: 22px; /* Fixed width for numbers */
-            text-align: center;
-        }
-
-        .compact-timer-label {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.6rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
-        .compact-countdown-text {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 0.75rem;
-            color: #ccc;
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .compact-pairs-left {
-            font-family: var(--font-headers);
-            font-weight: 700;
-            font-size: 0.7rem;
-            color: var(--color-primary);
-            text-shadow: 0 0 8px rgba(158, 217, 181, 0.5);
-            letter-spacing: 0.5px;
-        }
-
-        /* Footer Styles - UPDATED: Positioned outside normal flow, hidden by default */
-        .main-footer {
-            display: none; /* Hidden by default */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.95); /* Solid background */
-            backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(158, 217, 181, 0.3);
-            padding: 40px 0;
-            z-index: 1001; /* Above content but below header */
-            margin-top: 0;
-        }
-
-        .main-footer.show-on-main {
-            display: block; /* Show when needed */
-        }
-
-        .main-footer.show-on-product {
-            display: block;
-            position: relative; /* Normal flow for product page */
-            bottom: auto;
-        }
-
-        .main-footer.hide-on-product {
-            display: none;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            padding: 0 40px;
-        }
-
-        .footer-section h4 {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 1rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-
-        .footer-section p,
-        .footer-section li {
-            font-family: var(--font-body);
-            font-size: 14px;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--color-primary);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .footer-social a {
-            color: var(--color-primary);
-            font-size: 20px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-social a:hover {
-            color: #7BC097;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .footer-bottom p {
-            font-family: var(--font-body);
-            font-size: 12px;
-            color: #888;
-            margin: 0;
-        }
-
-        .footer-bottom a {
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-
-        /* UPDATED: Ensure footer doesn't interfere with main content */
-        .content-container {
-            position: relative;
-            min-height: 100vh;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.4);
-            pointer-events: none;
-        }
-
-        /* Landing Page Countdown - REMOVED since countdown moved to timer box */
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            position: relative;
-            z-index: 10003;
-        }
-        
-        .cart-count {
-            background: var(--color-primary);
-            color: #000;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 50%;
-            min-width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-numbers);
-            margin-left: 5px;
-        }
-        @keyframes rotateHourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-        .hourglass {
-            font-size: 20px;
-            animation: rotateHourglass 3s linear infinite;
-        }
-        .social-container {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            z-index: 100;
-            margin-top: 20px;
-            /* UPDATED: Positioned under enter button */
-        }
-        .social-container.hidden {
-            display: none;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .social-icons a {
-            color: var(--color-primary);
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .social-icons a:hover {
-            color: #7BC097;
-        }
-        .social-text {
-            text-align: center;
-            color: var(--color-primary);
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-        }
-        .copyright {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            color: #888888;
-            font-family: var(--font-body);
-            font-weight: var(--font-secondary-weight-normal);
-            font-size: 12px;
-            text-align: left;
-            z-index: 100;
-            white-space: nowrap;
-        }
-        .copyright a {
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-        .copyright a:hover {
-            text-decoration: underline;
-        }
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
+        /* Mobile Responsive */
         @media screen and (max-width: 768px) {
-            /* UPDATED: Mobile adjustments for header positioning */
             .main-header {
-                top: 50px !important;
+                top: 50px;
                 padding: 10px 20px;
             }
             
-            .sticky-logo {
-                width: 35px;
-            }
-            
-            .top-logo {
-                height: 150px;
-            }
+            .sticky-logo { width: 35px; }
+            .top-logo { height: 150px; }
 
             .announcement-content {
                 animation: scroll-left 25s linear infinite;
                 font-size: 12px;
             }
             
-            /* UPDATED: Mobile timer positioning */
-            .compact-timer-container {
-                position: relative !important;
-                top: auto !important;
-                right: auto !important;
+            .timer-container {
+                position: relative;
+                top: auto;
+                right: auto;
                 margin: 20px auto;
                 min-width: 180px;
             }
             
-            /* UPDATED: Mobile product layout - stack vertically */
             .product-main-layout {
                 flex-direction: column;
                 gap: 30px;
@@ -2023,18 +1511,10 @@
                 gap: 12px;
             }
             
-            .bundle-promo {
-                padding: 20px 15px;
-            }
+            .bundle-promo { padding: 20px 15px; }
+            .bundle-promo-title { font-size: 1.1rem; }
             
-            .bundle-promo-title {
-                font-size: 1.1rem;
-            }
-            
-            /* UPDATED: Mobile footer adjustments */
-            .main-footer {
-                padding: 30px 0;
-            }
+            .main-footer { padding: 30px 0; }
             
             .footer-content {
                 grid-template-columns: 1fr;
@@ -2051,9 +1531,7 @@
                 flex-direction: column;
                 gap: 30px;
             }
-            .product-title {
-                font-size: 2rem;
-            }
+            .product-title { font-size: 2rem; }
             .logo-container { 
                 width: 300px; 
                 height: 300px; 
@@ -2063,37 +1541,23 @@
                 left: 70px;
                 gap: 20px;
             }
-            .nav-link {
-                font-size: 12px;
-            }
-            .landing-content {
-                padding: 20px 0;
-            }
-            .header-cart-icon {
-                display: none;
-            }
-            .mobile-social {
-                display: block !important;
-                margin-top: 30px;
-                text-align: center;
-            }
+            .nav-link { font-size: 12px; }
+            .landing-content { padding: 20px 0; }
+            .header-cart-icon { display: none; }
         }
+
         @media screen and (max-width: 480px) {
             .logo-container { 
                 width: 250px; 
                 height: 250px; 
                 margin-bottom: 10px; 
             }
-            .product-title {
-                font-size: 1.5rem;
-            }
+            .product-title { font-size: 1.5rem; }
             .product-content {
                 gap: 20px;
                 padding: 20px;
             }
-            .header-nav {
-                display: none;
-            }
+            .header-nav { display: none; }
             .landing-content {
                 width: 95%;
                 padding: 20px 0;
@@ -2102,9 +1566,7 @@
                 height: 50px;
                 top: 15px;
             }
-            .product-overlay {
-                padding: 80px 10px 120px 10px;
-            }
+            .product-overlay { padding: 80px 10px 120px 10px; }
             .features-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -2125,42 +1587,16 @@
                 max-height: 85vh;
             }
 
-            .size-guide-header {
-                padding: 20px 20px 15px 20px;
-            }
-
-            .size-guide-body {
-                padding: 20px;
-            }
-
-            .size-chart {
-                font-size: 12px;
-            }
-
+            .size-guide-header { padding: 20px 20px 15px 20px; }
+            .size-guide-body { padding: 20px; }
+            .size-chart { font-size: 12px; }
             .size-chart th,
-            .size-chart td {
-                padding: 8px 5px;
-            }
+            .size-chart td { padding: 8px 5px; }
         }
     </style>
 </head>
 <body>
-    <script>
-        document.body.classList.add('loaded');
-    </script>
-
-    <!-- Cart Modal -->
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h3>Your Cart</h3>
-                <button class="close-cart" onclick="closeCart()">×</button>
-            </div>
-            <div class="cart-body" id="cartBody">
-                <!-- Cart items will be populated here -->
-            </div>
-        </div>
-    </div>
+    <script>document.body.classList.add('loaded');</script>
 
     <!-- Loading Screen -->
     <div id="loading-screen">
@@ -2175,12 +1611,6 @@
         <source src="bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
-
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count" id="cartCount">0</span>
-    </div>
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
@@ -2214,35 +1644,33 @@
         </div>
         
         <div class="header-right">
-            <div class="countdown-and-cart">
-                <div class="header-cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="headerCartCount">0</span>
-                </div>
+            <div class="header-cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="headerCartCount">0</span>
             </div>
         </div>
     </header>
 
-    <!-- UPDATED: Compact Timer Box - now sticky and with real countdown -->
-    <div class="compact-timer-container" id="compactTimer">
-        <div class="compact-timer-display">
-            <div class="compact-timer-unit">
-                <div class="compact-timer-number" id="presaleHours">72</div>
-                <div class="compact-timer-label">Hours</div>
+    <!-- Simplified Timer Container -->
+    <div class="timer-container" id="timerContainer">
+        <div class="timer-display">
+            <div class="timer-unit">
+                <div class="timer-number" id="timerHours">72</div>
+                <div class="timer-label">Hours</div>
             </div>
-            <div class="compact-timer-unit">
-                <div class="compact-timer-number" id="presaleMinutes">00</div>
-                <div class="compact-timer-label">Minutes</div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerMinutes">00</div>
+                <div class="timer-label">Minutes</div>
             </div>
-            <div class="compact-timer-unit">
-                <div class="compact-timer-number" id="presaleSeconds">00</div>
-                <div class="compact-timer-label">Seconds</div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerSeconds">00</div>
+                <div class="timer-label">Seconds</div>
             </div>
         </div>
-        <div class="compact-timer-status" id="timerStatus">Pre-sale starts in...</div>
-        <div class="compact-countdown-text" id="countdownText">116 days:12 hours:34 minutes:56 seconds</div>
-        <div class="compact-pairs-left">
-            <span id="compactPairsLeft">100</span>/100 PAIRS LEFT
+        <div class="timer-status" id="timerStatus">Pre-sale starts in...</div>
+        <div class="timer-text" id="timerText">116 days:12 hours:34 minutes:56 seconds</div>
+        <div class="pairs-left">
+            <span id="pairsLeft">100</span>/100 PAIRS LEFT
         </div>
     </div>
 
@@ -2300,13 +1728,12 @@
                 <div id="welcomeContainer" class="welcome-container">
                     <div class="welcome-text">WELCOME</div>
                     <p class="welcome-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
-                    <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
+                    <button id="enterButton" class="btn btn-primary" onclick="showProductOverlay()">
                         ENTER STORE
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
 
-                <!-- Social media icons moved under enter button -->
                 <div class="social-container">
                     <div class="social-icons">
                         <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
@@ -2321,7 +1748,7 @@
             </div>
         </div>
 
-        <!-- Footer at bottom of main page -->
+        <!-- Single Footer -->
         <footer class="main-footer" id="mainFooter">
             <div class="footer-content">
                 <div class="footer-section">
@@ -2384,9 +1811,7 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
-                <!-- UPDATED: Removed left sidebar, main product content -->
                 <div class="product-main-layout">
-                    <!-- Main Product Content -->
                     <div class="product-content">
                         <div class="product-image-section">
                             <div class="product-image-container">
@@ -2403,7 +1828,6 @@
                                 <span class="current-image">1</span> / <span class="total-images">3</span>
                             </div>
                             
-                            <!-- UPDATED: New thumbnail container -->
                             <div class="thumbnail-container">
                                 <div class="thumbnail active" onclick="changeImage(0)">
                                     <img src="assets/images/prodp3.png" alt="View 1">
@@ -2428,7 +1852,6 @@
                             <p class="product-description">Eccentric footwear that challenges convention and redefines what shoes can be. The SBHMN 1 features bold, oversized proportions with surprisingly lightweight construction—a paradox of presence and comfort. Each pair embodies futuristic design philosophy and out-of-the-box thinking, crafted for those who dare to make a statement that can't be ignored.</p>
                             <div class="product-price">$269</div>
                             
-                            <!-- UPDATED: Bundle moved here, under description -->
                             <div class="bundle-promo">
                                 <h3 class="bundle-promo-title">Exclusive Bundles</h3>
                                 <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
@@ -2454,13 +1877,12 @@
                                 </div>
                                 
                                 <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
-                                <a href="checkout.html" class="bundle-checkout-btn">
+                                <a href="checkout.html" class="btn btn-secondary">
                                     <i class="fas fa-gifts"></i>
                                     View Bundles
                                 </a>
                             </div>
                             
-                            <!-- Size Selector -->
                             <div class="size-selector">
                                 <div class="size-selector-header">
                                     <h4 class="size-title">Select Size</h4>
@@ -2487,7 +1909,7 @@
                                 </div>
                             </div>
                             
-                            <button class="buy-button" id="buyButton" onclick="buyProduct()">
+                            <button class="btn btn-primary btn-large" id="buyButton" onclick="buyProduct()">
                                 BUY NOW
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
@@ -2512,85 +1934,15 @@
                             <div class="feature-title">Eccentric Vision</div>
                             <div class="feature-description">Out-of-the-box thinking translated into wearable art for the fearless</div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="product-footer">
-                    <div class="product-footer-links">
-                        <a href="#">Returns</a>
-                        <a href="#">Shipping</a>
-                        <a href="#">Support</a>
-                    </div>
-                    
-                    <div class="product-footer-social">
-                        <div class="social-icons">
-                            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                        </div>
-                        <p class="social-text">Show your support by following our socials.</p>
-                    </div>
-                </div>
-
-                <!-- Product Page Footer -->
-                <footer class="main-footer" style="background: rgba(0, 0, 0, 0.95);">
-                    <div class="footer-content">
-                        <div class="footer-section">
-                            <h4>About Fabrevoie</h4>
-                            <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
-                            <div class="footer-social">
-                                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                                    <i class="fab fa-tiktok"></i>
-                                </a>
-                                <a href="#" target="_blank" aria-label="Follow us on Twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-rocket"></i>
                             </div>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Customer Care</h4>
-                            <ul>
-                                <li><a href="#">Contact Support</a></li>
-                                <li><a href="#">Size Guide</a></li>
-                                <li><a href="#">Shipping Info</a></li>
-                                <li><a href="#">Returns & Exchanges</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="#">Our Story</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Press</a></li>
-                                <li><a href="#">Sustainability</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Legal</h4>
-                            <ul>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Refund Policy</a></li>
-                                <li><a href="#">Cookie Policy</a></li>
-                            </ul>
+                            <div class="feature-title">Futuristic Design</div>
+                            <div class="feature-description">Avant-garde aesthetics that push the boundaries of footwear design</div>
                         </div>
                     </div>
-
-                    <div class="footer-bottom">
-                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a></p>
-                    </div>
-                </footer>
+                </div>
             </div>
         </div>
     </div>
@@ -2706,71 +2058,164 @@
     </div>
 
     <script>
-        // Product image variables
-        let currentColor = 'red'; // UPDATED: Start with red
-        let currentImageIndex = 0;
-        let selectedSize = null;
-        const productImages = {
-            white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
-            black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
-            red: ['assets/images/prodp3.png', 'assets/images/r2.png', 'assets/images/r3.png']
+        // Simplified State Management
+        const state = {
+            currentColor: 'red',
+            currentImageIndex: 0,
+            selectedSize: null,
+            pairsLeft: 100,
+            cart: [],
+            currentHeaderPhraseIndex: 0,
+            headerAnnouncementInterval: null
         };
 
-        // UPDATED: Timer variables with 72-hour pre-sale starting 3 days before drop
-        const dropDate = new Date('2025-10-14T14:00:00+02:00'); // October 14th, 2PM Paris time
-        const presaleStartDate = new Date(dropDate.getTime() - (3 * 24 * 60 * 60 * 1000)); // 3 days before drop
-        const presaleEndDate = new Date(presaleStartDate.getTime() + (72 * 60 * 60 * 1000)); // 72 hours after pre-sale starts
+        const config = {
+            dropDate: new Date('2025-10-14T14:00:00+02:00'),
+            presaleStartDate: new Date('2025-10-07T14:00:00+02:00'),
+            productImages: {
+                white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
+                black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
+                red: ['assets/images/prodp3.png', 'assets/images/r2.png', 'assets/images/r3.png']
+            }
+        };
 
-        // UPDATED: New image gallery functions
+        // Simplified Timer Function
+        function updateTimer() {
+            const now = new Date();
+            const timeDiff = config.presaleStartDate - now;
+            
+            const timerHours = document.getElementById('timerHours');
+            const timerMinutes = document.getElementById('timerMinutes');
+            const timerSeconds = document.getElementById('timerSeconds');
+            const timerStatus = document.getElementById('timerStatus');
+            const timerText = document.getElementById('timerText');
+            
+            if (now < config.presaleStartDate) {
+                // Before pre-sale
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                
+                timerHours.textContent = '72';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
+                timerStatus.textContent = 'Starts in...';
+                timerText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
+            } else {
+                // After pre-sale start
+                timerHours.textContent = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
+                timerStatus.textContent = 'LIVE NOW!';
+                timerText.textContent = 'Shop now - limited stock available!';
+            }
+        }
+
+        // Product Functions
         function changeImage(index) {
-            currentImageIndex = index;
+            state.currentImageIndex = index;
             updateProductImage();
             updateThumbnails();
         }
 
+        function updateProductImage() {
+            const productImage = document.getElementById('productImage');
+            const currentIndicator = document.querySelector('.current-image');
+            const images = config.productImages[state.currentColor];
+            
+            productImage.style.opacity = '0';
+            setTimeout(() => {
+                productImage.src = images[state.currentImageIndex];
+                productImage.style.opacity = '1';
+                currentIndicator.textContent = state.currentImageIndex + 1;
+                document.querySelector('.total-images').textContent = images.length;
+            }, 150);
+        }
+
         function updateThumbnails() {
             const thumbnails = document.querySelectorAll('.thumbnail');
-            const images = productImages[currentColor];
+            const images = config.productImages[state.currentColor];
             
             thumbnails.forEach((thumb, index) => {
                 if (images && images[index]) {
                     thumb.querySelector('img').src = images[index];
-                    thumb.classList.toggle('active', index === currentImageIndex);
+                    thumb.classList.toggle('active', index === state.currentImageIndex);
                 }
             });
         }
 
+        function nextImage() {
+            const images = config.productImages[state.currentColor];
+            state.currentImageIndex = (state.currentImageIndex + 1) % images.length;
+            updateProductImage();
+            updateThumbnails();
+        }
+
+        function previousImage() {
+            const images = config.productImages[state.currentColor];
+            state.currentImageIndex = (state.currentImageIndex - 1 + images.length) % images.length;
+            updateProductImage();
+            updateThumbnails();
+        }
+
+        function changeProductColor(color) {
+            document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            state.currentColor = color;
+            state.currentImageIndex = 0;
+            updateProductImage();
+            updateThumbnails();
+            resetSizeSelection();
+        }
+
         function selectSize(size) {
-            // Remove previous selection
-            document.querySelectorAll('.size-option').forEach(option => {
-                option.classList.remove('selected');
-            });
+            document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
             
-            // Add selection to clicked size (if not out of stock)
             const sizeElement = document.querySelector(`[data-size="${size}"]`);
             if (!sizeElement.classList.contains('out-of-stock')) {
                 sizeElement.classList.add('selected');
-                selectedSize = size;
-                
-                // Hide size warning
+                state.selectedSize = size;
                 document.getElementById('sizeWarning').style.display = 'none';
-                
-                // Update buy button
                 updateBuyButtonText();
             }
         }
 
-        function updateBuyButtonText() {
-            const buyButton = document.getElementById('buyButton');
-            const colorText = currentColor.charAt(0).toUpperCase() + currentColor.slice(1);
-            
-            if (selectedSize) {
-                buyButton.innerHTML = `BUY ${colorText.toUpperCase()} - SIZE ${selectedSize} <i class="fas fa-shopping-cart"></i>`;
-            } else {
-                buyButton.innerHTML = `BUY NOW <i class="fas fa-shopping-cart"></i>`;
-            }
+        function resetSizeSelection() {
+            state.selectedSize = null;
+            document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
+            document.getElementById('sizeWarning').style.display = 'none';
+            updateBuyButtonText();
         }
 
+        function updateBuyButtonText() {
+            const buyButton = document.getElementById('buyButton');
+            const colorText = state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1);
+            
+            buyButton.innerHTML = state.selectedSize 
+                ? `BUY ${colorText.toUpperCase()} - SIZE ${state.selectedSize} <i class="fas fa-shopping-cart"></i>`
+                : 'BUY NOW <i class="fas fa-shopping-cart"></i>';
+        }
+
+        function buyProduct() {
+            if (!state.selectedSize) {
+                document.getElementById('sizeWarning').style.display = 'block';
+                document.getElementById('sizeWarning').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            const productData = {
+                name: 'SBHMN 1',
+                color: state.currentColor,
+                size: state.selectedSize,
+                price: 269,
+                image: config.productImages[state.currentColor][0]
+            };
+            sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+            window.location.href = 'checkout.html';
+        }
+
+        // Size Guide Functions
         function openSizeGuide() {
             document.getElementById('sizeGuideModal').style.display = 'flex';
         }
@@ -2779,377 +2224,53 @@
             document.getElementById('sizeGuideModal').style.display = 'none';
         }
 
-        function buyProduct() {
-            if (!selectedSize) {
-                document.getElementById('sizeWarning').style.display = 'block';
-                document.getElementById('sizeWarning').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            
-            // Store product data for checkout
-            const productData = {
-                name: 'SBHMN 1',
-                color: currentColor,
-                size: selectedSize,
-                price: 269,
-                image: getProductImageForCheckout(currentColor)
-            };
-            sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
-            
-            // Redirect to checkout
-            window.location.href = 'checkout.html';
-        }
-
-        function getProductImageForCheckout(color) {
-            const checkoutImages = {
-                white: 'prodp1.png',
-                black: 'prodp2.png', 
-                red: 'prodp3.png'
-            };
-            return checkoutImages[color] || 'prodp3.png'; // Default to red
-        }
-
-        // Product image functions
-        function updateProductImage() {
-            const productImage = document.getElementById('productImage');
-            const currentIndicator = document.querySelector('.current-image');
-            const images = productImages[currentColor];
-            
-            productImage.style.opacity = '0';
-            setTimeout(() => {
-                productImage.src = images[currentImageIndex];
-                productImage.style.opacity = '1';
-                currentIndicator.textContent = currentImageIndex + 1;
-                document.querySelector('.total-images').textContent = images.length;
-            }, 150);
-        }
-
-        function nextImage() {
-            const images = productImages[currentColor];
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            updateProductImage();
-            updateThumbnails();
-        }
-
-        function previousImage() {
-            const images = productImages[currentColor];
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            updateProductImage();
-            updateThumbnails();
-        }
-
-        function changeProductColor(color) {
-            const colorOptions = document.querySelectorAll('.color-option');
-            colorOptions.forEach(option => option.classList.remove('active'));
-            document.querySelector(`[data-color="${color}"]`).classList.add('active');
-            currentColor = color;
-            currentImageIndex = 0;
-            updateProductImage();
-            updateThumbnails();
-            
-            // Reset size selection when changing color
-            selectedSize = null;
-            document.querySelectorAll('.size-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            document.getElementById('sizeWarning').style.display = 'none';
-            
-            updateBuyButtonText();
-        }
-
-        // UPDATED: Real timer functionality for new layout
-        function updateRealTimer() {
-            const now = new Date();
-            const presaleHours = document.getElementById('presaleHours');
-            const presaleMinutes = document.getElementById('presaleMinutes');
-            const presaleSeconds = document.getElementById('presaleSeconds');
-            const timerStatus = document.getElementById('timerStatus');
-            const countdownText = document.getElementById('countdownText');
-            
-            if (now < presaleStartDate) {
-                // Before pre-sale starts - show countdown to pre-sale start
-                const timeDiff = presaleStartDate - now;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                // Top timer shows 72:00:00
-                presaleHours.textContent = '72';
-                presaleMinutes.textContent = '00';
-                presaleSeconds.textContent = '00';
-                
-                // Status text
-                timerStatus.textContent = 'Starts in...';
-                
-                // Countdown text
-                countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
-                
-            } else if (now >= presaleStartDate && now < presaleEndDate) {
-                // During 72-hour pre-sale period - countdown the 72 hours
-                const timeDiff = presaleEndDate - now;
-                const totalHours = Math.floor(timeDiff / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                // Top timer shows remaining pre-sale time
-                presaleHours.textContent = totalHours.toString().padStart(2, '0');
-                presaleMinutes.textContent = minutes.toString().padStart(2, '0');
-                presaleSeconds.textContent = seconds.toString().padStart(2, '0');
-                
-                // Status text
-                timerStatus.textContent = 'Ends in...';
-                
-                // Countdown text shows time to main drop
-                const dropTimeDiff = dropDate - now;
-                const dropDays = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
-                const dropHours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
-                
-                countdownText.textContent = `Main drop in: ${dropDays} days:${dropHours.toString().padStart(2, '0')} hours:${dropMinutes.toString().padStart(2, '0')} minutes:${dropSeconds.toString().padStart(2, '0')} seconds`;
-                
-            } else if (now >= presaleEndDate && now < dropDate) {
-                // Between pre-sale end and main drop
-                const timeDiff = dropDate - now;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                // Top timer shows 00:00:00
-                presaleHours.textContent = '00';
-                presaleMinutes.textContent = '00';
-                presaleSeconds.textContent = '00';
-                
-                // Status text
-                timerStatus.textContent = 'Starts in...';
-                
-                // Countdown text
-                countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
-                
-            } else {
-                // After main drop
-                presaleHours.textContent = '00';
-                presaleMinutes.textContent = '00';
-                presaleSeconds.textContent = '00';
-                timerStatus.textContent = 'LIVE NOW!';
-                countdownText.textContent = 'Shop now - limited stock available!';
-            }
-        }
-
-        // Initialize product gallery when showing overlay
-        function showProductOverlay() {
-            const landingContent = document.getElementById('landingContent');
-            const productOverlay = document.getElementById('productOverlay');
-            const topLogo = document.getElementById('topLogo');
-            const mainFooter = document.getElementById('mainFooter');
-            const contentWrapper = document.querySelector('.content-wrapper');
-            const fixedCartIcon = document.getElementById('fixedCartIcon');
-            
-            // Mark that user has visited shop
-            localStorage.setItem('hasVisitedShop', 'true');
-            
-            landingContent.classList.add('hidden');
-            if (mainFooter) {
-                mainFooter.classList.add('hide-on-product');
-                mainFooter.classList.remove('show-on-main');
-                mainFooter.classList.remove('show-on-product');
-            }
-            if (contentWrapper) contentWrapper.classList.remove('footer-visible');
-            
-            setTimeout(() => {
-                productOverlay.classList.add('active');
-                topLogo.classList.add('visible');
-                if (fixedCartIcon) fixedCartIcon.style.display = 'flex';
-                updateProductImage(); // Initialize the product images
-                updateThumbnails(); // Initialize thumbnails
-                addScrollBehavior();
-            }, 250);
-        }
-
-        // Rest of your existing JavaScript functions remain unchanged
-        let lastScrollTop = 0;
-
-        function updateCountdown() {
-            // Countdown functionality for timer box only
-            const now = new Date().getTime();
-            const distance = presaleStartDate.getTime() - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            // Timer box countdown is handled by updateRealTimer function
-        }
-
+        // Simplified User State Management
         function ml_webform_success_23779383() {
-            var $ = ml_jQuery || jQuery;
-            $('.ml-subscribe-form-23779383 .row-success').show();
-            $('.ml-subscribe-form-23779383 .row-form').hide();
-            
             localStorage.setItem('formSubmitted', 'true');
             showWelcome();
         }
 
         function showWelcome() {
-            const mailerLiteForm = document.getElementById('mlb2-23779383');
-            const signupText = document.getElementById('signupText');
-            const welcomeContainer = document.getElementById('welcomeContainer');
-            const mainFooter = document.getElementById('mainFooter');
-            const contentWrapper = document.querySelector('.content-wrapper');
-            const standaloneBtn = document.getElementById('standaloneEnterBtn');
-
-            if (mailerLiteForm && signupText && welcomeContainer) {
-                mailerLiteForm.style.display = 'none';
-                signupText.style.display = 'none';
-                welcomeContainer.style.display = 'flex';
-                
-                // Show footer when user signs up
-                if (mainFooter) mainFooter.classList.add('show-on-main');
-                if (contentWrapper) contentWrapper.classList.add('footer-visible');
-                
-                // Hide standalone button if it exists
-                if (standaloneBtn) {
-                    standaloneBtn.style.display = 'none';
-                }
-                
-                // Store welcome state
-                localStorage.setItem('welcomeShown', 'true');
-                localStorage.setItem('formSubmitted', 'true');
-            }
-        }
-
-        function showEnterStoreOnly() {
-            const mailerLiteForm = document.getElementById('mlb2-23779383');
-            const signupText = document.getElementById('signupText');
-            const welcomeContainer = document.getElementById('welcomeContainer');
-            const socialContainer = document.querySelector('.social-container');
-            const mainFooter = document.getElementById('mainFooter');
-            const contentWrapper = document.querySelector('.content-wrapper');
-
-            if (mailerLiteForm && signupText && welcomeContainer) {
-                mailerLiteForm.style.display = 'none';
-                signupText.style.display = 'none';
-                welcomeContainer.style.display = 'none';
-                
-                // Show social container and footer for returning users
-                if (socialContainer) socialContainer.style.display = 'block';
-                if (mainFooter) mainFooter.classList.add('show-on-main');
-                if (contentWrapper) contentWrapper.classList.add('footer-visible');
-                
-                // Create standalone enter store button without box
-                const landingContent = document.getElementById('landingContent');
-                let enterStoreBtn = document.getElementById('standaloneEnterBtn');
-                
-                if (!enterStoreBtn) {
-                    enterStoreBtn = document.createElement('button');
-                    enterStoreBtn.id = 'standaloneEnterBtn';
-                    enterStoreBtn.className = 'enter-button';
-                    enterStoreBtn.onclick = showProductOverlay;
-                    enterStoreBtn.innerHTML = 'ENTER STORE <i class="fas fa-arrow-right"></i>';
-                    enterStoreBtn.style.marginTop = '30px';
-                    landingContent.appendChild(enterStoreBtn);
-                } else {
-                    enterStoreBtn.style.display = 'flex';
-                }
-            }
+            document.getElementById('mlb2-23779383').style.display = 'none';
+            document.getElementById('signupText').style.display = 'none';
+            document.getElementById('welcomeContainer').style.display = 'flex';
+            document.getElementById('mainFooter').classList.add('show');
         }
 
         function checkUserState() {
-            const formSubmitted = localStorage.getItem('formSubmitted');
-            const hasVisitedShop = localStorage.getItem('hasVisitedShop');
-            
-            if (formSubmitted === 'true') {
-                if (hasVisitedShop === 'true') {
-                    // User has signed up and visited shop - show only enter store button
-                    showEnterStoreOnly();
-                } else {
-                    // User has signed up but hasn't visited shop yet - show welcome message
-                    showWelcome();
-                }
+            if (localStorage.getItem('formSubmitted') === 'true') {
+                showWelcome();
             }
         }
 
-        function hideProductOverlay() {
-            const landingContent = document.getElementById('landingContent');
-            const productOverlay = document.getElementById('productOverlay');
-            const topLogo = document.getElementById('topLogo');
-            const header = document.querySelector('.main-header');
-            const mainFooter = document.getElementById('mainFooter');
-            const contentWrapper = document.querySelector('.content-wrapper');
-            const fixedCartIcon = document.getElementById('fixedCartIcon');
-            
-            productOverlay.classList.remove('active');
-            topLogo.classList.remove('visible');
-            header.classList.remove('hidden');
-            
-            // Restore footer visibility based on user state
-            if (mainFooter) {
-                mainFooter.classList.remove('hide-on-product');
-                mainFooter.classList.remove('show-on-product');
-                
-                // Show footer if user has signed up
-                const formSubmitted = localStorage.getItem('formSubmitted');
-                if (formSubmitted === 'true') {
-                    mainFooter.classList.add('show-on-main');
-                    if (contentWrapper) contentWrapper.classList.add('footer-visible');
-                }
-            }
-            
-            if (fixedCartIcon) fixedCartIcon.style.display = 'none';
-            
-            removeScrollBehavior();
+        // Overlay Functions
+        function showProductOverlay() {
+            document.getElementById('landingContent').classList.add('hidden');
+            document.getElementById('mainFooter').classList.remove('show');
             
             setTimeout(() => {
-                landingContent.classList.remove('hidden');
+                document.getElementById('productOverlay').classList.add('active');
+                document.getElementById('topLogo').classList.add('visible');
+                updateProductImage();
+                updateThumbnails();
             }, 250);
         }
 
-        function addScrollBehavior() {
-            const productOverlay = document.getElementById('productOverlay');
-            productOverlay.addEventListener('scroll', handleScroll);
-        }
-
-        function removeScrollBehavior() {
-            const productOverlay = document.getElementById('productOverlay');
-            productOverlay.removeEventListener('scroll', handleScroll);
-        }
-
-        function handleScroll() {
-            const header = document.querySelector('.main-header');
-            const productOverlay = document.getElementById('productOverlay');
-            const scrollTop = productOverlay.scrollTop;
+        function hideProductOverlay() {
+            document.getElementById('productOverlay').classList.remove('active');
+            document.getElementById('topLogo').classList.remove('visible');
             
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-            
-            lastScrollTop = scrollTop;
+            setTimeout(() => {
+                document.getElementById('landingContent').classList.remove('hidden');
+                if (localStorage.getItem('formSubmitted') === 'true') {
+                    document.getElementById('mainFooter').classList.add('show');
+                }
+            }, 250);
         }
 
-        let currentHeaderPhraseIndex = 0;
-        let headerAnnouncementInterval;
-        let pairsLeft = 100;
-        let cart = [];
-
-        function updatePairsCounter() {
-            const compactPairsElement = document.getElementById('compactPairsLeft');
-            if (compactPairsElement) {
-                compactPairsElement.textContent = pairsLeft;
-            }
-        }
-
-        function updateCartCount() {
-            const cartCountElement = document.getElementById('cartCount');
-            const headerCartCountElement = document.getElementById('headerCartCount');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            if (cartCountElement) cartCountElement.textContent = totalItems;
-            if (headerCartCountElement) headerCartCountElement.textContent = totalItems;
-        }
-
+        // Cart Functions
         function toggleCart() {
-            // Simple cart display for now
-            if (cart.length === 0) {
+            if (state.cart.length === 0) {
                 alert('Your cart is empty');
                 return;
             }
@@ -3157,104 +2278,88 @@
             let cartDisplay = 'Your Cart:\n\n';
             let total = 0;
             
-            cart.forEach(item => {
-                cartDisplay += `${item.name} x${item.quantity} - ${item.price * item.quantity}\n`;
+            state.cart.forEach(item => {
+                cartDisplay += `${item.name} x${item.quantity} - $${item.price * item.quantity}\n`;
                 total += item.price * item.quantity;
             });
             
-            cartDisplay += `\nTotal: ${total}`;
+            cartDisplay += `\nTotal: $${total}`;
             alert(cartDisplay);
         }
 
-        function simulateSales() {
-            // Simulate random sales every 30-60 seconds (for demo purposes)
-            setInterval(() => {
-                if (pairsLeft > 0 && Math.random() > 0.8) {
-                    pairsLeft -= Math.floor(Math.random() * 3) + 1;
-                    if (pairsLeft < 0) pairsLeft = 0;
-                    updatePairsCounter();
-                }
-            }, Math.random() * 30000 + 30000); // Random interval between 30-60 seconds
+        function updateCartCount() {
+            const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('headerCartCount').textContent = totalItems;
         }
 
+        function updatePairsLeft() {
+            document.getElementById('pairsLeft').textContent = state.pairsLeft;
+        }
+
+        // Header Announcement Functions
         function startHeaderAnnouncementCycling() {
             const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
             
             // Show first phrase immediately
             document.getElementById(headerPhrases[0]).classList.add('visible');
             
-            headerAnnouncementInterval = setInterval(() => {
+            state.headerAnnouncementInterval = setInterval(() => {
                 // Hide current phrase
-                document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.remove('visible');
+                document.getElementById(headerPhrases[state.currentHeaderPhraseIndex]).classList.remove('visible');
                 
                 // Move to next phrase
-                currentHeaderPhraseIndex = (currentHeaderPhraseIndex + 1) % headerPhrases.length;
+                state.currentHeaderPhraseIndex = (state.currentHeaderPhraseIndex + 1) % headerPhrases.length;
                 
                 // Show next phrase after a brief delay
                 setTimeout(() => {
-                    document.getElementById(headerPhrases[currentHeaderPhraseIndex]).classList.add('visible');
+                    document.getElementById(headerPhrases[state.currentHeaderPhraseIndex]).classList.add('visible');
                 }, 500);
                 
             }, 3000); // Change phrase every 3 seconds
         }
 
         function stopHeaderAnnouncementCycling() {
-            if (headerAnnouncementInterval) {
-                clearInterval(headerAnnouncementInterval);
+            if (state.headerAnnouncementInterval) {
+                clearInterval(state.headerAnnouncementInterval);
                 // Hide all header phrases
                 const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3', 'headerPhrase4'];
                 headerPhrases.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) element.classList.remove('visible');
                 });
-                currentHeaderPhraseIndex = 0;
+                state.currentHeaderPhraseIndex = 0;
             }
         }
 
+        // Initialization
         function showPageContent() {
             const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => loadingScreen.style.display = 'none', 500);
         }
 
-        // Close size guide when clicking outside
+        // Close modals when clicking outside
         document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeSizeGuide();
-            }
+            if (e.target === this) closeSizeGuide();
         });
 
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 showPageContent();
-                // Start header announcements after page loads
-                startHeaderAnnouncementCycling();
-                // Initialize counters
-                updatePairsCounter();
+                updatePairsLeft();
                 updateCartCount();
-                // Start sales simulation
-                simulateSales();
             }, 1000);
             
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
+            updateTimer();
+            setInterval(updateTimer, 1000);
             
-            // UPDATED: Start real timer
-            updateRealTimer();
-            setInterval(updateRealTimer, 1000);
-            
-            // Check user state on page load
             checkUserState();
-            
-            // UPDATED: Initialize product display with red as default
             updateProductImage();
             updateThumbnails();
             updateBuyButtonText();
             
+            // Video setup
             const video = document.getElementById('bgVideo');
             if (video) {
                 video.muted = true;
@@ -3262,21 +2367,8 @@
                 video.loop = true;
                 video.load();
                 
-                video.addEventListener('loadeddata', function() {
-                    console.log("Video loaded successfully");
-                });
-                
-                video.addEventListener('error', function(e) {
-                    console.log("Video error:", e);
-                });
-                
-                video.play().then(() => {
-                    console.log("Video playing successfully");
-                }).catch(function(error) {
-                    console.log("Video play failed:", error);
-                    document.addEventListener('click', function() {
-                        video.play();
-                    }, { once: true });
+                video.play().catch(() => {
+                    document.addEventListener('click', () => video.play(), { once: true });
                 });
             }
         });
@@ -3288,10 +2380,3 @@
     </script>
 </body>
 </html>
-                            <div class="feature-icon">
-                                <i class="fas fa-rocket"></i>
-                            </div>
-                            <div class="feature-title">Futuristic Design</div>
-                            <div class="feature-description">Avant-garde aesthetics that push the boundaries of footwear design</div>
-                        </div>
-                        <div class="feature-item">
