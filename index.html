@@ -531,14 +531,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: calc(100vh - 250px); /* Account for footer and announcement bar */
-            padding: 20px 0;
+            padding: 80px 20px 40px 20px; /* Add padding top and bottom */
         }
         .landing-content {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             max-width: 500px;
             width: 90%;
             display: flex;
@@ -546,9 +541,7 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
-            min-height: 600px;
-            justify-content: center;
-            padding-top: 30px;
+            padding: 30px 0; /* Simplified padding */
         }
         .landing-content.hidden {
             opacity: 0;
@@ -1646,24 +1639,6 @@
         .top-logo.visible {
             opacity: 1;
         }
-        .countdown {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 18px;
-            color: var(--color-primary);
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-        .countdown #days {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 1.2em;
-            letter-spacing: 1px;
-        }
-
         /* Header Cart Icon */
         .header-cart-icon {
             color: var(--color-primary);
@@ -1785,23 +1760,23 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer Styles - UPDATED: Show on main page, hidden on product page by default */
+        /* Footer Styles - UPDATED: Show on main page, extend overlay background */
         .main-footer {
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.4); /* Match overlay background */
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
             position: relative;
             z-index: 10;
-            margin-top: 0; /* No gap with overlay */
+            margin-top: 0;
         }
 
         .main-footer.show-on-product {
-            display: block; /* Show on product page */
+            display: block;
         }
 
         .main-footer.hide-on-product {
-            display: none; /* Hide when on product page */
+            display: none;
         }
 
         .footer-content {
@@ -1896,26 +1871,7 @@
             pointer-events: none;
         }
 
-        /* Landing Page Countdown */
-        .countdown-landing {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 16px;
-            color: var(--color-primary);
-            text-shadow: 0 0 10px rgba(158, 217, 181, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-        .countdown-landing #daysLanding {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            font-size: 1.1em;
-            letter-spacing: 1px;
-        }
+        /* Landing Page Countdown - REMOVED since countdown moved to timer box */
         .header-right {
             display: flex;
             flex-direction: column;
@@ -2027,19 +1983,8 @@
                 height: 150px;
             }
 
-            /* UPDATED: Mobile announcement bar */
-            .announcement-bar {
-                flex-direction: column;
-                padding: 8px 15px;
-                gap: 5px;
-            }
-
             .announcement-content {
                 animation: scroll-left 25s linear infinite;
-                font-size: 12px;
-            }
-
-            .announcement-countdown {
                 font-size: 12px;
             }
             
@@ -2107,13 +2052,9 @@
                 font-size: 12px;
             }
             .landing-content {
-                min-height: calc(100vh - 100px);
-                padding-bottom: 100px;
+                padding: 20px 0;
             }
             .header-cart-icon {
-                display: none;
-            }
-            .copyright {
                 display: none;
             }
             .mobile-social {
@@ -2139,9 +2080,8 @@
                 display: none;
             }
             .landing-content {
-                min-height: calc(100vh - 160px);
                 width: 95%;
-                padding-bottom: 160px;
+                padding: 20px 0;
             }
             .top-logo {
                 height: 50px;
@@ -2231,10 +2171,6 @@
     <div class="announcement-bar">
         <div class="announcement-content">
             PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • LIVE DROP OCTOBER 14TH • LIMITED TO 500 PAIRS ONLY • FREE SHIPPING
-        </div>
-        <div class="announcement-countdown" id="countdown">
-            PRE-SALE OPENS IN: <span id="days">00</span> DAYS
-            <i class="fas fa-hourglass hourglass"></i>
         </div>
     </div>
 
@@ -2585,7 +2521,7 @@
                 </div>
 
                 <!-- Product Page Footer -->
-                <footer class="main-footer">
+                <footer class="main-footer" style="background: rgba(0, 0, 0, 0.95);">
                     <div class="footer-content">
                         <div class="footer-section">
                             <h4>About Fabrevoie</h4>
@@ -2752,12 +2688,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="copyright">
-        &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-        <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
 
     <script>
@@ -3024,10 +2954,11 @@
         let lastScrollTop = 0;
 
         function updateCountdown() {
+            // Countdown functionality for timer box only
             const now = new Date().getTime();
             const distance = presaleStartDate.getTime() - now;
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById('days').textContent = days;
+            // Timer box countdown is handled by updateRealTimer function
         }
 
         function ml_webform_success_23779383() {
