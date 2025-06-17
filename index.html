@@ -520,19 +520,23 @@
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
         }
         .content-container > * {
             pointer-events: all;
         }
 
         .content-wrapper {
-            flex: 1;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 20px 40px 20px; /* Add padding top and bottom */
+            padding: 80px 20px 40px 20px;
+        }
+
+        /* Add bottom padding when footer is visible */
+        .content-wrapper.footer-visible {
+            padding-bottom: 400px; /* Account for footer height */
         }
         .landing-content {
             max-width: 500px;
@@ -1761,15 +1765,18 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer Styles - UPDATED: Hidden by default, solid background */
+        /* Footer Styles - UPDATED: Positioned outside normal flow, hidden by default */
         .main-footer {
             display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background: rgba(0, 0, 0, 0.95); /* Solid background */
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
-            position: relative;
-            z-index: 10;
+            z-index: 1001; /* Above content but below header */
             margin-top: 0;
         }
 
@@ -1779,6 +1786,8 @@
 
         .main-footer.show-on-product {
             display: block;
+            position: relative; /* Normal flow for product page */
+            bottom: auto;
         }
 
         .main-footer.hide-on-product {
@@ -2935,6 +2944,7 @@
             const productOverlay = document.getElementById('productOverlay');
             const topLogo = document.getElementById('topLogo');
             const mainFooter = document.getElementById('mainFooter');
+            const contentWrapper = document.querySelector('.content-wrapper');
             const fixedCartIcon = document.getElementById('fixedCartIcon');
             
             // Mark that user has visited shop
@@ -2946,6 +2956,7 @@
                 mainFooter.classList.remove('show-on-main');
                 mainFooter.classList.remove('show-on-product');
             }
+            if (contentWrapper) contentWrapper.classList.remove('footer-visible');
             
             setTimeout(() => {
                 productOverlay.classList.add('active');
@@ -2982,6 +2993,7 @@
             const signupText = document.getElementById('signupText');
             const welcomeContainer = document.getElementById('welcomeContainer');
             const mainFooter = document.getElementById('mainFooter');
+            const contentWrapper = document.querySelector('.content-wrapper');
             const standaloneBtn = document.getElementById('standaloneEnterBtn');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
@@ -2991,6 +3003,7 @@
                 
                 // Show footer when user signs up
                 if (mainFooter) mainFooter.classList.add('show-on-main');
+                if (contentWrapper) contentWrapper.classList.add('footer-visible');
                 
                 // Hide standalone button if it exists
                 if (standaloneBtn) {
@@ -3009,6 +3022,7 @@
             const welcomeContainer = document.getElementById('welcomeContainer');
             const socialContainer = document.querySelector('.social-container');
             const mainFooter = document.getElementById('mainFooter');
+            const contentWrapper = document.querySelector('.content-wrapper');
 
             if (mailerLiteForm && signupText && welcomeContainer) {
                 mailerLiteForm.style.display = 'none';
@@ -3018,6 +3032,7 @@
                 // Show social container and footer for returning users
                 if (socialContainer) socialContainer.style.display = 'block';
                 if (mainFooter) mainFooter.classList.add('show-on-main');
+                if (contentWrapper) contentWrapper.classList.add('footer-visible');
                 
                 // Create standalone enter store button without box
                 const landingContent = document.getElementById('landingContent');
@@ -3058,6 +3073,7 @@
             const topLogo = document.getElementById('topLogo');
             const header = document.querySelector('.main-header');
             const mainFooter = document.getElementById('mainFooter');
+            const contentWrapper = document.querySelector('.content-wrapper');
             const fixedCartIcon = document.getElementById('fixedCartIcon');
             
             productOverlay.classList.remove('active');
@@ -3073,6 +3089,7 @@
                 const formSubmitted = localStorage.getItem('formSubmitted');
                 if (formSubmitted === 'true') {
                     mainFooter.classList.add('show-on-main');
+                    if (contentWrapper) contentWrapper.classList.add('footer-visible');
                 }
             }
             
