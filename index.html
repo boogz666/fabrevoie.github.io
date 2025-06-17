@@ -209,7 +209,7 @@
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --font-weight-normal: 400;
+            --font-primary-weight: normal;
             --font-weight-bold: 700;
         }
 
@@ -326,6 +326,7 @@
 
         .announcement-countdown {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: #000;
             text-transform: uppercase;
@@ -373,6 +374,7 @@
 
         .announcement-header .announcement-phrase {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: white;
             text-transform: uppercase;
@@ -444,6 +446,7 @@
 
         .nav-link {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             color: white;
             text-decoration: none;
@@ -519,6 +522,7 @@
 
         .timer-status {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.8rem;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -546,6 +550,7 @@
 
         .timer-number {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.2rem;
             color: var(--color-primary);
             min-width: 22px;
@@ -554,6 +559,7 @@
 
         .timer-label {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.6rem;
             color: #888;
             text-transform: uppercase;
@@ -563,6 +569,7 @@
 
         .timer-text {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.75rem;
             color: #ccc;
             text-align: center;
@@ -572,6 +579,7 @@
 
         .pairs-left {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.7rem;
             color: var(--color-primary);
             letter-spacing: 0.5px;
@@ -645,6 +653,7 @@
             text-align: center;
             color: var(--color-primary);
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             margin-top: 10px;
             margin-bottom: 20px;
@@ -765,18 +774,17 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 120px 20px 200px 20px;
+            padding: 120px 40px 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .product-main-layout {
             display: flex;
             align-items: flex-start;
-            gap: 40px;
-            max-width: 1400px;
+            gap: 60px;
             width: 100%;
-            margin-bottom: 50px;
+            margin-bottom: 80px;
         }
 
         .product-content {
@@ -973,6 +981,7 @@
 
         .size-title {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.1rem;
             color: white;
             text-transform: uppercase;
@@ -1014,6 +1023,7 @@
             border-radius: 8px;
             color: white;
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             padding: 12px 8px;
             text-align: center;
@@ -1073,6 +1083,7 @@
 
         .bundle-promo-title {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.4rem;
             color: white;
             text-transform: uppercase;
@@ -1112,6 +1123,7 @@
 
         .bundle-offer-title {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1rem;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -1121,6 +1133,7 @@
 
         .bundle-offer-savings {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.3rem;
             color: #fff;
             margin-bottom: 8px;
@@ -1176,6 +1189,7 @@
 
         .features-title {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.5rem;
             color: white;
             text-transform: uppercase;
@@ -1202,6 +1216,7 @@
 
         .feature-title {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 0.9rem;
             color: white;
             text-transform: uppercase;
@@ -1247,6 +1262,7 @@
             text-align: center;
             color: var(--color-primary);
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 14px;
             margin-top: 10px;
             letter-spacing: 0.5px;
@@ -1255,18 +1271,16 @@
         /* Footer */
         .main-footer {
             display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
-            z-index: 1001;
+            margin-top: 40px;
         }
 
-        .main-footer.show { display: block; }
+        .main-footer.show-in-product { display: block; }
 
         .footer-content {
             max-width: 1200px;
@@ -1279,6 +1293,7 @@
 
         .footer-section h4 {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1rem;
             color: var(--color-primary);
             text-transform: uppercase;
@@ -1380,6 +1395,7 @@
 
         .size-guide-header h3 {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             font-size: 1.5rem;
             color: #333;
             text-transform: uppercase;
@@ -1459,6 +1475,7 @@
 
         .measurement-tip h4 {
             font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
@@ -1506,6 +1523,10 @@
                 gap: 30px;
             }
             
+            .product-overlay-content {
+                padding: 80px 20px 40px 20px;
+            }
+            
             .bundle-offers {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -1513,8 +1534,6 @@
             
             .bundle-promo { padding: 20px 15px; }
             .bundle-promo-title { font-size: 1.1rem; }
-            
-            .main-footer { padding: 30px 0; }
             
             .footer-content {
                 grid-template-columns: 1fr;
@@ -1566,7 +1585,9 @@
                 height: 50px;
                 top: 15px;
             }
-            .product-overlay { padding: 80px 10px 120px 10px; }
+            .product-overlay-content { 
+                padding: 80px 10px 40px 10px; 
+            }
             .features-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -1748,63 +1769,6 @@
             </div>
         </div>
 
-        <!-- Single Footer -->
-        <footer class="main-footer" id="mainFooter">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About Fabrevoie</h4>
-                    <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
-                    <div class="footer-social">
-                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                        <a href="#" target="_blank" aria-label="Follow us on Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Customer Care</h4>
-                    <ul>
-                        <li><a href="#">Contact Support</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Sustainability</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Refund Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
-            </div>
-        </footer>
-
         <div class="product-overlay" id="productOverlay">
             <div class="product-overlay-content">
                 <button class="back-arrow" onclick="hideProductOverlay()">
@@ -1943,6 +1907,63 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Footer in Product Section -->
+                <footer class="main-footer show-in-product">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>About Fabrevoie</h4>
+                            <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                            <div class="footer-social">
+                                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Customer Care</h4>
+                            <ul>
+                                <li><a href="#">Contact Support</a></li>
+                                <li><a href="#">Size Guide</a></li>
+                                <li><a href="#">Shipping Info</a></li>
+                                <li><a href="#">Returns & Exchanges</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="#">Our Story</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Sustainability</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Refund Policy</a></li>
+                                <li><a href="#">Cookie Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
@@ -2234,7 +2255,6 @@
             document.getElementById('mlb2-23779383').style.display = 'none';
             document.getElementById('signupText').style.display = 'none';
             document.getElementById('welcomeContainer').style.display = 'flex';
-            document.getElementById('mainFooter').classList.add('show');
         }
 
         function checkUserState() {
@@ -2246,7 +2266,6 @@
         // Overlay Functions
         function showProductOverlay() {
             document.getElementById('landingContent').classList.add('hidden');
-            document.getElementById('mainFooter').classList.remove('show');
             
             setTimeout(() => {
                 document.getElementById('productOverlay').classList.add('active');
@@ -2262,9 +2281,6 @@
             
             setTimeout(() => {
                 document.getElementById('landingContent').classList.remove('hidden');
-                if (localStorage.getItem('formSubmitted') === 'true') {
-                    document.getElementById('mainFooter').classList.add('show');
-                }
             }, 250);
         }
 
@@ -2347,6 +2363,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 showPageContent();
+                startHeaderAnnouncementCycling();
                 updatePairsLeft();
                 updateCartCount();
             }, 1000);
