@@ -252,12 +252,34 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 30px;
         }
 
         .announcement-content {
             display: inline-block;
             animation: scroll-left 35s linear infinite;
-            padding-left: 100%;
+        }
+
+        .announcement-countdown {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .announcement-countdown #days {
+            font-family: var(--font-numbers);
+            font-weight: 700;
+            font-size: 1.1em;
         }
 
         @keyframes scroll-left {
@@ -497,9 +519,20 @@
             background: rgba(0, 0, 0, 0.4);
             pointer-events: none;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
         .content-container > * {
             pointer-events: all;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 250px); /* Account for footer and announcement bar */
+            padding: 20px 0;
         }
         .landing-content {
             position: absolute;
@@ -1752,20 +1785,23 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer Styles - UPDATED: Hidden on main page, normal footer on product page */
+        /* Footer Styles - UPDATED: Show on main page, hidden on product page by default */
         .main-footer {
-            display: none; /* Hidden by default on main page */
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(158, 217, 181, 0.3);
             padding: 40px 0;
-            margin-top: 60px;
             position: relative;
             z-index: 10;
+            margin-top: 0; /* No gap with overlay */
         }
 
         .main-footer.show-on-product {
             display: block; /* Show on product page */
+        }
+
+        .main-footer.hide-on-product {
+            display: none; /* Hide when on product page */
         }
 
         .footer-content {
@@ -1990,6 +2026,22 @@
             .top-logo {
                 height: 150px;
             }
+
+            /* UPDATED: Mobile announcement bar */
+            .announcement-bar {
+                flex-direction: column;
+                padding: 8px 15px;
+                gap: 5px;
+            }
+
+            .announcement-content {
+                animation: scroll-left 25s linear infinite;
+                font-size: 12px;
+            }
+
+            .announcement-countdown {
+                font-size: 12px;
+            }
             
             /* UPDATED: Mobile timer positioning */
             .compact-timer-container {
@@ -2058,13 +2110,7 @@
                 min-height: calc(100vh - 100px);
                 padding-bottom: 100px;
             }
-            .countdown {
-                display: none;
-            }
             .header-cart-icon {
-                display: none;
-            }
-            .social-container {
                 display: none;
             }
             .copyright {
@@ -2186,6 +2232,10 @@
         <div class="announcement-content">
             PRE-SALES BEGIN OCTOBER 7TH 2PM PARIS (8AM NYC) • LIVE DROP OCTOBER 14TH • LIMITED TO 500 PAIRS ONLY • FREE SHIPPING
         </div>
+        <div class="announcement-countdown" id="countdown">
+            PRE-SALE OPENS IN: <span id="days">00</span> DAYS
+            <i class="fas fa-hourglass hourglass"></i>
+        </div>
     </div>
 
     <!-- Announcement Header -->
@@ -2214,10 +2264,6 @@
         
         <div class="header-right">
             <div class="countdown-and-cart">
-                <div class="countdown" id="countdown">
-                    PRE-SALE OPENS IN: <span id="days">00</span> DAYS
-                    <i class="fas fa-hourglass hourglass"></i>
-                </div>
                 <div class="header-cart-icon" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="headerCartCount">0</span>
@@ -2250,77 +2296,136 @@
     </div>
 
     <div class="content-container">
-        <div class="landing-content" id="landingContent">
-            <div class="logo-container">
-                <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
-            </div>
-            
-            <div id="mlb2-23779383" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-23779383" style="margin-bottom: 10px; width: 100%;">
-              <div class="ml-form-align-center">
-                <div class="ml-form-embedWrapper embedForm">
-                  <div class="ml-form-embedBody ml-form-embedBodyHorizontal row-form">
-                    <div class="ml-form-embedContent" style="margin-bottom: 0px;"></div>
-                    
-                    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/1391734/forms/149132961884669821/subscribe" data-code="" method="post" target="_blank">
-                      <div class="ml-form-formContent horozintalForm">
-                        <div class="ml-form-horizontalRow">
-                          <div class="ml-input-horizontal">
-                            <div style="width: 100%;" class="horizontal-fields">
-                              <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                                <input type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Email" autocomplete="email">
+        <div class="content-wrapper">
+            <div class="landing-content" id="landingContent">
+                <div class="logo-container">
+                    <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
+                </div>
+                
+                <div id="mlb2-23779383" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-23779383" style="margin-bottom: 10px; width: 100%;">
+                  <div class="ml-form-align-center">
+                    <div class="ml-form-embedWrapper embedForm">
+                      <div class="ml-form-embedBody ml-form-embedBodyHorizontal row-form">
+                        <div class="ml-form-embedContent" style="margin-bottom: 0px;"></div>
+                        
+                        <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/1391734/forms/149132961884669821/subscribe" data-code="" method="post" target="_blank">
+                          <div class="ml-form-formContent horozintalForm">
+                            <div class="ml-form-horizontalRow">
+                              <div class="ml-input-horizontal">
+                                <div style="width: 100%;" class="horizontal-fields">
+                                  <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                                    <input type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Email" autocomplete="email">
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div class="ml-button-horizontal primary">
+                                <button type="submit" class="primary">Enter</button>
+                                <button disabled="disabled" style="display: none;" type="button" class="loading">
+                                  <div class="ml-form-embedSubmitLoad"></div>
+                                  <span class="sr-only">Loading...</span>
+                                </button>
                               </div>
                             </div>
                           </div>
                           
-                          <div class="ml-button-horizontal primary">
-                            <button type="submit" class="primary">Enter</button>
-                            <button disabled="disabled" style="display: none;" type="button" class="loading">
-                              <div class="ml-form-embedSubmitLoad"></div>
-                              <span class="sr-only">Loading...</span>
-                            </button>
-                          </div>
-                        </div>
+                          <input type="hidden" name="ml-submit" value="1">
+                          <input type="hidden" name="anticsrf" value="true">
+                        </form>
                       </div>
                       
-                      <input type="hidden" name="ml-submit" value="1">
-                      <input type="hidden" name="anticsrf" value="true">
-                    </form>
-                  </div>
-                  
-                  <div class="ml-form-successBody row-success" style="display: none">
-                    <div class="ml-form-successContent">
-                      <h4></h4>
-                      <p><br></p>
+                      <div class="ml-form-successBody row-success" style="display: none">
+                        <div class="ml-form-successContent">
+                          <h4></h4>
+                          <p><br></p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <p class="signup-text" id="signupText">Sign up to access the website.</p>
+                <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
-            <div id="welcomeContainer" class="welcome-container">
-                <div class="welcome-text">WELCOME</div>
-                <p class="welcome-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
-                <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
-                    ENTER STORE
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <!-- Social media icons moved under enter button -->
-            <div class="social-container">
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                <div id="welcomeContainer" class="welcome-container">
+                    <div class="welcome-text">WELCOME</div>
+                    <p class="welcome-subtext">You're now part of the Fabrevoie family. Ready to explore our collection?</p>
+                    <button id="enterButton" class="enter-button" onclick="showProductOverlay()">
+                        ENTER STORE
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
-                <p class="social-text">Show your support by following our socials.</p>
+
+                <!-- Social media icons moved under enter button -->
+                <div class="social-container">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p class="social-text">Show your support by following our socials.</p>
+                </div>
             </div>
         </div>
+
+        <!-- Footer at bottom of main page -->
+        <footer class="main-footer" id="mainFooter">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Fabrevoie</h4>
+                    <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+            </div>
+        </footer>
 
         <div class="product-overlay" id="productOverlay">
             <div class="product-overlay-content">
@@ -2478,6 +2583,63 @@
                         <p class="social-text">Show your support by following our socials.</p>
                     </div>
                 </div>
+
+                <!-- Product Page Footer -->
+                <footer class="main-footer">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>About Fabrevoie</h4>
+                            <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
+                            <div class="footer-social">
+                                <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Customer Care</h4>
+                            <ul>
+                                <li><a href="#">Contact Support</a></li>
+                                <li><a href="#">Size Guide</a></li>
+                                <li><a href="#">Shipping Info</a></li>
+                                <li><a href="#">Returns & Exchanges</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="#">Our Story</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Sustainability</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Refund Policy</a></li>
+                                <li><a href="#">Cookie Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
@@ -2597,63 +2759,6 @@
         &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
         <a href="privacy-policy.html" style="color: #9ED9B5; text-decoration: none;">Privacy Policy</a>
     </div>
-
-    <!-- Main Footer - UPDATED: Positioned at bottom of page, not as overlay -->
-    <footer class="main-footer" id="mainFooter">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About Fabrevoie</h4>
-                <p>We create eccentric footwear that challenges convention and redefines what shoes can be. Each design embodies futuristic philosophy and out-of-the-box thinking.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="#" target="_blank" aria-label="Follow us on Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4>Customer Care</h4>
-                <ul>
-                    <li><a href="#">Contact Support</a></li>
-                    <li><a href="#">Size Guide</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns & Exchanges</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Refund Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | Made with ♥ for the eccentric</p>
-        </div>
-    </footer>
 
     <script>
         // Product image variables
@@ -2830,7 +2935,7 @@
                 presaleSeconds.textContent = '00';
                 
                 // Status text
-                timerStatus.textContent = 'Pre-sale starts in...';
+                timerStatus.textContent = 'Starts in...';
                 
                 // Countdown text
                 countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
@@ -2848,7 +2953,7 @@
                 presaleSeconds.textContent = seconds.toString().padStart(2, '0');
                 
                 // Status text
-                timerStatus.textContent = 'Pre-sale ends in...';
+                timerStatus.textContent = 'Ends in...';
                 
                 // Countdown text shows time to main drop
                 const dropTimeDiff = dropDate - now;
@@ -2873,7 +2978,7 @@
                 presaleSeconds.textContent = '00';
                 
                 // Status text
-                timerStatus.textContent = 'Main drop starts in...';
+                timerStatus.textContent = 'Starts in...';
                 
                 // Countdown text
                 countdownText.textContent = `${days} days:${hours.toString().padStart(2, '0')} hours:${minutes.toString().padStart(2, '0')} minutes:${seconds.toString().padStart(2, '0')} seconds`;
@@ -2900,7 +3005,10 @@
             localStorage.setItem('hasVisitedShop', 'true');
             
             landingContent.classList.add('hidden');
-            if (mainFooter) mainFooter.classList.add('show-on-product');
+            if (mainFooter) {
+                mainFooter.classList.add('hide-on-product');
+                mainFooter.classList.remove('show-on-product');
+            }
             
             setTimeout(() => {
                 productOverlay.classList.add('active');
@@ -3007,7 +3115,10 @@
             productOverlay.classList.remove('active');
             topLogo.classList.remove('visible');
             header.classList.remove('hidden');
-            if (mainFooter) mainFooter.classList.remove('show-on-product');
+            if (mainFooter) {
+                mainFooter.classList.remove('hide-on-product');
+                mainFooter.classList.remove('show-on-product');
+            }
             if (fixedCartIcon) fixedCartIcon.style.display = 'none';
             
             removeScrollBehavior();
