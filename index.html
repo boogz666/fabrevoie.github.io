@@ -593,11 +593,11 @@
 
         .content-wrapper {
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 20px 40px 20px;
+            padding: 120px 20px 20px 20px;
         }
 
         .landing-content {
@@ -608,7 +608,6 @@
             align-items: center;
             opacity: 1;
             transition: opacity 0.5s ease;
-            padding: 30px 0;
         }
 
         .landing-content.hidden {
@@ -617,8 +616,8 @@
         }
 
         .logo-container {
-            width: 400px;
-            height: 400px;
+            width: 350px;
+            height: 350px;
             margin-bottom: 20px;
             position: relative;
             display: flex;
@@ -656,7 +655,7 @@
             align-items: center;
             justify-content: center;
             margin-top: 20px;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
             padding: 25px;
             border: 2px solid var(--color-primary);
             border-radius: 12px;
@@ -771,7 +770,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             width: 100%;
-            margin-bottom: 80px;
+            margin-bottom: 40px;
         }
 
         .product-image-section, .product-info-section {
@@ -790,13 +789,19 @@
             border-radius: 20px;
             overflow: hidden;
             padding: 30px;
+            height: 400px;
+        }
+
+        .product-image-container:hover .image-nav-arrow {
+            opacity: 1;
         }
 
         .product-image {
             max-width: 100%;
-            max-height: 400px;
-            width: auto;
-            height: auto;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             transition: opacity 0.3s ease;
             border-radius: 15px;
         }
@@ -805,29 +810,24 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.7);
+            background: none;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
+            padding: 10px;
+            opacity: 0;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
         }
 
         .image-nav-arrow:hover {
-            background: rgba(158, 217, 181, 0.8);
-            color: #000;
-            transform: translateY(-50%) scale(1.1);
+            color: var(--color-primary);
+            transform: translateY(-50%) scale(1.2);
         }
 
-        .image-nav-arrow.left { left: -25px; }
-        .image-nav-arrow.right { right: -25px; }
+        .image-nav-arrow.left { left: 20px; }
+        .image-nav-arrow.right { right: 20px; }
 
         .thumbnail-container {
             display: flex;
@@ -868,6 +868,16 @@
             border-radius: 15px;
             backdrop-filter: blur(10px);
             align-items: center;
+        }
+
+        .color-selector-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 1rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
         .color-options {
@@ -973,6 +983,40 @@
             background: rgba(158, 217, 181, 0.1);
         }
 
+        .gender-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .gender-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: white;
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 14px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gender-option:hover {
+            border-color: var(--color-primary);
+            background: rgba(158, 217, 181, 0.1);
+        }
+
+        .gender-option.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: #000;
+            transform: scale(1.05);
+        }
+
         .size-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
@@ -1058,8 +1102,15 @@
             background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
 
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
         .bundle-promo {
-            width: 100%;
             text-align: center;
             background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
             border-radius: 15px;
@@ -1067,7 +1118,6 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
             padding: 25px 30px;
-            margin-top: 30px;
         }
 
         .bundle-promo-title {
@@ -1168,9 +1218,6 @@
         }
 
         .product-features {
-            margin-top: 50px;
-            width: 100%;
-            max-width: 800px;
             text-align: center;
         }
 
@@ -1517,9 +1564,8 @@
             }
 
             .image-nav-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
+                font-size: 20px;
+                padding: 5px;
             }
 
             .thumbnail-container {
@@ -1564,6 +1610,11 @@
                 font-size: 1.1rem;
             }
 
+            .bottom-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -1589,6 +1640,10 @@
             .nav-link { font-size: 12px; }
             .landing-content { padding: 20px 0; }
             .header-cart-icon { display: none; }
+
+            .content-wrapper {
+                padding: 100px 20px 20px 20px;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -1609,6 +1664,7 @@
 
             .product-image-container {
                 height: 250px;
+                padding: 20px;
             }
 
             .product-title {
@@ -1662,6 +1718,48 @@
             .size-chart { font-size: 12px; }
             .size-chart th,
             .size-chart td { padding: 8px 5px; }
+
+            .content-wrapper {
+                height: 100vh;
+                padding: 100px 15px 15px 15px;
+            }
+
+            .logo-container {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 10px;
+            }
+
+            .welcome-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .welcome-text {
+                font-size: 20px;
+            }
+
+            .welcome-subtext {
+                font-size: 13px;
+            }
+
+            .timer-container {
+                min-width: 160px;
+                padding: 12px;
+            }
+
+            .timer-unit {
+                min-width: 30px;
+                padding: 6px 4px;
+            }
+
+            .timer-number {
+                font-size: 1rem;
+            }
+
+            .timer-label {
+                font-size: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -1796,7 +1894,7 @@
                 <p class="signup-text" id="signupText">Sign up to access the website.</p>
 
                 <!-- Social icons for non-signed-up users -->
-                <div class="social-container" id="defaultSocial" style="margin-top: 30px;">
+                <div class="social-container" id="defaultSocial" style="display: none;">
                     <div class="social-icons">
                         <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                             <i class="fab fa-instagram"></i>
@@ -1815,19 +1913,19 @@
                         ENTER STORE
                         <i class="fas fa-arrow-right"></i>
                     </button>
+                </div>
 
-                    <!-- Social icons moved here -->
-                    <div class="social-container" style="margin-top: 30px;">
-                        <div class="social-icons">
-                            <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                        </div>
-                        <p class="social-text">Show your support by following our socials.</p>
+                <!-- Social icons moved outside of welcome container -->
+                <div class="social-container" id="welcomeSocial" style="display: none;">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
                     </div>
+                    <p class="social-text">Show your support by following our socials.</p>
                 </div>
             </div>
         </div>
@@ -1861,7 +1959,7 @@
                             </div>
                         </div>
                         <div class="color-selector">
-                            <div class="color-label">Color</div>
+                            <div class="color-selector-title">Choose Your Color</div>
                             <div class="color-options">
                                 <div class="color-option red active" data-color="red" onclick="changeProductColor('red')"></div>
                                 <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
@@ -1881,18 +1979,12 @@
                                     Size Guide
                                 </button>
                             </div>
-                            <div class="size-options">
-                                <div class="size-option" data-size="36" onclick="selectSize('36')">36</div>
-                                <div class="size-option" data-size="37" onclick="selectSize('37')">37</div>
-                                <div class="size-option" data-size="38" onclick="selectSize('38')">38</div>
-                                <div class="size-option" data-size="39" onclick="selectSize('39')">39</div>
-                                <div class="size-option" data-size="40" onclick="selectSize('40')">40</div>
-                                <div class="size-option" data-size="41" onclick="selectSize('41')">41</div>
-                                <div class="size-option" data-size="42" onclick="selectSize('42')">42</div>
-                                <div class="size-option" data-size="43" onclick="selectSize('43')">43</div>
-                                <div class="size-option" data-size="44" onclick="selectSize('44')">44</div>
-                                <div class="size-option" data-size="45" onclick="selectSize('45')">45</div>
-                                <div class="size-option out-of-stock" data-size="46" onclick="selectSize('46')">46</div>
+                            <div class="gender-toggle">
+                                <button class="gender-option" id="mensOption" onclick="toggleGender('mens')">Men's</button>
+                                <button class="gender-option active" id="womensOption" onclick="toggleGender('womens')">Women's</button>
+                            </div>
+                            <div class="size-options" id="sizeOptions">
+                                <!-- Sizes will be populated by JavaScript -->
                             </div>
                             <div class="size-warning" id="sizeWarning" style="display: none;">
                                 Please select a size before adding to cart.
@@ -1902,59 +1994,61 @@
                             BUY NOW
                             <i class="fas fa-shopping-cart"></i>
                         </button>
-                        <div class="bundle-promo">
-                            <h3 class="bundle-promo-title">Exclusive Bundles</h3>
-                            <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
-                            <div class="bundle-offers">
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Duo Pack</div>
-                                    <div class="bundle-offer-savings">Save $58</div>
-                                    <div class="bundle-offer-description">Choose any 2 colors for versatile styling.</div>
-                                </div>
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Triple Pack</div>
-                                    <div class="bundle-offer-savings">Save $108</div>
-                                    <div class="bundle-offer-description">All 3 colors - the complete collection.</div>
-                                </div>
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">Complete Set</div>
-                                    <div class="bundle-offer-savings">Save $200+</div>
-                                    <div class="bundle-offer-description">3 + 1 exclusive colorway. Only 10 pairs worldwide.</div>
-                                </div>
-                            </div>
-                            <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
-                            <a href="checkout.html" class="btn btn-secondary">
-                                <i class="fas fa-gifts"></i>
-                                View Bundles
-                            </a>
-                        </div>
                     </div>
                 </div>
 
-                <div class="product-features">
-                    <h3 class="features-title">Why Choose SBHMN 1</h3>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-feather-alt"></i>
+                <div class="bottom-section">
+                    <div class="product-features">
+                        <h3 class="features-title">Why Choose SBHMN 1</h3>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-feather-alt"></i>
+                                </div>
+                                <div class="feature-title">Lightweight Engineering</div>
+                                <div class="feature-description">Surprisingly light construction despite their bold, oversized presence</div>
                             </div>
-                            <div class="feature-title">Lightweight Engineering</div>
-                            <div class="feature-description">Surprisingly light construction despite their bold, oversized presence</div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="feature-title">Eccentric Vision</div>
+                                <div class="feature-description">Out-of-the-box thinking translated into wearable art for the fearless</div>
                             </div>
-                            <div class="feature-title">Eccentric Vision</div>
-                            <div class="feature-description">Out-of-the-box thinking translated into wearable art for the fearless</div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-rocket"></i>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="feature-title">Futuristic Design</div>
+                                <div class="feature-description">Avant-garde aesthetics that push the boundaries of footwear design</div>
                             </div>
-                            <div class="feature-title">Futuristic Design</div>
-                            <div class="feature-description">Avant-garde aesthetics that push the boundaries of footwear design</div>
                         </div>
+                    </div>
+                    <div class="bundle-promo">
+                        <h3 class="bundle-promo-title">Exclusive Bundles</h3>
+                        <p class="bundle-promo-subtitle">Why settle for one when you can revolutionize your entire collection?</p>
+                        <div class="bundle-offers">
+                            <div class="bundle-offer">
+                                <div class="bundle-offer-title">Duo Pack</div>
+                                <div class="bundle-offer-savings">Save $58</div>
+                                <div class="bundle-offer-description">Choose any 2 colors for versatile styling.</div>
+                            </div>
+                            <div class="bundle-offer">
+                                <div class="bundle-offer-title">Triple Pack</div>
+                                <div class="bundle-offer-savings">Save $108</div>
+                                <div class="bundle-offer-description">All 3 colors - the complete collection.</div>
+                            </div>
+                            <div class="bundle-offer">
+                                <div class="bundle-offer-title">Complete Set</div>
+                                <div class="bundle-offer-savings">Save $200+</div>
+                                <div class="bundle-offer-description">3 + 1 exclusive colorway. Only 10 pairs worldwide.</div>
+                            </div>
+                        </div>
+                        <p class="bundle-promo-cta">Unlock massive savings at checkout</p>
+                        <a href="checkout.html" class="btn btn-secondary">
+                            <i class="fas fa-gifts"></i>
+                            View Bundles
+                        </a>
                     </div>
                 </div>
 
@@ -2033,84 +2127,15 @@
                 <table class="size-chart">
                     <thead>
                         <tr>
+                            <th>US Size</th>
                             <th>EU Size</th>
-                            <th>US Men</th>
-                            <th>US Women</th>
                             <th>UK Size</th>
                             <th>Foot Length (cm)</th>
+                            <th>Foot Length (inches)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>36</td>
-                            <td>4</td>
-                            <td>5.5</td>
-                            <td>3.5</td>
-                            <td>23.0</td>
-                        </tr>
-                        <tr>
-                            <td>37</td>
-                            <td>4.5</td>
-                            <td>6</td>
-                            <td>4</td>
-                            <td>23.5</td>
-                        </tr>
-                        <tr>
-                            <td>38</td>
-                            <td>5</td>
-                            <td>6.5</td>
-                            <td>4.5</td>
-                            <td>24.0</td>
-                        </tr>
-                        <tr>
-                            <td>39</td>
-                            <td>6</td>
-                            <td>7.5</td>
-                            <td>5.5</td>
-                            <td>24.5</td>
-                        </tr>
-                        <tr>
-                            <td>40</td>
-                            <td>7</td>
-                            <td>8.5</td>
-                            <td>6.5</td>
-                            <td>25.0</td>
-                        </tr>
-                        <tr>
-                            <td>41</td>
-                            <td>8</td>
-                            <td>9.5</td>
-                            <td>7.5</td>
-                            <td>25.5</td>
-                        </tr>
-                        <tr>
-                            <td>42</td>
-                            <td>9</td>
-                            <td>10.5</td>
-                            <td>8.5</td>
-                            <td>26.0</td>
-                        </tr>
-                        <tr>
-                            <td>43</td>
-                            <td>10</td>
-                            <td>11.5</td>
-                            <td>9.5</td>
-                            <td>26.5</td>
-                        </tr>
-                        <tr>
-                            <td>44</td>
-                            <td>11</td>
-                            <td>12.5</td>
-                            <td>10.5</td>
-                            <td>27.0</td>
-                        </tr>
-                        <tr>
-                            <td>45</td>
-                            <td>12</td>
-                            <td>13.5</td>
-                            <td>11.5</td>
-                            <td>27.5</td>
-                        </tr>
+                    <tbody id="sizeChartBody">
+                        <!-- Chart will be populated by JavaScript -->
                     </tbody>
                 </table>
 
@@ -2134,6 +2159,7 @@
             currentColor: 'red',
             currentImageIndex: 0,
             selectedSize: null,
+            currentGender: 'womens',
             pairsLeft: 100,
             cart: [],
             currentHeaderPhraseIndex: 0,
@@ -2147,8 +2173,85 @@
                 white: ['assets/images/prodp1.png', 'assets/images/w2.png', 'assets/images/w3.png'],
                 black: ['assets/images/prodp2.png', 'assets/images/b2.png', 'assets/images/b3.png'],
                 red: ['assets/images/prodp3.png', 'assets/images/r2.png', 'assets/images/r3.png']
+            },
+            sizes: {
+                womens: ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11'],
+                mens: ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5', '13', '13.5']
+            },
+            sizeChart: {
+                womens: [
+                    { us: '4', eu: '35', uk: '2', cm: '22.0', inches: '8.7' },
+                    { us: '4.5', eu: '35.5', uk: '2.5', cm: '22.5', inches: '8.9' },
+                    { us: '5', eu: '36', uk: '3', cm: '23.0', inches: '9.1' },
+                    { us: '5.5', eu: '36.5', uk: '3.5', cm: '23.5', inches: '9.3' },
+                    { us: '6', eu: '37', uk: '4', cm: '23.5', inches: '9.3' },
+                    { us: '6.5', eu: '37.5', uk: '4.5', cm: '24.0', inches: '9.4' },
+                    { us: '7', eu: '38', uk: '5', cm: '24.0', inches: '9.4' },
+                    { us: '7.5', eu: '38.5', uk: '5.5', cm: '24.5', inches: '9.6' },
+                    { us: '8', eu: '39', uk: '6', cm: '24.5', inches: '9.6' },
+                    { us: '8.5', eu: '39.5', uk: '6.5', cm: '25.0', inches: '9.8' },
+                    { us: '9', eu: '40', uk: '7', cm: '25.0', inches: '9.8' },
+                    { us: '9.5', eu: '40.5', uk: '7.5', cm: '25.5', inches: '10.0' },
+                    { us: '10', eu: '41', uk: '8', cm: '25.5', inches: '10.0' },
+                    { us: '10.5', eu: '41.5', uk: '8.5', cm: '26.0', inches: '10.2' },
+                    { us: '11', eu: '42', uk: '9', cm: '26.0', inches: '10.2' }
+                ],
+                mens: [
+                    { us: '5', eu: '37', uk: '4', cm: '23.0', inches: '9.1' },
+                    { us: '5.5', eu: '37.5', uk: '4.5', cm: '23.5', inches: '9.3' },
+                    { us: '6', eu: '38', uk: '5', cm: '24.0', inches: '9.4' },
+                    { us: '6.5', eu: '38.5', uk: '5.5', cm: '24.5', inches: '9.6' },
+                    { us: '7', eu: '39', uk: '6', cm: '24.5', inches: '9.6' },
+                    { us: '7.5', eu: '40', uk: '6.5', cm: '25.0', inches: '9.8' },
+                    { us: '8', eu: '40.5', uk: '7', cm: '25.5', inches: '10.0' },
+                    { us: '8.5', eu: '41', uk: '7.5', cm: '25.5', inches: '10.0' },
+                    { us: '9', eu: '42', uk: '8', cm: '26.0', inches: '10.2' },
+                    { us: '9.5', eu: '42.5', uk: '8.5', cm: '26.5', inches: '10.4' },
+                    { us: '10', eu: '43', uk: '9', cm: '27.0', inches: '10.6' },
+                    { us: '10.5', eu: '44', uk: '9.5', cm: '27.5', inches: '10.8' },
+                    { us: '11', eu: '44.5', uk: '10', cm: '28.0', inches: '11.0' },
+                    { us: '11.5', eu: '45', uk: '10.5', cm: '28.5', inches: '11.2' },
+                    { us: '12', eu: '46', uk: '11', cm: '29.0', inches: '11.4' },
+                    { us: '12.5', eu: '46.5', uk: '11.5', cm: '29.5', inches: '11.6' },
+                    { us: '13', eu: '47', uk: '12', cm: '30.0', inches: '11.8' },
+                    { us: '13.5', eu: '47.5', uk: '12.5', cm: '30.5', inches: '12.0' }
+                ]
             }
         };
+
+        // Size Functions
+        function toggleGender(gender) {
+            state.currentGender = gender;
+            document.getElementById('mensOption').classList.toggle('active', gender === 'mens');
+            document.getElementById('womensOption').classList.toggle('active', gender === 'womens');
+            populateSizes();
+            resetSizeSelection();
+            updateSizeChart();
+        }
+
+        function populateSizes() {
+            const sizeOptions = document.getElementById('sizeOptions');
+            const sizes = config.sizes[state.currentGender];
+            
+            sizeOptions.innerHTML = sizes.map(size => `
+                <div class="size-option" data-size="${size}" onclick="selectSize('${size}')">${size}</div>
+            `).join('');
+        }
+
+        function updateSizeChart() {
+            const chartBody = document.getElementById('sizeChartBody');
+            const chartData = config.sizeChart[state.currentGender];
+            
+            chartBody.innerHTML = chartData.map(row => `
+                <tr>
+                    <td>${row.us}</td>
+                    <td>${row.eu}</td>
+                    <td>${row.uk}</td>
+                    <td>${row.cm}</td>
+                    <td>${row.inches}</td>
+                </tr>
+            `).join('');
+        }
 
         // Simplified Timer Function
         function updateTimer() {
@@ -2259,9 +2362,10 @@
         function updateBuyButtonText() {
             const buyButton = document.getElementById('buyButton');
             const colorText = state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1);
+            const genderText = state.currentGender === 'mens' ? "Men's" : "Women's";
 
             buyButton.innerHTML = state.selectedSize
-                ? `BUY ${colorText.toUpperCase()} - SIZE ${state.selectedSize} <i class="fas fa-shopping-cart"></i>`
+                ? `BUY ${colorText.toUpperCase()} - ${genderText} SIZE ${state.selectedSize} <i class="fas fa-shopping-cart"></i>`
                 : 'BUY NOW <i class="fas fa-shopping-cart"></i>';
         }
 
@@ -2281,6 +2385,7 @@
                 name: 'SBHMN 1',
                 color: state.currentColor,
                 size: state.selectedSize,
+                gender: state.currentGender,
                 price: 269,
                 image: config.productImages[state.currentColor][0]
             };
@@ -2295,6 +2400,7 @@
         // Size Guide Functions
         function openSizeGuide() {
             document.getElementById('sizeGuideModal').style.display = 'flex';
+            updateSizeChart();
         }
 
         function closeSizeGuide() {
@@ -2312,6 +2418,7 @@
             document.getElementById('signupText').style.display = 'none';
             document.getElementById('defaultSocial').style.display = 'none';
             document.getElementById('welcomeContainer').style.display = 'flex';
+            document.getElementById('welcomeSocial').style.display = 'block';
         }
 
         function checkUserState() {
@@ -2332,6 +2439,7 @@
                 document.getElementById('topLogo').classList.add('visible');
                 updateProductImage();
                 updateThumbnails();
+                populateSizes();
             }, 250);
         }
 
@@ -2355,11 +2463,11 @@
             let total = 0;
 
             state.cart.forEach(item => {
-                cartDisplay += `${item.name} x${item.quantity} - $${item.price * item.quantity}\n`;
+                cartDisplay += `${item.name} x${item.quantity} - ${item.price * item.quantity}\n`;
                 total += item.price * item.quantity;
             });
 
-            cartDisplay += `\nTotal: $${total}`;
+            cartDisplay += `\nTotal: ${total}`;
             alert(cartDisplay);
         }
 
@@ -2435,6 +2543,7 @@
             updateProductImage();
             updateThumbnails();
             updateBuyButtonText();
+            populateSizes();
 
             // Video setup
             const video = document.getElementById('bgVideo');
