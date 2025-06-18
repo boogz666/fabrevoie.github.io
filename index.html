@@ -91,102 +91,13 @@
             height: 80px;
             margin-bottom: 20px;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            animation: rage-pulse 0.8s infinite;
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes glitch-1 {
-            0%, 100% {
-                clip: rect(2px, 9999px, 40px, 0);
-                transform: skew(0.5deg);
-            }
-            20% {
-                clip: rect(10px, 9999px, 90px, 0);
-                transform: skew(0.8deg);
-            }
-            40% {
-                clip: rect(50px, 9999px, 20px, 0);
-                transform: skew(0.2deg);
-            }
-            60% {
-                clip: rect(30px, 9999px, 80px, 0);
-                transform: skew(0.5deg);
-            }
-            80% {
-                clip: rect(70px, 9999px, 10px, 0);
-                transform: skew(0.3deg);
-            }
-        }
-
-        @keyframes glitch-2 {
-            0%, 100% {
-                clip: rect(65px, 9999px, 100px, 0);
-                transform: skew(-0.5deg);
-            }
-            20% {
-                clip: rect(25px, 9999px, 5px, 0);
-                transform: skew(-0.8deg);
-            }
-            40% {
-                clip: rect(85px, 9999px, 45px, 0);
-                transform: skew(-0.2deg);
-            }
-            60% {
-                clip: rect(15px, 9999px, 75px, 0);
-                transform: skew(-0.5deg);
-            }
-            80% {
-                clip: rect(55px, 9999px, 35px, 0);
-                transform: skew(-0.3deg);
-            }
-        }
-
-        @keyframes rage-pulse {
-            0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-            25% { transform: scale(1.03) rotate(-0.5deg); filter: brightness(1.1); }
-            50% { transform: scale(1.05) rotate(0.5deg); filter: brightness(0.9); }
-            75% { transform: scale(1.02) rotate(-0.3deg); filter: brightness(1.05); }
-            100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-        }
-
-        @keyframes violent-shake {
-            0% { transform: translate(0); }
-            10% { transform: translate(-3px, -2px) rotate(0.5deg); }
-            20% { transform: translate(3px, -2px) rotate(-0.5deg); }
-            30% { transform: translate(-2px, 3px) rotate(0.5deg); }
-            40% { transform: translate(2px, 2px) rotate(-0.5deg); }
-            50% { transform: translate(-3px, -1px) rotate(0.5deg); }
-            60% { transform: translate(3px, -2px) rotate(-0.5deg); }
-            70% { transform: translate(-2px, 3px) rotate(0.5deg); }
-            80% { transform: translate(-1px, -1px) rotate(-0.5deg); }
-            90% { transform: translate(2px, 2px) rotate(0.5deg); }
-            100% { transform: translate(0) rotate(0); }
-        }
-
-        @keyframes crack-appear {
-            0% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.2);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes distort-text {
-            0%, 100% { transform: skewX(0deg); }
-            25% { transform: skewX(1deg); }
-            75% { transform: skewX(-1deg); }
         }
 
         .loading-text {
@@ -220,9 +131,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(90deg, var(--color-primary), #ff0000, var(--color-primary), #ff0000, var(--color-primary));
-            background-size: 200% 100%;
-            animation: danger-sweep 3s linear infinite;
+            background: linear-gradient(90deg, var(--color-primary), #7BC097, var(--color-primary));
             color: #000;
             padding: 12px 0;
             text-align: center;
@@ -231,19 +140,13 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             z-index: 10002;
-            box-shadow: 0 2px 10px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             white-space: nowrap;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 12px 30px;
-            transform: rotate(-0.5deg);
-        }
-
-        @keyframes danger-sweep {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
         }
 
         .announcement-content {
@@ -304,12 +207,12 @@
             font-size: 14px;
             color: white;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             opacity: 0;
             transition: opacity 1s ease-in-out;
             position: absolute;
             white-space: nowrap;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 2px 2px 0 #ff0000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .announcement-header .announcement-phrase.visible {
@@ -425,29 +328,22 @@
             position: fixed;
             top: 120px;
             right: 30px;
-            background: repeating-linear-gradient(
-                45deg,
-                #000,
-                #000 10px,
-                rgba(255, 0, 0, 0.1) 10px,
-                rgba(255, 0, 0, 0.1) 11px
-            );
-            border-radius: 0;
-            border: 3px solid #ff0000;
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.15), rgba(0, 0, 0, 0.9));
+            border-radius: 12px;
+            border: 2px solid var(--color-primary);
             backdrop-filter: blur(15px);
             padding: 15px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
             min-width: 220px;
             z-index: 9999;
-            animation: heartbeat 1s infinite;
-            transform: rotate(1deg);
+            animation: timerPulse 3s infinite;
         }
 
-        @keyframes heartbeat {
-            0% { transform: scale(1) rotate(1deg); box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); }
-            50% { transform: scale(1.02) rotate(1deg); box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
-            100% { transform: scale(1) rotate(1deg); box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); }
+        @keyframes timerPulse {
+            0% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(158, 217, 181, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
         }
 
         .timer-status {
@@ -562,7 +458,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transform: rotate(-1deg);
         }
 
         .main-logo {
@@ -571,33 +466,6 @@
             width: auto;
             height: auto;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            animation: rage-pulse 2s infinite;
-            position: relative;
-        }
-
-        .main-logo::before,
-        .main-logo::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            filter: inherit;
-            opacity: 0.8;
-        }
-
-        .main-logo:hover {
-            animation: glitch-logo 0.5s infinite;
-        }
-
-        @keyframes glitch-logo {
-            0%, 100% { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); }
-            20% { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(182deg) brightness(95%) contrast(89%); transform: translateX(2px); }
-            40% { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(282deg) brightness(95%) contrast(89%); transform: translateX(-2px); }
-            60% { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%); transform: translateY(2px); }
-            80% { filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(437%) hue-rotate(0deg) brightness(100%) contrast(100%); transform: translateY(-2px); }
         }
 
         .tagline {
@@ -608,33 +476,6 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            position: relative;
-            animation: distort-text 3s infinite;
-        }
-
-        .tagline::before,
-        .tagline::after {
-            content: 'FOR THOSE WHO REFUSE TO WHISPER';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.8;
-        }
-
-        .tagline::before {
-            animation: glitch-1 0.8s infinite;
-            color: #ff00ff;
-            z-index: -1;
-            mix-blend-mode: screen;
-        }
-
-        .tagline::after {
-            animation: glitch-2 0.8s infinite;
-            color: #00ffff;
-            z-index: -2;
-            mix-blend-mode: screen;
         }
 
         .btn {
@@ -659,87 +500,13 @@
             font-size: 18px;
             padding: 20px 40px;
             box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before,
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-primary::before {
-            /* First crack */
-            top: 20%;
-            left: 15%;
-            width: 2px;
-            height: 60%;
-            background: #000;
-            transform: rotate(15deg);
-            box-shadow: 
-                3px 0 0 #000,
-                -1px 0 0 rgba(0,0,0,0.5),
-                10px 5px 0 1px #000,
-                25px -10px 0 2px #000;
-        }
-
-        .btn-primary::after {
-            /* Second crack pattern */
-            top: 30%;
-            right: 20%;
-            width: 3px;
-            height: 50%;
-            background: #000;
-            transform: rotate(-25deg);
-            box-shadow: 
-                2px 0 0 #000,
-                -2px 0 0 rgba(0,0,0,0.5),
-                -15px 10px 0 1px #000,
-                -25px -5px 0 2px #000,
-                20px 15px 0 1px #000;
         }
 
         .btn-primary:hover {
-            animation: violent-shake 0.3s infinite;
-            background: linear-gradient(45deg, #ff6b6b, var(--color-primary));
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
+            background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
-
-        .btn-primary:hover::before,
-        .btn-primary:hover::after {
-            opacity: 1;
-            animation: crack-grow 0.3s ease-out forwards;
-        }
-
-        @keyframes violent-shake {
-            0% { transform: translate(0); }
-            10% { transform: translate(-2px, -2px) rotate(0.5deg); }
-            20% { transform: translate(2px, -2px) rotate(-0.5deg); }
-            30% { transform: translate(-2px, 2px) rotate(0.5deg); }
-            40% { transform: translate(2px, 2px) rotate(-0.5deg); }
-            50% { transform: translate(-2px, -2px) rotate(0.5deg); }
-            60% { transform: translate(2px, -2px) rotate(-0.5deg); }
-            70% { transform: translate(-2px, 2px) rotate(0.5deg); }
-            80% { transform: translate(-1px, -1px) rotate(-0.5deg); }
-            90% { transform: translate(1px, 2px) rotate(0.5deg); }
-            100% { transform: translate(0) rotate(0); }
-        }
-
-        @keyframes crack-grow {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
@@ -814,30 +581,10 @@
             overflow: hidden;
             padding: 30px;
             height: 400px;
-            transform: rotate(0.5deg);
-        }
-
-        .product-image-container:hover {
-            animation: image-rage 0.3s;
-            transform: scale(1.05) rotate(-0.5deg);
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
         }
 
         .product-image-container:hover .image-nav-arrow {
             opacity: 1;
-        }
-
-        .product-image-container:hover .product-image {
-            transform: scale(1.1);
-            filter: contrast(1.2) saturate(1.3);
-        }
-
-        @keyframes image-rage {
-            0% { transform: scale(1) rotate(0.5deg); }
-            25% { transform: scale(0.98) rotate(1deg); }
-            50% { transform: scale(1.05) rotate(-1deg); }
-            75% { transform: scale(1.02) rotate(0.5deg); }
-            100% { transform: scale(1.05) rotate(-0.5deg); }
         }
 
         .product-image {
@@ -846,7 +593,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
             border-radius: 15px;
         }
 
@@ -922,13 +669,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 0 #ff0000;
-            animation: pulse-text 2s infinite;
-        }
-
-        @keyframes pulse-text {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .color-options {
@@ -944,15 +684,6 @@
             border: 3px solid transparent;
             transition: all 0.3s ease;
             position: relative;
-            transform: rotate(-2deg);
-        }
-
-        .color-option:nth-child(2) { transform: rotate(1deg); }
-        .color-option:nth-child(3) { transform: rotate(-1deg); }
-
-        .color-option:hover {
-            transform: scale(1.2) rotate(0deg);
-            box-shadow: 0 0 20px currentColor;
         }
 
         .color-option.active {
@@ -972,26 +703,11 @@
         .product-title {
             font-family: var(--font-headers);
             font-weight: 800;
-            font-size: 4rem;
+            font-size: 2.5rem;
             color: white;
             text-transform: uppercase;
-            letter-spacing: -3px;
+            letter-spacing: 2px;
             margin-bottom: 10px;
-            transform: scaleY(1.2) rotate(-1deg);
-            text-shadow: 3px 3px 0 #ff0000, -3px -3px 0 #00ff00;
-            position: relative;
-        }
-
-        .product-title:hover {
-            animation: title-rage 0.2s infinite;
-        }
-
-        @keyframes title-rage {
-            0% { transform: scaleY(1.2) rotate(-1deg); }
-            25% { transform: scaleY(1.25) rotate(-1.5deg); }
-            50% { transform: scaleY(1.2) rotate(-0.5deg); }
-            75% { transform: scaleY(1.15) rotate(-1.2deg); }
-            100% { transform: scaleY(1.2) rotate(-1deg); }
         }
 
         .product-subtitle {
@@ -1002,17 +718,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 20px;
-            transform: rotate(0.5deg);
-            animation: flicker 5s infinite;
-        }
-
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            92% { opacity: 1; }
-            93% { opacity: 0.3; }
-            94% { opacity: 1; }
-            95% { opacity: 0.5; }
-            96% { opacity: 1; }
         }
 
         .product-description {
@@ -1023,13 +728,6 @@
             margin-bottom: 30px;
         }
 
-        .product-description .loud {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--color-primary);
-            text-transform: uppercase;
-        }
-
         .product-price {
             font-family: var(--font-headers);
             font-weight: var(--font-weight-bold);
@@ -1037,25 +735,6 @@
             color: white;
             margin-bottom: 30px;
             letter-spacing: 1px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .product-price::before {
-            content: '$9999';
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: #ff0000;
-            opacity: 0;
-            animation: price-glitch 8s infinite;
-        }
-
-        @keyframes price-glitch {
-            0%, 100% { opacity: 0; }
-            92% { opacity: 0; }
-            93% { opacity: 1; }
-            94% { opacity: 0; }
         }
 
         .size-selector {
@@ -1149,7 +828,7 @@
         .size-option {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0;
+            border-radius: 8px;
             color: white;
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -1161,31 +840,18 @@
             user-select: none;
         }
 
-        .size-option:nth-child(odd) { transform: rotate(-1deg); }
-        .size-option:nth-child(even) { transform: rotate(1deg); }
-        .size-option:nth-child(3n) { transform: rotate(-2deg); }
-
         .size-option:hover {
             border-color: var(--color-primary);
             background: rgba(158, 217, 181, 0.1);
-            transform: rotate(0deg) scale(1.2) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
-            z-index: 10;
+            transform: translateY(-2px);
         }
 
         .size-option.selected {
-            border-color: #ff0000;
-            background: linear-gradient(45deg, var(--color-primary), #ff0000);
+            border-color: var(--color-primary);
+            background: var(--color-primary);
             color: #000;
-            transform: rotate(0deg) scale(1.15) translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.6);
-            animation: selected-pulse 1s infinite;
-            z-index: 20;
-        }
-
-        @keyframes selected-pulse {
-            0%, 100% { box-shadow: 0 10px 30px rgba(255, 0, 0, 0.6); }
-            50% { box-shadow: 0 10px 40px rgba(255, 0, 0, 0.9); }
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
         }
 
         .size-option.out-of-stock {
@@ -1200,24 +866,17 @@
         }
 
         .size-warning {
-            color: #ff0000;
+            color: #ff6b6b;
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 14px;
+            font-size: 12px;
             text-align: center;
-            padding: 10px;
-            background: rgba(255, 0, 0, 0.2);
-            border-radius: 0;
-            border: 2px solid #ff0000;
+            padding: 8px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: warning-flash 0.5s infinite;
-            transform: rotate(-1deg);
-        }
-
-        @keyframes warning-flash {
-            0%, 100% { background: rgba(255, 0, 0, 0.2); }
-            50% { background: rgba(255, 0, 0, 0.4); }
+            letter-spacing: 1px;
         }
 
         .buy-button {
@@ -1228,7 +887,7 @@
             font-size: 16px;
             padding: 15px 30px;
             border: none;
-            border-radius: 0;
+            border-radius: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
@@ -1239,35 +898,20 @@
             gap: 10px;
             margin-top: 20px;
             box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
-            transform: skewX(-5deg);
-        }
-
-        .buy-button span {
-            transform: skewX(5deg);
         }
 
         .buy-button:hover {
-            animation: buy-seizure 0.2s infinite;
-            background: linear-gradient(45deg, #ff0000, var(--color-primary));
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
-            transform: skewX(-5deg) scale(1.1);
-        }
-
-        @keyframes buy-seizure {
-            0% { transform: skewX(-5deg) scale(1.1) translateX(0); }
-            25% { transform: skewX(-5deg) scale(1.1) translateX(-2px); }
-            50% { transform: skewX(-5deg) scale(1.1) translateX(2px); }
-            75% { transform: skewX(-5deg) scale(1.1) translateX(-2px); }
-            100% { transform: skewX(-5deg) scale(1.1) translateX(0); }
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
+            background: linear-gradient(45deg, #7BC097, var(--color-primary));
         }
 
         .bottom-section {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 30px 50px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
             margin-top: 40px;
             margin-bottom: 40px;
-            transform: rotate(-0.5deg);
         }
 
         .bundle-promo {
@@ -1307,24 +951,17 @@
 
         .bundle-offer {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 0;
+            border-radius: 12px;
             padding: 20px 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             text-align: center;
-            transform: rotate(0deg);
         }
 
-        .bundle-offer:nth-child(1) { transform: rotate(-1deg); }
-        .bundle-offer:nth-child(2) { transform: rotate(1deg) translateY(-5px); }
-        .bundle-offer:nth-child(3) { transform: rotate(-0.5deg); }
-
         .bundle-offer:hover {
-            transform: rotate(0deg) scale(1.1) !important;
-            border-color: #ff0000;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            background: rgba(255, 0, 0, 0.1);
-            z-index: 10;
+            transform: translateY(-2px);
+            border-color: var(--color-primary);
+            box-shadow: 0 5px 15px rgba(158, 217, 181, 0.2);
         }
 
         .bundle-offer-title {
@@ -1391,13 +1028,11 @@
         .features-title {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: white;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: 1px;
             margin-bottom: 30px;
-            transform: skewY(-2deg);
-            text-shadow: 4px 4px 0 #ff0000;
         }
 
         .features-grid {
@@ -1409,30 +1044,12 @@
 
         .feature-item {
             text-align: center;
-            transform: rotate(0deg);
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:nth-child(1) { transform: rotate(-2deg); }
-        .feature-item:nth-child(2) { transform: rotate(1deg); }
-        .feature-item:nth-child(3) { transform: rotate(-1deg); }
-
-        .feature-item:hover {
-            transform: rotate(0deg) scale(1.1);
-            filter: brightness(1.3);
         }
 
         .feature-icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--color-primary);
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
-            animation: icon-pulse 2s infinite;
-        }
-
-        @keyframes icon-pulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
         }
 
         .feature-title {
@@ -1485,7 +1102,6 @@
             margin-top: 10px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            animation: flicker 3s infinite;
         }
 
         .main-footer {
@@ -1733,7 +1349,6 @@
                 right: auto;
                 margin: 20px auto;
                 min-width: 180px;
-                transform: rotate(0);
             }
 
             .product-main-layout {
@@ -1744,7 +1359,6 @@
             .product-image-container {
                 height: 300px;
                 max-width: 100%;
-                transform: rotate(0);
             }
 
             .product-image {
@@ -1778,9 +1392,8 @@
             }
 
             .product-title {
-                font-size: 2.5rem;
-                letter-spacing: -2px;
-                text-shadow: 2px 2px 0 #ff0000, -2px -2px 0 #00ff00;
+                font-size: 2rem;
+                letter-spacing: 1px;
             }
 
             .product-price {
@@ -1803,7 +1416,6 @@
             .bottom-section {
                 grid-template-columns: 1fr;
                 gap: 30px;
-                transform: rotate(0);
             }
 
             .footer-content {
@@ -1821,7 +1433,6 @@
                 width: 300px;
                 height: 300px;
                 margin-bottom: 30px;
-                transform: rotate(0);
             }
 
             .header-nav {
@@ -1836,14 +1447,6 @@
             .content-wrapper {
                 padding: 100px 20px 20px 20px;
             }
-
-            .tagline {
-                font-size: 1rem;
-            }
-
-            .announcement-bar {
-                transform: rotate(0);
-            }
         }
 
         @media screen and (max-width: 480px) {
@@ -1851,7 +1454,6 @@
                 width: 250px;
                 height: 250px;
                 margin-bottom: 20px;
-                transform: rotate(0);
             }
             .header-nav { display: none; }
             .landing-content {
@@ -1869,8 +1471,7 @@
             }
 
             .product-title {
-                font-size: 2rem;
-                letter-spacing: -1px;
+                font-size: 1.8rem;
             }
 
             .product-price {
@@ -1927,7 +1528,7 @@
             }
 
             .tagline {
-                font-size: 0.9rem;
+                font-size: 1rem;
                 margin-bottom: 20px;
             }
 
@@ -1947,10 +1548,6 @@
 
             .timer-label {
                 font-size: 0.5rem;
-            }
-
-            .announcement-bar {
-                transform: rotate(0);
             }
         }
     </style>
@@ -2044,14 +1641,8 @@
                 <p class="tagline">FOR THOSE WHO REFUSE TO WHISPER</p>
 
                 <button id="enterButton" class="btn btn-primary" onclick="showProductOverlay()">
-                    <span>DISTURB THE PEACE</span>
+                    DISTURB THE PEACE
                     <i class="fas fa-arrow-right"></i>
-                    <div class="crack-overlay">
-                        <div class="crack crack1"></div>
-                        <div class="crack crack2"></div>
-                        <div class="crack crack3"></div>
-                        <div class="crack crack4"></div>
-                    </div>
                 </button>
 
                 <!-- Social icons -->
@@ -2131,7 +1722,7 @@
                             </div>
                         </div>
                         <button class="btn btn-primary" id="buyButton" onclick="buyProduct()">
-                            <span>CLAIM YOUR PAIR</span>
+                            CLAIM YOUR PAIR
                             <i class="fas fa-shopping-cart"></i>
                         </button>
                     </div>
@@ -2505,8 +2096,8 @@
             const genderText = state.currentGender === 'mens' ? "Men's" : "Women's";
 
             buyButton.innerHTML = state.selectedSize
-                ? `<span>CLAIM ${colorText.toUpperCase()} - ${genderText} SIZE ${state.selectedSize}</span> <i class="fas fa-shopping-cart"></i>`
-                : '<span>CLAIM YOUR PAIR</span> <i class="fas fa-shopping-cart"></i>';
+                ? `CLAIM ${colorText.toUpperCase()} - ${genderText} SIZE ${state.selectedSize} <i class="fas fa-shopping-cart"></i>`
+                : 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
         }
 
         function buyProduct() {
@@ -2518,7 +2109,7 @@
 
             // Add visual feedback
             const buyButton = document.getElementById('buyButton');
-            buyButton.innerHTML = '<span>PROCESSING YOUR DOMINANCE...</span> <i class="fas fa-spinner fa-spin"></i>';
+            buyButton.innerHTML = 'PROCESSING YOUR DOMINANCE... <i class="fas fa-spinner fa-spin"></i>';
             buyButton.disabled = true;
 
             const productData = {
