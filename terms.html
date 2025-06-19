@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Fabrevoie</title>
+    <meta name="description" content="Terms of Service - Non-negotiable">
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'DrukWide';
+            src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        :root {
+            --color-primary: #9ED9B5;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: white;
+            background-color: #000;
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #7BC097;
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-headers);
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-family: var(--font-headers);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: var(--font-headers);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .section-content {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .section-content strong {
+            color: white;
+        }
+
+        .contact-info {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .warning-box .section-title {
+            color: #ff6b6b;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Chaos
+            </a>
+            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">Terms of Service</h1>
+            <p class="page-subtitle">Non-negotiable</p>
+
+            <div class="warning-box">
+                <h2 class="section-title">Read This or Don't</h2>
+                <div class="section-content">
+                    <p>By using our website or buying our products, you agree to these terms. Don't like them? The exit button is in the top right corner.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Who We Are</h2>
+                <div class="section-content">
+                    <p><strong>Fabrevoie, Inc.</strong> is a company that makes shoes that cost more than your rent. We're incorporated and legitimate, unfortunately for your wallet.</p>
+                    <p><strong>Contact:</strong> fabrevoie@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Product Information</h2>
+                <div class="section-content">
+                    <p>Our products are:</p>
+                    <ul>
+                        <li>Overpriced by design</li>
+                        <li>Made for people who think subtlety is dead</li>
+                        <li>Limited in quantity because scarcity drives demand</li>
+                        <li>Not recommended for people seeking validation</li>
+                    </ul>
+                    <p>Product descriptions, images, and specifications are accurate to the best of our ability. If there's a discrepancy, reality wins.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Ordering & Payment</h2>
+                <div class="section-content">
+                    <p>When you place an order:</p>
+                    <ul>
+                        <li>You're making an offer to buy at the listed price</li>
+                        <li>We reserve the right to accept or decline your order</li>
+                        <li>Payment is processed immediately upon order confirmation</li>
+                        <li>All prices are in USD unless otherwise stated</li>
+                        <li>You're responsible for any applicable taxes</li>
+                    </ul>
+                    <p>We accept major credit cards and other payment methods displayed at checkout. We don't accept cryptocurrency, Monopoly money, or promises.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Pricing & Availability</h2>
+                <div class="section-content">
+                    <p>Prices and availability are subject to change without notice. We reserve the right to:</p>
+                    <ul>
+                        <li>Modify prices at any time</li>
+                        <li>Discontinue products without warning</li>
+                        <li>Limit quantities per customer</li>
+                        <li>Cancel orders for any reason</li>
+                    </ul>
+                    <p>If we cancel your order after payment, we'll refund you. Eventually.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">User Conduct</h2>
+                <div class="section-content">
+                    <p>Don't be an idiot. Specifically, don't:</p>
+                    <ul>
+                        <li>Use our site for illegal activities</li>
+                        <li>Attempt to hack, disrupt, or damage our website</li>
+                        <li>Copy our content without permission</li>
+                        <li>Resell our products commercially without authorization</li>
+                        <li>Spam us with complaints about our attitude</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Intellectual Property</h2>
+                <div class="section-content">
+                    <p>Everything on this site belongs to us unless otherwise noted:</p>
+                    <ul>
+                        <li>Trademarks, logos, and brand names</li>
+                        <li>Website design and content</li>
+                        <li>Product designs and images</li>
+                        <li>Our brilliant marketing copy</li>
+                    </ul>
+                    <p>Don't steal our stuff. We have lawyers who are meaner than our marketing.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Limitation of Liability</h2>
+                <div class="section-content">
+                    <p>We're not responsible for:</p>
+                    <ul>
+                        <li>Your questionable fashion choices</li>
+                        <li>People judging you for spending this much on shoes</li>
+                        <li>Indirect, incidental, or consequential damages</li>
+                        <li>Loss of profits, data, or business opportunities</li>
+                        <li>Your inability to handle our level of honesty</li>
+                    </ul>
+                    <p>Our maximum liability is limited to the amount you paid for your order.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Disclaimers</h2>
+                <div class="section-content">
+                    <p>Our products and services are provided "as is" without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to:</p>
+                    <ul>
+                        <li>Merchantability</li>
+                        <li>Fitness for a particular purpose</li>
+                        <li>Non-infringement</li>
+                        <li>Your ability to impress people</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dispute Resolution</h2>
+                <div class="section-content">
+                    <p>If you have a problem with us:</p>
+                    <ul>
+                        <li>First, try talking to us like adults at fabrevoie@gmail.com</li>
+                        <li>If that doesn't work, disputes will be resolved through binding arbitration</li>
+                        <li>Arbitration will be conducted under the rules of JAMS</li>
+                        <li>You waive your right to a jury trial or class action lawsuit</li>
+                    </ul>
+                    <p>These terms are governed by the laws of [YOUR STATE/COUNTRY].</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Changes to Terms</h2>
+                <div class="section-content">
+                    <p>We can modify these terms whenever we want. We'll post updates on this page with a new "last modified" date. Continued use of our site means you accept the new terms.</p>
+                    <p>Don't like it? That's what the unsubscribe button is for.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Termination</h2>
+                <div class="section-content">
+                    <p>We can terminate your access to our site at any time for any reason. You can stop using our site anytime, but good luck finding shoes this aggressively honest elsewhere.</p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h2 class="section-title">Questions?</h2>
+                <div class="section-content">
+                    <p>Contact us at: <strong>fabrevoie@gmail.com</strong></p>
+                    <p>Subject line: "Terms Question" (so we know you actually read this)</p>
+                </div>
+            </div>
+
+            <div class="section-content" style="text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem;">
+                <p>Last updated: January 2025</p>
+                <p>By using this site, you acknowledge that you've read and understood these terms.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
