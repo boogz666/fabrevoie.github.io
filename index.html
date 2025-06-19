@@ -1884,7 +1884,7 @@
     <div class="access-denied-modal" id="accessDeniedModal">
         <div class="access-denied-content">
             <h2 class="access-denied-title">ACCESS DENIED</h2>
-            <p class="access-denied-text">This page doesn't exist yet.<br>We're too busy making shoes that cost more than your rent.</p>
+            <p class="access-denied-text">This page? Nah. We don't care.<br>We're too busy making shoes that cost more than your rent.</p>
             <button class="access-denied-close" onclick="closeAccessDenied()">UNDERSTOOD</button>
         </div>
     </div>
@@ -2058,34 +2058,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Moved Bundle section here -->
-                        <div class="bundle-promo">
-                            <h3 class="bundle-promo-title">GET GREEDY</h3>
-                            <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
-                            <div class="bundle-offers">
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">DOUBLE TROUBLE</div>
-                                    <div class="bundle-offer-savings">Save $78</div>
-                                    <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
-                                </div>
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">TOTAL TAKEOVER</div>
-                                    <div class="bundle-offer-savings">Save $147</div>
-                                    <div class="bundle-offer-description">All 3 colors. Maximum chaos.</div>
-                                </div>
-                                <div class="bundle-offer">
-                                    <div class="bundle-offer-title">FINAL BOSS MODE</div>
-                                    <div class="bundle-offer-savings">Save $300+</div>
-                                    <div class="bundle-offer-description">3 + 1 exclusive. Only 10 exist.</div>
-                                </div>
-                            </div>
-                            <p class="bundle-promo-cta">Stack your arsenal</p>
-                            <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
-                                <i class="fas fa-crown"></i>
-                                CLAIM BUNDLES
-                            </a>
-                        </div>
                     </div>
                     <div class="product-info-section">
                         <h2 class="product-title">SBHMN 1</h2>
@@ -2115,6 +2087,34 @@
                             CLAIM YOUR PAIR
                             <i class="fas fa-shopping-cart"></i>
                         </button>
+                        
+                        <!-- Bundle section moved here -->
+                        <div class="bundle-promo">
+                            <h3 class="bundle-promo-title">GET GREEDY</h3>
+                            <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
+                            <div class="bundle-offers">
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">DOUBLE TROUBLE</div>
+                                    <div class="bundle-offer-savings">Save $78</div>
+                                    <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
+                                </div>
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">TOTAL TAKEOVER</div>
+                                    <div class="bundle-offer-savings">Save $147</div>
+                                    <div class="bundle-offer-description">All 3 colors. Maximum chaos.</div>
+                                </div>
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">FINAL BOSS MODE</div>
+                                    <div class="bundle-offer-savings">Save $300+</div>
+                                    <div class="bundle-offer-description">3 + 1 exclusive. Only 10 exist.</div>
+                                </div>
+                            </div>
+                            <p class="bundle-promo-cta">Stack your arsenal</p>
+                            <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
+                                <i class="fas fa-crown"></i>
+                                CLAIM BUNDLES
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -2526,6 +2526,11 @@
             setTimeout(() => {
                 document.getElementById('productOverlay').classList.add('active');
                 document.getElementById('topLogo').classList.add('visible');
+                isProductOverlayActive = true;
+                
+                // Add scroll listener for header hide/show
+                document.getElementById('productOverlay').addEventListener('scroll', handleHeaderScroll);
+                
                 updateProductImage();
                 updateThumbnails();
                 populateSizes();
@@ -2535,10 +2540,35 @@
         function hideProductOverlay() {
             document.getElementById('productOverlay').classList.remove('active');
             document.getElementById('topLogo').classList.remove('visible');
+            document.querySelector('.main-header').classList.remove('hidden'); // Show header when leaving
+            isProductOverlayActive = false;
+            
+            // Remove scroll listener
+            document.getElementById('productOverlay').removeEventListener('scroll', handleHeaderScroll);
 
             setTimeout(() => {
                 document.getElementById('landingContent').classList.remove('hidden');
             }, 250);
+        }
+
+        // Header scroll functionality
+        let lastScrollTop = 0;
+        let isProductOverlayActive = false;
+
+        function handleHeaderScroll() {
+            if (!isProductOverlayActive) return; // Only hide header in product overlay
+            
+            const currentScroll = document.getElementById('productOverlay').scrollTop;
+            const header = document.querySelector('.main-header');
+            
+            if (currentScroll > lastScrollTop && currentScroll > 100) {
+                // Scrolling down
+                header.classList.add('hidden');
+            } else {
+                // Scrolling up
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = currentScroll;
         }
 
         // Cart Functions
