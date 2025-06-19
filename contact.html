@@ -150,7 +150,7 @@
         .about-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 40px;
+            padding: 60px 40px 0 40px;
         }
 
         /* Hero Section */
@@ -299,11 +299,14 @@
         }
 
         /* Footer */
-        .about-footer {
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 60px 40px 40px 40px;
-            margin-top: 80px;
+        .main-footer {
+            position: relative;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(158, 217, 181, 0.3);
+            padding: 40px 0;
+            margin-top: 0;
         }
 
         .footer-content {
@@ -312,7 +315,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
-            margin-bottom: 40px;
+            padding: 0 40px;
         }
 
         .footer-section h4 {
@@ -346,14 +349,14 @@
             transition: color 0.3s ease;
         }
 
-        .footer-section a:hover {
-            color: var(--color-primary);
+        .footer-section a:hover { 
+            color: var(--color-primary); 
         }
 
         .footer-social {
             display: flex;
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .footer-social a {
@@ -362,13 +365,14 @@
             transition: color 0.3s ease;
         }
 
-        .footer-social a:hover {
-            color: #7BC097;
+        .footer-social a:hover { 
+            color: #7BC097; 
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
+            padding-top: 20px;
+            margin-top: 30px;
             text-align: center;
         }
 
@@ -384,8 +388,8 @@
             text-decoration: none;
         }
 
-        .footer-bottom a:hover {
-            text-decoration: underline;
+        .footer-bottom a:hover { 
+            text-decoration: underline; 
         }
 
         /* Mobile Responsiveness */
@@ -592,42 +596,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="about-footer">
+    <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Customer Care</h4>
-                <ul>
-                    <li><a href="contact.html">Contact Support</a></li>
-                    <li><a href="#">Size Guide</a></li>
-                    <li><a href="shipping.html">Shipping Info</a></li>
-                    <li><a href="returns.html">Returns & Exchanges</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="about.html">About Fabrevoie</a></li>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="returns.html">Refund Policy</a></li>
-                    <li><a href="#">Accessibility</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Connect</h4>
+                <h4>About Fabrevoie</h4>
                 <p>You don't ask permission. You don't blend in. You show up like a storm—and we design for the aftermath.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
@@ -636,16 +608,54 @@
                     <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
                         <i class="fab fa-tiktok"></i>
                     </a>
-                    <a href="#" target="_blank" aria-label="Follow us on Reddit">
-                        <i class="fab fa-reddit"></i>
+                    <a href="#" target="_blank" aria-label="Follow us on Twitter">
+                        <i class="fab fa-twitter"></i>
                     </a>
                 </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Support</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping Info</a></li>
+                    <li><a href="returns.html">Returns (Good Luck)</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">Our Chaos</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">Join the Dark Side</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">Press</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">World Domination Plans</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal Stuff</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms (Non-Negotiable)</a></li>
+                    <li><a href="returns.html">No Refunds Policy</a></li>
+                    <li><a href="#" onclick="showAccessDenied()">Cookie Warning</a></li>
+                </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a></p>
+            <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy</a> | Made for villains, by villains</p>
         </div>
     </footer>
+
+    <script>
+        function showAccessDenied() {
+            alert('This page? Nah. We don\'t care. We\'re too busy making shoes that cost more than your rent.');
+        }
+    </script>
 </body>
 </html>
