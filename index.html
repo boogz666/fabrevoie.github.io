@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+.bundle-offers {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .bundle-promo {
+                padding: 20px 15px;
+            }
+
+            .bundle-promo-title {
+                font-size: 1.1rem;
+            }<!DOCTYPE html>
 <html lang="en" style="background: #000;">
 <head>
     <meta charset="UTF-8">
@@ -881,7 +892,10 @@
             justify-content: center;
             max-width: 100%;
             padding: 20px;
-            height: 300px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .product-image-container:hover .image-nav-arrow {
@@ -1180,12 +1194,9 @@
             letter-spacing: 1px;
         }
 
-        .bottom-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 40px;
-            margin-bottom: 40px;
+        .product-features {
+            text-align: center;
+            margin-top: 30px;
         }
 
         .bundle-promo {
@@ -1196,6 +1207,7 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
             padding: 25px 30px;
+            margin-top: 30px;
         }
 
         .bundle-promo-title {
@@ -1293,10 +1305,6 @@
             background: rgba(255, 255, 255, 0.1);
             color: var(--color-primary);
             transform: translateY(-50%) translateX(-5px);
-        }
-
-        .product-features {
-            text-align: center;
         }
 
         .features-title {
@@ -1631,7 +1639,7 @@
             }
 
             .product-image-container {
-                height: 250px;
+                height: 400px;
                 max-width: 100%;
                 padding: 15px;
             }
@@ -1686,11 +1694,6 @@
 
             .bundle-promo-title {
                 font-size: 1.1rem;
-            }
-
-            .bottom-section {
-                grid-template-columns: 1fr;
-                gap: 30px;
             }
 
             .footer-content {
@@ -1749,7 +1752,7 @@
             }
 
             .product-image-container {
-                height: 200px;
+                height: 300px;
                 padding: 10px;
             }
 
@@ -2027,6 +2030,62 @@
                                 <div class="color-option white" data-color="white" onclick="changeProductColor('white')"></div>
                             </div>
                         </div>
+                        
+                        <!-- Moved Why You Need These section here -->
+                        <div class="product-features">
+                            <h3 class="features-title">WHY YOU NEED THESE</h3>
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-skull"></i>
+                                    </div>
+                                    <div class="feature-title">CONVERSATION KILLERS</div>
+                                    <div class="feature-description">So loud they shut everyone up</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="feature-title">EGO BOOSTERS</div>
+                                    <div class="feature-description">Instant +6 inches to your presence</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <div class="feature-title">CHAOS CERTIFIED</div>
+                                    <div class="feature-description">Tested on thin ice and sensitive souls</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Moved Bundle section here -->
+                        <div class="bundle-promo">
+                            <h3 class="bundle-promo-title">GET GREEDY</h3>
+                            <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
+                            <div class="bundle-offers">
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">DOUBLE TROUBLE</div>
+                                    <div class="bundle-offer-savings">Save $78</div>
+                                    <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
+                                </div>
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">TOTAL TAKEOVER</div>
+                                    <div class="bundle-offer-savings">Save $147</div>
+                                    <div class="bundle-offer-description">All 3 colors. Maximum chaos.</div>
+                                </div>
+                                <div class="bundle-offer">
+                                    <div class="bundle-offer-title">FINAL BOSS MODE</div>
+                                    <div class="bundle-offer-savings">Save $300+</div>
+                                    <div class="bundle-offer-description">3 + 1 exclusive. Only 10 exist.</div>
+                                </div>
+                            </div>
+                            <p class="bundle-promo-cta">Stack your arsenal</p>
+                            <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
+                                <i class="fas fa-crown"></i>
+                                CLAIM BUNDLES
+                            </a>
+                        </div>
                     </div>
                     <div class="product-info-section">
                         <h2 class="product-title">SBHMN 1</h2>
@@ -2056,61 +2115,6 @@
                             CLAIM YOUR PAIR
                             <i class="fas fa-shopping-cart"></i>
                         </button>
-                    </div>
-                </div>
-
-                <div class="bottom-section">
-                    <div class="product-features">
-                        <h3 class="features-title">WHY YOU NEED THESE</h3>
-                        <div class="features-grid">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-skull"></i>
-                                </div>
-                                <div class="feature-title">CONVERSATION KILLERS</div>
-                                <div class="feature-description">So loud they shut everyone up</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-fire"></i>
-                                </div>
-                                <div class="feature-title">EGO BOOSTERS</div>
-                                <div class="feature-description">Instant +6 inches to your presence</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-bolt"></i>
-                                </div>
-                                <div class="feature-title">CHAOS CERTIFIED</div>
-                                <div class="feature-description">Tested on thin ice and sensitive souls</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bundle-promo">
-                        <h3 class="bundle-promo-title">GET GREEDY</h3>
-                        <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
-                        <div class="bundle-offers">
-                            <div class="bundle-offer">
-                                <div class="bundle-offer-title">DOUBLE TROUBLE</div>
-                                <div class="bundle-offer-savings">Save $78</div>
-                                <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
-                            </div>
-                            <div class="bundle-offer">
-                                <div class="bundle-offer-title">TOTAL TAKEOVER</div>
-                                <div class="bundle-offer-savings">Save $147</div>
-                                <div class="bundle-offer-description">All 3 colors. Maximum chaos.</div>
-                            </div>
-                            <div class="bundle-offer">
-                                <div class="bundle-offer-title">FINAL BOSS MODE</div>
-                                <div class="bundle-offer-savings">Save $300+</div>
-                                <div class="bundle-offer-description">3 + 1 exclusive. Only 10 exist.</div>
-                            </div>
-                        </div>
-                        <p class="bundle-promo-cta">Stack your arsenal</p>
-                        <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
-                            <i class="fas fa-crown"></i>
-                            CLAIM BUNDLES
-                        </a>
                     </div>
                 </div>
 
