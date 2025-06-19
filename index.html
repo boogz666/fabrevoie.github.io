@@ -2110,7 +2110,7 @@
                                 </div>
                             </div>
                             <p class="bundle-promo-cta">Stack your arsenal</p>
-                            <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
+                            <a href="checkout.html" class="btn btn-secondary">
                                 <i class="fas fa-crown"></i>
                                 CLAIM BUNDLES
                             </a>
@@ -2503,7 +2503,7 @@
 
             // Simulate processing time for better UX
             setTimeout(() => {
-                showAccessDenied(); // Show access denied for checkout
+                window.location.href = 'checkout.html'; // Redirect to checkout
                 buyButton.innerHTML = 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
                 buyButton.disabled = false;
             }, 800);
@@ -2522,6 +2522,7 @@
         // Overlay Functions
         function showProductOverlay() {
             document.getElementById('landingContent').classList.add('hidden');
+            document.getElementById('timerContainer').style.display = 'none'; // Hide timer in product section
 
             setTimeout(() => {
                 document.getElementById('productOverlay').classList.add('active');
@@ -2541,6 +2542,7 @@
             document.getElementById('productOverlay').classList.remove('active');
             document.getElementById('topLogo').classList.remove('visible');
             document.querySelector('.main-header').classList.remove('hidden'); // Show header when leaving
+            document.getElementById('timerContainer').style.display = 'block'; // Show timer on landing page
             isProductOverlayActive = false;
             
             // Remove scroll listener
