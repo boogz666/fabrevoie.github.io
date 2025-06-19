@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Fabrevoie</title>
+    <meta name="description" content="Contact Fabrevoie - Email only, we don't do phones">
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'DrukWide';
+            src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        :root {
+            --color-primary: #9ED9B5;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: white;
+            background-color: #000;
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #7BC097;
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-headers);
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-family: var(--font-headers);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .section-title {
+            font-family: var(--font-headers);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-content {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .section-content strong {
+            color: white;
+        }
+
+        .email-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .email-link:hover {
+            color: #7BC097;
+            text-decoration: underline;
+        }
+
+        .business-info {
+            background: rgba(158, 217, 181, 0.1);
+            border: 2px solid var(--color-primary);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .response-times {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .response-times .section-title {
+            color: #ff6b6b;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .social-link {
+            color: var(--color-primary);
+            font-size: 2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-link:hover {
+            color: #7BC097;
+            transform: translateY(-5px);
+        }
+
+        .social-label {
+            font-family: var(--font-headers);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .social-links {
+                gap: 20px;
+            }
+
+            .social-link {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Chaos
+            </a>
+            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">Contact</h1>
+            <p class="page-subtitle">Email only, we don't do phones</p>
+
+            <div class="contact-grid">
+                <div class="contact-section">
+                    <h2 class="section-title">General Inquiries</h2>
+                    <div class="section-content">
+                        <p>For questions about orders, products, or our general attitude:</p>
+                        <p><strong><a href="mailto:fabrevoie@gmail.com" class="email-link">fabrevoie@gmail.com</a></strong></p>
+                        <p>Include your order number if applicable.<br>Be specific. We don't read minds.</p>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <h2 class="section-title">Returns & Exchanges</h2>
+                    <div class="section-content">
+                        <p>Read our <a href="returns.html" class="email-link">Returns Policy</a> first.</p>
+                        <p>Then email: <strong><a href="mailto:fabrevoie@gmail.com" class="email-link">fabrevoie@gmail.com</a></strong></p>
+                        <p>Subject: "Return Request"<br>Don't expect miracles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="business-info">
+                <h2 class="section-title">Business Information</h2>
+                <div class="section-content">
+                    <p><strong>Company:</strong> Fabrevoie, Inc.</p>
+                    <p><strong>Email:</strong> <a href="mailto:fabrevoie@gmail.com" class="email-link">fabrevoie@gmail.com</a></p>
+                    <p><strong>Business Hours:</strong> When we feel like it</p>
+                    <p><strong>Phone:</strong> We don't have one. Email exists for a reason.</p>
+                </div>
+            </div>
+
+            <div class="response-times">
+                <h2 class="section-title">Response Times</h2>
+                <div class="section-content">
+                    <p>We aim to respond to emails within:</p>
+                    <ul>
+                        <li><strong>1-2 business days</strong> for order issues</li>
+                        <li><strong>2-3 business days</strong> for general questions</li>
+                        <li><strong>3-5 business days</strong> for complex problems</li>
+                        <li><strong>Never</strong> for complaints about our personality</li>
+                    </ul>
+                    <p>Sending multiple emails about the same issue won't make us respond faster. It will make us respond slower.</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h2 class="section-title">What to Include in Your Email</h2>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Order number</strong> (if applicable)</li>
+                        <li><strong>Clear subject line</strong> that describes your issue</li>
+                        <li><strong>Specific details</strong> about your problem or question</li>
+                        <li><strong>Photos</strong> if relevant (damaged items, sizing issues, etc.)</li>
+                        <li><strong>Your actual question</strong> (not just "I have a problem")</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h2 class="section-title">Follow Us</h2>
+                <div class="section-content">
+                    <p>For updates, drops, and general chaos:</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            <span class="social-label">Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            <span class="social-label">TikTok</span>
+                        </a>
+                    </div>
+                    <p>Don't DM us for customer service. We ignore those.</p>
+                </div>
+            </div>
+
+            <div class="section-content" style="text-align: center; margin-top: 50px; color: #666; font-size: 0.9rem;">
+                <p>We're real people behind this computer screen.<br>Treat us like humans and we'll do the same.</p>
+                <p>Be rude and we'll respond accordingly.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
