@@ -65,6 +65,21 @@
             background-attachment: fixed;
         }
 
+        /* UPDATED: Shake animation for button */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(-3px) rotate(-1deg); }
+            20% { transform: translateX(3px) rotate(1deg); }
+            30% { transform: translateX(-3px) rotate(-1deg); }
+            40% { transform: translateX(3px) rotate(1deg); }
+            50% { transform: translateX(-2px) rotate(-0.5deg); }
+            60% { transform: translateX(2px) rotate(0.5deg); }
+            70% { transform: translateX(-1px) rotate(-0.5deg); }
+            80% { transform: translateX(1px) rotate(0.5deg); }
+            90% { transform: translateX(-1px); }
+            100% { transform: translateX(0); }
+        }
+
         #loading-screen {
             position: fixed;
             top: 0;
@@ -502,10 +517,19 @@
             box-shadow: 0 5px 20px rgba(158, 217, 181, 0.3);
         }
 
+        /* UPDATED: Hover effect with shake and red/green gradient */
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(158, 217, 181, 0.5);
-            background: linear-gradient(45deg, #7BC097, var(--color-primary));
+            background: linear-gradient(45deg, #ff4444, #44ff44, #ff4444, #44ff44);
+            background-size: 300% 300%;
+            animation: shake 0.5s ease-in-out, gradientShift 0.8s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .btn-secondary {
@@ -526,6 +550,96 @@
             font-size: 18px;
             padding: 18px 40px;
             width: 100%;
+        }
+
+        /* UPDATED: Access Denied Modal */
+        .access-denied-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .access-denied-modal.active {
+            display: flex;
+        }
+
+        .access-denied-content {
+            background: #000;
+            border: 3px solid #ffff00;
+            border-radius: 0;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
+        }
+
+        .access-denied-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffff00 0px,
+                #ffff00 20px,
+                #000 20px,
+                #000 40px
+            );
+            z-index: -1;
+            border-radius: 0;
+        }
+
+        .access-denied-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 2rem;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .access-denied-text {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .access-denied-close {
+            background: #ffff00;
+            border: none;
+            border-radius: 0;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 16px;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .access-denied-close:hover {
+            background: #000;
+            color: #ffff00;
+            border: 2px solid #ffff00;
         }
 
         .product-overlay {
@@ -1447,6 +1561,14 @@
             .content-wrapper {
                 padding: 100px 20px 20px 20px;
             }
+
+            .access-denied-content {
+                padding: 30px 20px;
+            }
+
+            .access-denied-title {
+                font-size: 1.5rem;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -1549,6 +1671,18 @@
             .timer-label {
                 font-size: 0.5rem;
             }
+
+            .access-denied-content {
+                padding: 25px 15px;
+            }
+
+            .access-denied-title {
+                font-size: 1.2rem;
+            }
+
+            .access-denied-text {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -1568,6 +1702,15 @@
         <source src="bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
+
+    <!-- Access Denied Modal -->
+    <div class="access-denied-modal" id="accessDeniedModal">
+        <div class="access-denied-content">
+            <h2 class="access-denied-title">ACCESS DENIED</h2>
+            <p class="access-denied-text">This page doesn't exist yet.<br>We're too busy making shoes that cost more than your rent.</p>
+            <button class="access-denied-close" onclick="closeAccessDenied()">UNDERSTOOD</button>
+        </div>
+    </div>
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
@@ -1590,7 +1733,7 @@
             </a>
             <nav class="header-nav">
                 <a href="#" class="nav-link" onclick="hideProductOverlay()">Home</a>
-                <a href="about.html" class="nav-link">About Us</a>
+                <a href="#" class="nav-link access-denied-link" onclick="showAccessDenied()">About Us</a>
                 <a href="#" class="nav-link" onclick="showProductOverlay()">Shop</a>
             </nav>
         </div>
@@ -1696,9 +1839,9 @@
                     </div>
                     <div class="product-info-section">
                         <h2 class="product-title">SBHMN 1</h2>
-                        <p class="product-subtitle">Because subtle is for cowards</p>
+                        <p class="product-subtitle">Shoes that cost more than your rent. Good.</p>
                         <div class="product-price">$349</div>
-                        <p class="product-description">Oversized. Overpriced. Overwhelmingly obnoxious. Exactly how you like it. Built for those who enter rooms like natural disasters. If you need permission to stand out, these aren't for you. Each step is a middle finger to mediocrity.</p>
+                        <p class="product-description">Made by people who think you're weird for buying these. Built for those who enter rooms like natural disasters. If you need permission to stand out, these aren't for you. Each step is a middle finger to mediocrity.</p>
                         <div class="size-selector">
                             <div class="size-selector-header">
                                 <h4 class="size-title">Pick Your Size</h4>
@@ -1773,7 +1916,7 @@
                             </div>
                         </div>
                         <p class="bundle-promo-cta">Stack your arsenal</p>
-                        <a href="checkout.html" class="btn btn-secondary">
+                        <a href="#" class="btn btn-secondary access-denied-link" onclick="showAccessDenied()">
                             <i class="fas fa-crown"></i>
                             CLAIM BUNDLES
                         </a>
@@ -1802,38 +1945,38 @@
                         <div class="footer-section">
                             <h4>Customer Care</h4>
                             <ul>
-                                <li><a href="#">Contact Support</a></li>
-                                <li><a href="#">Size Guide</a></li>
-                                <li><a href="#">Shipping Info</a></li>
-                                <li><a href="#">Returns (Good Luck)</a></li>
-                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Contact Support</a></li>
+                                <li><a href="#" onclick="openSizeGuide()">Size Guide</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Shipping Info</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Returns (Good Luck)</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">FAQ</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-section">
                             <h4>Company</h4>
                             <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="#">Our Chaos</a></li>
-                                <li><a href="#">Join the Dark Side</a></li>
-                                <li><a href="#">Press</a></li>
-                                <li><a href="#">World Domination Plans</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">About Us</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Our Chaos</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Join the Dark Side</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Press</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">World Domination Plans</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-section">
                             <h4>Legal Stuff</h4>
                             <ul>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="#">Terms (Non-Negotiable)</a></li>
-                                <li><a href="#">No Refunds Policy</a></li>
-                                <li><a href="#">Cookie Warning</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Privacy Policy</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Terms (Non-Negotiable)</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">No Refunds Policy</a></li>
+                                <li><a href="#" class="access-denied-link" onclick="showAccessDenied()">Cookie Warning</a></li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="footer-bottom">
-                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy</a> | Made for villains, by villains</p>
+                        <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="#" class="access-denied-link" onclick="showAccessDenied()">Privacy</a> | Made for villains, by villains</p>
                     </div>
                 </footer>
             </div>
@@ -1946,6 +2089,15 @@
                 ]
             }
         };
+
+        // UPDATED: Access Denied Functions
+        function showAccessDenied() {
+            document.getElementById('accessDeniedModal').classList.add('active');
+        }
+
+        function closeAccessDenied() {
+            document.getElementById('accessDeniedModal').classList.remove('active');
+        }
 
         // Size Functions
         function toggleGender(gender) {
@@ -2121,7 +2273,9 @@
 
             // Simulate processing time for better UX
             setTimeout(() => {
-                window.location.href = 'checkout.html';
+                showAccessDenied(); // Show access denied for checkout
+                buyButton.innerHTML = 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
+                buyButton.disabled = false;
             }, 800);
         }
 
@@ -2230,6 +2384,10 @@
         // Close modals when clicking outside
         document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
             if (e.target === this) closeSizeGuide();
+        });
+
+        document.getElementById('accessDeniedModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAccessDenied();
         });
 
         // Initialize everything
