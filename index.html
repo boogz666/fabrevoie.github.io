@@ -374,6 +374,43 @@
             min-width: 35px;
         }
 
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .countdown-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 4px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 28px;
+        }
+
+        .countdown-number {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.9rem;
+            color: #ccc;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .countdown-label {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.5rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
         .timer-number {
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
@@ -391,16 +428,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 2px;
-        }
-
-        .timer-text {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.75rem;
-            color: #ccc;
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
         }
 
         .pairs-left {
@@ -497,20 +524,20 @@
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* UPDATED: Liquid Metal Primary Button (DISTURB THE PEACE) */
+        /* UPDATED: Green Liquid Metal Primary Button (DISTURB THE PEACE) */
         .btn-primary {
             background: linear-gradient(135deg, 
-                #c0c0c0 0%,
-                #e8e8e8 25%, 
-                #a8a8a8 50%, 
-                #d4d4d4 75%, 
-                #b8b8b8 100%);
+                #9ED9B5 0%,
+                #B8E5C8 25%, 
+                #7BC097 50%, 
+                #A8DFB8 75%, 
+                #8BD4A5 100%);
             color: #000;
             font-size: 18px;
             padding: 20px 40px;
             box-shadow: 
-                0 8px 25px rgba(192, 192, 192, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 8px 25px rgba(158, 217, 181, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.2);
         }
 
@@ -523,7 +550,7 @@
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent, 
-                rgba(255, 255, 255, 0.4), 
+                rgba(255, 255, 255, 0.5), 
                 transparent);
             transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -544,16 +571,16 @@
 
         .btn-primary:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 
-                0 15px 35px rgba(192, 192, 192, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, 
-                #d4d4d4 0%,
-                #f0f0f0 25%, 
-                #b8b8b8 50%, 
-                #e0e0e0 75%, 
-                #c8c8c8 100%);
+                #B8E5C8 0%,
+                #D0F0D8 25%, 
+                #8BD4A5 50%, 
+                #C0E8C8 75%, 
+                #A8DFB8 100%);
+            box-shadow: 
+                0 12px 30px rgba(158, 217, 181, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
         }
 
         .btn-primary:hover::before {
@@ -853,11 +880,8 @@
             align-items: center;
             justify-content: center;
             max-width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            padding: 30px;
-            height: 400px;
+            padding: 20px;
+            height: 300px;
         }
 
         .product-image-container:hover .image-nav-arrow {
@@ -871,7 +895,7 @@
             height: 100%;
             object-fit: contain;
             transition: opacity 0.3s ease;
-            border-radius: 15px;
+            border-radius: 20px;
         }
 
         .image-nav-arrow {
@@ -1607,8 +1631,9 @@
             }
 
             .product-image-container {
-                height: 300px;
+                height: 250px;
                 max-width: 100%;
+                padding: 15px;
             }
 
             .product-image {
@@ -1724,8 +1749,8 @@
             }
 
             .product-image-container {
-                height: 250px;
-                padding: 20px;
+                height: 200px;
+                padding: 10px;
             }
 
             .product-title {
@@ -1806,6 +1831,19 @@
 
             .timer-label {
                 font-size: 0.5rem;
+            }
+
+            .countdown-unit {
+                min-width: 22px;
+                padding: 4px 3px;
+            }
+
+            .countdown-number {
+                font-size: 0.8rem;
+            }
+
+            .countdown-label {
+                font-size: 0.4rem;
             }
 
             .access-denied-content {
@@ -1902,8 +1940,25 @@
                 <div class="timer-label">Seconds</div>
             </div>
         </div>
-        <div class="timer-status" id="timerStatus">GET READY TO RAGE</div>
-        <div class="timer-text" id="timerText">116 days until chaos</div>
+        <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
+        <div class="countdown-display">
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownDays">116</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownHours">12</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownMinutes">30</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownSeconds">45</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
         <div class="pairs-left">
             <span id="pairsLeft">100</span>/100 PAIRS LEFT
         </div>
@@ -2278,27 +2333,62 @@
             const timerMinutes = document.getElementById('timerMinutes');
             const timerSeconds = document.getElementById('timerSeconds');
             const timerStatus = document.getElementById('timerStatus');
-            const timerText = document.getElementById('timerText');
+            
+            const countdownDays = document.getElementById('countdownDays');
+            const countdownHours = document.getElementById('countdownHours');
+            const countdownMinutes = document.getElementById('countdownMinutes');
+            const countdownSecondsEl = document.getElementById('countdownSeconds');
 
             if (now < config.presaleStartDate) {
-                // Before pre-sale
+                // Before pre-sale - show countdown to pre-sale start
                 const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
+                // Keep 72-hour timer static for now
                 timerHours.textContent = '72';
                 timerMinutes.textContent = '00';
                 timerSeconds.textContent = '00';
                 timerStatus.textContent = 'PRE-SALE STARTS IN';
-                timerText.textContent = `${days} days until chaos`;
+                
+                // Update countdown to pre-sale
+                countdownDays.textContent = days.toString().padStart(2, '0');
+                countdownHours.textContent = hours.toString().padStart(2, '0');
+                countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+                countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
             } else {
-                // After pre-sale start
-                timerHours.textContent = '00';
-                timerMinutes.textContent = '00';
-                timerSeconds.textContent = '00';
-                timerStatus.textContent = 'LIVE NOW';
-                timerText.textContent = 'CLAIM YOURS BEFORE THEY\'RE GONE';
+                // After pre-sale start - start the 72-hour timer countdown
+                const presaleEnd = new Date(config.presaleStartDate.getTime() + (72 * 60 * 60 * 1000)); // 72 hours after pre-sale start
+                const presaleTimeDiff = presaleEnd - now;
+                
+                if (presaleTimeDiff > 0) {
+                    const presaleHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
+                    const presaleMinutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    const presaleSeconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
+                    
+                    timerHours.textContent = presaleHours.toString().padStart(2, '0');
+                    timerMinutes.textContent = presaleMinutes.toString().padStart(2, '0');
+                    timerSeconds.textContent = presaleSeconds.toString().padStart(2, '0');
+                    timerStatus.textContent = 'PRE-SALE LIVE';
+                    
+                    // Hide countdown
+                    countdownDays.textContent = '00';
+                    countdownHours.textContent = '00';
+                    countdownMinutes.textContent = '00';
+                    countdownSecondsEl.textContent = '00';
+                } else {
+                    // Pre-sale ended
+                    timerHours.textContent = '00';
+                    timerMinutes.textContent = '00';
+                    timerSeconds.textContent = '00';
+                    timerStatus.textContent = 'PRE-SALE ENDED';
+                    
+                    countdownDays.textContent = '00';
+                    countdownHours.textContent = '00';
+                    countdownMinutes.textContent = '00';
+                    countdownSecondsEl.textContent = '00';
+                }
             }
         }
 
