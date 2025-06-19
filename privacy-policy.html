@@ -4,523 +4,283 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Fabrevoie</title>
-    <meta name="description" content="Fabrevoie Privacy Policy - How we collect, use, and protect your personal information.">
+    <meta name="description" content="Privacy Policy - How we handle your data">
     <link rel="icon" type="image/png" href="assets/images/logo-small.png">
     
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom Fonts -->
-    <style>
-    @font-face {
-        font-family: 'DrukWide';
-        src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
-        font-weight: normal;
-        font-style: italic;
-    }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        @font-face {
+            font-family: 'DrukWide';
+            src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
         :root {
             --color-primary: #9ED9B5;
             --font-headers: 'DrukWide', 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --font-numbers: 'DrukWide', 'Space Mono', monospace;
-            --font-primary-weight: normal;
-            --font-secondary-weight-normal: 400;
-            --font-numbers-weight: normal;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body, html {
+            margin: 0;
+            padding: 0;
             font-family: var(--font-body);
+            color: white;
             background-color: #000;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-                url('assets/images/pat2.png');
+            background-image: url('assets/images/patterned1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            color: white;
-            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* Header */
-        .privacy-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+        .page-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 40px;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .back-home {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            font-family: var(--font-body);
-            text-decoration: none;
-        }
-
-        .back-home:hover {
+        .back-link {
             color: var(--color-primary);
+            text-decoration: none;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #7BC097;
             transform: translateX(-5px);
         }
 
         .logo {
-            height: 50px;
+            height: 40px;
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
         }
 
-        .header-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .top-logo {
-            height: 80px;
-            width: auto;
-            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .top-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .nav-link {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 14px;
-            color: white;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--color-primary);
-        }
-
-        /* Main Content */
-        .privacy-container {
-            min-height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
-            padding-top: 120px;
-        }
-
-        .privacy-content {
+        .content {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Title */
-        .privacy-title {
+        .page-title {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 3rem;
             color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-align: center;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
-        }
-
-        .last-updated {
             text-align: center;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: #999;
-            margin-bottom: 50px;
         }
 
-        /* Section styling */
-        .privacy-section {
+        .page-subtitle {
+            font-family: var(--font-headers);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section {
             margin-bottom: 40px;
         }
 
         .section-title {
             font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
             font-size: 1.5rem;
             color: var(--color-primary);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .section-title i {
-            font-size: 1.2rem;
-        }
-
-        .privacy-section p {
+        .section-content {
             font-family: var(--font-body);
             font-size: 1rem;
+            line-height: 1.6;
             color: #ccc;
-            line-height: 1.8;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .privacy-section ul {
-            margin: 20px 0;
+        .section-content strong {
+            color: white;
+        }
+
+        .contact-info {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        ul {
             padding-left: 20px;
         }
 
-        .privacy-section li {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: #ccc;
-            line-height: 1.8;
+        li {
             margin-bottom: 10px;
         }
 
-        .privacy-section a {
-            color: var(--color-primary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .privacy-section a:hover {
-            color: #7BC097;
-            text-decoration: underline;
-        }
-
-        /* Contact section styling */
-        .contact-section {
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.3));
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(158, 217, 181, 0.2);
-            margin-top: 40px;
-        }
-
-        .contact-section .section-title {
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .contact-email {
-            font-family: var(--font-numbers);
-            font-weight: var(--font-numbers-weight);
-            font-size: 1.1rem;
-            color: var(--color-primary);
-            margin-bottom: 20px;
-        }
-
-        .contact-note {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: #999;
-        }
-
-        /* Footer */
-        .privacy-footer {
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 40px;
-            margin-top: 60px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-nav {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .footer-nav a {
-            font-family: var(--font-body);
-            font-size: 14px;
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-nav a:hover {
-            color: var(--color-primary);
-        }
-
-        .footer-bottom {
-            font-family: var(--font-body);
-            font-size: 12px;
-            color: #888;
-            margin: 0;
-        }
-
-        .footer-bottom a {
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-
-        /* Mobile Responsiveness */
         @media screen and (max-width: 768px) {
-            .privacy-header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-
-            .header-center {
-                position: relative;
-                left: auto;
-                transform: none;
-                order: -1;
-            }
-
-            .top-logo {
-                height: 60px;
-            }
-
-            .privacy-content {
+            .content {
                 padding: 40px 20px;
-                margin: 0 20px;
             }
-
-            .privacy-title {
+            
+            .page-title {
                 font-size: 2rem;
-                letter-spacing: 1px;
             }
-
-            .section-title {
-                font-size: 1.2rem;
-            }
-
-            .footer-nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .privacy-title {
-                font-size: 1.8rem;
-            }
-
-            .section-title {
-                font-size: 1rem;
-            }
-
-            .privacy-section p,
-            .privacy-section li {
-                font-size: 0.9rem;
+            
+            .header {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="privacy-header">
-        <div class="header-left">
-            <a href="index.html" class="back-home">
+    <div class="page-container">
+        <header class="header">
+            <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i>
-                Back to Home
+                Back to Chaos
             </a>
             <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
-        </div>
-        
-        <div class="header-center">
-            <a href="index.html">
-                <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo">
-            </a>
-        </div>
-        
-        <nav class="header-nav">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="about.html" class="nav-link">About</a>
-            <a href="index.html#shop" class="nav-link">Shop</a>
-        </nav>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <div class="privacy-container">
-        <div class="privacy-content">
-            <h1 class="privacy-title">Privacy Policy</h1>
-            <p class="last-updated">Effective Date: January 2025</p>
-            
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-info-circle"></i>
-                    What We Do
-                </h2>
-                <p>
-                    We're Fabrevoie, and we make weird shoes. This policy explains how we handle your personal 
-                    information when you visit our site, buy our products, or join our community.
-                </p>
+        <main class="content">
+            <h1 class="page-title">Privacy Policy</h1>
+            <p class="page-subtitle">We collect your data. Deal with it.</p>
+
+            <div class="section">
+                <h2 class="section-title">What We Collect</h2>
+                <div class="section-content">
+                    <p>We collect information when you:</p>
+                    <ul>
+                        <li><strong>Browse our site:</strong> IP address, browser type, pages visited (because we're curious about your poor life choices)</li>
+                        <li><strong>Make a purchase:</strong> Name, email, shipping address, payment info (the usual suspects)</li>
+                        <li><strong>Sign up for updates:</strong> Email address (so we can remind you of your questionable taste)</li>
+                        <li><strong>Contact us:</strong> Whatever you decide to share in your messages</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-database"></i>
-                    Information We Collect
-                </h2>
-                <p>When you interact with us, we collect:</p>
-                <ul>
-                    <li>Contact details (name, email, shipping address)</li>
-                    <li>Payment information (processed securely by our payment partners)</li>
-                    <li>Order history and preferences</li>
-                    <li>Website usage data to improve your experience</li>
-                </ul>
+            <div class="section">
+                <h2 class="section-title">How We Use Your Data</h2>
+                <div class="section-content">
+                    <p>We use your information to:</p>
+                    <ul>
+                        <li>Process your orders (shocking, we know)</li>
+                        <li>Send you shipping updates and order confirmations</li>
+                        <li>Improve our website and services</li>
+                        <li>Send you marketing emails if you opted in (you can unsubscribe anytime)</li>
+                        <li>Comply with legal requirements</li>
+                        <li>Analyze website traffic and user behavior</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-cogs"></i>
-                    How We Use Your Data
-                </h2>
-                <p>Your information helps us:</p>
-                <ul>
-                    <li>Process and fulfill your orders</li>
-                    <li>Send updates about new drops and exclusive releases</li>
-                    <li>Provide customer support</li>
-                    <li>Improve our website and products</li>
-                    <li>Prevent fraud and maintain security</li>
-                </ul>
+            <div class="section">
+                <h2 class="section-title">Who We Share It With</h2>
+                <div class="section-content">
+                    <p>We share your information with:</p>
+                    <ul>
+                        <li><strong>Payment processors:</strong> To handle your transactions securely</li>
+                        <li><strong>Shipping companies:</strong> To deliver your overpriced shoes</li>
+                        <li><strong>Email service providers:</strong> To send you updates</li>
+                        <li><strong>Analytics services:</strong> To understand how people use our site</li>
+                        <li><strong>Legal authorities:</strong> If required by law</li>
+                    </ul>
+                    <p>We don't sell your personal information to random companies. We're not that desperate.</p>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-share-alt"></i>
-                    Sharing Your Information
-                </h2>
-                <p>
-                    We don't sell your personal data. We only share information with trusted partners who help us 
-                    operate our business, like payment processors, shipping companies, and email services. 
-                    These partners are bound by strict confidentiality agreements.
-                </p>
+            <div class="section">
+                <h2 class="section-title">Cookies & Tracking</h2>
+                <div class="section-content">
+                    <p>We use cookies and similar technologies to:</p>
+                    <ul>
+                        <li>Keep you logged in</li>
+                        <li>Remember your preferences</li>
+                        <li>Analyze site traffic</li>
+                        <li>Show you relevant ads on other websites</li>
+                    </ul>
+                    <p>You can disable cookies in your browser, but our site might not work properly. Your choice.</p>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-cookie-bite"></i>
-                    Cookies & Tracking
-                </h2>
-                <p>
-                    We use cookies to remember your preferences, analyze site traffic, and provide personalized 
-                    experiences. You can control cookie settings in your browser, though some features may not 
-                    work properly if disabled.
-                </p>
+            <div class="section">
+                <h2 class="section-title">Your Rights</h2>
+                <div class="section-content">
+                    <p>Depending on where you live, you may have the right to:</p>
+                    <ul>
+                        <li>Access the personal information we have about you</li>
+                        <li>Correct inaccurate information</li>
+                        <li>Delete your personal information</li>
+                        <li>Object to certain processing</li>
+                        <li>Data portability</li>
+                    </ul>
+                    <p>To exercise these rights, contact us at the email below. We'll respond within a reasonable time (usually 30 days).</p>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-user-shield"></i>
-                    Your Rights
-                </h2>
-                <p>You have the right to:</p>
-                <ul>
-                    <li>Access the personal data we have about you</li>
-                    <li>Correct any inaccurate information</li>
-                    <li>Request deletion of your data</li>
-                    <li>Opt out of marketing communications</li>
-                    <li>Port your data to another service</li>
-                </ul>
+            <div class="section">
+                <h2 class="section-title">Data Security</h2>
+                <div class="section-content">
+                    <p>We protect your information using industry-standard security measures including encryption, secure servers, and access controls. However, no system is 100% secure. If there's a data breach, we'll notify you as required by law.</p>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-shield-alt"></i>
-                    Data Security
-                </h2>
-                <p>
-                    We take security seriously and use industry-standard measures to protect your information. 
-                    However, no online system is 100% secure, so we can't guarantee absolute protection.
-                </p>
+            <div class="section">
+                <h2 class="section-title">International Transfers</h2>
+                <div class="section-content">
+                    <p>Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for such transfers.</p>
+                </div>
             </div>
 
-            <div class="privacy-section">
-                <h2 class="section-title">
-                    <i class="fas fa-edit"></i>
-                    Changes to This Policy
-                </h2>
-                <p>
-                    We may update this policy occasionally. When we do, we'll post the changes here and 
-                    update the effective date. Major changes will be communicated via email.
-                </p>
+            <div class="section">
+                <h2 class="section-title">Changes to This Policy</h2>
+                <div class="section-content">
+                    <p>We may update this privacy policy from time to time. We'll post any changes on this page and update the "last modified" date below. For significant changes, we'll notify you by email.</p>
+                </div>
             </div>
 
-            <div class="contact-section">
-                <h2 class="section-title">
-                    <i class="fas fa-envelope"></i>
-                    Questions?
-                </h2>
-                <div class="contact-email">lhllparis@gmail.com</div>
-                <p class="contact-note">
-                    We're here to help with any privacy questions or concerns you might have.
-                </p>
+            <div class="contact-info">
+                <h2 class="section-title">Contact Us</h2>
+                <div class="section-content">
+                    <p>Questions about this privacy policy? Contact us at:</p>
+                    <p><strong>Email:</strong> fabrevoie@gmail.com</p>
+                    <p><strong>Subject Line:</strong> "Privacy Policy Question" (so we don't ignore it)</p>
+                </div>
             </div>
-        </div>
+
+            <div class="section-content" style="text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem;">
+                <p>Last updated: January 2025</p>
+                <p>This policy complies with GDPR, CCPA, and other applicable privacy laws.</p>
+            </div>
+        </main>
     </div>
-
-    <!-- Footer -->
-    <footer class="privacy-footer">
-        <div class="footer-nav">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="index.html#shop">Shop</a>
-            <a href="#">Contact</a>
-            <a href="#">Terms of Service</a>
-        </div>
-        <p class="footer-bottom">
-            &copy; 2025, Fabrevoie, Inc. All rights reserved. | 
-            <a href="privacy-policy.html">Privacy Policy</a>
-        </p>
-    </footer>
 </body>
 </html>
