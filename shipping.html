@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy - Fabrevoie</title>
+    <meta name="description" content="Shipping Policy - It ships when it ships">
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'DrukWide';
+            src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        :root {
+            --color-primary: #9ED9B5;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: white;
+            background-color: #000;
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #7BC097;
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-headers);
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-family: var(--font-headers);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: var(--font-headers);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .section-content {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .section-content strong {
+            color: white;
+        }
+
+        .shipping-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .shipping-table th {
+            background: rgba(158, 217, 181, 0.2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .shipping-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+
+        .shipping-table td strong {
+            color: white;
+        }
+
+        .good-news-box {
+            background: rgba(158, 217, 181, 0.1);
+            border: 2px solid var(--color-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .warning-box .section-title {
+            color: #ff6b6b;
+        }
+
+        .contact-info {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+
+            .shipping-table th,
+            .shipping-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Chaos
+            </a>
+            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">Shipping Policy</h1>
+            <p class="page-subtitle">It ships when it ships</p>
+
+            <div class="good-news-box">
+                <h2 class="section-title">The One Nice Thing We Do</h2>
+                <div class="section-content">
+                    <p><strong>FREE SHIPPING WORLDWIDE</strong> - Yes, you read that right. We ship anywhere for free because we're already charging you enough for the shoes.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Processing Time</h2>
+                <div class="section-content">
+                    <p>Your order will be processed and shipped within:</p>
+                    <ul>
+                        <li><strong>1-3 business days</strong> for in-stock items</li>
+                        <li><strong>2-4 weeks</strong> for made-to-order items</li>
+                        <li><strong>Eventually</strong> for limited edition drops</li>
+                    </ul>
+                    <p>Business days = Monday through Friday, excluding holidays when we're probably at the beach.</p>
+                    <p>Processing time starts after your payment clears, not when you place the order. Basic economics.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Shipping Times & Methods</h2>
+                <div class="section-content">
+                    <table class="shipping-table">
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Delivery Time</th>
+                                <th>Carrier</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>United States</strong></td>
+                                <td>3-7 business days</td>
+                                <td>FedEx, UPS, or USPS</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Canada</strong></td>
+                                <td>5-10 business days</td>
+                                <td>Canada Post, FedEx</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Europe</strong></td>
+                                <td>7-14 business days</td>
+                                <td>DHL, FedEx</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Australia/NZ</strong></td>
+                                <td>10-14 business days</td>
+                                <td>Australia Post, DHL</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rest of World</strong></td>
+                                <td>10-21 business days</td>
+                                <td>DHL, FedEx</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Note:</strong> These are estimates, not guarantees. Shipping times depend on customs, weather, and the general competence of postal services.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">What's Included</h2>
+                <div class="section-content">
+                    <p>Every order includes:</p>
+                    <ul>
+                        <li>Your overpriced shoes in their original box</li>
+                        <li>Tracking information via email</li>
+                        <li>Discreet packaging (no one needs to know what you spent)</li>
+                        <li>Insurance coverage</li>
+                        <li>Our judgment-free delivery service</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Order Tracking</h2>
+                <div class="section-content">
+                    <p>Once your order ships, you'll receive:</p>
+                    <ul>
+                        <li>Tracking number via email</li>
+                        <li>Direct link to carrier tracking</li>
+                        <li>Delivery confirmation when it arrives</li>
+                    </ul>
+                    <p>Don't email us asking where your package is if it's been less than the estimated delivery time. Check the tracking first.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h2 class="section-title">International Customers</h2>
+                <div class="section-content">
+                    <p><strong>Important:</strong> You're responsible for any customs duties, taxes, or import fees in your country. We can't control what your government charges, and we won't pay it for you.</p>
+                    <p>Some countries have restrictions on certain materials or products. It's your job to know your local laws before ordering.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Delivery Requirements</h2>
+                <div class="section-content">
+                    <p>For successful delivery:</p>
+                    <ul>
+                        <li><strong>Provide accurate addresses:</strong> We're not detectives</li>
+                        <li><strong>Be available to sign:</strong> Or designate someone who can</li>
+                        <li><strong>Check your mailbox:</strong> Sometimes carriers leave notices</li>
+                        <li><strong>Respond to delivery attempts:</strong> Carriers usually try 3 times</li>
+                    </ul>
+                    <p>If you're not available and the package gets returned to us, we'll contact you about reshipping. You might have to pay for the second attempt.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Lost or Stolen Packages</h2>
+                <div class="section-content">
+                    <p>If your package shows as delivered but you didn't receive it:</p>
+                    <ul>
+                        <li>Check with neighbors, building management, or family members</li>
+                        <li>Look around your property (porches, garages, etc.)</li>
+                        <li>Contact the carrier directly</li>
+                        <li>Wait 24-48 hours (sometimes tracking updates are delayed)</li>
+                    </ul>
+                    <p>If it's genuinely lost or stolen, contact us at fabrevoie@gmail.com with your order number and tracking information. We'll work with the carrier to resolve it.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Damaged Packages</h2>
+                <div class="section-content">
+                    <p>If your package arrives damaged:</p>
+                    <ul>
+                        <li>Take photos of the damaged packaging</li>
+                        <li>Check if the contents are damaged too</li>
+                        <li>Contact us immediately with photos and your order number</li>
+                        <li>Keep all packaging materials for potential carrier inspection</li>
+                    </ul>
+                    <p>We'll either send a replacement or issue a refund, depending on stock availability.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Address Changes</h2>
+                <div class="section-content">
+                    <p>Need to change your shipping address? You have exactly <strong>1 hour</strong> after placing your order to contact us. After that, the package goes where you originally said it should go.</p>
+                    <p>We can't intercept packages once they're in transit. That's between you and the carrier.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Holidays & Delays</h2>
+                <div class="section-content">
+                    <p>Shipping may be delayed during:</p>
+                    <ul>
+                        <li>Major holidays (Christmas, New Year, etc.)</li>
+                        <li>Black Friday/Cyber Monday chaos</li>
+                        <li>Natural disasters</li>
+                        <li>Global pandemics</li>
+                        <li>Carrier strikes or other labor disputes</li>
+                        <li>Acts of God or government</li>
+                    </ul>
+                    <p>We'll update you if there are significant delays, but patience is a virtue.</p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h2 class="section-title">Shipping Questions?</h2>
+                <div class="section-content">
+                    <p>Contact us at: <strong>fabrevoie@gmail.com</strong></p>
+                    <p>Subject line: "Shipping Question"</p>
+                    <p>Include your order number and tracking information if applicable.</p>
+                    <p>Don't ask us to make the post office work faster. We have influence, but not that much.</p>
+                </div>
+            </div>
+
+            <div class="section-content" style="text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem;">
+                <p>Last updated: January 2025</p>
+                <p>Shipping times are estimates and not guaranteed.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
