@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returns Policy - Fabrevoie</title>
+    <meta name="description" content="Returns Policy - Good luck">
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'DrukWide';
+            src: url('fonts/DrukWide-MediumItalic-Trial.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        :root {
+            --color-primary: #9ED9B5;
+            --font-headers: 'DrukWide', 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: white;
+            background-color: #000;
+            background-image: url('assets/images/patterned1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(158, 217, 181, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-family: var(--font-headers);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #7BC097;
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-headers);
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-family: var(--font-headers);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: var(--font-headers);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .section-content {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .section-content strong {
+            color: white;
+        }
+
+        .warning-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .warning-box .section-title {
+            color: #ff6b6b;
+        }
+
+        .good-news-box {
+            background: rgba(158, 217, 181, 0.1);
+            border: 2px solid var(--color-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .steps-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .contact-info {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Chaos
+            </a>
+            <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="logo">
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">Returns Policy</h1>
+            <p class="page-subtitle">Good luck</p>
+
+            <div class="warning-box">
+                <h2 class="section-title">The Reality Check</h2>
+                <div class="section-content">
+                    <p>You're buying shoes that cost more than most people's rent. Think carefully before you click "buy." We're not running a rental service.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Our Return Philosophy</h2>
+                <div class="section-content">
+                    <p>We believe in commitment. When you buy our shoes, you're making a statement about who you are. Returning them suggests you're unsure about your identity, which is your problem, not ours.</p>
+                    <p>That said, we're not completely heartless. Here are the extremely limited circumstances under which we'll consider a return:</p>
+                </div>
+            </div>
+
+            <div class="good-news-box">
+                <h2 class="section-title">What We'll Actually Accept</h2>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Defective products:</strong> If your shoes arrived broken, damaged, or clearly defective</li>
+                        <li><strong>Wrong item sent:</strong> If we sent you the wrong color, size, or product entirely</li>
+                        <li><strong>Sizing issues:</strong> If the shoes don't fit according to our size chart (but only if you can prove you measured correctly)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">What We Won't Accept</h2>
+                <div class="section-content">
+                    <p>Don't even bother trying to return items for these reasons:</p>
+                    <ul>
+                        <li>"I changed my mind" (should have thought about that earlier)</li>
+                        <li>"My friends said they're ugly" (get better friends)</li>
+                        <li>"They don't go with my outfit" (that's a you problem)</li>
+                        <li>"I can't afford them anymore" (financial planning isn't our specialty)</li>
+                        <li>"My partner said no" (relationship counseling is extra)</li>
+                        <li>Buyer's remorse in any form</li>
+                        <li>Items worn outside (even once)</li>
+                        <li>Items without original packaging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Return Window</h2>
+                <div class="section-content">
+                    <p>You have <strong>14 days</strong> from delivery to request a return. Not 15 days. Not "about two weeks." Exactly 14 days.</p>
+                    <p>After that, the shoes are yours forever. Frame them, wear them, or use them as very expensive paperweights.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Return Condition Requirements</h2>
+                <div class="section-content">
+                    <p>For us to even consider your return, items must be:</p>
+                    <ul>
+                        <li>Unworn (no signs of wear whatsoever)</li>
+                        <li>In original packaging with all tags attached</li>
+                        <li>Free from odors, stains, or damage</li>
+                        <li>Accompanied by original receipt or order confirmation</li>
+                        <li>Returned in the condition you'd want to receive them</li>
+                    </ul>
+                    <p>We inspect every return. If anything looks off, we'll send them back to you.</p>
+                </div>
+            </div>
+
+            <div class="steps-box">
+                <h2 class="section-title">How to Request a Return</h2>
+                <div class="section-content">
+                    <ol>
+                        <li><strong>Email us:</strong> fabrevoie@gmail.com with subject "Return Request"</li>
+                        <li><strong>Include:</strong> Order number, reason for return, and photos of the items</li>
+                        <li><strong>Wait:</strong> We'll review your request within 2-3 business days</li>
+                        <li><strong>Get approval:</strong> If approved, we'll send return instructions</li>
+                        <li><strong>Ship it back:</strong> You pay return shipping (obviously)</li>
+                        <li><strong>Wait more:</strong> We'll inspect the return within 5-7 business days</li>
+                        <li><strong>Get refunded:</strong> If everything checks out, refund processed within 10 business days</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Return Shipping</h2>
+                <div class="section-content">
+                    <p>You pay for return shipping. We don't provide prepaid labels unless the return is due to our error (wrong item sent, defective product, etc.).</p>
+                    <p>Use a trackable shipping method. If your return gets lost in transit, that's between you and the shipping company.</p>
+                    <p><strong>Return Address:</strong> We'll provide this when your return is approved.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Refund Process</h2>
+                <div class="section-content">
+                    <p>Once we receive and approve your return:</p>
+                    <ul>
+                        <li>Refunds are processed to your original payment method</li>
+                        <li>Allow 5-10 business days for refunds to appear in your account</li>
+                        <li>Original shipping costs are not refunded (unless it was our error)</li>
+                        <li>International customers are responsible for any customs fees or duties</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Exchanges</h2>
+                <div class="section-content">
+                    <p>We don't do exchanges. If you want a different size or color, return the original item (if eligible) and place a new order. Assuming we still have stock, which we probably don't.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h2 class="section-title">Final Sale Items</h2>
+                <div class="section-content">
+                    <p>Some items are marked as "Final Sale" - these cannot be returned under any circumstances. Not even if your house burns down. Choose wisely.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">International Returns</h2>
+                <div class="section-content">
+                    <p>International customers can return items following the same policy, but:</p>
+                    <ul>
+                        <li>You're responsible for all return shipping costs</li>
+                        <li>You're responsible for any customs fees or duties</li>
+                        <li>Returns may take longer to process due to customs</li>
+                        <li>Currency exchange rate differences are not our problem</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h2 class="section-title">Still Have Questions?</h2>
+                <div class="section-content">
+                    <p>Contact us at: <strong>fabrevoie@gmail.com</strong></p>
+                    <p>Subject line: "Return Question" (read this page first)</p>
+                    <p>Include your order number and specific question.</p>
+                    <p>Don't ask us to make exceptions. The policy is the policy.</p>
+                </div>
+            </div>
+
+            <div class="section-content" style="text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem;">
+                <p>Last updated: January 2025</p>
+                <p>This policy applies to all orders placed after this date.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
