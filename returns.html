@@ -83,7 +83,10 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            font-family: var(--font-body);
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             text-decoration: none;
         }
 
@@ -104,7 +107,7 @@
         }
 
         .top-logo {
-            height: 80px;
+            height: 200px;
             width: auto;
             filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
             cursor: pointer;
@@ -152,7 +155,7 @@
         .content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 60px 40px 0 40px;
+            padding: 60px 40px 80px 40px;
         }
 
         .page-title {
@@ -362,7 +365,7 @@
             }
 
             .top-logo {
-                height: 60px;
+                height: 150px;
             }
 
             .content {
@@ -403,7 +406,7 @@
     <!-- Header -->
     <header class="about-header">
         <div class="header-left">
-            <a href="index.html" class="back-home">
+            <a href="#" class="back-home" onclick="goBack()">
                 <i class="fas fa-arrow-left"></i>
                 Back
             </a>
@@ -581,7 +584,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>About Fabrevoie</h4>
-                <p>You don't ask permission. You don't blend in. You show up like a storm—and we design for the aftermath.</p>
+                <p>We make shoes for people who enter rooms like natural disasters. If you need permission to stand out, these aren't for you.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                         <i class="fab fa-instagram"></i>
@@ -610,7 +613,6 @@
                 <h4>Company</h4>
                 <ul>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#" onclick="showAccessDenied()">Our Chaos</a></li>
                     <li><a href="#" onclick="showAccessDenied()">Join the Dark Side</a></li>
                     <li><a href="#" onclick="showAccessDenied()">Press</a></li>
                     <li><a href="#" onclick="showAccessDenied()">World Domination Plans</a></li>
@@ -636,6 +638,19 @@
     <script>
         function showAccessDenied() {
             alert('This page? Nah. We don\'t care. We\'re too busy making shoes that cost more than your rent.');
+        }
+
+        function goBack() {
+            const referrer = document.referrer;
+            if (referrer && referrer.includes(window.location.hostname)) {
+                if (referrer.includes('#shop') || referrer.includes('productOverlay')) {
+                    window.location.href = 'index.html#shop';
+                } else {
+                    window.history.back();
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>
