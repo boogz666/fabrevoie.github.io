@@ -1668,7 +1668,30 @@
         </footer>
     </div>
 
+    <!-- 
+    STRIPE INTEGRATION COMPLETE
+    - Real payments via Stripe Checkout
+    - Bundle pricing: €349, €620, €900, €1146
+    - 0% VAT (under French threshold)
+    - Promo codes display in UI (need Stripe setup for real discounts)
+    - Auto-selects bundle based on cart contents
+    -->
+    
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
     <script>
+        // Initialize Stripe
+        const stripe = Stripe('pk_live_51R6E2aEeF5GI36vsD2Z0RDkxbJViFOmCintuOwWsuXzoiO6grwgPerBfSL2H45sxzHhGV1DT3u2p7S36WZiHNUaF004QlaAauN');
+
+        // Stripe Price IDs for each bundle
+        const stripePriceIds = {
+            single: 'price_1RbtYrEeF5GI36vs7v06zfFq',      // €349
+            double: 'price_1RbthGEeF5GI36vs5YTBQ9oH',      // €620
+            triple: 'price_1RbthcEeF5GI36vsYgGXARbY',      // €900
+            complete: 'price_1Rbti2EeF5GI36vsJEwlYvc4'     // €1146
+        };
+
         // Country and state data
         const countryStates = {
             'US': [
@@ -1925,8 +1948,20 @@
                     size: size,
                     sizeType: currentSizeType,
                     quantity: 1,
-                    price: 349 // UPDATED: Correct price matching index page
+                    price: 349 // Base price per item
                 });
+            }
+
+            // Auto-select appropriate bundle
+            const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalPairs >= 4) {
+                selectBundle('complete');
+            } else if (totalPairs >= 3) {
+                selectBundle('triple');
+            } else if (totalPairs >= 2) {
+                selectBundle('double');
+            } else {
+                selectBundle('single');
             }
 
             updateOrderSummary();
@@ -1976,12 +2011,14 @@
                 return;
             }
             
+            // Note: For live Stripe integration, promo codes need to be set up in Stripe Dashboard
+            // This currently shows the discount in UI but Stripe will charge the full bundle price
             if (promoCodes[promoCode]) {
                 appliedPromo = {
                     code: promoCode,
                     ...promoCodes[promoCode]
                 };
-                showPromoMessage(`✓ Promo code applied: ${promoCodes[promoCode].description}`, 'success', messageElementId);
+                showPromoMessage(`✓ Code recognized: ${promoCodes[promoCode].description}. Note: Bundle pricing already includes discounts!`, 'success', messageElementId);
                 
                 // Update both input fields
                 document.getElementById('promoCode').value = promoCode;
@@ -1989,7 +2026,7 @@
                 
                 updateOrderSummary();
             } else {
-                showPromoMessage('Invalid promo code. Please try again.', 'error', messageElementId);
+                showPromoMessage('Invalid promo code. Try: CHAOS, ECCENTRIC, or FABREVOIE', 'error', messageElementId);
                 appliedPromo = null;
                 updateOrderSummary();
             }
@@ -2027,69 +2064,62 @@
             const productsList = document.getElementById('productsList');
             productsList.innerHTML = '';
 
-            let subtotal = 0;
             const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-            // Display each unique item
-            cartItems.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-
-                const productItem = document.createElement('div');
-                productItem.className = 'product-item';
-                productItem.innerHTML = `
-                    <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN 1" class="product-image">
-                    <div class="product-details">
-                        <div class="product-quantity">Qty: ${item.quantity}</div>
-                        <div class="product-name">SBHMN 1</div>
-                        <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
-                        <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
-                        <div class="product-price">$${itemTotal}.00</div>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
-                            <span class="quantity-display">${item.quantity}</span>
-                            <button class="quantity-btn" onclick="increaseQuantity('${item.color}', '${item.size}', '${item.sizeType}')" type="button">+</button>
-                        </div>
-                    </div>
-                `;
-                productsList.appendChild(productItem);
-            });
-
-            // Calculate bundle discount
-            let bundleDiscount = getBundleDiscount(totalPairs);
-            
-            // Calculate promo discount
-            let promoDiscount = 0;
-            if (appliedPromo) {
-                if (appliedPromo.type === 'percentage') {
-                    promoDiscount = (subtotal - bundleDiscount) * appliedPromo.discount;
-                } else {
-                    promoDiscount = appliedPromo.discount;
-                }
-                promoDiscount = Math.min(promoDiscount, subtotal - bundleDiscount);
+            // Determine bundle pricing based on Stripe setup
+            let bundlePrice, bundleDiscount, bundleName;
+            if (totalPairs >= 4 || selectedBundle === 'complete') {
+                bundlePrice = 1146;
+                bundleDiscount = 300;
+                bundleName = 'FINAL BOSS MODE';
+            } else if (totalPairs >= 3 || selectedBundle === 'triple') {
+                bundlePrice = 900;
+                bundleDiscount = 147;
+                bundleName = 'TOTAL TAKEOVER';
+            } else if (totalPairs >= 2 || selectedBundle === 'double') {
+                bundlePrice = 620;
+                bundleDiscount = 78;
+                bundleName = 'DOUBLE TROUBLE';
+            } else {
+                bundlePrice = 349;
+                bundleDiscount = 0;
+                bundleName = 'Single Pair';
             }
 
-            const totalDiscount = bundleDiscount + promoDiscount;
-            const total = subtotal - totalDiscount;
+            // Show bundle summary instead of individual items
+            if (cartItems.length > 0) {
+                const bundleItem = document.createElement('div');
+                bundleItem.className = 'product-item';
+                
+                const colors = [...new Set(cartItems.map(item => item.color))];
+                const sizes = cartItems.map(item => `${item.size}${item.sizeType === 'mens' ? 'M' : 'W'}`);
+                
+                bundleItem.innerHTML = `
+                    <img src="assets/images/${getImageForColor(cartItems[0].color)}" alt="SBHMN 1" class="product-image">
+                    <div class="product-details">
+                        <div class="product-quantity">Total: ${totalPairs} pairs</div>
+                        <div class="product-name">${bundleName}</div>
+                        <div class="product-variant">Colors: ${colors.join(', ')}</div>
+                        <div class="product-size">Sizes: ${sizes.join(', ')}</div>
+                        <div class="product-price">€${bundlePrice}.00</div>
+                    </div>
+                `;
+                productsList.appendChild(bundleItem);
+            }
 
-            // Update totals
-            document.getElementById('subtotalAmount').textContent = `$${subtotal}.00`;
-            document.getElementById('totalAmount').textContent = `$${total}.00`;
+            // Calculate subtotal (individual price * quantity)
+            const individualTotal = cartItems.reduce((sum, item) => sum + (349 * item.quantity), 0);
+            
+            // Update totals display
+            document.getElementById('subtotalAmount').textContent = `€${individualTotal}.00`;
+            document.getElementById('totalAmount').textContent = `€${bundlePrice}.00`;
 
-            // Show/hide discount row
+            // Show bundle discount
             const discountRow = document.getElementById('discountRow');
-            if (totalDiscount > 0) {
+            if (bundleDiscount > 0) {
                 discountRow.style.display = 'flex';
-                let discountLabel = '';
-                if (bundleDiscount > 0 && promoDiscount > 0) {
-                    discountLabel = `Bundle + ${appliedPromo.code}`;
-                } else if (bundleDiscount > 0) {
-                    discountLabel = `Bundle Discount (${totalPairs} pairs)`;
-                } else if (promoDiscount > 0) {
-                    discountLabel = `Discount (${appliedPromo.code})`;
-                }
-                document.getElementById('discountLabel').textContent = discountLabel;
-                document.getElementById('discountAmount').textContent = `-$${totalDiscount.toFixed(2)}`;
+                document.getElementById('discountLabel').textContent = `Bundle Savings`;
+                document.getElementById('discountAmount').textContent = `-€${bundleDiscount}.00`;
             } else {
                 discountRow.style.display = 'none';
             }
@@ -2172,7 +2202,7 @@
             // Initialize order summary
             updateOrderSummary();
 
-            // Form validation and submission
+            // Form validation and submission with Stripe
             document.getElementById('checkoutForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -2196,19 +2226,74 @@
                 });
 
                 if (isValid) {
-                    // Store order data and redirect to confirmation
-                    const orderData = {
-                        items: cartItems,
-                        promo: appliedPromo,
-                        total: document.getElementById('totalAmount').textContent,
-                        subtotal: document.getElementById('subtotalAmount').textContent
-                    };
-                    sessionStorage.setItem('orderData', JSON.stringify(orderData));
-                    window.location.href = 'order-confirmation.html';
+                    // Redirect to Stripe Checkout
+                    redirectToStripeCheckout();
                 } else {
                     alert('Please fill in all required fields or face the consequences.');
                 }
             });
+
+            function redirectToStripeCheckout() {
+                const completeBtn = document.getElementById('completeOrderBtn');
+                completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING YOUR CHAOS...';
+                completeBtn.disabled = true;
+
+                // Determine which bundle price to use
+                let priceId;
+                const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                
+                if (totalPairs >= 4 || selectedBundle === 'complete') {
+                    priceId = stripePriceIds.complete; // €1146
+                } else if (totalPairs >= 3 || selectedBundle === 'triple') {
+                    priceId = stripePriceIds.triple; // €900
+                } else if (totalPairs >= 2 || selectedBundle === 'double') {
+                    priceId = stripePriceIds.double; // €620
+                } else {
+                    priceId = stripePriceIds.single; // €349
+                }
+
+                // Store order details for confirmation page
+                const orderData = {
+                    items: cartItems,
+                    bundle: selectedBundle,
+                    promo: appliedPromo,
+                    totalPairs: totalPairs,
+                    priceId: priceId
+                };
+                sessionStorage.setItem('orderData', JSON.stringify(orderData));
+
+                // Redirect to Stripe Checkout
+                stripe.redirectToCheckout({
+                    lineItems: [{
+                        price: priceId,
+                        quantity: 1,
+                    }],
+                    mode: 'payment',
+                    successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
+                    cancelUrl: window.location.href,
+                    shippingAddressCollection: {
+                        allowedCountries: ['US', 'CA', 'GB', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AU', 'JP', 'KR', 'SG', 'HK', 'CH', 'AT', 'DK', 'SE', 'NO', 'FI', 'IE', 'PT', 'CZ', 'HU', 'GR'],
+                    },
+                    customerEmail: document.getElementById('email').value,
+                    metadata: {
+                        bundle: selectedBundle,
+                        items: JSON.stringify(cartItems.map(item => ({
+                            color: item.color,
+                            size: item.size,
+                            sizeType: item.sizeType,
+                            quantity: item.quantity
+                        }))),
+                        promoCode: appliedPromo ? appliedPromo.code : null
+                    }
+                }).then(function (result) {
+                    if (result.error) {
+                        // Re-enable button on error
+                        completeBtn.innerHTML = '<i class="fas fa-lock"></i> CLAIM YOUR CHAOS';
+                        completeBtn.disabled = false;
+                        alert('Payment failed: ' + result.error.message);
+                    }
+                });
+            }
 
             // Card number formatting
             document.getElementById('cardNumber').addEventListener('input', function(e) {
