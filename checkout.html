@@ -2011,25 +2011,19 @@
                 return;
             }
             
-            // Note: For live Stripe integration, promo codes need to be set up in Stripe Dashboard
-            // This currently shows the discount in UI but Stripe will charge the full bundle price
-            if (promoCodes[promoCode]) {
-                appliedPromo = {
-                    code: promoCode,
-                    ...promoCodes[promoCode]
-                };
-                showPromoMessage(`✓ Code recognized: ${promoCodes[promoCode].description}. Note: Bundle pricing already includes discounts!`, 'success', messageElementId);
-                
-                // Update both input fields
-                document.getElementById('promoCode').value = promoCode;
-                document.getElementById('orderPromoCode').value = promoCode;
-                
-                updateOrderSummary();
-            } else {
-                showPromoMessage('Invalid promo code. Try: CHAOS, ECCENTRIC, or FABREVOIE', 'error', messageElementId);
-                appliedPromo = null;
-                updateOrderSummary();
-            }
+            // Store the promo code for display purposes
+            appliedPromo = {
+                code: promoCode,
+                description: 'Promo code will be validated at checkout'
+            };
+            
+            showPromoMessage(`✓ Code "${promoCode}" will be applied at checkout`, 'success', messageElementId);
+            
+            // Update both input fields
+            document.getElementById('promoCode').value = promoCode;
+            document.getElementById('orderPromoCode').value = promoCode;
+            
+            updateOrderSummary();
         }
 
         function showPromoMessage(message, type, elementId) {
