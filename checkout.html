@@ -1711,7 +1711,7 @@
 
         // Stripe Price IDs for each bundle
         const stripePriceIds = {
-            single: 'price_1RbtYrEeF5GI36vs7v06zfFq',      // €349
+            single: 'price_1Rc1zlEeF5GI36vsuHpQoWRZ',      // €349 - UPDATED
             double: 'price_1RbthGEeF5GI36vs5YTBQ9oH',      // €620
             triple: 'price_1RbthcEeF5GI36vsYgGXARbY',      // €900
             complete: 'price_1Rbti2EeF5GI36vsJEwlYvc4'     // €1146
@@ -2300,6 +2300,8 @@
                     priceId = stripePriceIds.single; // €349
                 }
 
+                console.log('Using price ID:', priceId); // Debug log
+
                 // Store order details for confirmation page
                 const orderData = {
                     items: cartItems,
@@ -2317,8 +2319,6 @@
                         quantity: 1,
                     }],
                     mode: 'payment',
-                    // Enable promo code entry on Stripe checkout page
-                    allowPromotionCodes: true,
                     successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
                     cancelUrl: window.location.href,
                     shippingAddressCollection: {
@@ -2336,12 +2336,20 @@
                         promoCode: appliedPromo ? appliedPromo.code : null
                     }
                 }).then(function (result) {
+                    console.log('Stripe redirect result:', result); // Debug log
                     if (result.error) {
                         // Re-enable button on error
                         completeBtn.innerHTML = '<i class="fas fa-lock"></i> CLAIM YOUR CHAOS';
                         completeBtn.disabled = false;
+                        console.error('Stripe error:', result.error);
                         alert('Payment failed: ' + result.error.message);
                     }
+                }).catch(function(error) {
+                    // Handle any other errors
+                    console.error('Checkout error:', error);
+                    completeBtn.innerHTML = '<i class="fas fa-lock"></i> CLAIM YOUR CHAOS';
+                    completeBtn.disabled = false;
+                    alert('Checkout failed. Please try again or check console for details.');
                 });
             }
 
