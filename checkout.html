@@ -2166,12 +2166,6 @@
 
             // Update complete button state
             updateCompleteButton();
-            
-            // Re-initialize payment element with new amount
-            if (paymentElement) {
-                paymentElement.unmount();
-                initializePaymentElement();
-            }
         }
 
         function updateStateOptions() {
