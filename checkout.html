@@ -250,22 +250,38 @@
             color: #999;
         }
 
-        /* Stripe Elements styling */
-        #payment-element {
-            margin-top: 10px;
+        /* Payment Notice styling */
+        .payment-notice {
+            background: rgba(158, 217, 181, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
         }
 
-        .StripeElement {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            transition: all 0.3s ease;
+        .payment-notice p {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        .StripeElement:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(158, 217, 181, 0.2);
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .payment-methods i {
+            font-size: 32px;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .payment-methods i:hover {
+            color: var(--color-primary);
         }
 
         /* Color selector with rectangle styling and text */
@@ -1564,10 +1580,17 @@
                             <i class="fas fa-credit-card"></i>
                             Payment Information
                         </h2>
-                        <div id="payment-element">
-                            <!-- Stripe Elements will create form elements here -->
+                        <div class="payment-notice">
+                            <p>Payment will be processed securely through Stripe when you complete your order.</p>
+                            <div class="payment-methods">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                                <i class="fab fa-cc-discover"></i>
+                                <i class="fab fa-apple-pay"></i>
+                                <i class="fab fa-google-pay"></i>
+                            </div>
                         </div>
-                        <div id="payment-errors" role="alert" style="color: #ff6b6b; margin-top: 10px; font-size: 14px; display: none;"></div>
                     </div>
                 </form>
             </div>
@@ -1689,9 +1712,6 @@
     <script>
         // Initialize Stripe with your publishable key
         const stripe = Stripe('pk_live_51R6E2aEeF5GI36vsD2Z0RDkxbJViFOmCintuOwWsuXzoiO6grwgPerBfSL2H45sxzHhGV1DT3u2p7S36WZiHNUaF004QlaAauN');
-
-        let elements;
-        let paymentElement;
 
         // Stripe Price IDs for each bundle
         const stripePriceIds = {
@@ -2191,128 +2211,78 @@
             }
         }
 
-        async function initializePaymentElement() {
-            // Determine current bundle price for Stripe Elements
-            const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-            let amount = 34900; // Default single pair in cents
-            
-            if (totalPairs >= 4 || selectedBundle === 'complete') {
-                amount = 114600; // $1146.00
-            } else if (totalPairs >= 3 || selectedBundle === 'triple') {
-                amount = 90000; // $900.00
-            } else if (totalPairs >= 2 || selectedBundle === 'double') {
-                amount = 62000; // $620.00
-            }
-
-            elements = stripe.elements({
-                mode: 'payment',
-                amount: amount,
-                currency: 'usd',
-                appearance: {
-                    theme: 'stripe',
-                    variables: {
-                        colorPrimary: '#9ED9B5',
-                        colorBackground: '#ffffff',
-                        colorText: '#333333',
-                        colorDanger: '#ff6b6b',
-                        fontFamily: 'Inter, system-ui, sans-serif',
-                        spacingUnit: '4px',
-                        borderRadius: '8px',
-                    }
-                }
-            });
-
-            paymentElement = elements.create('payment');
-            paymentElement.mount('#payment-element');
-
-            paymentElement.on('change', ({complete, error}) => {
-                const errorElement = document.getElementById('payment-errors');
-                if (error) {
-                    errorElement.textContent = error.message;
-                    errorElement.style.display = 'block';
-                } else {
-                    errorElement.style.display = 'none';
-                }
-            });
-        }
-
-        async function processPayment() {
+        function redirectToStripeCheckout() {
             const completeBtn = document.getElementById('completeOrderBtn');
             completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
             completeBtn.disabled = true;
 
-            // In a real implementation, you would:
-            // 1. Create a Payment Intent on your backend with the actual order total
-            // 2. Use that client_secret here
-            // 3. Handle the confirmation and redirect to success page
+            // Determine which bundle price to use
+            let priceId;
+            const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalPairs >= 4 || selectedBundle === 'complete') {
+                priceId = stripePriceIds.complete; // €1146
+            } else if (totalPairs >= 3 || selectedBundle === 'triple') {
+                priceId = stripePriceIds.triple; // €900
+            } else if (totalPairs >= 2 || selectedBundle === 'double') {
+                priceId = stripePriceIds.double; // €620
+            } else {
+                priceId = stripePriceIds.single; // €349
+            }
 
-            // For demo purposes, we'll simulate the process
-            try {
-                // Get form data
-                const email = document.getElementById('email').value;
-                const firstName = document.getElementById('firstName').value;
-                const lastName = document.getElementById('lastName').value;
+            // Store order details for confirmation page
+            const orderData = {
+                items: cartItems,
+                bundle: selectedBundle,
+                promo: appliedPromo,
+                totalPairs: totalPairs,
+                priceId: priceId
+            };
+            sessionStorage.setItem('orderData', JSON.stringify(orderData));
 
-                // Simulate payment processing
-                setTimeout(() => {
-                    // Store order data for confirmation page
-                    const orderData = {
-                        items: cartItems,
-                        bundle: selectedBundle,
-                        promo: appliedPromo,
-                        totalPairs: cartItems.reduce((sum, item) => sum + item.quantity, 0),
-                        customerEmail: email,
-                        customerName: `${firstName} ${lastName}`
-                    };
-                    sessionStorage.setItem('orderData', JSON.stringify(orderData));
-
-                    // Redirect to confirmation page
-                    window.location.href = 'order-confirmation.html';
-                }, 2000);
-
-                // In a real implementation, you would use:
-                /*
-                const {error} = await stripe.confirmPayment({
-                    elements,
-                    confirmParams: {
-                        return_url: window.location.origin + '/order-confirmation.html',
-                        receipt_email: email,
-                        shipping: {
-                            name: `${firstName} ${lastName}`,
-                            address: {
-                                line1: document.getElementById('address').value,
-                                line2: document.getElementById('apartment').value || null,
-                                city: document.getElementById('city').value,
-                                state: document.getElementById('state').value,
-                                postal_code: document.getElementById('zipCode').value,
-                                country: document.getElementById('country').value,
-                            }
-                        }
-                    }
-                });
-
-                if (error) {
-                    throw error;
+            // Redirect to Stripe Checkout
+            stripe.redirectToCheckout({
+                lineItems: [{
+                    price: priceId,
+                    quantity: 1,
+                }],
+                mode: 'payment',
+                successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
+                cancelUrl: window.location.href,
+                shippingAddressCollection: {
+                    allowedCountries: ['US', 'CA', 'GB', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AU', 'JP', 'KR', 'SG', 'HK', 'CH', 'AT', 'DK', 'SE', 'NO', 'FI', 'IE', 'PT', 'CZ', 'HU', 'GR'],
+                },
+                customerEmail: document.getElementById('email').value,
+                metadata: {
+                    bundle: selectedBundle,
+                    items: JSON.stringify(cartItems.map(item => ({
+                        color: item.color,
+                        size: item.size,
+                        sizeType: item.sizeType,
+                        quantity: item.quantity
+                    }))),
+                    promoCode: appliedPromo ? appliedPromo.code : null
                 }
-                */
-
-            } catch (error) {
-                console.error('Payment failed:', error);
+            }).then(function (result) {
+                if (result.error) {
+                    // Re-enable button on error
+                    completeBtn.innerHTML = '<i class="fas fa-lock"></i> COMPLETE ORDER';
+                    completeBtn.disabled = false;
+                    console.error('Stripe error:', result.error);
+                    alert('Payment failed: ' + result.error.message);
+                }
+            }).catch(function(error) {
+                // Handle any other errors
+                console.error('Checkout error:', error);
                 completeBtn.innerHTML = '<i class="fas fa-lock"></i> COMPLETE ORDER';
                 completeBtn.disabled = false;
-                
-                const errorElement = document.getElementById('payment-errors');
-                errorElement.textContent = error.message || 'Payment failed. Please try again.';
-                errorElement.style.display = 'block';
-            }
+                alert('Checkout failed. Please try again.');
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             // Generate initial size options
             generateSizeOptions();
-            
-            // Initialize Stripe Payment Element
-            initializePaymentElement();
             
             // Country change handler
             document.getElementById('country').addEventListener('change', updateStateOptions);
@@ -2371,8 +2341,8 @@
                 });
 
                 if (isValid) {
-                    // Process payment with Stripe Elements
-                    processPayment();
+                    // Redirect to Stripe Checkout
+                    redirectToStripeCheckout();
                 } else {
                     alert('Please fill in all required fields.');
                 }
