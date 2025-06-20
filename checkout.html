@@ -809,6 +809,31 @@
             position: sticky;
             top: 40px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            max-height: 80vh;
+            overflow: hidden;
+            transition: overflow-y 0.3s ease;
+        }
+
+        .checkout-right:hover {
+            overflow-y: auto;
+        }
+
+        .checkout-right::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .checkout-right::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .checkout-right::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 3px;
+        }
+
+        .checkout-right::-webkit-scrollbar-thumb:hover {
+            background: #7BC097;
         }
 
         .order-summary-title {
@@ -1559,7 +1584,7 @@
 
             <!-- Right Column - Order Summary -->
             <div class="checkout-right">
-                <h2 class="order-summary-title">Your Arsenal</h2>
+                <h2 class="order-summary-title">Order Summary</h2>
                 
                 <!-- Order Promo Section -->
                 <div class="order-promo-section">
@@ -1978,6 +2003,19 @@
                 } else {
                     cartItems.splice(itemIndex, 1);
                 }
+                
+                // Auto-update bundle selection based on new total
+                const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalPairs >= 4) {
+                    selectBundle('complete');
+                } else if (totalPairs >= 3) {
+                    selectBundle('triple');
+                } else if (totalPairs >= 2) {
+                    selectBundle('double');
+                } else if (totalPairs >= 1) {
+                    selectBundle('single');
+                }
+                
                 updateOrderSummary();
             }
         }
@@ -1989,6 +2027,19 @@
             
             if (itemIndex >= 0) {
                 cartItems[itemIndex].quantity += 1;
+                
+                // Auto-update bundle selection based on new total
+                const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalPairs >= 4) {
+                    selectBundle('complete');
+                } else if (totalPairs >= 3) {
+                    selectBundle('triple');
+                } else if (totalPairs >= 2) {
+                    selectBundle('double');
+                } else {
+                    selectBundle('single');
+                }
+                
                 updateOrderSummary();
             }
         }
@@ -2060,6 +2111,30 @@
 
             const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+            // Display each individual item with controls
+            cartItems.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+                productItem.innerHTML = `
+                    <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN 1" class="product-image">
+                    <div class="product-details">
+                        <div class="product-quantity">Qty: ${item.quantity}</div>
+                        <div class="product-name">SBHMN 1</div>
+                        <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
+                        <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
+                        <div class="product-price">€${itemTotal}.00</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="increaseQuantity('${item.color}', '${item.size}', '${item.sizeType}')" type="button">+</button>
+                        </div>
+                    </div>
+                `;
+                productsList.appendChild(productItem);
+            });
+
             // Determine bundle pricing based on Stripe setup
             let bundlePrice, bundleDiscount, bundleName;
             if (totalPairs >= 4 || selectedBundle === 'complete') {
@@ -2080,27 +2155,6 @@
                 bundleName = 'Single Pair';
             }
 
-            // Show bundle summary instead of individual items
-            if (cartItems.length > 0) {
-                const bundleItem = document.createElement('div');
-                bundleItem.className = 'product-item';
-                
-                const colors = [...new Set(cartItems.map(item => item.color))];
-                const sizes = cartItems.map(item => `${item.size}${item.sizeType === 'mens' ? 'M' : 'W'}`);
-                
-                bundleItem.innerHTML = `
-                    <img src="assets/images/${getImageForColor(cartItems[0].color)}" alt="SBHMN 1" class="product-image">
-                    <div class="product-details">
-                        <div class="product-quantity">Total: ${totalPairs} pairs</div>
-                        <div class="product-name">${bundleName}</div>
-                        <div class="product-variant">Colors: ${colors.join(', ')}</div>
-                        <div class="product-size">Sizes: ${sizes.join(', ')}</div>
-                        <div class="product-price">€${bundlePrice}.00</div>
-                    </div>
-                `;
-                productsList.appendChild(bundleItem);
-            }
-
             // Calculate subtotal (individual price * quantity)
             const individualTotal = cartItems.reduce((sum, item) => sum + (349 * item.quantity), 0);
             
@@ -2112,7 +2166,7 @@
             const discountRow = document.getElementById('discountRow');
             if (bundleDiscount > 0) {
                 discountRow.style.display = 'flex';
-                document.getElementById('discountLabel').textContent = `Bundle Savings`;
+                document.getElementById('discountLabel').textContent = `Bundle Savings (${bundleName})`;
                 document.getElementById('discountAmount').textContent = `-€${bundleDiscount}.00`;
             } else {
                 discountRow.style.display = 'none';
