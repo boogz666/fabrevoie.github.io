@@ -2096,7 +2096,7 @@
                         <div class="product-name">SBHMN 1</div>
                         <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
                         <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
-                        <div class="product-price">$${itemTotal}.00</div>
+                        <div class="product-price">${itemTotal}.00</div>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
                             <span class="quantity-display">${item.quantity}</span>
@@ -2131,21 +2131,27 @@
             const individualTotal = cartItems.reduce((sum, item) => sum + (349 * item.quantity), 0);
             
             // Update totals display
-            document.getElementById('subtotalAmount').textContent = `$${individualTotal}.00`;
-            document.getElementById('totalAmount').textContent = `$${bundlePrice}.00`;
+            document.getElementById('subtotalAmount').textContent = `${individualTotal}.00`;
+            document.getElementById('totalAmount').textContent = `${bundlePrice}.00`;
 
             // Show bundle discount
             const discountRow = document.getElementById('discountRow');
             if (bundleDiscount > 0) {
                 discountRow.style.display = 'flex';
                 document.getElementById('discountLabel').textContent = `Bundle Savings (${bundleName})`;
-                document.getElementById('discountAmount').textContent = `-$${bundleDiscount}.00`;
+                document.getElementById('discountAmount').textContent = `-${bundleDiscount}.00`;
             } else {
                 discountRow.style.display = 'none';
             }
 
             // Update complete button state
             updateCompleteButton();
+            
+            // Re-initialize payment element with new amount
+            if (paymentElement) {
+                paymentElement.unmount();
+                initializePaymentElement();
+            }
         }
 
         function updateStateOptions() {
@@ -2186,11 +2192,21 @@
         }
 
         async function initializePaymentElement() {
-            // In a real implementation, you'd create a Payment Intent on your backend
-            // For demo purposes, we'll use Stripe Elements in setup mode
+            // Determine current bundle price for Stripe Elements
+            const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            let amount = 34900; // Default single pair in cents
+            
+            if (totalPairs >= 4 || selectedBundle === 'complete') {
+                amount = 114600; // $1146.00
+            } else if (totalPairs >= 3 || selectedBundle === 'triple') {
+                amount = 90000; // $900.00
+            } else if (totalPairs >= 2 || selectedBundle === 'double') {
+                amount = 62000; // $620.00
+            }
+
             elements = stripe.elements({
                 mode: 'payment',
-                amount: 34900, // Amount in cents ($349.00)
+                amount: amount,
                 currency: 'usd',
                 appearance: {
                     theme: 'stripe',
