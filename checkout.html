@@ -250,7 +250,25 @@
             color: #999;
         }
 
-        /* UPDATED: Color selector with rectangle styling and text */
+        /* Stripe Elements styling */
+        #payment-element {
+            margin-top: 10px;
+        }
+
+        .StripeElement {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .StripeElement:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(158, 217, 181, 0.2);
+        }
+
+        /* Color selector with rectangle styling and text */
         .color-selection-section {
             margin-top: 20px;
             padding: 25px;
@@ -313,7 +331,7 @@
             border-color: var(--color-primary);
         }
 
-        /* UPDATED: Check mark for active color instead of dot */
+        /* Check mark for active color instead of dot */
         .color-option::after {
             content: '✓';
             position: absolute;
@@ -332,7 +350,7 @@
             color: #333; /* Dark check for white background */
         }
 
-        /* UPDATED: Size type selection (Men's/Women's) */
+        /* Size type selection (Men's/Women's) */
         .size-type-selection {
             margin-bottom: 20px;
             padding: 20px;
@@ -389,7 +407,7 @@
             box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
         }
 
-        /* UPDATED: Size selector styling - sizes 4-14 */
+        /* Size selector styling - sizes 4-14 */
         .size-selector {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -594,7 +612,7 @@
             cursor: pointer;
         }
 
-        /* UPDATED: Bundle Selection with matching names and rebellious tone */
+        /* Bundle Selection with matching names and rebellious tone */
         .bundle-selection {
             margin-top: 30px;
             padding: 25px;
@@ -819,21 +837,7 @@
         }
 
         .checkout-right::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .checkout-right::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
-        }
-
-        .checkout-right::-webkit-scrollbar-thumb {
-            background: var(--color-primary);
-            border-radius: 3px;
-        }
-
-        .checkout-right::-webkit-scrollbar-thumb:hover {
-            background: #7BC097;
+            display: none;
         }
 
         .order-summary-title {
@@ -847,7 +851,7 @@
             text-align: center;
         }
 
-        /* UPDATED: Product item with minus button */
+        /* Product item with minus button */
         .product-item {
             display: flex;
             gap: 20px;
@@ -917,7 +921,7 @@
             margin-bottom: 8px;
         }
 
-        /* UPDATED: Quantity controls with minus button */
+        /* Quantity controls with minus button */
         .quantity-controls {
             display: flex;
             align-items: center;
@@ -1376,7 +1380,7 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: Bundle Selection with matching names from index page -->
+                    <!-- Bundle Selection with matching names from index page -->
                     <div class="form-section">
                         <div class="bundle-selection">
                             <h2 class="bundle-title">
@@ -1420,7 +1424,7 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: Color Selection with red first (matching index page) -->
+                    <!-- Color Selection with red first (matching index page) -->
                     <div class="form-section">
                         <h2 class="section-title">
                             <i class="fas fa-palette"></i>
@@ -1436,7 +1440,7 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: Size Selection with rebellious messaging -->
+                    <!-- Size Selection with rebellious messaging -->
                     <div class="form-section">
                         <h2 class="section-title">
                             <i class="fas fa-shoe-prints"></i>
@@ -1560,24 +1564,10 @@
                             <i class="fas fa-credit-card"></i>
                             Payment Information
                         </h2>
-                        <div class="form-group">
-                            <label for="cardNumber">Card Number</label>
-                            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        <div id="payment-element">
+                            <!-- Stripe Elements will create form elements here -->
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="expiryDate">Expiry Date</label>
-                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" name="cvv" placeholder="123" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="cardName">Name on Card</label>
-                            <input type="text" id="cardName" name="cardName" required>
-                        </div>
+                        <div id="payment-errors" role="alert" style="color: #ff6b6b; margin-top: 10px; font-size: 14px; display: none;"></div>
                     </div>
                 </form>
             </div>
@@ -1624,7 +1614,7 @@
 
                 <button type="submit" form="checkoutForm" class="complete-order-btn" id="completeOrderBtn" disabled>
                     <i class="fas fa-lock"></i>
-                    CLAIM YOUR CHAOS
+                    COMPLETE ORDER
                 </button>
 
                 <div class="security-notice">
@@ -1693,25 +1683,19 @@
         </footer>
     </div>
 
-    <!-- 
-    STRIPE INTEGRATION COMPLETE
-    - Real payments via Stripe Checkout
-    - Bundle pricing: €349, €620, €900, €1146
-    - 0% VAT (under French threshold)
-    - Promo codes display in UI (need Stripe setup for real discounts)
-    - Auto-selects bundle based on cart contents
-    -->
-    
     <!-- Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
 
     <script>
-        // Initialize Stripe
+        // Initialize Stripe with your publishable key
         const stripe = Stripe('pk_live_51R6E2aEeF5GI36vsD2Z0RDkxbJViFOmCintuOwWsuXzoiO6grwgPerBfSL2H45sxzHhGV1DT3u2p7S36WZiHNUaF004QlaAauN');
+
+        let elements;
+        let paymentElement;
 
         // Stripe Price IDs for each bundle
         const stripePriceIds = {
-            single: 'price_1Rc1zlEeF5GI36vsuHpQoWRZ',      // €349 - UPDATED
+            single: 'price_1Rc1zlEeF5GI36vsuHpQoWRZ',      // €349
             double: 'price_1RbthGEeF5GI36vs5YTBQ9oH',      // €620
             triple: 'price_1RbthcEeF5GI36vsYgGXARbY',      // €900
             complete: 'price_1Rbti2EeF5GI36vsJEwlYvc4'     // €1146
@@ -1794,7 +1778,7 @@
             ]
         };
 
-        // UPDATED: Bundle and pricing data matching index page
+        // Bundle and pricing data matching index page
         const bundleData = {
             single: { price: 349, pairs: 1, name: 'Single Pair', originalPrice: 349, discount: 0 },
             double: { price: 620, pairs: 2, name: 'DOUBLE TROUBLE', originalPrice: 698, discount: 78 },
@@ -1811,7 +1795,7 @@
             'CHAOS': { discount: 0.20, type: 'percentage', description: '20% off for embracing chaos' }
         };
 
-        // UPDATED: Different size conversion data for women
+        // Size conversion data for men and women
         const sizeConversions = {
             mens: {
                 4: { eu: 36, uk: 3.5, footLength: 23.0 },
@@ -1861,9 +1845,9 @@
             }
         };
 
-        let selectedColor = 'red'; // UPDATED: Default to red (matching index page)
+        let selectedColor = 'red'; // Default to red (matching index page)
         let currentSizeType = 'mens';
-        let selectedBundle = 'triple'; // UPDATED: Default to triple (popular choice)
+        let selectedBundle = 'triple'; // Default to triple (popular choice)
         let appliedPromo = null;
         let cartItems = []; // Array to store all cart items with sizes/colors
 
@@ -2090,19 +2074,7 @@
                 black: 'prodp2.png',
                 red: 'prodp3.png'
             };
-            return imageMap[color] || 'prodp3.png'; // UPDATED: Default to red
-        }
-
-        function getBundleDiscount(totalPairs) {
-            if (selectedBundle === 'complete' && totalPairs >= 4) return bundleData.complete.discount;
-            if (selectedBundle === 'triple' && totalPairs >= 3) return bundleData.triple.discount;
-            if (selectedBundle === 'double' && totalPairs >= 2) return bundleData.double.discount;
-            
-            // Auto-detect bundle based on quantity
-            if (totalPairs >= 4) return bundleData.complete.discount;
-            if (totalPairs >= 3) return bundleData.triple.discount;
-            if (totalPairs >= 2) return bundleData.double.discount;
-            return 0;
+            return imageMap[color] || 'prodp3.png'; // Default to red
         }
 
         function updateOrderSummary() {
@@ -2124,7 +2096,7 @@
                         <div class="product-name">SBHMN 1</div>
                         <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
                         <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
-                        <div class="product-price">${itemTotal}.00</div>
+                        <div class="product-price">$${itemTotal}.00</div>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
                             <span class="quantity-display">${item.quantity}</span>
@@ -2159,15 +2131,15 @@
             const individualTotal = cartItems.reduce((sum, item) => sum + (349 * item.quantity), 0);
             
             // Update totals display
-            document.getElementById('subtotalAmount').textContent = `${individualTotal}.00`;
-            document.getElementById('totalAmount').textContent = `${bundlePrice}.00`;
+            document.getElementById('subtotalAmount').textContent = `$${individualTotal}.00`;
+            document.getElementById('totalAmount').textContent = `$${bundlePrice}.00`;
 
             // Show bundle discount
             const discountRow = document.getElementById('discountRow');
             if (bundleDiscount > 0) {
                 discountRow.style.display = 'flex';
                 document.getElementById('discountLabel').textContent = `Bundle Savings (${bundleName})`;
-                document.getElementById('discountAmount').textContent = `-${bundleDiscount}.00`;
+                document.getElementById('discountAmount').textContent = `-$${bundleDiscount}.00`;
             } else {
                 discountRow.style.display = 'none';
             }
@@ -2213,9 +2185,118 @@
             }
         }
 
+        async function initializePaymentElement() {
+            // In a real implementation, you'd create a Payment Intent on your backend
+            // For demo purposes, we'll use Stripe Elements in setup mode
+            elements = stripe.elements({
+                mode: 'payment',
+                amount: 34900, // Amount in cents ($349.00)
+                currency: 'usd',
+                appearance: {
+                    theme: 'stripe',
+                    variables: {
+                        colorPrimary: '#9ED9B5',
+                        colorBackground: '#ffffff',
+                        colorText: '#333333',
+                        colorDanger: '#ff6b6b',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        spacingUnit: '4px',
+                        borderRadius: '8px',
+                    }
+                }
+            });
+
+            paymentElement = elements.create('payment');
+            paymentElement.mount('#payment-element');
+
+            paymentElement.on('change', ({complete, error}) => {
+                const errorElement = document.getElementById('payment-errors');
+                if (error) {
+                    errorElement.textContent = error.message;
+                    errorElement.style.display = 'block';
+                } else {
+                    errorElement.style.display = 'none';
+                }
+            });
+        }
+
+        async function processPayment() {
+            const completeBtn = document.getElementById('completeOrderBtn');
+            completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+            completeBtn.disabled = true;
+
+            // In a real implementation, you would:
+            // 1. Create a Payment Intent on your backend with the actual order total
+            // 2. Use that client_secret here
+            // 3. Handle the confirmation and redirect to success page
+
+            // For demo purposes, we'll simulate the process
+            try {
+                // Get form data
+                const email = document.getElementById('email').value;
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+
+                // Simulate payment processing
+                setTimeout(() => {
+                    // Store order data for confirmation page
+                    const orderData = {
+                        items: cartItems,
+                        bundle: selectedBundle,
+                        promo: appliedPromo,
+                        totalPairs: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+                        customerEmail: email,
+                        customerName: `${firstName} ${lastName}`
+                    };
+                    sessionStorage.setItem('orderData', JSON.stringify(orderData));
+
+                    // Redirect to confirmation page
+                    window.location.href = 'order-confirmation.html';
+                }, 2000);
+
+                // In a real implementation, you would use:
+                /*
+                const {error} = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: window.location.origin + '/order-confirmation.html',
+                        receipt_email: email,
+                        shipping: {
+                            name: `${firstName} ${lastName}`,
+                            address: {
+                                line1: document.getElementById('address').value,
+                                line2: document.getElementById('apartment').value || null,
+                                city: document.getElementById('city').value,
+                                state: document.getElementById('state').value,
+                                postal_code: document.getElementById('zipCode').value,
+                                country: document.getElementById('country').value,
+                            }
+                        }
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+                */
+
+            } catch (error) {
+                console.error('Payment failed:', error);
+                completeBtn.innerHTML = '<i class="fas fa-lock"></i> COMPLETE ORDER';
+                completeBtn.disabled = false;
+                
+                const errorElement = document.getElementById('payment-errors');
+                errorElement.textContent = error.message || 'Payment failed. Please try again.';
+                errorElement.style.display = 'block';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Generate initial size options
             generateSizeOptions();
+            
+            // Initialize Stripe Payment Element
+            initializePaymentElement();
             
             // Country change handler
             document.getElementById('country').addEventListener('change', updateStateOptions);
@@ -2250,7 +2331,7 @@
             // Initialize order summary
             updateOrderSummary();
 
-            // Form validation and submission with Stripe
+            // Form validation and submission
             document.getElementById('checkoutForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -2274,104 +2355,11 @@
                 });
 
                 if (isValid) {
-                    // Redirect to Stripe Checkout
-                    redirectToStripeCheckout();
+                    // Process payment with Stripe Elements
+                    processPayment();
                 } else {
-                    alert('Please fill in all required fields or face the consequences.');
+                    alert('Please fill in all required fields.');
                 }
-            });
-
-            function redirectToStripeCheckout() {
-                const completeBtn = document.getElementById('completeOrderBtn');
-                completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING YOUR CHAOS...';
-                completeBtn.disabled = true;
-
-                // Determine which bundle price to use
-                let priceId;
-                const totalPairs = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                
-                if (totalPairs >= 4 || selectedBundle === 'complete') {
-                    priceId = stripePriceIds.complete; // €1146
-                } else if (totalPairs >= 3 || selectedBundle === 'triple') {
-                    priceId = stripePriceIds.triple; // €900
-                } else if (totalPairs >= 2 || selectedBundle === 'double') {
-                    priceId = stripePriceIds.double; // €620
-                } else {
-                    priceId = stripePriceIds.single; // €349
-                }
-
-                console.log('Using price ID:', priceId); // Debug log
-
-                // Store order details for confirmation page
-                const orderData = {
-                    items: cartItems,
-                    bundle: selectedBundle,
-                    promo: appliedPromo,
-                    totalPairs: totalPairs,
-                    priceId: priceId
-                };
-                sessionStorage.setItem('orderData', JSON.stringify(orderData));
-
-                // Redirect to Stripe Checkout
-                stripe.redirectToCheckout({
-                    lineItems: [{
-                        price: priceId,
-                        quantity: 1,
-                    }],
-                    mode: 'payment',
-                    successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
-                    cancelUrl: window.location.href,
-                    shippingAddressCollection: {
-                        allowedCountries: ['US', 'CA', 'GB', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AU', 'JP', 'KR', 'SG', 'HK', 'CH', 'AT', 'DK', 'SE', 'NO', 'FI', 'IE', 'PT', 'CZ', 'HU', 'GR'],
-                    },
-                    customerEmail: document.getElementById('email').value,
-                    metadata: {
-                        bundle: selectedBundle,
-                        items: JSON.stringify(cartItems.map(item => ({
-                            color: item.color,
-                            size: item.size,
-                            sizeType: item.sizeType,
-                            quantity: item.quantity
-                        }))),
-                        promoCode: appliedPromo ? appliedPromo.code : null
-                    }
-                }).then(function (result) {
-                    console.log('Stripe redirect result:', result); // Debug log
-                    if (result.error) {
-                        // Re-enable button on error
-                        completeBtn.innerHTML = '<i class="fas fa-lock"></i> CLAIM YOUR CHAOS';
-                        completeBtn.disabled = false;
-                        console.error('Stripe error:', result.error);
-                        alert('Payment failed: ' + result.error.message);
-                    }
-                }).catch(function(error) {
-                    // Handle any other errors
-                    console.error('Checkout error:', error);
-                    completeBtn.innerHTML = '<i class="fas fa-lock"></i> CLAIM YOUR CHAOS';
-                    completeBtn.disabled = false;
-                    alert('Checkout failed. Please try again or check console for details.');
-                });
-            }
-
-            // Card number formatting
-            document.getElementById('cardNumber').addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
-                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-                e.target.value = formattedValue;
-            });
-
-            // Expiry date formatting
-            document.getElementById('expiryDate').addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length >= 2) {
-                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
-                }
-                e.target.value = value;
-            });
-
-            // CVV formatting
-            document.getElementById('cvv').addEventListener('input', function(e) {
-                e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 4);
             });
 
             // Initialize button state
