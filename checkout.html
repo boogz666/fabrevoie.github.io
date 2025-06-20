@@ -2234,29 +2234,19 @@
             };
             sessionStorage.setItem('orderData', JSON.stringify(orderData));
 
-            // Redirect to Stripe Checkout
+            // Redirect to Stripe Checkout (fixed - removed metadata)
             stripe.redirectToCheckout({
                 lineItems: [{
                     price: priceId,
                     quantity: 1,
                 }],
                 mode: 'payment',
-                successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
+                successUrl: `${window.location.origin}/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}`,
                 cancelUrl: window.location.href,
                 shippingAddressCollection: {
                     allowedCountries: ['US', 'CA', 'GB', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AU', 'JP', 'KR', 'SG', 'HK', 'CH', 'AT', 'DK', 'SE', 'NO', 'FI', 'IE', 'PT', 'CZ', 'HU', 'GR'],
                 },
                 customerEmail: document.getElementById('email').value,
-                metadata: {
-                    bundle: selectedBundle,
-                    items: JSON.stringify(cartItems.map(item => ({
-                        color: item.color,
-                        size: item.size,
-                        sizeType: item.sizeType,
-                        quantity: item.quantity
-                    }))),
-                    promoCode: appliedPromo ? appliedPromo.code : null
-                }
             }).then(function (result) {
                 if (result.error) {
                     // Re-enable button on error
