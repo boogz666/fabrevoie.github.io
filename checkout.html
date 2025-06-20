@@ -2269,6 +2269,8 @@
                         quantity: 1,
                     }],
                     mode: 'payment',
+                    // Enable promo code entry on Stripe checkout page
+                    allowPromotionCodes: true,
                     successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
                     cancelUrl: window.location.href,
                     shippingAddressCollection: {
