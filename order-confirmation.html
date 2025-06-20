@@ -45,7 +45,7 @@
         body, html {
             font-family: var(--font-body);
             background-color: #000;
-            background-image: url('assets/images/patterned1.png');
+            background-image: url('assets/images/pat2.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -85,7 +85,7 @@
         }
 
         .top-logo {
-            height: 80px;
+            height: 200px;
             width: auto;
             filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
             cursor: pointer;
@@ -427,7 +427,7 @@
             }
 
             .top-logo {
-                height: 60px;
+                height: 200px;
             }
 
             .confirmation-content {
@@ -470,7 +470,7 @@
 
         @media screen and (max-width: 480px) {
             .top-logo {
-                height: 50px;
+                height: 40px;
             }
 
             .success-section {
@@ -600,8 +600,8 @@
 
             <!-- Social Share -->
             <section class="social-share">
-                <h3>Join the Community</h3>
-                <p>Connect with fellow Fabrevoie owners and share your unique style when your SBHMN 1 arrive.</p>
+                <h3>Show Your Status</h3>
+                <p>Let them know you're not like everyone else. Post your SBHMN 1 when they arrive and watch the envy spread.</p>
                 <div class="social-buttons">
                     <a href="https://www.instagram.com/fabrevoie" target="_blank" class="social-btn instagram">
                         <i class="fab fa-instagram"></i>
@@ -704,8 +704,23 @@
                 complete: 1146
             };
 
-            const totalPrice = bundlePrices[orderData.bundle] || 349;
-            document.getElementById('confirmationTotal').textContent = `$${totalPrice}.00`;
+            let totalPrice = bundlePrices[orderData.bundle] || 349;
+            
+            // If no bundle specified, calculate based on total pairs
+            if (!orderData.bundle && orderData.items) {
+                const totalPairs = orderData.items.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalPairs >= 4) {
+                    totalPrice = bundlePrices.complete;
+                } else if (totalPairs >= 3) {
+                    totalPrice = bundlePrices.triple;
+                } else if (totalPairs >= 2) {
+                    totalPrice = bundlePrices.double;
+                } else {
+                    totalPrice = bundlePrices.single;
+                }
+            }
+            
+            document.getElementById('confirmationTotal').textContent = `${totalPrice}.00`;
         }
 
         function displaySingleProduct(selectedProduct) {
