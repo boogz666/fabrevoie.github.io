@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed - Fabrevoie</title>
-    <meta name="description" content="Your SBHMN order has been confirmed! Thank you for joining the Fabrevoie movement.">
+    <meta name="description" content="Your SBHMN 1 order has been confirmed! Thank you for joining the Fabrevoie movement.">
     <link rel="icon" type="image/png" href="assets/images/logo-small.png">
     
     <!-- Font Awesome for icons -->
@@ -533,7 +533,7 @@
             <section class="success-section">
                 <i class="fas fa-check-circle success-icon"></i>
                 <h1 class="success-title">Order Confirmed!</h1>
-                <p class="success-subtitle">Thank you for joining the Fabrevoie movement. Your SBHMN are on their way!</p>
+                <p class="success-subtitle">Your SBHMN 1 are officially on their way. Welcome to Fabrevoie.</p>
                 <div class="order-number" id="orderNumber">Order #FB-2025-0001</div>
             </section>
 
@@ -544,13 +544,15 @@
                         <i class="fas fa-box"></i>
                         Your Order
                     </h3>
-                    <div class="product-summary">
-                        <img src="assets/images/prodp1.png" alt="SBHMN" class="product-image" id="confirmationProductImage">
-                        <div class="product-info">
-                            <h4 id="confirmationProductName">SBHMN</h4>
-                            <p id="confirmationProductColor">Color: White</p>
-                            <p id="confirmationProductSize">Size: US 9</p>
-                            <div class="product-price" id="confirmationProductPrice">$269.00</div>
+                    <div id="orderItems">
+                        <!-- Order items will be populated by JavaScript -->
+                        <div class="product-summary">
+                            <img src="assets/images/prodp3.png" alt="SBHMN 1" class="product-image" id="confirmationProductImage">
+                            <div class="product-info">
+                                <h4 id="confirmationProductName">SBHMN 1</h4>
+                                <p id="confirmationProductDetails">Red • Size: US 9 (Men's) • Qty: 1</p>
+                                <div class="product-price" id="confirmationProductPrice">$349.00</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -561,10 +563,10 @@
                         Shipping Details
                     </h3>
                     <div class="shipping-info">
-                        <p><strong>Estimated Delivery:</strong> 7-10 business days</p>
+                        <p><strong>Estimated Delivery:</strong> 45-60 business days</p>
                         <p><strong>Shipping Method:</strong> Standard Shipping</p>
                         <p><strong>Tracking:</strong> You'll receive tracking info via email</p>
-                        <p><strong>Total Paid:</strong> <span id="confirmationTotal">$284.00</span></p>
+                        <p><strong>Total Paid:</strong> <span id="confirmationTotal">$349.00</span></p>
                     </div>
                 </div>
             </div>
@@ -581,25 +583,25 @@
                     <div class="step-item">
                         <div class="step-number">2</div>
                         <div class="step-title">Production</div>
-                        <div class="step-description">Your SBHMN are crafted with eccentric precision</div>
+                        <div class="step-description">Your SBHMN 1 are crafted with meticulous attention to detail</div>
                     </div>
                     <div class="step-item">
                         <div class="step-number">3</div>
                         <div class="step-title">Shipping</div>
-                        <div class="step-description">You'll receive tracking information within 2-3 days</div>
+                        <div class="step-description">You'll receive tracking information within 5-7 days</div>
                     </div>
                     <div class="step-item">
                         <div class="step-number">4</div>
                         <div class="step-title">Delivery</div>
-                        <div class="step-description">Your revolutionary footwear arrives at your door</div>
+                        <div class="step-description">Your exclusive footwear arrives at your door</div>
                     </div>
                 </div>
             </section>
 
             <!-- Social Share -->
             <section class="social-share">
-                <h3>Share Your Fabrevoie Moment</h3>
-                <p>Show the world you're part of the revolution. Tag us when your SBHMN arrive!</p>
+                <h3>Join the Community</h3>
+                <p>Connect with fellow Fabrevoie owners and share your unique style when your SBHMN 1 arrive.</p>
                 <div class="social-buttons">
                     <a href="https://www.instagram.com/fabrevoie" target="_blank" class="social-btn instagram">
                         <i class="fab fa-instagram"></i>
@@ -624,29 +626,113 @@
             const orderNumber = generateOrderNumber();
             document.getElementById('orderNumber').textContent = `Order #${orderNumber}`;
 
-            // Load order details from sessionStorage
-            const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct') || '{}');
+            // Load order data from sessionStorage
+            const orderData = JSON.parse(sessionStorage.getItem('orderData') || '{}');
             
-            if (selectedProduct.name) {
-                document.getElementById('confirmationProductImage').src = `assets/images/${selectedProduct.image}`;
-                document.getElementById('confirmationProductName').textContent = selectedProduct.name;
-                document.getElementById('confirmationProductColor').textContent = `Color: ${selectedProduct.color.charAt(0).toUpperCase() + selectedProduct.color.slice(1)}`;
-                document.getElementById('confirmationProductSize').textContent = selectedProduct.size ? `Size: US ${selectedProduct.size}` : 'Size: Not specified';
-                document.getElementById('confirmationProductPrice').textContent = `$${selectedProduct.price}.00`;
-                
-                // Calculate total
-                const total = selectedProduct.price + 15; // Adding shipping
-                document.getElementById('confirmationTotal').textContent = `$${total}.00`;
+            if (orderData.items && orderData.items.length > 0) {
+                displayOrderItems(orderData);
+                displayTotalPrice(orderData);
+            } else {
+                // Fallback for direct access without order data
+                const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct') || '{}');
+                if (selectedProduct.name) {
+                    displaySingleProduct(selectedProduct);
+                }
             }
 
             // Clear sessionStorage after displaying
+            sessionStorage.removeItem('orderData');
             sessionStorage.removeItem('selectedProduct');
+
+            // URL parameters (for Stripe success callback)
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            
+            if (sessionId) {
+                console.log('Stripe session ID:', sessionId);
+                // Here you could make an API call to verify the payment status
+            }
 
             // Send confirmation email simulation
             setTimeout(() => {
                 console.log('Confirmation email sent!');
             }, 1000);
         });
+
+        function displayOrderItems(orderData) {
+            const orderItemsContainer = document.getElementById('orderItems');
+            orderItemsContainer.innerHTML = '';
+
+            if (orderData.items.length === 1) {
+                // Single item display
+                const item = orderData.items[0];
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-summary';
+                productDiv.innerHTML = `
+                    <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN 1" class="product-image">
+                    <div class="product-info">
+                        <h4>SBHMN 1</h4>
+                        <p>${item.color.charAt(0).toUpperCase() + item.color.slice(1)} • Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men\'s' : 'Women\'s'}) • Qty: ${item.quantity}</p>
+                        <div class="product-price">$${item.price * item.quantity}.00</div>
+                    </div>
+                `;
+                orderItemsContainer.appendChild(productDiv);
+            } else {
+                // Multiple items display
+                orderData.items.forEach(item => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product-summary';
+                    productDiv.innerHTML = `
+                        <img src="assets/images/${getImageForColor(item.color)}" alt="SBHMN 1" class="product-image">
+                        <div class="product-info">
+                            <h4>SBHMN 1</h4>
+                            <p>${item.color.charAt(0).toUpperCase() + item.color.slice(1)} • Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men\'s' : 'Women\'s'}) • Qty: ${item.quantity}</p>
+                            <div class="product-price">$${item.price * item.quantity}.00</div>
+                        </div>
+                    `;
+                    orderItemsContainer.appendChild(productDiv);
+                });
+            }
+        }
+
+        function displayTotalPrice(orderData) {
+            // Bundle pricing mapping
+            const bundlePrices = {
+                single: 349,
+                double: 620,
+                triple: 900,
+                complete: 1146
+            };
+
+            const totalPrice = bundlePrices[orderData.bundle] || 349;
+            document.getElementById('confirmationTotal').textContent = `$${totalPrice}.00`;
+        }
+
+        function displaySingleProduct(selectedProduct) {
+            const orderItemsContainer = document.getElementById('orderItems');
+            orderItemsContainer.innerHTML = `
+                <div class="product-summary">
+                    <img src="assets/images/${selectedProduct.image || 'prodp3.png'}" alt="SBHMN 1" class="product-image">
+                    <div class="product-info">
+                        <h4>SBHMN 1</h4>
+                        <p>${selectedProduct.color ? selectedProduct.color.charAt(0).toUpperCase() + selectedProduct.color.slice(1) : 'Red'} • ${selectedProduct.size ? `Size: US ${selectedProduct.size}` : 'Size: Not specified'}</p>
+                        <div class="product-price">$${selectedProduct.price || 349}.00</div>
+                    </div>
+                </div>
+            `;
+            
+            const total = (selectedProduct.price || 349);
+            document.getElementById('confirmationTotal').textContent = `$${total}.00`;
+        }
+
+        function getImageForColor(color) {
+            const imageMap = {
+                white: 'prodp1.png',
+                black: 'prodp2.png',
+                red: 'prodp3.png'
+            };
+            return imageMap[color] || 'prodp3.png';
+        }
 
         function generateOrderNumber() {
             const now = new Date();
