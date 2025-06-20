@@ -1372,7 +1372,7 @@
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="newsletter" name="newsletter" class="checkbox">
-                            <label for="newsletter" class="checkbox-label">Keep me updated on chaos and exclusive drops</label>
+                            <label for="newsletter" class="checkbox-label">Keep me updated on new releases and exclusive offers</label>
                         </div>
                     </div>
 
@@ -1453,7 +1453,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Our SBHMN 1 sneakers run large because subtlety is dead. Size down if you're weak.</label>
+                            <label>Our SBHMN 1 sneakers run large. We recommend sizing down for the best fit.</label>
                             <div class="size-selector" id="sizeSelector">
                                 <!-- Sizes will be populated by JavaScript -->
                             </div>
@@ -1617,7 +1617,7 @@
                         <span id="shippingAmount">FREE SHIPPING ANYWHERE</span>
                     </div>
                     <div class="total-row total">
-                        <span>Total Damage</span>
+                        <span>Total</span>
                         <span class="total-price" id="totalAmount">$0.00</span>
                     </div>
                 </div>
@@ -2124,7 +2124,7 @@
                         <div class="product-name">SBHMN 1</div>
                         <div class="product-variant">${item.color.charAt(0).toUpperCase() + item.color.slice(1)}</div>
                         <div class="product-size">Size: US ${item.size} (${item.sizeType === 'mens' ? 'Men' : 'Women'})</div>
-                        <div class="product-price">€${itemTotal}.00</div>
+                        <div class="product-price">${itemTotal}.00</div>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus" onclick="removeFromCart('${item.color}', '${item.size}', '${item.sizeType}')" type="button">-</button>
                             <span class="quantity-display">${item.quantity}</span>
@@ -2159,15 +2159,15 @@
             const individualTotal = cartItems.reduce((sum, item) => sum + (349 * item.quantity), 0);
             
             // Update totals display
-            document.getElementById('subtotalAmount').textContent = `€${individualTotal}.00`;
-            document.getElementById('totalAmount').textContent = `€${bundlePrice}.00`;
+            document.getElementById('subtotalAmount').textContent = `${individualTotal}.00`;
+            document.getElementById('totalAmount').textContent = `${bundlePrice}.00`;
 
             // Show bundle discount
             const discountRow = document.getElementById('discountRow');
             if (bundleDiscount > 0) {
                 discountRow.style.display = 'flex';
                 document.getElementById('discountLabel').textContent = `Bundle Savings (${bundleName})`;
-                document.getElementById('discountAmount').textContent = `-€${bundleDiscount}.00`;
+                document.getElementById('discountAmount').textContent = `-${bundleDiscount}.00`;
             } else {
                 discountRow.style.display = 'none';
             }
