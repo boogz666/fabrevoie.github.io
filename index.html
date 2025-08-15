@@ -107,6 +107,28 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        
+        /* Center logo in header */
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+        }
+        
+        .center-text-logo {
+            height: 30px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .center-text-logo:hover {
+            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -125,6 +147,19 @@
         Your browser does not support background video.
     </video>
 
+    <!-- Access Denied Modal -->
+    <div class="access-denied-modal" id="accessDeniedModal">
+        <div class="access-denied-content">
+            <h2 class="access-denied-title">ACCESS DENIED</h2>
+            <p class="access-denied-text">
+                Nice try, but no.<br>
+                We're too busy counting money and ignoring emails.<br>
+                This page is more exclusive than your dreams.
+            </p>
+            <button class="access-denied-close" onclick="closeAccessDenied()">FINE, WHATEVER</button>
+        </div>
+    </div>
+
     <!-- Announcement Bar (RESTORED) -->
     <div class="announcement-bar">
         <div class="announcement-content">
@@ -139,7 +174,7 @@
         <div class="announcement-phrase" id="headerPhrase3">LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC)</div>
     </div>
 
-    <!-- Simple Header for Landing -->
+    <!-- Header with Center Logo -->
     <header class="main-header">
         <div class="header-left">
             <a href="index.html">
@@ -153,7 +188,9 @@
         </div>
 
         <div class="header-center">
-            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+            <a href="index.html">
+                <img src="assets/images/FNAME.png" alt="Fabrevoie" class="center-text-logo">
+            </a>
         </div>
 
         <div class="header-right">
@@ -282,6 +319,16 @@
             // This function should be in your main.js but adding here for safety
             if (typeof startHeaderAnnouncementCycling === 'function') {
                 startHeaderAnnouncementCycling();
+            }
+            
+            // Close modal when clicking outside
+            const accessDeniedModal = document.getElementById('accessDeniedModal');
+            if (accessDeniedModal) {
+                accessDeniedModal.addEventListener('click', function(e) {
+                    if (e.target === this && typeof closeAccessDenied === 'function') {
+                        closeAccessDenied();
+                    }
+                });
             }
         });
     </script>
