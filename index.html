@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrevoie - For Those Who Refuse to Whisper</title>
+    <meta name="description" content="Fabrevoie - Footwear store. Built for the unapologetic. Designed to offend.">
+    <link rel="icon" type="image/png" href="assets/images/logo-small.png">
+    <meta property="og:title" content="Fabrevoie - For Those Who Refuse to Whisper">
+    <meta property="og:description" content="Oversized. Overwhelmingly obnoxious. Exactly how you like it.">
+    <meta property="og:image" content="https://fabrevoie.com/images/logo.png">
+    <meta property="og:url" content="https://fabrevoie.com">
+    <meta property="og:type" content="website">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {'ad_storage': 'denied', 'analytics_storage': 'denied'});
+        gtag('js', new Date());
+        gtag('config', 'G-TZJE1XNS2Z');
+    </script>
+
+    <!-- External -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Your Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <style>
+        /* Landing Page Specific Styles */
+        .email-signup {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .email-signup-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 12px;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .email-submit {
+            padding: 12px 20px;
+            background: var(--color-primary);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .email-submit:hover {
+            background: #7BC097;
+            transform: translateY(-2px);
+        }
+        
+        .email-disclaimer {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <script>document.body.classList.add('loaded');</script>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-text">LOADING</div>
+    </div>
+
+    <!-- Background Video -->
+    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
+        <source src="assets/videos/bibi.mp4" type="video/mp4">
+        <source src="assets/videos/bibi.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
+
+    <!-- Simple Header for Landing -->
+    <header class="landing-header">
+        <nav class="landing-nav">
+            <a href="shop.html" class="nav-link">Shop</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Timer (Optional on landing) -->
+    <div class="timer-container" id="timerContainer">
+        <div class="timer-display">
+            <div class="timer-unit">
+                <div class="timer-number" id="timerHours">72</div>
+                <div class="timer-label">Hours</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerMinutes">00</div>
+                <div class="timer-label">Minutes</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerSeconds">00</div>
+                <div class="timer-label">Seconds</div>
+            </div>
+        </div>
+        <div class="timer-status">PRE-SALE STARTS IN</div>
+        <div class="pairs-left">
+            <span id="pairsLeft">100</span>/100 PAIRS LEFT
+        </div>
+    </div>
+
+    <!-- Main Landing Content -->
+    <div class="content-container">
+        <div class="content-wrapper">
+            <div class="landing-content">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
+                </div>
+
+                <!-- Shop Button -->
+                <a href="shop.html" class="btn btn-primary">
+                    DISTURB THE PEACE
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <!-- NEW: Email Signup -->
+                <div class="email-signup">
+                    <div class="email-signup-title">Join the Chaos</div>
+                    <form class="email-form" id="emailForm">
+                        <input type="email" 
+                               class="email-input" 
+                               placeholder="YOUR@EMAIL.COM" 
+                               required>
+                        <button type="submit" class="email-submit">
+                            SUBMIT
+                        </button>
+                    </form>
+                    <div class="email-disclaimer">
+                        First to know. First to buy. First to offend.
+                    </div>
+                </div>
+
+                <!-- Social icons -->
+                <div class="social-container">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p class="social-text">Follow here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Email form handler
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            
+            // TODO: Send to your email service (Mailchimp, Klaviyo, etc.)
+            console.log('Email submitted:', email);
+            
+            // Show success
+            e.target.querySelector('.email-submit').textContent = 'WELCOMED';
+            e.target.querySelector('.email-submit').style.background = '#7BC097';
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                e.target.reset();
+                e.target.querySelector('.email-submit').textContent = 'SUBMIT';
+                e.target.querySelector('.email-submit').style.background = '';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
