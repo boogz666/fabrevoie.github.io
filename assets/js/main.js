@@ -284,38 +284,49 @@ function updateBuyButtonText() {
 
 // SHOPIFY INTEGRATION - SIMPLIFIED
 function buyProduct() {
+    console.log('Buy button clicked!');
+    console.log('Current state:', state);
+    console.log('Selected size:', state.selectedSize);
+    console.log('Selected color:', state.currentColor);
+    
     if (!state.selectedSize) {
         const sizeWarning = document.getElementById('sizeWarning');
         if (sizeWarning) {
             sizeWarning.style.display = 'block';
             sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+        alert('PICK A SIZE OR GET LOST!');
         return;
     }
 
     // Get the exact variant
     const variantKey = `${state.currentColor}-${state.selectedSize}`;
+    console.log('Looking for variant key:', variantKey);
+    
     const variantId = variantMap[variantKey];
+    console.log('Found variant ID:', variantId);
     
     if (!variantId) {
-        alert("This size/color combination is currently unavailable. Try another!");
+        alert(`This size/color combination is currently unavailable: ${variantKey}`);
+        console.error('Variant not found in map for:', variantKey);
+        console.log('Available variants:', Object.keys(variantMap));
         return;
     }
 
     // Visual feedback
     const buyButton = document.getElementById('buyButton');
-    buyButton.innerHTML = 'PROCESSING YOUR DOMINANCE... <i class="fas fa-spinner fa-spin"></i>';
-    buyButton.disabled = true;
+    if (buyButton) {
+        buyButton.innerHTML = 'PROCESSING YOUR DOMINANCE... <i class="fas fa-spinner fa-spin"></i>';
+        buyButton.disabled = true;
+    }
+
+    // Build the Shopify URL
+    const shopifyUrl = `https://${config.shopifyDomain}/cart/${variantId}:1`;
+    console.log('Redirecting to:', shopifyUrl);
 
     // Add to cart and redirect to Shopify
     setTimeout(() => {
-        // Direct to cart with the exact variant
-        // Add ?checkout=true to skip cart page and go straight to checkout
-        window.location.href = `https://${config.shopifyDomain}/cart/${variantId}:1`;
-        
-        // After redirect, reset button (though page will be gone)
-        buyButton.innerHTML = 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
-        buyButton.disabled = false;
+        window.location.href = shopifyUrl;
     }, 500);
 }
 
@@ -556,3 +567,21 @@ if (typeof module !== 'undefined' && module.exports) {
         variantMap
     };
 }
+
+// MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
+window.state = state;
+window.config = config;
+window.variantMap = variantMap;
+window.buyProduct = buyProduct;
+window.changeProductColor = changeProductColor;
+window.selectSize = selectSize;
+window.openSizeGuide = openSizeGuide;
+window.closeSizeGuide = closeSizeGuide;
+window.changeImage = changeImage;
+window.nextImage = nextImage;
+window.previousImage = previousImage;
+window.showAccessDenied = showAccessDenied;
+window.closeAccessDenied = closeAccessDenied;
+window.toggleGender = toggleGender;
+window.updateThumbnails = updateThumbnails;
+window.updateProductImage = updateProductImage;
