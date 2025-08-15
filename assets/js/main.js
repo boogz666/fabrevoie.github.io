@@ -29,21 +29,21 @@ const config = {
             'assets/images/black-5.jpg'
         ]
     },
-    // KEEP ONLY THIS ONE:
-    sizes: ['7', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+    // STATISTICALLY MOST POPULAR SIZES (based on sales volume data)
+    sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
 
-    // UPDATED SIZE CHART
+    // SIZE CHART
     sizeChart: [
-        { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
-        { us: '8', eu: '41', uk: '7', cm: '25.5', inches: '10.0' },
-        { us: '8.5', eu: '41.5', uk: '7.5', cm: '26.0', inches: '10.2' },
-        { us: '9', eu: '42', uk: '8', cm: '26.5', inches: '10.4' },
-        { us: '9.5', eu: '42.5', uk: '8.5', cm: '27.0', inches: '10.6' },
-        { us: '10', eu: '43', uk: '9', cm: '27.5', inches: '10.8' },
-        { us: '10.5', eu: '44', uk: '9.5', cm: '28.0', inches: '11.0' },
-        { us: '11', eu: '44.5', uk: '10', cm: '28.5', inches: '11.2' },
-        { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' },
-        { us: '12', eu: '46', uk: '11', cm: '29.5', inches: '11.6' }
+    { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
+    { us: '7.5', eu: '40.5', uk: '6.5', cm: '25.5', inches: '10.0' },
+    { us: '8', eu: '41', uk: '7', cm: '25.5', inches: '10.0' },
+    { us: '8.5', eu: '41.5', uk: '7.5', cm: '26.0', inches: '10.2' },
+    { us: '9', eu: '42', uk: '8', cm: '26.5', inches: '10.4' },
+    { us: '9.5', eu: '42.5', uk: '8.5', cm: '27.0', inches: '10.6' },
+    { us: '10', eu: '43', uk: '9', cm: '27.5', inches: '10.8' },
+    { us: '10.5', eu: '44', uk: '9.5', cm: '28.0', inches: '11.0' },
+    { us: '11', eu: '44.5', uk: '10', cm: '28.5', inches: '11.2' },
+    { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' }
     ]
 };
 
