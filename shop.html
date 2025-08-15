@@ -299,7 +299,7 @@
         </div>
         
         <div class="header-right">
-            <div class="header-cart-icon" onclick="window.location.href='https://lhllparis.myshopify.com/cart'">
+            <div class="header-cart-icon" onclick="window.location.href='https://shop.fabrevoie.com/cart'">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="headerCartCount">0</span>
             </div>
@@ -482,7 +482,7 @@
                         </div>
                     </div>
                     <p class="bundle-promo-cta">Stack your arsenal</p>
-                    <a href="https://lhllparis.myshopify.com/products/sbhmn-1" class="btn btn-secondary">
+                    <a href="https://shop.fabrevoie.com/products/sbhmn-1" class="btn btn-secondary">
                         <i class="fas fa-crown"></i> CLAIM BUNDLES
                     </a>
                 </div>
@@ -605,6 +605,10 @@
             if (typeof populateSizes === 'function') {
                 populateSizes();
             }
+            
+            // Quick test - log domain
+            console.log('Shop domain configured:', config.shopifyDomain);
+            console.log('Test cart URL:', `https://${config.shopifyDomain}/cart`);
         });
         
         // Override any color option click handlers to prevent keyboard
@@ -628,6 +632,16 @@
                 }
             });
         }
+        
+        // TEST FUNCTION - Remove after testing
+        function testCheckout() {
+            console.log('Testing checkout with Red Size 8...');
+            const testVariantId = '52151827267911'; // Red Size 8
+            const testUrl = `https://shop.fabrevoie.com/cart/${testVariantId}:1`;
+            console.log('Redirecting to:', testUrl);
+            window.location.href = testUrl;
+        }
+        console.log('💡 TIP: Type testCheckout() in console to test the cart!');
     </script>
 </body>
 </html>
