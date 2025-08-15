@@ -29,11 +29,8 @@ const config = {
             'assets/images/black-5.jpg'
         ]
     },
-    // SIMPLIFIED: 10 sizes only
-    sizes: ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5'],
-    
-    // UPDATED: 10 most popular sizes (7-12 range covers most adults)
-sizes: ['7', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+    // KEEP ONLY THIS ONE:
+    sizes: ['7', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
 
     // UPDATED SIZE CHART
     sizeChart: [
