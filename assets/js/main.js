@@ -3,16 +3,50 @@ const state = {
     currentColor: 'red',
     currentImageIndex: 0,
     selectedSize: null,
-    currentGender: 'unisex', // Changed to unisex since you have one size range
+    currentGender: 'unisex',
     pairsLeft: 100,
     cart: [],
     currentHeaderPhraseIndex: 0,
     headerAnnouncementInterval: null
 };
 
+// VARIANT MAP - YOUR ACTUAL SHOPIFY VARIANT IDS
+const variantMap = {
+    // Red variants
+    'red-5.5': '52151827530055',
+    'red-7': '52151827202375',
+    'red-7.5': '52151827235143',
+    'red-8': '52151827267911',
+    'red-8.5': '52151827300679',
+    'red-9': '52151827333447',
+    'red-9.5': '52151827366215',
+    'red-10': '52151827398983',
+    'red-10.5': '52151827431751',
+    'red-11': '52151827464519',
+    'red-11.5': '52151827497287',
+    
+    // Black variants
+    'black-5.5': '52151827890503',
+    'black-7': '52151827562823',
+    'black-7.5': '52151827595591',
+    'black-8': '52151827628359',
+    'black-8.5': '52151827661127',
+    'black-9': '52151827693895',
+    'black-9.5': '52151827726663',
+    'black-10': '52151827759431',
+    'black-10.5': '52151827792199',
+    'black-11': '52151827824967',
+    'black-11.5': '52151827857735'
+};
+
 const config = {
     dropDate: new Date('2025-10-14T14:00:00+02:00'),
     presaleStartDate: new Date('2025-10-07T14:00:00+02:00'),
+    productPrice: 269,
+    presalePrice: 229,
+    shopifyDomain: 'lhllparis.myshopify.com',
+    productHandle: 'sbhmn-1',
+    
     productImages: {
         red: [
             'assets/images/red-1.jpg',
@@ -29,40 +63,43 @@ const config = {
             'assets/images/black-5.jpg'
         ]
     },
-    // STATISTICALLY MOST POPULAR SIZES (based on sales volume data)
-    sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
-
-    // SIZE CHART
+    
+    // UPDATED SIZES TO MATCH YOUR ACTUAL VARIANTS
+    sizes: ['5.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
+    
+    // UPDATED SIZE CHART
     sizeChart: [
-    { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
-    { us: '7.5', eu: '40.5', uk: '6.5', cm: '25.5', inches: '10.0' },
-    { us: '8', eu: '41', uk: '7', cm: '25.5', inches: '10.0' },
-    { us: '8.5', eu: '41.5', uk: '7.5', cm: '26.0', inches: '10.2' },
-    { us: '9', eu: '42', uk: '8', cm: '26.5', inches: '10.4' },
-    { us: '9.5', eu: '42.5', uk: '8.5', cm: '27.0', inches: '10.6' },
-    { us: '10', eu: '43', uk: '9', cm: '27.5', inches: '10.8' },
-    { us: '10.5', eu: '44', uk: '9.5', cm: '28.0', inches: '11.0' },
-    { us: '11', eu: '44.5', uk: '10', cm: '28.5', inches: '11.2' },
-    { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' }
+        { us: '5.5', eu: '37.5', uk: '4.5', cm: '23.5', inches: '9.3' },
+        { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
+        { us: '7.5', eu: '40.5', uk: '6.5', cm: '25.5', inches: '10.0' },
+        { us: '8', eu: '41', uk: '7', cm: '25.5', inches: '10.0' },
+        { us: '8.5', eu: '41.5', uk: '7.5', cm: '26.0', inches: '10.2' },
+        { us: '9', eu: '42', uk: '8', cm: '26.5', inches: '10.4' },
+        { us: '9.5', eu: '42.5', uk: '8.5', cm: '27.0', inches: '10.6' },
+        { us: '10', eu: '43', uk: '9', cm: '27.5', inches: '10.8' },
+        { us: '10.5', eu: '44', uk: '9.5', cm: '28.0', inches: '11.0' },
+        { us: '11', eu: '44.5', uk: '10', cm: '28.5', inches: '11.2' },
+        { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' }
     ]
 };
 
 // ACCESS DENIED FUNCTIONS
 function showAccessDenied() {
-    document.getElementById('accessDeniedModal').classList.add('active');
+    const modal = document.getElementById('accessDeniedModal');
+    if (modal) modal.classList.add('active');
 }
 
 function closeAccessDenied() {
-    document.getElementById('accessDeniedModal').classList.remove('active');
+    const modal = document.getElementById('accessDeniedModal');
+    if (modal) modal.classList.remove('active');
 }
 
-// SIZE FUNCTIONS (SIMPLIFIED - No gender toggle needed)
-// Simplify populateSizes to not check for gender
+// SIZE FUNCTIONS
 function populateSizes() {
     const sizeOptions = document.getElementById('sizeOptions');
     if (!sizeOptions) return;
     
-    const sizes = config.sizes; // Just use the sizes directly
+    const sizes = config.sizes;
     
     sizeOptions.innerHTML = sizes.map(size => `
         <div class="size-option" data-size="${size}" onclick="selectSize('${size}')">${size}</div>
@@ -86,6 +123,12 @@ function updateSizeChart() {
     `).join('');
 }
 
+// Remove gender toggle function (unisex only)
+function toggleGender(gender) {
+    // Keep for backward compatibility but do nothing
+    return;
+}
+
 // TIMER FUNCTION
 function updateTimer() {
     const now = new Date();
@@ -96,7 +139,11 @@ function updateTimer() {
     const timerSeconds = document.getElementById('timerSeconds');
     const timerStatus = document.getElementById('timerStatus');
     
-    // Only update if elements exist
+    const countdownDays = document.getElementById('countdownDays');
+    const countdownHours = document.getElementById('countdownHours');
+    const countdownMinutes = document.getElementById('countdownMinutes');
+    const countdownSecondsEl = document.getElementById('countdownSeconds');
+    
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
@@ -109,6 +156,13 @@ function updateTimer() {
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
         timerStatus.textContent = 'PRE-SALE STARTS IN';
+        
+        if (countdownDays) {
+            countdownDays.textContent = days.toString().padStart(2, '0');
+            countdownHours.textContent = hours.toString().padStart(2, '0');
+            countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+            countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
     } else {
         const presaleEnd = new Date(config.presaleStartDate.getTime() + (72 * 60 * 60 * 1000));
         const presaleTimeDiff = presaleEnd - now;
@@ -127,6 +181,13 @@ function updateTimer() {
             timerMinutes.textContent = '00';
             timerSeconds.textContent = '00';
             timerStatus.textContent = 'PRE-SALE ENDED';
+        }
+        
+        if (countdownDays) {
+            countdownDays.textContent = '00';
+            countdownHours.textContent = '00';
+            countdownMinutes.textContent = '00';
+            countdownSecondsEl.textContent = '00';
         }
     }
 }
@@ -179,7 +240,9 @@ function previousImage() {
 
 function changeProductColor(color) {
     document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
-    document.querySelector(`[data-color="${color}"]`).classList.add('active');
+    const colorOption = document.querySelector(`[data-color="${color}"]`);
+    if (colorOption) colorOption.classList.add('active');
+    
     state.currentColor = color;
     state.currentImageIndex = 0;
     updateProductImage();
@@ -219,6 +282,7 @@ function updateBuyButtonText() {
         : 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
 }
 
+// SHOPIFY INTEGRATION - SIMPLIFIED
 function buyProduct() {
     if (!state.selectedSize) {
         const sizeWarning = document.getElementById('sizeWarning');
@@ -229,26 +293,30 @@ function buyProduct() {
         return;
     }
 
-    // Add visual feedback
+    // Get the exact variant
+    const variantKey = `${state.currentColor}-${state.selectedSize}`;
+    const variantId = variantMap[variantKey];
+    
+    if (!variantId) {
+        alert("This size/color combination is currently unavailable. Try another!");
+        return;
+    }
+
+    // Visual feedback
     const buyButton = document.getElementById('buyButton');
     buyButton.innerHTML = 'PROCESSING YOUR DOMINANCE... <i class="fas fa-spinner fa-spin"></i>';
     buyButton.disabled = true;
 
-    const productData = {
-        name: 'SBHMN 1',
-        color: state.currentColor,
-        size: state.selectedSize,
-        price: 269,
-        image: config.productImages[state.currentColor][0]
-    };
-    sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
-
-    // Simulate processing time for better UX
+    // Add to cart and redirect to Shopify
     setTimeout(() => {
-        window.location.href = 'checkout.html';
+        // Direct to cart with the exact variant
+        // Add ?checkout=true to skip cart page and go straight to checkout
+        window.location.href = `https://${config.shopifyDomain}/cart/${variantId}:1`;
+        
+        // After redirect, reset button (though page will be gone)
         buyButton.innerHTML = 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
         buyButton.disabled = false;
-    }, 800);
+    }, 500);
 }
 
 // SIZE GUIDE FUNCTIONS
@@ -336,29 +404,17 @@ function handleHeaderScroll() {
     lastScrollTop = currentScroll;
 }
 
-// CART FUNCTIONS
+// CART FUNCTIONS (Simple - Shopify handles the real cart)
 function toggleCart() {
-    if (state.cart.length === 0) {
-        alert('Your cart is empty. Pathetic.');
-        return;
-    }
-
-    let cartDisplay = 'Your Arsenal:\n\n';
-    let total = 0;
-
-    state.cart.forEach(item => {
-        cartDisplay += `${item.name} x${item.quantity} - $${item.price * item.quantity}\n`;
-        total += item.price * item.quantity;
-    });
-
-    cartDisplay += `\nTotal Damage: $${total}`;
-    alert(cartDisplay);
+    // Since we're using Shopify's cart, just redirect to cart page
+    window.location.href = `https://${config.shopifyDomain}/cart`;
 }
 
 function updateCartCount() {
-    const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    // This would need Shopify Cart API to get real count
+    // For now, just showing 0
     const headerCartCount = document.getElementById('headerCartCount');
-    if (headerCartCount) headerCartCount.textContent = totalItems;
+    if (headerCartCount) headerCartCount.textContent = '0';
 }
 
 function updatePairsLeft() {
@@ -370,33 +426,27 @@ function updatePairsLeft() {
 function startHeaderAnnouncementCycling() {
     const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3'];
     
-    // Check if first phrase exists
     if (!document.getElementById(headerPhrases[0])) return;
 
-    // Show first phrase immediately
     document.getElementById(headerPhrases[0]).classList.add('visible');
 
     state.headerAnnouncementInterval = setInterval(() => {
-        // Hide current phrase
         const currentPhrase = document.getElementById(headerPhrases[state.currentHeaderPhraseIndex]);
         if (currentPhrase) currentPhrase.classList.remove('visible');
 
-        // Move to next phrase
         state.currentHeaderPhraseIndex = (state.currentHeaderPhraseIndex + 1) % headerPhrases.length;
 
-        // Show next phrase after a brief delay
         setTimeout(() => {
             const nextPhrase = document.getElementById(headerPhrases[state.currentHeaderPhraseIndex]);
             if (nextPhrase) nextPhrase.classList.add('visible');
         }, 500);
 
-    }, 3000); // Change phrase every 3 seconds
+    }, 3000);
 }
 
 function stopHeaderAnnouncementCycling() {
     if (state.headerAnnouncementInterval) {
         clearInterval(state.headerAnnouncementInterval);
-        // Hide all header phrases
         const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3'];
         headerPhrases.forEach(id => {
             const element = document.getElementById(id);
@@ -447,35 +497,22 @@ function initVideo() {
     }
 }
 
-// SHOPIFY INTEGRATION (Add this when ready)
-function initShopify() {
-    // This will be populated when you add Shopify
-    // window.shopifyClient = ShopifyBuy.buildClient({
-    //     domain: 'your-store.myshopify.com',
-    //     storefrontAccessToken: 'your-token'
-    // });
-}
-
 // MAIN INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
-    // Check which page we're on
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
-    // Common initialization
     setTimeout(() => {
         showPageContent();
         updatePairsLeft();
         updateCartCount();
     }, 1000);
 
-    // Timer (only on pages that have it)
     if (document.getElementById('timerHours')) {
         updateTimer();
         setInterval(updateTimer, 1000);
     }
 
-    // Product page specific
     if (isShopPage || document.getElementById('productImage')) {
         updateProductImage();
         updateThumbnails();
@@ -483,17 +520,12 @@ document.addEventListener('DOMContentLoaded', function() {
         populateSizes();
     }
 
-    // Landing page specific
     if (isLandingPage) {
         startHeaderAnnouncementCycling();
         initVideo();
     }
 
-    // Initialize modals
     initModalClosers();
-    
-    // Initialize Shopify when ready
-    // initShopify();
 });
 
 // UTILITY FUNCTIONS
@@ -520,6 +552,7 @@ if (typeof module !== 'undefined' && module.exports) {
         config,
         changeProductColor,
         selectSize,
-        buyProduct
+        buyProduct,
+        variantMap
     };
 }
