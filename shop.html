@@ -7,6 +7,16 @@
     <meta name="description" content="SBHMN 1 - Oversized. Overwhelmingly obnoxious. Exactly how you like it.">
     <link rel="icon" type="image/png" href="assets/images/logo-small.png">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZJE1XNS2Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {'ad_storage': 'denied', 'analytics_storage': 'denied'});
+        gtag('js', new Date());
+        gtag('config', 'G-TZJE1XNS2Z');
+    </script>
+    
     <!-- External -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -15,14 +25,10 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <style>
-        /* Shop Page Specific */
-        body {
-            background-image: url('assets/images/patterned1.png');
-        }
-        
+        /* Shop Page Specific - Remove the direct background-image */
         .shop-header {
             position: fixed;
-            top: 0;
+            top: 44px; /* Account for announcement header */
             left: 0;
             right: 0;
             z-index: 1000;
@@ -32,6 +38,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        
+        .product-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay like original */
         }
         
         .color-selector-moved {
@@ -56,6 +68,35 @@
     </style>
 </head>
 <body>
+    <script>document.body.classList.add('loaded');</script>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
+        <div class="loading-text">LOADING</div>
+    </div>
+
+    <!-- Background Video (SAME AS HOMEPAGE) -->
+    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
+        <source src="assets/videos/bibi.mp4" type="video/mp4">
+        <source src="assets/videos/bibi.webm" type="video/webm">
+        Your browser does not support background video.
+    </video>
+
+    <!-- Announcement Bar (RESTORED) -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            FIRST COME, FIRST SERVED. • PRE-SALE START ON OCTOBER 11TH • LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC) • 
+        </div>
+    </div>
+
+    <!-- Announcement Header (RESTORED) -->
+    <div class="announcement-header">
+        <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
+        <div class="announcement-phrase" id="headerPhrase2">PRE-SALE START ON OCTOBER 11TH</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC)</div>
+    </div>
+
     <!-- Shop Header -->
     <header class="shop-header">
         <div class="header-left">
@@ -70,19 +111,59 @@
         </div>
         
         <div class="header-right">
-            <div class="header-cart-icon">
+            <div class="header-cart-icon" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
+                <span class="cart-count" id="headerCartCount">0</span>
             </div>
         </div>
     </header>
 
+    <!-- Timer Container (Optional for shop page, but keeping for consistency) -->
+    <div class="timer-container" id="timerContainer" style="top: 140px;">
+        <div class="timer-display">
+            <div class="timer-unit">
+                <div class="timer-number" id="timerHours">72</div>
+                <div class="timer-label">Hours</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerMinutes">00</div>
+                <div class="timer-label">Minutes</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-number" id="timerSeconds">00</div>
+                <div class="timer-label">Seconds</div>
+            </div>
+        </div>
+        <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
+        <div class="countdown-display">
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownDays">116</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownHours">12</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownMinutes">30</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownSeconds">45</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        <div class="pairs-left">
+            <span id="pairsLeft">100</span>/100 PAIRS LEFT
+        </div>
+    </div>
+
     <!-- Product Container -->
-    <div class="product-container" style="padding-top: 100px;">
-        <div class="product-main-layout">
+    <div class="product-container" style="padding-top: 140px; min-height: 100vh;">
+        <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
             <!-- Left: Images -->
             <div class="product-image-section">
-                <!-- MOVED: Color Selector ABOVE Images -->
+                <!-- Color Selector ABOVE Images -->
                 <div class="color-selector-moved">
                     <div class="color-selector-title">Choose Your Poison</div>
                     <div class="color-options">
@@ -126,6 +207,34 @@
                         <img src="assets/images/red-5.jpg" alt="View 5">
                     </div>
                 </div>
+
+                <!-- Features Section -->
+                <div class="product-features">
+                    <h3 class="features-title">WHY YOU NEED THESE</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-skull"></i>
+                            </div>
+                            <div class="feature-title">CONVERSATION KILLERS</div>
+                            <div class="feature-description">So loud they shut everyone up</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="feature-title">EGO BOOSTERS</div>
+                            <div class="feature-description">Instant +6 inches to your presence</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="feature-title">CHAOS CERTIFIED</div>
+                            <div class="feature-description">Tested on thin ice and sensitive souls</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Right: Product Info -->
@@ -149,8 +258,8 @@
                         </button>
                     </div>
                     <div class="gender-toggle">
-                        <button class="gender-option active" onclick="toggleGender('womens')">Women's</button>
-                        <button class="gender-option" onclick="toggleGender('mens')">Men's</button>
+                        <button class="gender-option active" id="womensOption" onclick="toggleGender('womens')">Women's</button>
+                        <button class="gender-option" id="mensOption" onclick="toggleGender('mens')">Men's</button>
                     </div>
                     <div class="size-options" id="sizeOptions">
                         <!-- Populated by JS -->
@@ -161,7 +270,7 @@
                 </div>
                 
                 <!-- Buy Button -->
-                <button class="btn btn-primary buy-button" onclick="buyProduct()">
+                <button class="btn btn-primary buy-button" id="buyButton" onclick="buyProduct()">
                     CLAIM YOUR PAIR
                     <i class="fas fa-shopping-cart"></i>
                 </button>
@@ -169,25 +278,138 @@
                 <!-- Bundle Promo -->
                 <div class="bundle-promo">
                     <h3 class="bundle-promo-title">GET GREEDY</h3>
-                    <p class="bundle-promo-subtitle">Why stop at one?</p>
+                    <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
+                    <div class="bundle-offers">
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">DOUBLE TROUBLE</div>
+                            <div class="bundle-offer-savings">Save $78</div>
+                            <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
+                        </div>
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">TOTAL TAKEOVER</div>
+                            <div class="bundle-offer-savings">Save $147</div>
+                            <div class="bundle-offer-description">Both colors. Maximum chaos.</div>
+                        </div>
+                        <div class="bundle-offer">
+                            <div class="bundle-offer-title">FINAL BOSS MODE</div>
+                            <div class="bundle-offer-savings">Save $300+</div>
+                            <div class="bundle-offer-description">4 pairs. Only 10 exist.</div>
+                        </div>
+                    </div>
+                    <p class="bundle-promo-cta">Stack your arsenal</p>
                     <a href="checkout.html" class="btn btn-secondary">
                         <i class="fas fa-crown"></i> CLAIM BUNDLES
                     </a>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="main-footer show-in-product" style="display: block;">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Fabrevoie</h4>
+                    <p>We make shoes for people who enter rooms like natural disasters. If you need permission to stand out, these aren't for you.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact Support</a></li>
+                        <li><a href="#" onclick="openSizeGuide()">Size Guide</a></li>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns (Good Luck)</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="story.html">Our Chaos</a></li>
+                        <li><a href="careers.html">Join the Dark Side</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal Stuff</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms (Non-Negotiable)</a></li>
+                        <li><a href="returns.html">No Refunds Policy</a></li>
+                        <li><a href="cookies.html">Cookie Warning</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy</a> | Made for villains, by villains</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <!-- Your existing footer code -->
-    </footer>
-
-    <!-- Modals -->
+    <!-- Size Guide Modal -->
     <div class="size-guide-modal" id="sizeGuideModal" style="display: none;">
-        <!-- Your size guide modal -->
+        <div class="size-guide-content">
+            <div class="size-guide-header">
+                <h3>Size Guide</h3>
+                <button class="close-modal" onclick="closeSizeGuide()">×</button>
+            </div>
+            <div class="size-guide-body">
+                <div class="size-note">
+                    <p>Our SBHMN 1 sneakers run large because subtlety is dead. Size down if you're weak.</p>
+                </div>
+
+                <table class="size-chart">
+                    <thead>
+                        <tr>
+                            <th>US Size</th>
+                            <th>EU Size</th>
+                            <th>UK Size</th>
+                            <th>Foot Length (cm)</th>
+                            <th>Foot Length (inches)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sizeChartBody">
+                        <!-- Chart will be populated by JavaScript -->
+                    </tbody>
+                </table>
+
+                <div class="measurement-tip">
+                    <h4>How to Measure Your Foot</h4>
+                    <ol>
+                        <li>Place a piece of paper on the floor against a wall</li>
+                        <li>Stand on the paper with your heel against the wall</li>
+                        <li>Mark the tip of your longest toe on the paper</li>
+                        <li>Measure the distance from the wall to the mark</li>
+                        <li>Buy bigger than you think. Go big or go home.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        // Start announcement header cycling for shop page too
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof startHeaderAnnouncementCycling === 'function') {
+                startHeaderAnnouncementCycling();
+            }
+        });
+    </script>
 </body>
 </html>
