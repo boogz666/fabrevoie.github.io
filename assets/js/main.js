@@ -1,9 +1,6 @@
-// FABREVOIE MAIN.JS - UPDATED WITH shop.fabrevoie.com
+// FABREVOIE MAIN.JS - COMPLETE WITH CART SYSTEM
 // Last Updated: Aug 15, 2025
 // Shop Domain: shop.fabrevoie.com
-// 
-// QUICK TEST: Open console and type: testShopifyCheckout()
-// This will test Red Size 8 checkout flow
 
 // STATE MANAGEMENT
 const state = {
@@ -16,6 +13,9 @@ const state = {
     currentHeaderPhraseIndex: 0,
     headerAnnouncementInterval: null
 };
+
+// CART STATE
+let localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
 
 // VARIANT MAP - YOUR ACTUAL SHOPIFY VARIANT IDS
 const variantMap = {
@@ -47,11 +47,12 @@ const variantMap = {
 };
 
 const config = {
-    dropDate: new Date('2025-10-14T14:00:00+02:00'),
-    presaleStartDate: new Date('2025-10-07T14:00:00+02:00'),
+    // UPDATED DATES - NYC TIME (EDT/EST)
+    dropDate: new Date('2025-09-05T08:00:00-04:00'),  // September 5th, 8AM NYC
+    presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // August 21st, 8AM NYC
     productPrice: 269,
     presalePrice: 229,
-    shopifyDomain: 'shop.fabrevoie.com', // UPDATED TO YOUR NEW DOMAIN!
+    shopifyDomain: 'shop.fabrevoie.com',
     productHandle: 'sbhmn-1',
     
     productImages: {
@@ -71,10 +72,8 @@ const config = {
         ]
     },
     
-    // UPDATED SIZES TO MATCH YOUR ACTUAL VARIANTS
     sizes: ['5.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
     
-    // UPDATED SIZE CHART
     sizeChart: [
         { us: '5.5', eu: '37.5', uk: '4.5', cm: '23.5', inches: '9.3' },
         { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
@@ -89,6 +88,187 @@ const config = {
         { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' }
     ]
 };
+
+// CART FUNCTIONS
+function toggleCart() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.classList.toggle('active');
+        if (cartModal.classList.contains('active')) {
+            updateCartDisplay();
+        }
+    }
+}
+
+function closeCart() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.classList.remove('active');
+    }
+}
+
+function addToCart(color, size) {
+    // Create cart item
+    const cartItem = {
+        id: `${color}-${size}`,
+        name: 'SBHMN 1',
+        color: color,
+        size: size,
+        price: 269,
+        quantity: 1,
+        variantId: variantMap[`${color}-${size}`],
+        image: config.productImages[color][0]
+    };
+    
+    // Check if item already exists
+    const existingIndex = localCart.findIndex(item => item.id === cartItem.id);
+    
+    if (existingIndex >= 0) {
+        localCart[existingIndex].quantity += 1;
+    } else {
+        localCart.push(cartItem);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
+    
+    // Update cart count with animation
+    updateCartCount();
+    
+    // Show cart
+    toggleCart();
+    
+    // Visual feedback
+    const cartCount = document.getElementById('headerCartCount');
+    if (cartCount) {
+        cartCount.classList.add('updated');
+        setTimeout(() => cartCount.classList.remove('updated'), 300);
+    }
+}
+
+function removeFromCart(itemId) {
+    localCart = localCart.filter(item => item.id !== itemId);
+    localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
+    updateCartDisplay();
+    updateCartCount();
+}
+
+function updateCartQuantity(itemId, delta) {
+    const item = localCart.find(item => item.id === itemId);
+    if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            removeFromCart(itemId);
+        } else {
+            localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
+            updateCartDisplay();
+            updateCartCount();
+        }
+    }
+}
+
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartFooter = document.getElementById('cartFooter');
+    
+    if (!cartItems) return;
+    
+    if (localCart.length === 0) {
+        cartItems.style.display = 'none';
+        cartEmpty.style.display = 'block';
+        cartFooter.style.display = 'none';
+    } else {
+        cartItems.style.display = 'block';
+        cartEmpty.style.display = 'none';
+        cartFooter.style.display = 'block';
+        
+        cartItems.innerHTML = localCart.map(item => `
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-variant">${item.color} / Size ${item.size}</div>
+                    <div class="cart-item-price">$${item.price}</div>
+                    <div class="cart-item-quantity">
+                        <button class="cart-qty-btn" onclick="updateCartQuantity('${item.id}', -1)">-</button>
+                        <span class="cart-qty-display">${item.quantity}</span>
+                        <button class="cart-qty-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
+                    </div>
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `).join('');
+        
+        // Update total
+        const total = localCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const totalElement = document.getElementById('cartTotalPrice');
+        if (totalElement) {
+            totalElement.textContent = `$${total}`;
+        }
+    }
+}
+
+function updateCartCount() {
+    const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCountElement = document.getElementById('headerCartCount');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+}
+
+function proceedToCheckout() {
+    if (localCart.length === 0) {
+        alert('Your cart is empty. Add something first!');
+        return;
+    }
+    
+    // Build Shopify checkout URL with multiple items
+    const cartItems = localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
+    const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}`;
+    
+    // Clear cart after checkout
+    localStorage.removeItem('fabrevoie_cart');
+    localCart = [];
+    
+    // Redirect to Shopify
+    window.location.href = checkoutUrl;
+}
+
+// UPDATE THE buyProduct FUNCTION
+function buyProduct() {
+    if (!state.selectedSize) {
+        const sizeWarning = document.getElementById('sizeWarning');
+        if (sizeWarning) {
+            sizeWarning.style.display = 'block';
+            sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        alert('PICK A SIZE OR GET LOST!');
+        return;
+    }
+    
+    // Visual feedback
+    const buyButton = document.getElementById('buyButton');
+    if (buyButton) {
+        buyButton.innerHTML = 'ADDING TO CART... <i class="fas fa-spinner fa-spin"></i>';
+        buyButton.disabled = true;
+    }
+    
+    // Add to cart instead of direct checkout
+    addToCart(state.currentColor, state.selectedSize);
+    
+    // Reset button after short delay
+    setTimeout(() => {
+        if (buyButton) {
+            buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
+            buyButton.disabled = false;
+        }
+        // Reset size selection
+        resetSizeSelection();
+    }, 500);
+}
 
 // ACCESS DENIED FUNCTIONS
 function showAccessDenied() {
@@ -130,13 +310,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// Remove gender toggle function (unisex only)
-function toggleGender(gender) {
-    // Keep for backward compatibility but do nothing
-    return;
-}
-
-// TIMER FUNCTION
+// TIMER FUNCTION - UPDATED FOR NEW DATES
 function updateTimer() {
     const now = new Date();
     const timeDiff = config.presaleStartDate - now;
@@ -154,15 +328,45 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
+        // Before pre-sale
         const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
+        // 72-hour countdown placeholder
         timerHours.textContent = '72';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
         timerStatus.textContent = 'PRE-SALE STARTS IN';
+        
+        // Actual countdown to presale
+        if (countdownDays) {
+            countdownDays.textContent = days.toString().padStart(2, '0');
+            countdownHours.textContent = hours.toString().padStart(2, '0');
+            countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+            countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+    } else if (now < config.dropDate) {
+        // During pre-sale period
+        const dropTimeDiff = config.dropDate - now;
+        const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+        
+        timerStatus.textContent = 'PRE-SALE LIVE - DROP IN';
+        
+        // Show countdown to drop
+        if (hours < 72) {
+            timerHours.textContent = hours.toString().padStart(2, '0');
+            timerMinutes.textContent = minutes.toString().padStart(2, '0');
+            timerSeconds.textContent = seconds.toString().padStart(2, '0');
+        } else {
+            timerHours.textContent = '72';
+            timerMinutes.textContent = '+';
+            timerSeconds.textContent = '+';
+        }
         
         if (countdownDays) {
             countdownDays.textContent = days.toString().padStart(2, '0');
@@ -171,24 +375,11 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else {
-        const presaleEnd = new Date(config.presaleStartDate.getTime() + (72 * 60 * 60 * 1000));
-        const presaleTimeDiff = presaleEnd - now;
-        
-        if (presaleTimeDiff > 0) {
-            const presaleHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
-            const presaleMinutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const presaleSeconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
-            
-            timerHours.textContent = presaleHours.toString().padStart(2, '0');
-            timerMinutes.textContent = presaleMinutes.toString().padStart(2, '0');
-            timerSeconds.textContent = presaleSeconds.toString().padStart(2, '0');
-            timerStatus.textContent = 'PRE-SALE LIVE';
-        } else {
-            timerHours.textContent = '00';
-            timerMinutes.textContent = '00';
-            timerSeconds.textContent = '00';
-            timerStatus.textContent = 'PRE-SALE ENDED';
-        }
+        // After drop
+        timerHours.textContent = '00';
+        timerMinutes.textContent = '00';
+        timerSeconds.textContent = '00';
+        timerStatus.textContent = 'LIVE NOW';
         
         if (countdownDays) {
             countdownDays.textContent = '00';
@@ -282,67 +473,7 @@ function updateBuyButtonText() {
     const buyButton = document.getElementById('buyButton');
     if (!buyButton) return;
     
-    const colorText = state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1);
-
-    buyButton.innerHTML = state.selectedSize
-        ? `CLAIM ${colorText.toUpperCase()} - SIZE ${state.selectedSize} <i class="fas fa-shopping-cart"></i>`
-        : 'CLAIM YOUR PAIR <i class="fas fa-shopping-cart"></i>';
-}
-
-// SHOPIFY INTEGRATION - SIMPLIFIED
-function buyProduct() {
-    console.log('Buy button clicked!');
-    console.log('Current state:', state);
-    console.log('Selected size:', state.selectedSize);
-    console.log('Selected color:', state.currentColor);
-    
-    if (!state.selectedSize) {
-        const sizeWarning = document.getElementById('sizeWarning');
-        if (sizeWarning) {
-            sizeWarning.style.display = 'block';
-            sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        alert('PICK A SIZE OR GET LOST!');
-        return;
-    }
-
-    // Get the exact variant
-    const variantKey = `${state.currentColor}-${state.selectedSize}`;
-    console.log('Looking for variant key:', variantKey);
-    
-    const variantId = variantMap[variantKey];
-    console.log('Found variant ID:', variantId);
-    
-    if (!variantId) {
-        alert(`This size/color combination is currently unavailable: ${variantKey}`);
-        console.error('Variant not found in map for:', variantKey);
-        console.log('Available variants:', Object.keys(variantMap));
-        return;
-    }
-
-    // Visual feedback
-    const buyButton = document.getElementById('buyButton');
-    if (buyButton) {
-        buyButton.innerHTML = 'PROCESSING YOUR DOMINANCE... <i class="fas fa-spinner fa-spin"></i>';
-        buyButton.disabled = true;
-    }
-
-    // Build the Shopify URL
-    const shopifyUrl = `https://shop.fabrevoie.com/cart/${variantId}:1`;
-    console.log('Redirecting to:', shopifyUrl);
-
-    // Add to cart and redirect to Shopify
-    setTimeout(() => {
-        window.location.href = shopifyUrl;
-    }, 500);
-}
-
-// TEST FUNCTION - Use this to quickly test checkout
-function testShopifyCheckout() {
-    console.log('Testing with Red Size 8...');
-    state.currentColor = 'red';
-    state.selectedSize = '8';
-    buyProduct();
+    buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
 }
 
 // SIZE GUIDE FUNCTIONS
@@ -359,88 +490,6 @@ function closeSizeGuide() {
     if (modal) {
         modal.style.display = 'none';
     }
-}
-
-// OVERLAY FUNCTIONS (For old index.html if still used)
-function showProductOverlay() {
-    const landingContent = document.getElementById('landingContent');
-    const timerContainer = document.getElementById('timerContainer');
-    const productOverlay = document.getElementById('productOverlay');
-    const topLogo = document.getElementById('topLogo');
-    
-    if (landingContent) landingContent.classList.add('hidden');
-    if (timerContainer) timerContainer.style.display = 'none';
-
-    setTimeout(() => {
-        if (productOverlay) {
-            productOverlay.classList.add('active');
-            productOverlay.addEventListener('scroll', handleHeaderScroll);
-        }
-        if (topLogo) topLogo.classList.add('visible');
-        
-        isProductOverlayActive = true;
-        updateProductImage();
-        updateThumbnails();
-        populateSizes();
-    }, 250);
-}
-
-function hideProductOverlay() {
-    const productOverlay = document.getElementById('productOverlay');
-    const topLogo = document.getElementById('topLogo');
-    const header = document.querySelector('.main-header');
-    const timerContainer = document.getElementById('timerContainer');
-    const landingContent = document.getElementById('landingContent');
-    
-    if (productOverlay) {
-        productOverlay.classList.remove('active');
-        productOverlay.removeEventListener('scroll', handleHeaderScroll);
-    }
-    if (topLogo) topLogo.classList.remove('visible');
-    if (header) header.classList.remove('hidden');
-    if (timerContainer) timerContainer.style.display = 'block';
-    
-    isProductOverlayActive = false;
-
-    setTimeout(() => {
-        if (landingContent) landingContent.classList.remove('hidden');
-    }, 250);
-}
-
-// HEADER SCROLL FUNCTIONALITY
-let lastScrollTop = 0;
-let isProductOverlayActive = false;
-
-function handleHeaderScroll() {
-    if (!isProductOverlayActive) return;
-    
-    const productOverlay = document.getElementById('productOverlay');
-    if (!productOverlay) return;
-    
-    const currentScroll = productOverlay.scrollTop;
-    const header = document.querySelector('.main-header');
-    
-    if (header) {
-        if (currentScroll > lastScrollTop && currentScroll > 100) {
-            header.classList.add('hidden');
-        } else {
-            header.classList.remove('hidden');
-        }
-    }
-    lastScrollTop = currentScroll;
-}
-
-// CART FUNCTIONS (Simple - Shopify handles the real cart)
-function toggleCart() {
-    // Redirect to Shopify cart using the new domain
-    window.location.href = `https://shop.fabrevoie.com/cart`;
-}
-
-function updateCartCount() {
-    // This would need Shopify Cart API to get real count
-    // For now, just showing 0
-    const headerCartCount = document.getElementById('headerCartCount');
-    if (headerCartCount) headerCartCount.textContent = '0';
 }
 
 function updatePairsLeft() {
@@ -468,18 +517,6 @@ function startHeaderAnnouncementCycling() {
         }, 500);
 
     }, 3000);
-}
-
-function stopHeaderAnnouncementCycling() {
-    if (state.headerAnnouncementInterval) {
-        clearInterval(state.headerAnnouncementInterval);
-        const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3'];
-        headerPhrases.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.classList.remove('visible');
-        });
-        state.currentHeaderPhraseIndex = 0;
-    }
 }
 
 // INITIALIZATION
@@ -525,6 +562,10 @@ function initVideo() {
 
 // MAIN INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
+    // Load cart from localStorage
+    localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
+    updateCartCount();
+    
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
@@ -552,36 +593,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     initModalClosers();
+    
+    // Add click handler for cart icon
+    const cartIcon = document.querySelector('.header-cart-icon');
+    if (cartIcon) {
+        cartIcon.onclick = toggleCart; // Use custom cart instead of Shopify
+    }
 });
-
-// UTILITY FUNCTIONS
-function formatPrice(price) {
-    return `$${price.toFixed(2)}`;
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// EXPORT FOR USE IN OTHER FILES IF NEEDED
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        state,
-        config,
-        changeProductColor,
-        selectSize,
-        buyProduct,
-        variantMap
-    };
-}
 
 // MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
 window.state = state;
@@ -597,8 +615,11 @@ window.nextImage = nextImage;
 window.previousImage = previousImage;
 window.showAccessDenied = showAccessDenied;
 window.closeAccessDenied = closeAccessDenied;
-window.toggleGender = toggleGender;
 window.updateThumbnails = updateThumbnails;
 window.updateProductImage = updateProductImage;
-window.testShopifyCheckout = testShopifyCheckout;
 window.toggleCart = toggleCart;
+window.closeCart = closeCart;
+window.removeFromCart = removeFromCart;
+window.updateCartQuantity = updateCartQuantity;
+window.proceedToCheckout = proceedToCheckout;
+window.addToCart = addToCart;
