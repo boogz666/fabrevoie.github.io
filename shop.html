@@ -288,6 +288,7 @@
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="shop.html" class="nav-link active">Shop</a>
                 <a href="about.html" class="nav-link">About</a>
+                <a href="#" class="nav-link" onclick="showAccessDenied(); return false;">FAQ</a>
             </nav>
         </div>
         
@@ -298,7 +299,7 @@
         </div>
         
         <div class="header-right">
-            <div class="header-cart-icon" onclick="toggleCart()">
+            <div class="header-cart-icon" onclick="window.location.href='https://lhllparis.myshopify.com/cart'">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="headerCartCount">0</span>
             </div>
@@ -428,7 +429,7 @@
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
-                <!-- UPDATED PRICE -->
+                <!-- PRICE SET TO $269 -->
                 <div class="product-price">$269</div>
                 <p class="product-description">
                     Oversized. Overwhelmingly obnoxious. Exactly how you like it. 
@@ -437,7 +438,7 @@
                     Each step is a middle finger to mediocrity.
                 </p>
                 
-                <!-- SIMPLIFIED SIZE SELECTOR - NO GENDER TOGGLE -->
+                <!-- SIZE SELECTOR - UNISEX WITH UPDATED SIZES -->
                 <div class="size-selector">
                     <div class="size-selector-header">
                         <h4 class="size-title">Pick Your Size (Unisex)</h4>
@@ -445,9 +446,8 @@
                             <i class="fas fa-ruler"></i> Size Guide
                         </button>
                     </div>
-                    <!-- REMOVED GENDER TOGGLE -->
                     <div class="size-options" id="sizeOptions">
-                        <!-- Populated by JS -->
+                        <!-- Will be populated by JS with sizes: 5.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5 -->
                     </div>
                     <div class="size-warning" id="sizeWarning" style="display: none;">
                         PICK A SIZE OR GET LOST
@@ -460,7 +460,7 @@
                     <i class="fas fa-shopping-cart"></i>
                 </button>
                 
-                <!-- Bundle Promo with UPDATED PRICES -->
+                <!-- Bundle Promo with UPDATED PRICES based on $269 -->
                 <div class="bundle-promo">
                     <h3 class="bundle-promo-title">GET GREEDY</h3>
                     <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
@@ -468,21 +468,21 @@
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">DOUBLE TROUBLE</div>
                             <div class="bundle-offer-savings">Save $50</div>
-                            <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
+                            <div class="bundle-offer-description">Two pairs for $488</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">TOTAL TAKEOVER</div>
                             <div class="bundle-offer-savings">Save $100</div>
-                            <div class="bundle-offer-description">Both colors. Maximum chaos.</div>
+                            <div class="bundle-offer-description">Both colors for $438</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">FINAL BOSS MODE</div>
                             <div class="bundle-offer-savings">Save $200+</div>
-                            <div class="bundle-offer-description">4 pairs. Only 10 exist.</div>
+                            <div class="bundle-offer-description">4 pairs for $876. Only 10 exist.</div>
                         </div>
                     </div>
                     <p class="bundle-promo-cta">Stack your arsenal</p>
-                    <a href="checkout.html" class="btn btn-secondary">
+                    <a href="https://lhllparis.myshopify.com/products/sbhmn-1" class="btn btn-secondary">
                         <i class="fas fa-crown"></i> CLAIM BUNDLES
                     </a>
                 </div>
@@ -557,6 +557,7 @@
             <div class="size-guide-body">
                 <div class="size-note">
                     <p>Our SBHMN 1 sneakers run large because subtlety is dead. One size fits all genders - we don't discriminate in chaos.</p>
+                    <p><strong>Available sizes: 5.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5</strong></p>
                 </div>
 
                 <table class="size-chart">
@@ -599,6 +600,11 @@
             // Ensure page is scrollable
             document.body.style.overflow = 'auto';
             document.documentElement.style.overflow = 'auto';
+            
+            // Populate sizes from config
+            if (typeof populateSizes === 'function') {
+                populateSizes();
+            }
         });
         
         // Override any color option click handlers to prevent keyboard
@@ -613,15 +619,15 @@
             });
         });
         
-        // Update price in JS if needed
-        if (typeof state !== 'undefined') {
-            state.productPrice = 269;
-        }
-        
         // Close access denied modal when clicking outside
-        document.getElementById('accessDeniedModal').addEventListener('click', function(e) {
-            if (e.target === this) closeAccessDenied();
-        });
+        const accessDeniedModal = document.getElementById('accessDeniedModal');
+        if (accessDeniedModal) {
+            accessDeniedModal.addEventListener('click', function(e) {
+                if (e.target === this && typeof closeAccessDenied === 'function') {
+                    closeAccessDenied();
+                }
+            });
+        }
     </script>
 </body>
 </html>
