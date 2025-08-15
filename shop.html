@@ -121,6 +121,96 @@
         .bg-video {
             filter: brightness(0.3); /* Darken the video */
         }
+        
+        /* ACCESS DENIED MODAL (RESTORED) */
+        .access-denied-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .access-denied-modal.active {
+            display: flex;
+        }
+
+        .access-denied-content {
+            background: #000;
+            border: 3px solid #ffff00;
+            border-radius: 0;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
+        }
+
+        .access-denied-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffff00 0px,
+                #ffff00 20px,
+                #000 20px,
+                #000 40px
+            );
+            z-index: -1;
+            border-radius: 0;
+        }
+
+        .access-denied-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 2rem;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .access-denied-text {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .access-denied-close {
+            background: #ffff00;
+            border: none;
+            border-radius: 0;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 16px;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .access-denied-close:hover {
+            background: #000;
+            color: #ffff00;
+            border: 2px solid #ffff00;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +228,19 @@
         <source src="assets/videos/bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
+
+    <!-- Access Denied Modal (RESTORED) -->
+    <div class="access-denied-modal" id="accessDeniedModal">
+        <div class="access-denied-content">
+            <h2 class="access-denied-title">ACCESS DENIED</h2>
+            <p class="access-denied-text">
+                Nice try, but no.<br>
+                We're too busy counting money and ignoring emails.<br>
+                This page is more exclusive than your dreams.
+            </p>
+            <button class="access-denied-close" onclick="closeAccessDenied()">FINE, WHATEVER</button>
+        </div>
+    </div>
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
@@ -378,7 +481,7 @@
                         <li><a href="#" onclick="openSizeGuide()">Size Guide</a></li>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns (Good Luck)</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">FAQ</a></li>
                     </ul>
                 </div>
 
@@ -386,9 +489,10 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="story.html">Our Chaos</a></li>
-                        <li><a href="careers.html">Join the Dark Side</a></li>
-                        <li><a href="press.html">Press</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Our Chaos</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Join the Dark Side</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Press</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">World Domination Plans</a></li>
                     </ul>
                 </div>
 
@@ -398,7 +502,7 @@
                         <li><a href="privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms (Non-Negotiable)</a></li>
                         <li><a href="returns.html">No Refunds Policy</a></li>
-                        <li><a href="cookies.html">Cookie Warning</a></li>
+                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Cookie Warning</a></li>
                     </ul>
                 </div>
             </div>
@@ -479,6 +583,11 @@
         if (typeof state !== 'undefined') {
             state.productPrice = 269;
         }
+        
+        // Close access denied modal when clicking outside
+        document.getElementById('accessDeniedModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAccessDenied();
+        });
     </script>
 </body>
 </html>
