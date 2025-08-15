@@ -125,16 +125,46 @@
         Your browser does not support background video.
     </video>
 
+    <!-- Announcement Bar (RESTORED) -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            FIRST COME, FIRST SERVED. • PRE-SALE START ON OCTOBER 11TH • LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC) • 
+        </div>
+    </div>
+
+    <!-- Announcement Header (RESTORED) -->
+    <div class="announcement-header">
+        <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
+        <div class="announcement-phrase" id="headerPhrase2">PRE-SALE START ON OCTOBER 11TH</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC)</div>
+    </div>
+
     <!-- Simple Header for Landing -->
-    <header class="landing-header">
-        <nav class="landing-nav">
-            <a href="shop.html" class="nav-link">Shop</a>
-            <a href="about.html" class="nav-link">About</a>
-            <a href="contact.html" class="nav-link">Contact</a>
-        </nav>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html">
+                <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="sticky-logo">
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="about.html" class="nav-link">About</a>
+            </nav>
+        </div>
+
+        <div class="header-center">
+            <img src="assets/images/FNAME.png" alt="Fabrevoie" class="top-logo" id="topLogo">
+        </div>
+
+        <div class="header-right">
+            <div class="header-cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="headerCartCount">0</span>
+            </div>
+        </div>
     </header>
 
-    <!-- Timer (Optional on landing) -->
+    <!-- Timer Container (RESTORED FULL VERSION) -->
     <div class="timer-container" id="timerContainer">
         <div class="timer-display">
             <div class="timer-unit">
@@ -150,7 +180,25 @@
                 <div class="timer-label">Seconds</div>
             </div>
         </div>
-        <div class="timer-status">PRE-SALE STARTS IN</div>
+        <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
+        <div class="countdown-display">
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownDays">116</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownHours">12</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownMinutes">30</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="countdown-number" id="countdownSeconds">45</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
         <div class="pairs-left">
             <span id="pairsLeft">100</span>/100 PAIRS LEFT
         </div>
@@ -159,11 +207,14 @@
     <!-- Main Landing Content -->
     <div class="content-container">
         <div class="content-wrapper">
-            <div class="landing-content">
+            <div class="landing-content" id="landingContent">
                 <!-- Logo -->
                 <div class="logo-container">
                     <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
                 </div>
+
+                <!-- Tagline (optional) -->
+                <p class="tagline" style="display: none;">FOR THOSE WHO REFUSE TO WHISPER</p>
 
                 <!-- Shop Button -->
                 <a href="shop.html" class="btn btn-primary">
@@ -171,7 +222,7 @@
                     <i class="fas fa-arrow-right"></i>
                 </a>
 
-                <!-- NEW: Email Signup -->
+                <!-- Email Signup -->
                 <div class="email-signup">
                     <div class="email-signup-title">Join the Chaos</div>
                     <form class="email-form" id="emailForm">
@@ -191,10 +242,10 @@
                 <!-- Social icons -->
                 <div class="social-container">
                     <div class="social-icons">
-                        <a href="https://www.instagram.com/fabrevoie" target="_blank">
+                        <a href="https://www.instagram.com/fabrevoie" target="_blank" aria-label="Follow us on Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank">
+                        <a href="https://www.tiktok.com/@fabrevoie" target="_blank" aria-label="Follow us on TikTok">
                             <i class="fab fa-tiktok"></i>
                         </a>
                     </div>
@@ -224,6 +275,14 @@
                 e.target.querySelector('.email-submit').textContent = 'SUBMIT';
                 e.target.querySelector('.email-submit').style.background = '';
             }, 3000);
+        });
+
+        // Start the announcement header cycling
+        document.addEventListener('DOMContentLoaded', function() {
+            // This function should be in your main.js but adding here for safety
+            if (typeof startHeaderAnnouncementCycling === 'function') {
+                startHeaderAnnouncementCycling();
+            }
         });
     </script>
 </body>
