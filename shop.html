@@ -25,14 +25,21 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <style>
-        /* Shop Page Specific - Remove the direct background-image */
+        /* CRITICAL FIX: Allow scrolling on shop page */
+        html, body {
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            height: auto !important;
+        }
+        
+        /* Shop Page Specific */
         .shop-header {
             position: fixed;
             top: 44px; /* Account for announcement header */
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             padding: 20px 40px;
             display: flex;
@@ -40,15 +47,65 @@
             align-items: center;
         }
         
+        /* DARKER BACKGROUND OVERLAY */
         .product-container {
             position: relative;
             z-index: 10;
-            background: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay like original */
+            background: rgba(0, 0, 0, 0.75); /* Much darker overlay */
+            min-height: 100vh;
         }
         
+        /* FIX COLOR SELECTOR CENTERING */
         .color-selector-moved {
             margin-bottom: 30px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* FIX COLOR OPTIONS - Remove any input-like behavior */
+        .color-option {
+            width: 60px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none; /* Prevent text selection */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            pointer-events: auto; /* Ensure clickable */
+            -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+        }
+        
+        .color-option:focus {
+            outline: none; /* Remove focus outline that might trigger keyboard */
+        }
+        
+        .color-option.red { 
+            background: #dc3545; 
+        }
+        
+        .color-option.black { 
+            background: #000000; 
+            border: 3px solid #333; 
+        }
+        
+        .color-option.active {
+            border-color: var(--color-primary) !important;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
         }
         
         .color-options-label {
@@ -57,13 +114,12 @@
             color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 5px;
+            margin-top: 5px;
         }
         
-        .color-option-wrapper {
-            display: inline-block;
-            text-align: center;
-            margin: 0 10px;
+        /* Ensure video background is darker */
+        .bg-video {
+            filter: brightness(0.3); /* Darken the video */
         }
     </style>
 </head>
@@ -76,21 +132,21 @@
         <div class="loading-text">LOADING</div>
     </div>
 
-    <!-- Background Video (SAME AS HOMEPAGE) -->
+    <!-- Background Video (Darkened) -->
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
         <source src="assets/videos/bibi.mp4" type="video/mp4">
         <source src="assets/videos/bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
 
-    <!-- Announcement Bar (RESTORED) -->
+    <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
             FIRST COME, FIRST SERVED. • PRE-SALE START ON OCTOBER 11TH • LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC) • 
         </div>
     </div>
 
-    <!-- Announcement Header (RESTORED) -->
+    <!-- Announcement Header -->
     <div class="announcement-header">
         <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
         <div class="announcement-phrase" id="headerPhrase2">PRE-SALE START ON OCTOBER 11TH</div>
@@ -118,7 +174,7 @@
         </div>
     </header>
 
-    <!-- Timer Container (Optional for shop page, but keeping for consistency) -->
+    <!-- Timer Container -->
     <div class="timer-container" id="timerContainer" style="top: 140px;">
         <div class="timer-display">
             <div class="timer-unit">
@@ -159,22 +215,16 @@
     </div>
 
     <!-- Product Container -->
-    <div class="product-container" style="padding-top: 140px; min-height: 100vh;">
+    <div class="product-container" style="padding-top: 140px;">
         <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
             <!-- Left: Images -->
             <div class="product-image-section">
-                <!-- Color Selector ABOVE Images -->
+                <!-- FIXED: Centered Color Selector -->
                 <div class="color-selector-moved">
                     <div class="color-selector-title">Choose Your Poison</div>
                     <div class="color-options">
-                        <div class="color-option-wrapper">
-                            <div class="color-options-label">Red</div>
-                            <div class="color-option red active" data-color="red" onclick="changeProductColor('red')"></div>
-                        </div>
-                        <div class="color-option-wrapper">
-                            <div class="color-options-label">Black</div>
-                            <div class="color-option black" data-color="black" onclick="changeProductColor('black')"></div>
-                        </div>
+                        <div class="color-option red active" data-color="red" onclick="changeProductColor('red')" tabindex="-1"></div>
+                        <div class="color-option black" data-color="black" onclick="changeProductColor('black')" tabindex="-1"></div>
                     </div>
                 </div>
                 
@@ -241,7 +291,8 @@
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
-                <div class="product-price">$349</div>
+                <!-- UPDATED PRICE -->
+                <div class="product-price">$269</div>
                 <p class="product-description">
                     Oversized. Overwhelmingly obnoxious. Exactly how you like it. 
                     Built for those who enter rooms like natural disasters. 
@@ -249,18 +300,15 @@
                     Each step is a middle finger to mediocrity.
                 </p>
                 
-                <!-- Size Selector -->
+                <!-- SIMPLIFIED SIZE SELECTOR - NO GENDER TOGGLE -->
                 <div class="size-selector">
                     <div class="size-selector-header">
-                        <h4 class="size-title">Pick Your Size</h4>
+                        <h4 class="size-title">Pick Your Size (Unisex)</h4>
                         <button class="size-guide-btn" onclick="openSizeGuide()">
                             <i class="fas fa-ruler"></i> Size Guide
                         </button>
                     </div>
-                    <div class="gender-toggle">
-                        <button class="gender-option active" id="womensOption" onclick="toggleGender('womens')">Women's</button>
-                        <button class="gender-option" id="mensOption" onclick="toggleGender('mens')">Men's</button>
-                    </div>
+                    <!-- REMOVED GENDER TOGGLE -->
                     <div class="size-options" id="sizeOptions">
                         <!-- Populated by JS -->
                     </div>
@@ -275,24 +323,24 @@
                     <i class="fas fa-shopping-cart"></i>
                 </button>
                 
-                <!-- Bundle Promo -->
+                <!-- Bundle Promo with UPDATED PRICES -->
                 <div class="bundle-promo">
                     <h3 class="bundle-promo-title">GET GREEDY</h3>
                     <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
                     <div class="bundle-offers">
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">DOUBLE TROUBLE</div>
-                            <div class="bundle-offer-savings">Save $78</div>
+                            <div class="bundle-offer-savings">Save $50</div>
                             <div class="bundle-offer-description">Two pairs to terrorize twice as hard.</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">TOTAL TAKEOVER</div>
-                            <div class="bundle-offer-savings">Save $147</div>
+                            <div class="bundle-offer-savings">Save $100</div>
                             <div class="bundle-offer-description">Both colors. Maximum chaos.</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">FINAL BOSS MODE</div>
-                            <div class="bundle-offer-savings">Save $300+</div>
+                            <div class="bundle-offer-savings">Save $200+</div>
                             <div class="bundle-offer-description">4 pairs. Only 10 exist.</div>
                         </div>
                     </div>
@@ -365,12 +413,12 @@
     <div class="size-guide-modal" id="sizeGuideModal" style="display: none;">
         <div class="size-guide-content">
             <div class="size-guide-header">
-                <h3>Size Guide</h3>
+                <h3>Size Guide (Unisex)</h3>
                 <button class="close-modal" onclick="closeSizeGuide()">×</button>
             </div>
             <div class="size-guide-body">
                 <div class="size-note">
-                    <p>Our SBHMN 1 sneakers run large because subtlety is dead. Size down if you're weak.</p>
+                    <p>Our SBHMN 1 sneakers run large because subtlety is dead. One size fits all genders - we don't discriminate in chaos.</p>
                 </div>
 
                 <table class="size-chart">
@@ -404,11 +452,27 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Start announcement header cycling for shop page too
+        // Start announcement header cycling for shop page
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
                 startHeaderAnnouncementCycling();
             }
+            
+            // Ensure page is scrollable
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        });
+        
+        // Override any color option click handlers to prevent keyboard
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Blur any focused element to prevent keyboard
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+            });
         });
     </script>
 </body>
