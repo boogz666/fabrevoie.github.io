@@ -1,3 +1,10 @@
+// FABREVOIE MAIN.JS - UPDATED WITH shop.fabrevoie.com
+// Last Updated: Aug 15, 2025
+// Shop Domain: shop.fabrevoie.com
+// 
+// QUICK TEST: Open console and type: testShopifyCheckout()
+// This will test Red Size 8 checkout flow
+
 // STATE MANAGEMENT
 const state = {
     currentColor: 'red',
@@ -44,7 +51,7 @@ const config = {
     presaleStartDate: new Date('2025-10-07T14:00:00+02:00'),
     productPrice: 269,
     presalePrice: 229,
-    shopifyDomain: 'lhllparis.myshopify.com',
+    shopifyDomain: 'shop.fabrevoie.com', // UPDATED TO YOUR NEW DOMAIN!
     productHandle: 'sbhmn-1',
     
     productImages: {
@@ -321,13 +328,21 @@ function buyProduct() {
     }
 
     // Build the Shopify URL
-    const shopifyUrl = `https://${config.shopifyDomain}/cart/${variantId}:1`;
+    const shopifyUrl = `https://shop.fabrevoie.com/cart/${variantId}:1`;
     console.log('Redirecting to:', shopifyUrl);
 
     // Add to cart and redirect to Shopify
     setTimeout(() => {
         window.location.href = shopifyUrl;
     }, 500);
+}
+
+// TEST FUNCTION - Use this to quickly test checkout
+function testShopifyCheckout() {
+    console.log('Testing with Red Size 8...');
+    state.currentColor = 'red';
+    state.selectedSize = '8';
+    buyProduct();
 }
 
 // SIZE GUIDE FUNCTIONS
@@ -417,8 +432,8 @@ function handleHeaderScroll() {
 
 // CART FUNCTIONS (Simple - Shopify handles the real cart)
 function toggleCart() {
-    // Since we're using Shopify's cart, just redirect to cart page
-    window.location.href = `https://${config.shopifyDomain}/cart`;
+    // Redirect to Shopify cart using the new domain
+    window.location.href = `https://shop.fabrevoie.com/cart`;
 }
 
 function updateCartCount() {
@@ -585,3 +600,5 @@ window.closeAccessDenied = closeAccessDenied;
 window.toggleGender = toggleGender;
 window.updateThumbnails = updateThumbnails;
 window.updateProductImage = updateProductImage;
+window.testShopifyCheckout = testShopifyCheckout;
+window.toggleCart = toggleCart;
