@@ -57,11 +57,12 @@ function closeAccessDenied() {
 }
 
 // SIZE FUNCTIONS (SIMPLIFIED - No gender toggle needed)
+// Simplify populateSizes to not check for gender
 function populateSizes() {
     const sizeOptions = document.getElementById('sizeOptions');
-    if (!sizeOptions) return; // Check if element exists (for landing page)
+    if (!sizeOptions) return;
     
-    const sizes = config.sizes;
+    const sizes = config.sizes; // Just use the sizes directly
     
     sizeOptions.innerHTML = sizes.map(size => `
         <div class="size-option" data-size="${size}" onclick="selectSize('${size}')">${size}</div>
@@ -83,12 +84,6 @@ function updateSizeChart() {
             <td>${row.inches}</td>
         </tr>
     `).join('');
-}
-
-// Remove gender toggle function since you don't need it
-function toggleGender(gender) {
-    // Keep for backward compatibility but do nothing
-    return;
 }
 
 // TIMER FUNCTION
@@ -243,8 +238,8 @@ function buyProduct() {
         name: 'SBHMN 1',
         color: state.currentColor,
         size: state.selectedSize,
-        price: 349,
-        image: config.productImages[state.currentColor][0]
+        price: 269,
+        image: config.productImages[state.currentColor][0]s
     };
     sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
 
