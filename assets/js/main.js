@@ -239,7 +239,7 @@ function buyProduct() {
         color: state.currentColor,
         size: state.selectedSize,
         price: 269,
-        image: config.productImages[state.currentColor][0]s
+        image: config.productImages[state.currentColor][0]
     };
     sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
 
