@@ -129,6 +129,96 @@
             filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
             transform: scale(1.05);
         }
+        
+        /* ACCESS DENIED MODAL */
+        .access-denied-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .access-denied-modal.active {
+            display: flex;
+        }
+
+        .access-denied-content {
+            background: #000;
+            border: 3px solid #ffff00;
+            border-radius: 0;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
+        }
+
+        .access-denied-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffff00 0px,
+                #ffff00 20px,
+                #000 20px,
+                #000 40px
+            );
+            z-index: -1;
+            border-radius: 0;
+        }
+
+        .access-denied-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 2rem;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .access-denied-text {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .access-denied-close {
+            background: #ffff00;
+            border: none;
+            border-radius: 0;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 16px;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .access-denied-close:hover {
+            background: #000;
+            color: #ffff00;
+            border: 2px solid #ffff00;
+        }
     </style>
 </head>
 <body>
@@ -184,6 +274,7 @@
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="shop.html" class="nav-link">Shop</a>
                 <a href="about.html" class="nav-link">About</a>
+                <a href="#" class="nav-link" onclick="showAccessDenied(); return false;">FAQ</a>
             </nav>
         </div>
 
@@ -194,7 +285,7 @@
         </div>
 
         <div class="header-right">
-            <div class="header-cart-icon" onclick="toggleCart()">
+            <div class="header-cart-icon" onclick="window.location.href='https://lhllparis.myshopify.com/cart'">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="headerCartCount">0</span>
             </div>
@@ -332,5 +423,12 @@
             }
         });
     </script>
+    
+    <!-- Footer for consistency -->
+    <footer class="main-footer" style="position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.9); padding: 10px 0; display: none;">
+        <div class="footer-bottom">
+            <p style="margin: 0; text-align: center; font-size: 12px; color: #888;">&copy; 2025, Fabrevoie, Inc. | Don't be the best... Be the worst.</p>
+        </div>
+    </footer>
 </body>
 </html>
