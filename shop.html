@@ -73,7 +73,7 @@
         .product-container {
             position: relative;
             z-index: 10;
-            background: rgba(0, 0, 0, 0.75); /* Much darker overlay */
+            background: rgba(0, 0, 0, 0.75);
             min-height: 100vh;
         }
         
@@ -87,6 +87,21 @@
             gap: 15px;
         }
         
+        .color-option-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .color-label {
+            font-family: var(--font-headers);
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         .color-options {
             display: flex;
             gap: 20px;
@@ -94,7 +109,7 @@
             align-items: center;
         }
         
-        /* FIX COLOR OPTIONS - Remove any input-like behavior */
+        /* FIX COLOR OPTIONS */
         .color-option {
             width: 60px;
             height: 40px;
@@ -103,16 +118,16 @@
             border: 3px solid transparent;
             transition: all 0.3s ease;
             position: relative;
-            user-select: none; /* Prevent text selection */
+            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            pointer-events: auto; /* Ensure clickable */
-            -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .color-option:focus {
-            outline: none; /* Remove focus outline that might trigger keyboard */
+            outline: none;
         }
         
         .color-option.red { 
@@ -130,21 +145,12 @@
             box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
         }
         
-        .color-options-label {
-            font-family: var(--font-headers);
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-        
         /* Ensure video background is darker */
         .bg-video {
-            filter: brightness(0.3); /* Darken the video */
+            filter: brightness(0.3);
         }
         
-        /* ACCESS DENIED MODAL (RESTORED) */
+        /* ACCESS DENIED MODAL */
         .access-denied-modal {
             position: fixed;
             top: 0;
@@ -251,7 +257,7 @@
         Your browser does not support background video.
     </video>
 
-    <!-- Access Denied Modal (RESTORED) -->
+    <!-- Access Denied Modal -->
     <div class="access-denied-modal" id="accessDeniedModal">
         <div class="access-denied-content">
             <h2 class="access-denied-title">ACCESS DENIED</h2>
@@ -267,15 +273,15 @@
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
-            FIRST COME, FIRST SERVED. • PRE-SALE START ON OCTOBER 11TH • LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC) • 
+            FIRST COME, FIRST SERVED. • PRE-SALE STARTS AUGUST 21ST 8AM NYC • LIVE DROP SEPTEMBER 5TH 8AM NYC • 
         </div>
     </div>
 
     <!-- Announcement Header -->
     <div class="announcement-header">
         <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
-        <div class="announcement-phrase" id="headerPhrase2">PRE-SALE START ON OCTOBER 11TH</div>
-        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP TUESDAY OCTOBER 14TH AT 2PM PARIS (8AM NYC)</div>
+        <div class="announcement-phrase" id="headerPhrase2">PRE-SALE STARTS AUGUST 21ST 8AM NYC</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP SEPTEMBER 5TH 8AM NYC</div>
     </div>
 
     <!-- Shop Header with Center Logo -->
@@ -299,7 +305,7 @@
         </div>
         
         <div class="header-right">
-            <div class="header-cart-icon" onclick="window.location.href='https://shop.fabrevoie.com/cart'">
+            <div class="header-cart-icon" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="headerCartCount">0</span>
             </div>
@@ -325,19 +331,19 @@
         <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
         <div class="countdown-display">
             <div class="countdown-unit">
-                <div class="countdown-number" id="countdownDays">116</div>
+                <div class="countdown-number" id="countdownDays">00</div>
                 <div class="countdown-label">Days</div>
             </div>
             <div class="countdown-unit">
-                <div class="countdown-number" id="countdownHours">12</div>
+                <div class="countdown-number" id="countdownHours">00</div>
                 <div class="countdown-label">Hours</div>
             </div>
             <div class="countdown-unit">
-                <div class="countdown-number" id="countdownMinutes">30</div>
+                <div class="countdown-number" id="countdownMinutes">00</div>
                 <div class="countdown-label">Minutes</div>
             </div>
             <div class="countdown-unit">
-                <div class="countdown-number" id="countdownSeconds">45</div>
+                <div class="countdown-number" id="countdownSeconds">00</div>
                 <div class="countdown-label">Seconds</div>
             </div>
         </div>
@@ -351,7 +357,7 @@
         <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
             <!-- Left: Images -->
             <div class="product-image-section">
-                <!-- FIXED: Color Selector with Labels -->
+                <!-- Color Selector with Labels -->
                 <div class="color-selector-moved">
                     <div class="color-selector-title">Choose Your Poison</div>
                     <div class="color-options">
@@ -429,7 +435,6 @@
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
-                <!-- PRICE SET TO $269 -->
                 <div class="product-price">$269</div>
                 <p class="product-description">
                     Oversized. Overwhelmingly obnoxious. Exactly how you like it. 
@@ -438,7 +443,7 @@
                     Each step is a middle finger to mediocrity.
                 </p>
                 
-                <!-- SIZE SELECTOR - UNISEX WITH UPDATED SIZES -->
+                <!-- SIZE SELECTOR -->
                 <div class="size-selector">
                     <div class="size-selector-header">
                         <h4 class="size-title">Pick Your Size (Unisex)</h4>
@@ -447,7 +452,7 @@
                         </button>
                     </div>
                     <div class="size-options" id="sizeOptions">
-                        <!-- Will be populated by JS with sizes: 5.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5 -->
+                        <!-- Will be populated by JS -->
                     </div>
                     <div class="size-warning" id="sizeWarning" style="display: none;">
                         PICK A SIZE OR GET LOST
@@ -456,11 +461,11 @@
                 
                 <!-- Buy Button -->
                 <button class="btn btn-primary buy-button" id="buyButton" onclick="buyProduct()">
-                    CLAIM YOUR PAIR
+                    ADD TO CART
                     <i class="fas fa-shopping-cart"></i>
                 </button>
                 
-                <!-- Bundle Promo with UPDATED PRICES based on $269 -->
+                <!-- Bundle Promo -->
                 <div class="bundle-promo">
                     <h3 class="bundle-promo-title">GET GREEDY</h3>
                     <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
@@ -515,7 +520,7 @@
                         <li><a href="#" onclick="openSizeGuide()">Size Guide</a></li>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns (Good Luck)</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">FAQ</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">FAQ</a></li>
                     </ul>
                 </div>
 
@@ -523,10 +528,10 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Our Chaos</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Join the Dark Side</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Press</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">World Domination Plans</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">Our Chaos</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">Join the Dark Side</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">Press</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">World Domination Plans</a></li>
                     </ul>
                 </div>
 
@@ -536,7 +541,7 @@
                         <li><a href="privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms (Non-Negotiable)</a></li>
                         <li><a href="returns.html">No Refunds Policy</a></li>
-                        <li><a href="#" class="access-denied-link" onclick="showAccessDenied(); return false;">Cookie Warning</a></li>
+                        <li><a href="#" onclick="showAccessDenied(); return false;">Cookie Warning</a></li>
                     </ul>
                 </div>
             </div>
@@ -589,6 +594,37 @@
         </div>
     </div>
 
+    <!-- Custom Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-backdrop" onclick="closeCart()"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">YOUR ARSENAL</h2>
+                <button class="cart-close" onclick="closeCart()">×</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be populated here -->
+            </div>
+            
+            <div class="cart-empty" id="cartEmpty" style="display: none;">
+                <p>Your cart is pathetically empty.</p>
+                <p>Go claim something.</p>
+            </div>
+            
+            <div class="cart-footer" id="cartFooter">
+                <div class="cart-total">
+                    <span>TOTAL DAMAGE:</span>
+                    <span class="cart-total-price" id="cartTotalPrice">$0</span>
+                </div>
+                <button class="cart-checkout-btn" onclick="proceedToCheckout()">
+                    CHECKOUT NOW
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
     <script>
         // Start announcement header cycling for shop page
@@ -605,10 +641,6 @@
             if (typeof populateSizes === 'function') {
                 populateSizes();
             }
-            
-            // Quick test - log domain
-            console.log('Shop domain configured:', config.shopifyDomain);
-            console.log('Test cart URL:', `https://${config.shopifyDomain}/cart`);
         });
         
         // Override any color option click handlers to prevent keyboard
@@ -616,7 +648,6 @@
             option.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                // Blur any focused element to prevent keyboard
                 if (document.activeElement) {
                     document.activeElement.blur();
                 }
@@ -632,16 +663,6 @@
                 }
             });
         }
-        
-        // TEST FUNCTION - Remove after testing
-        function testCheckout() {
-            console.log('Testing checkout with Red Size 8...');
-            const testVariantId = '52151827267911'; // Red Size 8
-            const testUrl = `https://shop.fabrevoie.com/cart/${testVariantId}:1`;
-            console.log('Redirecting to:', testUrl);
-            window.location.href = testUrl;
-        }
-        console.log('💡 TIP: Type testCheckout() in console to test the cart!');
     </script>
 </body>
 </html>
