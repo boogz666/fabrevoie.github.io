@@ -32,18 +32,21 @@ const config = {
     // SIMPLIFIED: 10 sizes only
     sizes: ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5'],
     
-    // SIMPLIFIED SIZE CHART
+    // UPDATED: 10 most popular sizes (7-12 range covers most adults)
+sizes: ['7', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+
+    // UPDATED SIZE CHART
     sizeChart: [
-        { us: '5', eu: '37', uk: '4', cm: '23.0', inches: '9.1' },
-        { us: '5.5', eu: '37.5', uk: '4.5', cm: '23.5', inches: '9.3' },
-        { us: '6', eu: '38', uk: '5', cm: '24.0', inches: '9.4' },
-        { us: '6.5', eu: '38.5', uk: '5.5', cm: '24.5', inches: '9.6' },
-        { us: '7', eu: '39', uk: '6', cm: '24.5', inches: '9.6' },
-        { us: '7.5', eu: '40', uk: '6.5', cm: '25.0', inches: '9.8' },
-        { us: '8', eu: '40.5', uk: '7', cm: '25.5', inches: '10.0' },
-        { us: '8.5', eu: '41', uk: '7.5', cm: '25.5', inches: '10.0' },
-        { us: '9', eu: '42', uk: '8', cm: '26.0', inches: '10.2' },
-        { us: '9.5', eu: '42.5', uk: '8.5', cm: '26.5', inches: '10.4' }
+        { us: '7', eu: '40', uk: '6', cm: '25.0', inches: '9.8' },
+        { us: '8', eu: '41', uk: '7', cm: '25.5', inches: '10.0' },
+        { us: '8.5', eu: '41.5', uk: '7.5', cm: '26.0', inches: '10.2' },
+        { us: '9', eu: '42', uk: '8', cm: '26.5', inches: '10.4' },
+        { us: '9.5', eu: '42.5', uk: '8.5', cm: '27.0', inches: '10.6' },
+        { us: '10', eu: '43', uk: '9', cm: '27.5', inches: '10.8' },
+        { us: '10.5', eu: '44', uk: '9.5', cm: '28.0', inches: '11.0' },
+        { us: '11', eu: '44.5', uk: '10', cm: '28.5', inches: '11.2' },
+        { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' },
+        { us: '12', eu: '46', uk: '11', cm: '29.5', inches: '11.6' }
     ]
 };
 
