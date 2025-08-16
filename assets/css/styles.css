@@ -329,7 +329,7 @@ body:not(.loaded) .main-header { opacity: 0; }
 
 .top-logo.visible { opacity: 1; }
 
-/* ANIMATED BIRD'S NEST CART ICON */
+/* SPIDER WEB CART ICON WITH TRAPPED FLIES */
 .header-cart-icon {
     color: var(--color-primary);
     font-size: 24px;
@@ -346,95 +346,164 @@ body:not(.loaded) .main-header { opacity: 0; }
     transform: scale(1.05);
 }
 
-.nest-container {
+.web-container {
     position: relative;
-    width: 32px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nest-base {
+.spider-web {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 28px;
-    height: 12px;
-    background: #8B4513;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    border: 2px solid #654321;
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, transparent 20%, rgba(200, 200, 200, 0.1) 21%, rgba(200, 200, 200, 0.1) 22%, transparent 23%),
+                radial-gradient(circle, transparent 40%, rgba(200, 200, 200, 0.1) 41%, rgba(200, 200, 200, 0.1) 42%, transparent 43%),
+                radial-gradient(circle, transparent 60%, rgba(200, 200, 200, 0.1) 61%, rgba(200, 200, 200, 0.1) 62%, transparent 63%);
+    border-radius: 50%;
 }
 
-.nest-base::before {
+.spider-web::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: 50%;
-    background: linear-gradient(45deg, #A0522D, #8B4513);
-    border-radius: 50% 50% 0 0;
-    z-index: -1;
-}
-
-.nest-birds {
-    position: absolute;
-    top: -8px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    gap: 2px;
-    z-index: 10;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        transparent 0%, 
+        rgba(200, 200, 200, 0.3) 10%, 
+        rgba(200, 200, 200, 0.6) 50%, 
+        rgba(200, 200, 200, 0.3) 90%, 
+        transparent 100%);
+    box-shadow: 
+        12px 0 0 rgba(200, 200, 200, 0.4),
+        -12px 0 0 rgba(200, 200, 200, 0.4),
+        24px 0 0 rgba(200, 200, 200, 0.2),
+        -24px 0 0 rgba(200, 200, 200, 0.2);
 }
 
-.baby-bird {
-    width: 6px;
+.spider-web::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) rotate(45deg);
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, 
+        transparent 0%, 
+        rgba(200, 200, 200, 0.3) 10%, 
+        rgba(200, 200, 200, 0.6) 50%, 
+        rgba(200, 200, 200, 0.3) 90%, 
+        transparent 100%);
+    box-shadow: 
+        0 12px 0 rgba(200, 200, 200, 0.4),
+        0 -12px 0 rgba(200, 200, 200, 0.4);
+}
+
+.spider {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
     height: 6px;
-    background: #FFD700;
+    background: #000;
     border-radius: 50%;
-    position: relative;
-    animation: chirp 2s infinite;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 15;
+    animation: spiderMove 4s infinite ease-in-out;
 }
 
-.baby-bird.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.baby-bird::before {
+.spider::before {
     content: '';
     position: absolute;
     top: -1px;
     left: -2px;
-    width: 3px;
+    width: 12px;
     height: 2px;
-    background: #FF8C00;
-    border-radius: 50%;
+    background: 
+        radial-gradient(1px 1px at 0px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 3px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 6px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 9px 0px, #000 50%, transparent 50%);
 }
 
-.baby-bird::after {
+.spider::after {
     content: '';
     position: absolute;
-    top: 1px;
-    right: -1px;
-    width: 1px;
-    height: 1px;
+    bottom: -1px;
+    left: -2px;
+    width: 12px;
+    height: 2px;
+    background: 
+        radial-gradient(1px 1px at 0px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 3px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 6px 0px, #000 50%, transparent 50%),
+        radial-gradient(1px 1px at 9px 0px, #000 50%, transparent 50%);
+}
+
+@keyframes spiderMove {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-3px, 2px); }
+    50% { transform: translate(2px, -1px); }
+    75% { transform: translate(-1px, 3px); }
+}
+
+.web-flies {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.trapped-fly {
+    position: absolute;
+    width: 4px;
+    height: 3px;
     background: #000;
     border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes chirp {
-    0%, 100% { transform: translateY(0) scale(1); }
-    25% { transform: translateY(-2px) scale(1.1); }
-    75% { transform: translateY(-1px) scale(0.95); }
+.trapped-fly.show {
+    opacity: 1;
+    transform: scale(1);
+    animation: flyStruggle 1.5s infinite ease-in-out;
 }
 
-.nest-count {
+.trapped-fly::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: 
+        radial-gradient(1px 1px at 1px 0px, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+        radial-gradient(1px 1px at 3px 0px, rgba(255, 255, 255, 0.6) 50%, transparent 50%);
+    animation: flyWings 0.1s infinite alternate;
+}
+
+@keyframes flyStruggle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-2deg) translateX(0.5px); }
+    50% { transform: scale(0.9) rotate(1deg) translateY(-0.5px); }
+    75% { transform: scale(1.05) rotate(-1deg) translateX(-0.5px); }
+}
+
+@keyframes flyWings {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+.web-count {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -449,17 +518,18 @@ body:not(.loaded) .main-header { opacity: 0; }
     align-items: center;
     justify-content: center;
     font-family: var(--font-headers);
-    animation: nestBounce 0.5s ease;
+    animation: webBounce 0.5s ease;
+    z-index: 20;
 }
 
-@keyframes nestBounce {
+@keyframes webBounce {
     0% { transform: scale(0); }
     50% { transform: scale(1.3); }
     100% { transform: scale(1); }
 }
 
-.nest-count.updated {
-    animation: nestBounce 0.5s ease;
+.web-count.updated {
+    animation: webBounce 0.5s ease;
 }
 
 /* WINDOWED TIMER CONTAINER - SMALL SIDE WIDGET */
@@ -1821,7 +1891,32 @@ body:not(.loaded) .main-header { opacity: 0; }
     background: linear-gradient(135deg, #7BC097, var(--color-primary));
 }
 
-/* SOCIAL */
+/* SOCIAL TEXT FORCED VISIBILITY */
+.social-text {
+    text-align: center !important;
+    color: var(--color-primary) !important;
+    font-family: var(--font-headers) !important;
+    font-weight: var(--font-primary-weight) !important;
+    font-size: 16px !important;
+    margin-top: 15px !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 1001 !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    padding: 8px 20px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(158, 217, 181, 0.3) !important;
+}
+
+.social-container {
+    margin-top: 35px !important;
+    position: relative !important;
+    z-index: 1000 !important;
+}
 .social-container {
     position: relative;
     width: 100%;
@@ -2084,7 +2179,13 @@ body:not(.loaded) .main-header { opacity: 0; }
     font-family: var(--font-body);
 }
 
-/* IMAGE POPUP MODAL */
+.header-cart-icon:hover .spider-web {
+    filter: drop-shadow(0 0 3px rgba(200, 200, 200, 0.8));
+}
+
+.header-cart-icon:hover .spider {
+    animation: spiderMove 0.5s infinite ease-in-out;
+}
 .image-popup-modal {
     position: fixed;
     top: 0;
@@ -2106,8 +2207,8 @@ body:not(.loaded) .main-header { opacity: 0; }
 
 .image-popup-content {
     position: relative;
-    max-width: 70vw;
-    max-height: 70vh;
+    max-width: 50vw;
+    max-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2326,6 +2427,12 @@ body:not(.loaded) .main-header { opacity: 0; }
     .cart-modal {
         right: -100vw;
     }
+    
+    /* Image popup mobile adjustment */
+    .image-popup-content {
+        max-width: 85vw;
+        max-height: 60vh;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -2471,5 +2578,11 @@ body:not(.loaded) .main-header { opacity: 0; }
     .thumbnail {
         width: 45px;
         height: 45px;
+    }
+    
+    /* Smaller image popup on small mobile */
+    .image-popup-content {
+        max-width: 90vw;
+        max-height: 50vh;
     }
 }
