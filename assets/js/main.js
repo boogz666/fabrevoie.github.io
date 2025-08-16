@@ -310,10 +310,11 @@ function updateSizeChart() {
     `).join('');
 }
 
-// TIMER FUNCTION - UPDATED FOR NEW DATES
+// TIMER FUNCTION - UPDATED FOR NEW LOGIC
 function updateTimer() {
     const now = new Date();
-    const timeDiff = config.presaleStartDate - now;
+    const presaleTimeDiff = config.presaleStartDate - now;
+    const dropTimeDiff = config.dropDate - now;
 
     const timerHours = document.getElementById('timerHours');
     const timerMinutes = document.getElementById('timerMinutes');
@@ -328,19 +329,23 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // Before pre-sale
-        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        // Before pre-sale (2 weeks countdown)
+        const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((presaleTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
 
-        // 72-hour countdown placeholder
-        timerHours.textContent = '72';
-        timerMinutes.textContent = '00';
-        timerSeconds.textContent = '00';
+        // Show 2 weeks countdown in main timer
+        const totalHoursUntilPresale = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
+        const remainingMinutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const remainingSeconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
+        
+        timerHours.textContent = Math.min(totalHoursUntilPresale, 999).toString().padStart(3, '0');
+        timerMinutes.textContent = remainingMinutes.toString().padStart(2, '0');
+        timerSeconds.textContent = remainingSeconds.toString().padStart(2, '0');
         timerStatus.textContent = 'PRE-SALE STARTS IN';
         
-        // Actual countdown to presale
+        // Detailed countdown
         if (countdownDays) {
             countdownDays.textContent = days.toString().padStart(2, '0');
             countdownHours.textContent = hours.toString().padStart(2, '0');
@@ -348,8 +353,7 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else if (now < config.dropDate) {
-        // During pre-sale period
-        const dropTimeDiff = config.dropDate - now;
+        // During pre-sale period (2 weeks countdown to drop)
         const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -358,15 +362,13 @@ function updateTimer() {
         timerStatus.textContent = 'PRE-SALE LIVE - DROP IN';
         
         // Show countdown to drop
-        if (hours < 72) {
-            timerHours.textContent = hours.toString().padStart(2, '0');
-            timerMinutes.textContent = minutes.toString().padStart(2, '0');
-            timerSeconds.textContent = seconds.toString().padStart(2, '0');
-        } else {
-            timerHours.textContent = '72';
-            timerMinutes.textContent = '+';
-            timerSeconds.textContent = '+';
-        }
+        const totalHoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
+        const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+        
+        timerHours.textContent = Math.min(totalHoursUntilDrop, 999).toString().padStart(3, '0');
+        timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
+        timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
         
         if (countdownDays) {
             countdownDays.textContent = days.toString().padStart(2, '0');
@@ -375,17 +377,43 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else {
-        // After drop
-        timerHours.textContent = '00';
-        timerMinutes.textContent = '00';
-        timerSeconds.textContent = '00';
-        timerStatus.textContent = 'LIVE NOW';
+        // After drop - show 120 hours countdown
+        const hoursAfterDrop = Math.floor((now - config.dropDate) / (1000 * 60 * 60));
+        const remainingCountdownHours = Math.max(0, 120 - hoursAfterDrop);
         
-        if (countdownDays) {
-            countdownDays.textContent = '00';
-            countdownHours.textContent = '00';
-            countdownMinutes.textContent = '00';
-            countdownSecondsEl.textContent = '00';
+        if (remainingCountdownHours > 0) {
+            const currentTime = new Date();
+            const dropEndTime = new Date(config.dropDate.getTime() + (120 * 60 * 60 * 1000));
+            const timeLeft = dropEndTime - currentTime;
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            timerHours.textContent = hours.toString().padStart(3, '0');
+            timerMinutes.textContent = minutes.toString().padStart(2, '0');
+            timerSeconds.textContent = seconds.toString().padStart(2, '0');
+            timerStatus.textContent = 'LIVE NOW - TIME LEFT';
+            
+            if (countdownDays) {
+                countdownDays.textContent = '00';
+                countdownHours.textContent = hours.toString().padStart(2, '0');
+                countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+                countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
+            }
+        } else {
+            // 120 hours have passed
+            timerHours.textContent = '000';
+            timerMinutes.textContent = '00';
+            timerSeconds.textContent = '00';
+            timerStatus.textContent = 'DROP ENDED';
+            
+            if (countdownDays) {
+                countdownDays.textContent = '00';
+                countdownHours.textContent = '00';
+                countdownMinutes.textContent = '00';
+                countdownSecondsEl.textContent = '00';
+            }
         }
     }
 }
@@ -560,6 +588,31 @@ function initVideo() {
     }
 }
 
+// IMPROVED TIMER TOGGLE FUNCTION
+function toggleTimer() {
+    const timerContent = document.getElementById('timerContent');
+    const timerContainer = document.getElementById('timerContainer');
+    const toggleBtn = document.querySelector('.timer-toggle-btn');
+    
+    if (timerContainer.classList.contains('collapsed')) {
+        // Expand
+        timerContent.style.display = 'block';
+        timerContainer.classList.remove('collapsed');
+        if (toggleBtn) {
+            toggleBtn.innerHTML = '<i class="fas fa-minus"></i>';
+            toggleBtn.setAttribute('title', 'Minimize Timer');
+        }
+    } else {
+        // Collapse
+        timerContent.style.display = 'none';
+        timerContainer.classList.add('collapsed');
+        if (toggleBtn) {
+            toggleBtn.innerHTML = '<i class="fas fa-clock"></i>';
+            toggleBtn.setAttribute('title', 'Expand Timer');
+        }
+    }
+}
+
 // MAIN INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
     // Load cart from localStorage
@@ -599,24 +652,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cartIcon) {
         cartIcon.onclick = toggleCart; // Use custom cart instead of Shopify
     }
-
-    // Add this function to your main.js
-window.toggleTimer = function() {
-    const timerContent = document.getElementById('timerContent');
-    const toggleIcon = document.getElementById('timerToggleIcon');
-    const timerContainer = document.getElementById('timerContainer');
-    
-    if (timerContent.style.display === 'none') {
-        timerContent.style.display = 'block';
-        toggleIcon.className = 'fas fa-chevron-up';
-        timerContainer.classList.remove('collapsed');
-    } else {
-        timerContent.style.display = 'none';
-        toggleIcon.className = 'fas fa-chevron-down';
-        timerContainer.classList.add('collapsed');
-    }
-};
-
 });
 
 // MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
@@ -641,3 +676,4 @@ window.removeFromCart = removeFromCart;
 window.updateCartQuantity = updateCartQuantity;
 window.proceedToCheckout = proceedToCheckout;
 window.addToCart = addToCart;
+window.toggleTimer = toggleTimer;
