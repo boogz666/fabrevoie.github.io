@@ -1,4 +1,4 @@
-// FABREVOIE MAIN.JS - COMPLETE WITH ENHANCED CART SYSTEM
+// FABREVOIE MAIN.JS - COMPLETE WITH PNG SPIDER SYSTEM & MOBILE FEATURES
 // Last Updated: Aug 16, 2025
 // Shop Domain: shop.fabrevoie.com
 
@@ -11,7 +11,9 @@ const state = {
     pairsLeft: 100,
     cart: [],
     currentHeaderPhraseIndex: 0,
-    headerAnnouncementInterval: null
+    headerAnnouncementInterval: null,
+    lastScrollTop: 0,
+    isScrollingDown: false
 };
 
 // CART STATE
@@ -89,7 +91,95 @@ const config = {
     ]
 };
 
-// ENHANCED CART FUNCTIONS WITH SPIDER ANIMATIONS
+// HEADER HIDE/SHOW ON SCROLL
+function initHeaderScroll() {
+    const header = document.querySelector('.main-header') || document.querySelector('.shop-header');
+    const announcement = document.querySelector('.announcement-bar');
+    
+    if (!header) return;
+    
+    let lastScroll = 0;
+    let scrollTimer = null;
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        // Clear existing timer
+        if (scrollTimer) clearTimeout(scrollTimer);
+        
+        // Only hide/show after a certain scroll distance to avoid jitter
+        if (Math.abs(currentScroll - lastScroll) > 10) {
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                // Scrolling down - hide header
+                header.classList.add('hidden');
+                if (announcement) announcement.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up - show header
+                header.classList.remove('hidden');
+                if (announcement) announcement.style.transform = 'translateY(0)';
+            }
+        }
+        
+        // Set timer to show header if user stops scrolling
+        scrollTimer = setTimeout(() => {
+            header.classList.remove('hidden');
+            if (announcement) announcement.style.transform = 'translateY(0)';
+        }, 1000);
+        
+        lastScroll = currentScroll;
+    });
+}
+
+// TOUCH/SWIPE SUPPORT FOR MOBILE PRODUCT IMAGES
+function initMobileSwipe() {
+    const productImage = document.getElementById('productImage');
+    const imageContainer = document.querySelector('.product-image-container');
+    
+    if (!productImage || !imageContainer) return;
+    
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+    
+    // Touch start
+    imageContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    // Touch move (optional - for visual feedback)
+    imageContainer.addEventListener('touchmove', (e) => {
+        // Could add visual feedback here
+    }, { passive: true });
+    
+    // Touch end
+    imageContainer.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        endY = e.changedTouches[0].clientY;
+        
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+        const threshold = 50; // Minimum swipe distance
+        
+        // Only handle horizontal swipes
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                // Swipe left - next image
+                nextImage();
+            } else {
+                // Swipe right - previous image
+                previousImage();
+            }
+        }
+    }
+}
+
+// ENHANCED CART FUNCTIONS WITH PNG SPIDER ANIMATIONS
 function toggleCart() {
     const cartModal = document.getElementById('cartModal');
     if (cartModal) {
@@ -145,23 +235,24 @@ function addToCart(color, size) {
         setTimeout(() => cartCount.classList.remove('updated'), 700);
     }
     
-    // Enhanced spider reaction - spider gets excited when catching prey
+    // Enhanced PNG spider reaction
     const spider = document.querySelector('.spider');
+    const webContainer = document.querySelector('.web-container');
+    
     if (spider) {
-        console.log('Spider reacting to new prey!'); // Debug log
+        // Make spider excited - quick movements
         spider.style.animation = 'spiderMove 0.3s ease-in-out 3';
-        spider.style.transform = 'scale(1.2)';
-        spider.style.filter = 'drop-shadow(0 0 5px rgba(158, 217, 181, 0.8))';
+        spider.style.transform = 'scale(1.3) rotate(10deg)';
+        spider.style.filter = 'drop-shadow(0 0 8px rgba(158, 217, 181, 1))';
         
         setTimeout(() => {
             spider.style.animation = 'spiderMove 4s infinite ease-in-out';
             spider.style.transform = 'scale(1)';
-            spider.style.filter = 'drop-shadow(0 0 3px rgba(158, 217, 181, 0.6))';
+            spider.style.filter = 'drop-shadow(0 0 5px rgba(158, 217, 181, 0.8))';
         }, 1000);
     }
     
     // Web vibration effect
-    const webContainer = document.querySelector('.web-container');
     if (webContainer) {
         webContainer.style.animation = 'webShake 0.8s ease-in-out';
         setTimeout(() => {
@@ -235,15 +326,14 @@ function updateCartDisplay() {
     }
 }
 
-// ENHANCED updateCartCount FUNCTION WITH BETTER SPIDER ANIMATIONS
+// ENHANCED updateCartCount WITH PNG SPIDER AND FLY SYSTEM
 function updateCartCount() {
     const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountElement = document.getElementById('headerCartCount');
     const webFlies = document.getElementById('webFlies');
     const spider = document.querySelector('.spider');
     const webContainer = document.querySelector('.web-container');
-    
-    console.log('Updating cart count:', count); // Debug log
+    const spiderWeb = document.querySelector('.spider-web');
     
     if (cartCountElement) {
         if (count > 0) {
@@ -256,86 +346,72 @@ function updateCartCount() {
         }
     }
     
-    // Enhanced spider behavior
+    // Enhanced PNG spider behavior
     if (spider) {
-        console.log('Spider element found, updating animation'); // Debug log
-        
-        // Make sure spider is visible
-        spider.style.display = 'block';
-        spider.style.opacity = '1';
-        spider.style.visibility = 'visible';
-        
         if (count === 0) {
-            // Hungry spider - more aggressive movement
+            // Hungry spider - aggressive movement
             spider.style.animation = 'spiderMove 2s infinite ease-in-out';
             spider.style.filter = 'none';
+            spider.style.transform = 'scale(1)';
+        } else if (count < 3) {
+            // Somewhat fed - normal movement
+            spider.style.animation = 'spiderMove 4s infinite ease-in-out';
+            spider.style.filter = 'drop-shadow(0 0 3px rgba(158, 217, 181, 0.5))';
+            spider.style.transform = 'scale(1.1)';
         } else {
-            // Fed spider - slower, satisfied movement with glow
+            // Well fed - slow satisfied movement
             spider.style.animation = 'spiderMove 6s infinite ease-in-out';
-            spider.style.filter = 'drop-shadow(0 0 3px rgba(158, 217, 181, 0.6))';
+            spider.style.filter = 'drop-shadow(0 0 5px rgba(158, 217, 181, 0.8))';
+            spider.style.transform = 'scale(1.2)';
         }
-    } else {
-        console.log('Spider element not found!'); // Debug log
     }
     
-    // Enhanced trapped flies system
+    // Enhanced PNG fly system
     if (webFlies) {
-        console.log('Web flies container found, adding flies'); // Debug log
-        
         // Clear existing flies
         webFlies.innerHTML = '';
         
-        // Fly positions optimized for the larger web
+        // Optimized fly positions for 60x60 web
         const flyPositions = [
-            { top: '18px', left: '22px' },
-            { top: '12px', left: '15px' },
-            { top: '28px', left: '30px' },
-            { top: '15px', left: '32px' },
-            { top: '35px', left: '18px' },
-            { top: '25px', left: '10px' },
-            { top: '32px', left: '38px' },
-            { top: '8px', left: '25px' },
-            { top: '40px', left: '25px' },
-            { top: '20px', left: '5px' }
+            { top: '15px', left: '20px' },
+            { top: '10px', left: '35px' },
+            { top: '25px', left: '40px' },
+            { top: '35px', left: '30px' },
+            { top: '40px', left: '15px' },
+            { top: '20px', left: '10px' },
+            { top: '30px', left: '45px' },
+            { top: '45px', left: '25px' },
+            { top: '5px', left: '25px' },
+            { top: '25px', left: '5px' }
         ];
         
-        // Add trapped flies with enhanced visibility
+        // Add PNG flies
         const fliesToShow = Math.min(count, flyPositions.length);
         for (let i = 0; i < fliesToShow; i++) {
             const fly = document.createElement('div');
             fly.className = 'trapped-fly';
             fly.style.top = flyPositions[i].top;
             fly.style.left = flyPositions[i].left;
-            fly.style.animationDelay = `${i * 0.3}s`;
-            
-            // Add a small emoji backup for visibility
-            fly.innerHTML = '🦟';
-            fly.style.fontSize = '8px';
-            fly.style.display = 'flex';
-            fly.style.alignItems = 'center';
-            fly.style.justifyContent = 'center';
+            fly.style.animationDelay = `${i * 0.2}s`;
             
             webFlies.appendChild(fly);
             
-            // Animate fly getting trapped with delay
+            // Animate fly getting trapped
             setTimeout(() => {
                 fly.classList.add('show');
-                console.log(`Fly ${i + 1} added and animated`); // Debug log
-            }, i * 200);
+            }, i * 150);
         }
         
-        // Make web container glow when flies are caught
-        if (webContainer && count > 0) {
-            webContainer.style.filter = 'drop-shadow(0 0 5px rgba(158, 217, 181, 0.4))';
-        } else if (webContainer) {
-            webContainer.style.filter = 'none';
+        // Make web glow based on fly count
+        if (spiderWeb && count > 0) {
+            const glowIntensity = Math.min(count * 2, 10);
+            spiderWeb.style.filter = `drop-shadow(0 0 ${glowIntensity}px rgba(158, 217, 181, 0.6))`;
+        } else if (spiderWeb) {
+            spiderWeb.style.filter = 'none';
         }
-        
-    } else {
-        console.log('Web flies container not found!'); // Debug log
     }
     
-    // Trigger web shake animation when items added
+    // Web shake when items added
     if (count > 0 && webContainer) {
         webContainer.style.animation = 'webShake 0.5s ease-in-out';
         setTimeout(() => {
@@ -360,17 +436,6 @@ function proceedToCheckout() {
     
     // Redirect to Shopify
     window.location.href = checkoutUrl;
-}
-
-// DEBUG FUNCTION TO CHECK SPIDER ELEMENTS
-function debugSpiderElements() {
-    console.log('=== SPIDER DEBUG ===');
-    console.log('Spider element:', document.querySelector('.spider'));
-    console.log('Web container:', document.querySelector('.web-container'));
-    console.log('Web flies container:', document.getElementById('webFlies'));
-    console.log('Cart count element:', document.getElementById('headerCartCount'));
-    console.log('Cart items:', localCart.length);
-    console.log('==================');
 }
 
 // UPDATE THE buyProduct FUNCTION
@@ -827,31 +892,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load cart from localStorage
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     
-    console.log('DOM loaded, initializing spider system...');
-    
     // Initialize cart display
     setTimeout(() => {
         updateCartCount();
-        debugSpiderElements(); // Debug the elements
     }, 100);
     
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
+    // Initialize header scroll behavior
+    if (isShopPage) {
+        initHeaderScroll();
+        initMobileSwipe(); // Initialize swipe for mobile
+    }
+    
     setTimeout(() => {
         showPageContent();
         updatePairsLeft();
         updateCartCount(); // Update again after page loads
-        
-        // Force spider visibility
-        const spider = document.querySelector('.spider');
-        if (spider) {
-            spider.style.display = 'block';
-            spider.style.opacity = '1';
-            spider.style.visibility = 'visible';
-            console.log('Spider forced to be visible');
-        }
-        
     }, 1000);
 
     if (document.getElementById('timerHours')) {
@@ -865,7 +923,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateBuyButtonText();
         populateSizes();
         
-        // Add click handler to main product image
+        // Add click handler to main product image for popup
         const productImage = document.getElementById('productImage');
         if (productImage) {
             productImage.addEventListener('click', function() {
@@ -887,9 +945,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cartIcon) {
         cartIcon.onclick = toggleCart;
     }
-    
-    // Add debug button (remove in production)
-    console.log('To debug spider elements, type: debugSpiderElements()');
 });
 
 // MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
@@ -919,4 +974,3 @@ window.openImagePopup = openImagePopup;
 window.closeImagePopup = closeImagePopup;
 window.nextPopupImage = nextPopupImage;
 window.previousPopupImage = previousPopupImage;
-window.debugSpiderElements = debugSpiderElements;
