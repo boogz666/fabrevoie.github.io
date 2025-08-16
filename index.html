@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background: #000;">
+<html lang="en" class="index-page" style="background: #000;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,218 +30,8 @@
     
     <!-- Your Styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    
-    <style>
-        /* FIX SCROLLING ISSUES ON INDEX */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden !important;
-            position: fixed;
-        }
-        
-        /* Landing Page Specific Styles */
-        .email-signup {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .email-signup-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 0.9rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-        
-        .email-form {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
-        
-        .email-input {
-            flex: 1;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(158, 217, 181, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-family: var(--font-body);
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .email-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 12px;
-        }
-        
-        .email-input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .email-submit {
-            padding: 12px 20px;
-            background: var(--color-primary);
-            border: none;
-            border-radius: 8px;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .email-submit:hover {
-            background: #7BC097;
-            transform: translateY(-2px);
-        }
-        
-        .email-disclaimer {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* ACCESS DENIED MODAL */
-        .access-denied-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10005;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .access-denied-modal.active {
-            display: flex;
-        }
-
-        .access-denied-content {
-            background: #000;
-            border: 3px solid #ffff00;
-            border-radius: 0;
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
-        }
-
-        .access-denied-content::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: repeating-linear-gradient(
-                45deg,
-                #ffff00 0px,
-                #ffff00 20px,
-                #000 20px,
-                #000 40px
-            );
-            z-index: -1;
-            border-radius: 0;
-        }
-
-        .access-denied-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 2rem;
-            color: #ffff00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-        }
-
-        .access-denied-text {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: white;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .access-denied-close {
-            background: #ffff00;
-            border: none;
-            border-radius: 0;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 16px;
-            padding: 15px 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .access-denied-close:hover {
-            background: #000;
-            color: #ffff00;
-            border: 2px solid #ffff00;
-        }
-        
-        /* BETTER TIMER COLLAPSE DESIGN */
-        .timer-minimize-text {
-            font-family: var(--font-headers);
-            font-size: 10px;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .timer-container:hover .timer-minimize-text {
-            opacity: 1;
-        }
-        
-        .timer-container.collapsed {
-            min-width: 60px !important;
-            padding: 8px !important;
-            cursor: pointer;
-        }
-        
-        .timer-container.collapsed:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(158, 217, 181, 0.5);
-        }
-        
-        .timer-collapsed-icon {
-            font-size: 24px;
-            color: var(--color-primary);
-            animation: pulse 2s infinite;
-        }
-    </style>
 </head>
-<body>
+<body class="index-page">
     <script>document.body.classList.add('loaded');</script>
 
     <!-- Loading Screen -->
@@ -306,13 +96,15 @@
         </div>
     </header>
 
-    <!-- Timer Container with BETTER DESIGN -->
-    <div class="timer-container" id="timerContainer" onclick="toggleTimer()">
-        <div class="timer-minimize-text">MINIMIZE</div>
+    <!-- Timer Container with BETTER TOGGLE BUTTON -->
+    <div class="timer-container" id="timerContainer">
+        <button class="timer-toggle-btn" onclick="toggleTimer()" title="Minimize Timer">
+            <i class="fas fa-minus"></i>
+        </button>
         <div class="timer-content" id="timerContent">
             <div class="timer-display">
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerHours">72</div>
+                    <div class="timer-number" id="timerHours">336</div>
                     <div class="timer-label">Hours</div>
                 </div>
                 <div class="timer-unit">
@@ -478,28 +270,6 @@
             }
         });
 
-        // BETTER Timer collapse function
-        function toggleTimer() {
-            const timerContent = document.getElementById('timerContent');
-            const timerContainer = document.getElementById('timerContainer');
-            const minimizeText = document.querySelector('.timer-minimize-text');
-            const collapsedIcon = document.querySelector('.timer-collapsed-icon');
-            
-            if (timerContainer.classList.contains('collapsed')) {
-                // Expand
-                timerContent.style.display = 'block';
-                collapsedIcon.style.display = 'none';
-                timerContainer.classList.remove('collapsed');
-                if (minimizeText) minimizeText.textContent = 'MINIMIZE';
-            } else {
-                // Collapse
-                timerContent.style.display = 'none';
-                collapsedIcon.style.display = 'block';
-                timerContainer.classList.add('collapsed');
-                if (minimizeText) minimizeText.textContent = 'EXPAND';
-            }
-        }
-
         // Start the announcement header cycling
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
@@ -517,5 +287,83 @@
             }
         });
     </script>
+
+    <style>
+        /* Landing Page Specific Styles */
+        .email-signup {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .email-signup-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(158, 217, 181, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 12px;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .email-submit {
+            padding: 12px 20px;
+            background: var(--color-primary);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .email-submit:hover {
+            background: #7BC097;
+            transform: translateY(-2px);
+        }
+        
+        .email-disclaimer {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
 </body>
 </html>
