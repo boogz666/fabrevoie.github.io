@@ -335,12 +335,12 @@ function updateTimer() {
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
 
-        // Show 2 weeks countdown in main timer
+        // Show countdown to presale in hours (up to 360 hours max for 15 days)
         const totalHoursUntilPresale = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
         const remainingMinutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const remainingSeconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
         
-        timerHours.textContent = Math.min(totalHoursUntilPresale, 999).toString().padStart(3, '0');
+        timerHours.textContent = Math.min(totalHoursUntilPresale, 360).toString().padStart(3, '0');
         timerMinutes.textContent = remainingMinutes.toString().padStart(2, '0');
         timerSeconds.textContent = remainingSeconds.toString().padStart(2, '0');
         timerStatus.textContent = 'PRE-SALE STARTS IN';
@@ -353,7 +353,7 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else if (now < config.dropDate) {
-        // During pre-sale period (2 weeks countdown to drop)
+        // During pre-sale period (15 days = 360 hours countdown to drop)
         const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -361,12 +361,12 @@ function updateTimer() {
         
         timerStatus.textContent = 'PRE-SALE LIVE - DROP IN';
         
-        // Show countdown to drop
+        // Show countdown to drop (max 360 hours for 15 days)
         const totalHoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
         const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
         
-        timerHours.textContent = Math.min(totalHoursUntilDrop, 999).toString().padStart(3, '0');
+        timerHours.textContent = Math.min(totalHoursUntilDrop, 360).toString().padStart(3, '0');
         timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
         timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
         
