@@ -2137,4 +2137,39 @@ padding: 20px;
        width: 45px;
        height: 45px;
    }
+    
+    /* TIMER COLLAPSE BUTTON - Add this to your CSS */
+    .timer-collapse-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: none;
+        border: none;
+        color: var(--color-primary);
+        font-size: 14px;
+        cursor: pointer;
+        padding: 5px;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+    
+    .timer-collapse-btn:hover {
+        color: #7BC097;
+        transform: scale(1.1);
+    }
+    
+    .timer-container.collapsed {
+        min-width: 60px !important;
+        padding: 10px !important;
+    }
+    
+    .timer-container.collapsed .timer-collapse-btn {
+        position: static;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .timer-content {
+        transition: all 0.3s ease;
+    }
 }
