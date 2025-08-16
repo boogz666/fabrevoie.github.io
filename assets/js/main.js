@@ -421,8 +421,10 @@ function updateTimer() {
 // PRODUCT FUNCTIONS
 function changeImage(index) {
     state.currentImageIndex = index;
+    currentPopupImageIndex = index; // Sync popup with main image
     updateProductImage();
     updateThumbnails();
+    updatePopupImage(); // Update popup if open
 }
 
 function updateProductImage() {
@@ -471,8 +473,10 @@ function changeProductColor(color) {
     
     state.currentColor = color;
     state.currentImageIndex = 0;
+    currentPopupImageIndex = 0; // Reset popup index when color changes
     updateProductImage();
     updateThumbnails();
+    updatePopupImage(); // Update popup if open
     resetSizeSelection();
 }
 
@@ -588,27 +592,101 @@ function initVideo() {
     }
 }
 
+// IMAGE POPUP FUNCTIONS
+let currentPopupImageIndex = 0;
+
+function openImagePopup(imageIndex) {
+    currentPopupImageIndex = imageIndex;
+    updatePopupImage();
+    const modal = document.getElementById('imagePopupModal');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function closeImagePopup() {
+    const modal = document.getElementById('imagePopupModal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+// Add keyboard support for image popup
+document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('imagePopupModal');
+    if (modal && modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+            closeImagePopup();
+        } else if (e.key === 'ArrowLeft') {
+            previousPopupImage();
+        } else if (e.key === 'ArrowRight') {
+            nextPopupImage();
+        }
+    }
+});
+
+// Close popup when clicking backdrop
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('imagePopupModal');
+    if (modal && e.target === modal) {
+        closeImagePopup();
+    }
+});
+
+function updatePopupImage() {
+    const images = config.productImages[state.currentColor];
+    const popupImg = document.getElementById('popupImage');
+    const counter = document.getElementById('popupCounter');
+    
+    if (popupImg && images) {
+        popupImg.src = images[currentPopupImageIndex];
+    }
+    
+    if (counter && images) {
+        counter.textContent = `${currentPopupImageIndex + 1} / ${images.length}`;
+    }
+}
+
+function nextPopupImage() {
+    const images = config.productImages[state.currentColor];
+    currentPopupImageIndex = (currentPopupImageIndex + 1) % images.length;
+    updatePopupImage();
+}
+
+function previousPopupImage() {
+    const images = config.productImages[state.currentColor];
+    currentPopupImageIndex = (currentPopupImageIndex - 1 + images.length) % images.length;
+    updatePopupImage();
+}
+
 // IMPROVED TIMER TOGGLE FUNCTION
 function toggleTimer() {
     const timerContent = document.getElementById('timerContent');
     const timerContainer = document.getElementById('timerContainer');
     const toggleBtn = document.querySelector('.timer-toggle-btn');
+    const collapsedIcon = document.querySelector('.timer-collapsed-icon');
     
     if (timerContainer.classList.contains('collapsed')) {
         // Expand
         timerContent.style.display = 'block';
         timerContainer.classList.remove('collapsed');
         if (toggleBtn) {
+            toggleBtn.style.display = 'block';
             toggleBtn.innerHTML = '<i class="fas fa-minus"></i>';
             toggleBtn.setAttribute('title', 'Minimize Timer');
+        }
+        if (collapsedIcon) {
+            collapsedIcon.style.display = 'none';
         }
     } else {
         // Collapse
         timerContent.style.display = 'none';
         timerContainer.classList.add('collapsed');
         if (toggleBtn) {
-            toggleBtn.innerHTML = '<i class="fas fa-clock"></i>';
-            toggleBtn.setAttribute('title', 'Expand Timer');
+            toggleBtn.style.display = 'none';
+        }
+        if (collapsedIcon) {
+            collapsedIcon.style.display = 'block';
         }
     }
 }
@@ -638,6 +716,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateThumbnails();
         updateBuyButtonText();
         populateSizes();
+        
+        // Add click handler to main product image
+        const productImage = document.getElementById('productImage');
+        if (productImage) {
+            productImage.addEventListener('click', function() {
+                openImagePopup(state.currentImageIndex);
+            });
+            productImage.style.cursor = 'pointer';
+        }
     }
 
     if (isLandingPage) {
@@ -677,3 +764,7 @@ window.updateCartQuantity = updateCartQuantity;
 window.proceedToCheckout = proceedToCheckout;
 window.addToCart = addToCart;
 window.toggleTimer = toggleTimer;
+window.openImagePopup = openImagePopup;
+window.closeImagePopup = closeImagePopup;
+window.nextPopupImage = nextPopupImage;
+window.previousPopupImage = previousPopupImage;
