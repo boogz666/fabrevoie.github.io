@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="index-page" style="background: #000;">
 <head>
@@ -28,11 +29,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Three.js for 3D Logo -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    
     <!-- Your Styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
     
@@ -45,75 +41,6 @@
             height: 100%;
             overflow: hidden !important;
             position: fixed;
-        }
-        
-        /* 3D LOGO CONTAINER STYLES */
-        .logo-container {
-            width: 400px;
-            height: 380px;
-            margin-bottom: 30px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: grab;
-        }
-        
-        .logo-container:active {
-            cursor: grabbing;
-        }
-        
-        #logo3d-canvas {
-            width: 100% !important;
-            height: 100% !important;
-            outline: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        /* Loading spinner for 3D model */
-        .logo-loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--color-primary);
-            font-size: 24px;
-            animation: spin 1s linear infinite;
-            z-index: 1;
-        }
-        
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        /* Fallback for if 3D doesn't load */
-        .logo-fallback {
-            display: none;
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-        }
-        
-        /* Mobile adjustments for 3D logo */
-        @media screen and (max-width: 768px) {
-            .logo-container {
-                width: 280px;
-                height: 280px;
-                margin-bottom: 25px;
-            }
-        }
-        
-        @media screen and (max-width: 480px) {
-            .logo-container {
-                width: 220px;
-                height: 220px;
-                margin-bottom: 20px;
-            }
         }
         
         /* Landing Page Specific Styles */
@@ -410,14 +337,9 @@
     <div class="content-container">
         <div class="content-wrapper">
             <div class="landing-content" id="landingContent">
-                <!-- 3D Logo Container -->
-                <div class="logo-container" id="logoContainer">
-                    <div class="logo-loading">
-                        <i class="fas fa-spinner"></i>
-                    </div>
-                    <canvas id="logo3d-canvas"></canvas>
-                    <!-- Fallback image if 3D fails -->
-                    <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="logo-fallback" id="logoFallback">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <img src="assets/images/FF LETTER LOGO2222.png" alt="Fabrevoie Logo" class="main-logo">
                 </div>
 
                 <!-- Shop Button -->
@@ -491,205 +413,6 @@
     </div>
 
     <script src="assets/js/main.js"></script>
-    
-    <!-- 3D Logo Script -->
-    <script>
-        // 3D Logo Setup
-        let scene, camera, renderer, model, controls;
-        let autoRotate = true;
-        
-        function init3DLogo() {
-            const container = document.getElementById('logoContainer');
-            const canvas = document.getElementById('logo3d-canvas');
-            const loadingSpinner = document.querySelector('.logo-loading');
-            
-            // Scene setup
-            scene = new THREE.Scene();
-            
-            // Camera setup
-            camera = new THREE.PerspectiveCamera(
-                45,
-                container.clientWidth / container.clientHeight,
-                0.1,
-                1000
-            );
-            camera.position.set(0, 0, 5);
-            
-            // Renderer setup - MUST BE BEFORE USING IT
-            renderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                antialias: true,
-                alpha: true // Transparent background
-            });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setClearColor(0x000000, 0); // Transparent
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.5; // Increased exposure
-            renderer.outputEncoding = THREE.sRGBEncoding;
-            renderer.physicallyCorrectLights = true; // Better lighting
-            
-            // Much stronger lighting for chrome material
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.0); // Increased
-            scene.add(ambientLight);
-            
-            // Main key light - very bright
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 3.0); // Much brighter
-            directionalLight.position.set(5, 10, 5);
-            directionalLight.castShadow = false;
-            scene.add(directionalLight);
-            
-            // Fill light
-            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2.0); // Brighter
-            directionalLight2.position.set(-5, -5, 5);
-            scene.add(directionalLight2);
-            
-            // Strong rim light for edge definition
-            const rimLight = new THREE.DirectionalLight(0xffffff, 2.5);
-            rimLight.position.set(0, 0, -10);
-            scene.add(rimLight);
-            
-            // Add hemisphere light for better ambient
-            const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1.5);
-            scene.add(hemiLight);
-            
-            // Point lights for sparkle
-            const pointLight1 = new THREE.PointLight(0xffffff, 2.0);
-            pointLight1.position.set(10, 10, 10);
-            scene.add(pointLight1);
-            
-            const pointLight2 = new THREE.PointLight(0xffffff, 2.0);
-            pointLight2.position.set(-10, -10, 10);
-            scene.add(pointLight2);
-            
-            // OrbitControls for user interaction
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.enableZoom = false; // Disable zoom
-            controls.enablePan = false; // Disable pan
-            controls.minPolarAngle = Math.PI / 4; // Limit vertical rotation
-            controls.maxPolarAngle = Math.PI / 1.5; // Limit vertical rotation
-            
-            // Load the GLB model
-            const loader = new THREE.GLTFLoader();
-            loader.load(
-                'assets/models/3Dlogo2.glb',
-                function (gltf) {
-                    model = gltf.scene;
-                    
-                    // Center and scale the model
-                    const box = new THREE.Box3().setFromObject(model);
-                    const center = box.getCenter(new THREE.Vector3());
-                    const size = box.getSize(new THREE.Vector3());
-                    
-                    // Scale model to fit nicely
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 2.5 / maxDim; // Adjust this value to change size
-                    model.scale.multiplyScalar(scale);
-                    
-                    // Center the model
-                    model.position.sub(center.multiplyScalar(scale));
-                    
-                    // Don't override materials - let the chrome from Blender show
-                    
-                    scene.add(model);
-                    
-                    // Hide loading spinner
-                    if (loadingSpinner) {
-                        loadingSpinner.style.display = 'none';
-                    }
-                    
-                    // Start animation
-                    animate();
-                },
-                function (xhr) {
-                    // Loading progress
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                },
-                function (error) {
-                    console.error('Error loading 3D model:', error);
-                    // Show fallback image
-                    if (loadingSpinner) {
-                        loadingSpinner.style.display = 'none';
-                    }
-                    const fallback = document.getElementById('logoFallback');
-                    if (fallback) {
-                        fallback.style.display = 'block';
-                    }
-                    canvas.style.display = 'none';
-                }
-            );
-            
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize, false);
-            
-            // Stop auto-rotation when user interacts
-            controls.addEventListener('start', function() {
-                autoRotate = false;
-            });
-            
-            // Resume auto-rotation after 3 seconds of no interaction
-            let rotateTimeout;
-            controls.addEventListener('end', function() {
-                clearTimeout(rotateTimeout);
-                rotateTimeout = setTimeout(() => {
-                    autoRotate = true;
-                }, 3000);
-            });
-        }
-        
-        function onWindowResize() {
-            const container = document.getElementById('logoContainer');
-            if (container && camera && renderer) {
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
-            }
-        }
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            // Auto-rotate the model (reversed direction)
-            if (model && autoRotate) {
-                model.rotation.y -= 0.005; // Slow rotation (reversed)
-            }
-            
-            // Update controls
-            if (controls) {
-                controls.update();
-            }
-            
-            // Render the scene
-            if (renderer && scene && camera) {
-                renderer.render(scene, camera);
-            }
-        }
-        
-        // Initialize 3D logo when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize 3D logo
-            init3DLogo();
-            
-            // Your existing code
-            if (typeof startHeaderAnnouncementCycling === 'function') {
-                startHeaderAnnouncementCycling();
-            }
-            
-            // Close modal when clicking outside
-            const accessDeniedModal = document.getElementById('accessDeniedModal');
-            if (accessDeniedModal) {
-                accessDeniedModal.addEventListener('click', function(e) {
-                    if (e.target === this && typeof closeAccessDenied === 'function') {
-                        closeAccessDenied();
-                    }
-                });
-            }
-        });
-    </script>
-    
-    <!-- Email Form Handler -->
     <script>
         // WORKING EMAIL FORM HANDLER - SENDS TO SHOPIFY
         document.getElementById('emailForm').addEventListener('submit', async function(e) {
@@ -733,6 +456,23 @@
                     submitBtn.textContent = 'SUBMIT';
                     submitBtn.style.background = '';
                 }, 2000);
+            }
+        });
+
+        // Start the announcement header cycling
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof startHeaderAnnouncementCycling === 'function') {
+                startHeaderAnnouncementCycling();
+            }
+            
+            // Close modal when clicking outside
+            const accessDeniedModal = document.getElementById('accessDeniedModal');
+            if (accessDeniedModal) {
+                accessDeniedModal.addEventListener('click', function(e) {
+                    if (e.target === this && typeof closeAccessDenied === 'function') {
+                        closeAccessDenied();
+                    }
+                });
             }
         });
     </script>
