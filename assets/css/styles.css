@@ -23,7 +23,22 @@ body, html {
     color: white;
     background-color: #000;
     height: 100%;
-    overflow: hidden;
+}
+
+/* CRITICAL FIX: PREVENT SCROLLING ON INDEX PAGE */
+html.index-page, body.index-page {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Allow scrolling only on shop page */
+html.shop-page, body.shop-page {
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    height: auto !important;
+    position: relative !important;
 }
 
 body.loaded {
@@ -254,6 +269,20 @@ body:not(.loaded) .main-header { opacity: 0; }
 
 .sticky-logo:hover { transform: scale(1.1); }
 
+/* BIGGER CENTER LOGO IN SHOP HEADER - 5X BIGGER */
+.center-text-logo {
+    height: 225px !important; /* 5x bigger than 45px */
+    width: auto;
+    filter: brightness(0) saturate(100%) invert(100%);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.center-text-logo:hover {
+    filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
+    transform: scale(1.05);
+}
+
 .header-nav {
     display: flex;
     gap: 25px;
@@ -323,7 +352,7 @@ body:not(.loaded) .main-header { opacity: 0; }
     animation: cartBounce 0.3s ease;
 }
 
-/* TIMER */
+/* IMPROVED TIMER CONTAINER */
 .timer-container {
     position: fixed;
     top: 120px;
@@ -338,12 +367,72 @@ body:not(.loaded) .main-header { opacity: 0; }
     min-width: 220px;
     z-index: 9999;
     animation: timerPulse 3s infinite;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* SHOP PAGE TIMER POSITION FIX */
+.shop-page .timer-container {
+    top: 140px;
 }
 
 @keyframes timerPulse {
     0% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
     50% { box-shadow: 0 0 35px rgba(158, 217, 181, 0.6); }
     100% { box-shadow: 0 0 25px rgba(158, 217, 181, 0.3); }
+}
+
+/* BETTER TIMER TOGGLE BUTTON */
+.timer-toggle-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--color-primary), #7BC097);
+    border: 2px solid #000;
+    border-radius: 50%;
+    color: #000;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: 0 4px 15px rgba(158, 217, 181, 0.4);
+}
+
+.timer-toggle-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: linear-gradient(135deg, #7BC097, var(--color-primary));
+    box-shadow: 0 6px 20px rgba(158, 217, 181, 0.6);
+}
+
+.timer-toggle-btn:active {
+    transform: scale(0.95) rotate(90deg);
+}
+
+/* TIMER COLLAPSED STATE */
+.timer-container.collapsed {
+    min-width: 80px !important;
+    height: 80px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.timer-container.collapsed:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(158, 217, 181, 0.7);
+}
+
+.timer-collapsed-icon {
+    font-size: 28px;
+    color: var(--color-primary);
+    animation: pulse 2s infinite;
 }
 
 .timer-status {
@@ -448,6 +537,14 @@ body:not(.loaded) .main-header { opacity: 0; }
     z-index: 2;
     background: rgba(0, 0, 0, 0.4);
     pointer-events: none;
+    overflow: hidden !important; /* Prevent scrolling on index */
+}
+
+.index-page .content-container {
+    overflow: hidden !important;
+}
+
+.shop-page .content-container {
     overflow-y: auto;
 }
 
@@ -460,6 +557,7 @@ body:not(.loaded) .main-header { opacity: 0; }
     align-items: center;
     justify-content: center;
     padding: 120px 20px 20px 20px;
+    overflow: hidden; /* Prevent scrolling on index */
 }
 
 .landing-content {
@@ -1873,6 +1971,11 @@ body:not(.loaded) .main-header { opacity: 0; }
     .sticky-logo { width: 35px; }
     .top-logo { height: 150px; }
 
+    /* MOBILE CENTER LOGO SIZE ADJUSTMENT */
+    .center-text-logo {
+        height: 120px !important; /* Smaller on mobile but still bigger than original */
+    }
+
     .announcement-content {
         animation: scroll-left 25s linear infinite;
         font-size: 12px;
@@ -2018,6 +2121,11 @@ body:not(.loaded) .main-header { opacity: 0; }
         top: 15px;
     }
 
+    /* SMALLEST MOBILE CENTER LOGO */
+    .center-text-logo {
+        height: 80px !important; /* Even smaller on tiny screens */
+    }
+
     .product-image-container {
         height: 300px;
         padding: 10px;
@@ -2041,161 +2149,100 @@ body:not(.loaded) .main-header { opacity: 0; }
     }
 
     .size-selector {
-
-padding: 20px;
-   }
-
-   .size-options {
-       grid-template-columns: repeat(4, 1fr);
-       gap: 6px;
-   }
-
-   .size-option {
-       padding: 10px 4px;
-       font-size: 13px;
-   }
-
-   .buy-button {
-       font-size: 16px;
-       padding: 16px;
-   }
-
-   .features-grid {
-       grid-template-columns: 1fr;
-       gap: 20px;
-   }
-
-   .size-guide-content {
-       margin: 10px;
-       max-height: 85vh;
-   }
-
-   .size-guide-header { padding: 20px 20px 15px 20px; }
-   .size-guide-body { padding: 20px; }
-   .size-chart { font-size: 12px; }
-   .size-chart th,
-   .size-chart td { padding: 8px 5px; }
-
-   .content-wrapper {
-       height: 100vh;
-       padding: 100px 15px 15px 15px;
-   }
-
-   .tagline {
-       font-size: 1rem;
-       margin-bottom: 20px;
-   }
-
-   .timer-container {
-       min-width: 160px;
-       padding: 12px;
-   }
-
-   .timer-unit {
-       min-width: 30px;
-       padding: 6px 4px;
-   }
-
-   .timer-number {
-       font-size: 1rem;
-   }
-
-   .timer-label {
-       font-size: 0.5rem;
-   }
-
-   .countdown-unit {
-       min-width: 22px;
-       padding: 4px 3px;
-   }
-
-   .countdown-number {
-       font-size: 0.8rem;
-   }
-
-   .countdown-label {
-       font-size: 0.4rem;
-   }
-
-   .access-denied-content {
-       padding: 25px 15px;
-   }
-
-   .access-denied-title {
-       font-size: 1.2rem;
-   }
-
-   .access-denied-text {
-       font-size: 1rem;
-   }
-
-   .thumbnail-container {
-       gap: 8px;
-   }
-
-   .thumbnail {
-       width: 45px;
-       height: 45px;
-   }
-    
-        /* BETTER TIMER COLLAPSE DESIGN - Add to your styles.css */
-    .timer-container {
-        cursor: pointer;
-        transition: all 0.3s ease;
+        padding: 20px;
     }
-    
-    .timer-minimize-text {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        font-family: var(--font-headers);
-        font-size: 10px;
-        color: var(--color-primary);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
+
+    .size-options {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
     }
-    
-    .timer-container:hover .timer-minimize-text {
-        opacity: 0.7;
+
+    .size-option {
+        padding: 10px 4px;
+        font-size: 13px;
     }
-    
-    .timer-container.collapsed {
-        min-width: 60px !important;
-        padding: 15px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    .buy-button {
+        font-size: 16px;
+        padding: 16px;
     }
-    
-    .timer-container.collapsed:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 35px rgba(158, 217, 181, 0.6);
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-    
-    .timer-collapsed-icon {
-        font-size: 24px;
-        color: var(--color-primary);
-        text-align: center;
+
+    .size-guide-content {
+        margin: 10px;
+        max-height: 85vh;
     }
-    
-    .timer-content {
-        transition: all 0.3s ease;
-    }
-    
-    /* FIX OVERFLOW ON INDEX PAGE */
-    .content-container {
-        overflow: hidden !important;
-    }
-    
+
+    .size-guide-header { padding: 20px 20px 15px 20px; }
+    .size-guide-body { padding: 20px; }
+    .size-chart { font-size: 12px; }
+    .size-chart th,
+    .size-chart td { padding: 8px 5px; }
+
     .content-wrapper {
-        overflow: hidden !important;
+        height: 100vh;
+        padding: 100px 15px 15px 15px;
+        overflow: hidden !important; /* Prevent scrolling on mobile index */
     }
-    
-    /* Remove any scrollbars */
-    ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
+
+    .tagline {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .timer-container {
+        min-width: 160px;
+        padding: 12px;
+    }
+
+    .timer-unit {
+        min-width: 30px;
+        padding: 6px 4px;
+    }
+
+    .timer-number {
+        font-size: 1rem;
+    }
+
+    .timer-label {
+        font-size: 0.5rem;
+    }
+
+    .countdown-unit {
+        min-width: 22px;
+        padding: 4px 3px;
+    }
+
+    .countdown-number {
+        font-size: 0.8rem;
+    }
+
+    .countdown-label {
+        font-size: 0.4rem;
+    }
+
+    .access-denied-content {
+        padding: 25px 15px;
+    }
+
+    .access-denied-title {
+        font-size: 1.2rem;
+    }
+
+    .access-denied-text {
+        font-size: 1rem;
+    }
+
+    .thumbnail-container {
+        gap: 8px;
+    }
+
+    .thumbnail {
+        width: 45px;
+        height: 45px;
     }
 }
