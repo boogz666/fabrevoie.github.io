@@ -35,7 +35,7 @@
         /* Shop Page Specific */
         .shop-header {
             position: fixed;
-            top: 44px; /* Account for announcement header */
+            top: 44px;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -47,7 +47,7 @@
             align-items: center;
         }
         
-        /* CENTER LOGO IN HEADER */
+        /* BIGGER CENTER LOGO IN HEADER */
         .header-center {
             position: absolute;
             left: 50%;
@@ -57,7 +57,7 @@
         }
         
         .center-text-logo {
-            height: 30px;
+            height: 45px; /* MADE IT BIGGER - was 30px */
             width: auto;
             filter: brightness(0) saturate(100%) invert(100%);
             transition: all 0.3s ease;
@@ -284,7 +284,7 @@
         <div class="announcement-phrase" id="headerPhrase3">LIVE DROP SEPTEMBER 5TH 8AM NYC</div>
     </div>
 
-    <!-- Shop Header with Center Logo -->
+    <!-- Shop Header with BIGGER Center Logo -->
     <header class="shop-header">
         <div class="header-left">
             <a href="index.html">
@@ -312,43 +312,48 @@
         </div>
     </header>
 
-    <!-- Timer Container -->
+    <!-- Timer Container with Collapse Button -->
     <div class="timer-container" id="timerContainer" style="top: 140px;">
-        <div class="timer-display">
-            <div class="timer-unit">
-                <div class="timer-number" id="timerHours">72</div>
-                <div class="timer-label">Hours</div>
+        <button class="timer-collapse-btn" onclick="toggleTimer()">
+            <i class="fas fa-chevron-up" id="timerToggleIcon"></i>
+        </button>
+        <div class="timer-content" id="timerContent">
+            <div class="timer-display">
+                <div class="timer-unit">
+                    <div class="timer-number" id="timerHours">72</div>
+                    <div class="timer-label">Hours</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="timer-number" id="timerMinutes">00</div>
+                    <div class="timer-label">Minutes</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="timer-number" id="timerSeconds">00</div>
+                    <div class="timer-label">Seconds</div>
+                </div>
             </div>
-            <div class="timer-unit">
-                <div class="timer-number" id="timerMinutes">00</div>
-                <div class="timer-label">Minutes</div>
+            <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
+            <div class="countdown-display">
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="countdownDays">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="countdownHours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="countdownMinutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="countdownSeconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
             </div>
-            <div class="timer-unit">
-                <div class="timer-number" id="timerSeconds">00</div>
-                <div class="timer-label">Seconds</div>
+            <div class="pairs-left">
+                <span id="pairsLeft">100</span>/100 PAIRS LEFT
             </div>
-        </div>
-        <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
-        <div class="countdown-display">
-            <div class="countdown-unit">
-                <div class="countdown-number" id="countdownDays">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-unit">
-                <div class="countdown-number" id="countdownHours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-unit">
-                <div class="countdown-number" id="countdownMinutes">00</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-unit">
-                <div class="countdown-number" id="countdownSeconds">00</div>
-                <div class="countdown-label">Seconds</div>
-            </div>
-        </div>
-        <div class="pairs-left">
-            <span id="pairsLeft">100</span>/100 PAIRS LEFT
         </div>
     </div>
 
@@ -627,6 +632,23 @@
 
     <script src="assets/js/main.js"></script>
     <script>
+        // Timer collapse function
+        function toggleTimer() {
+            const timerContent = document.getElementById('timerContent');
+            const toggleIcon = document.getElementById('timerToggleIcon');
+            const timerContainer = document.getElementById('timerContainer');
+            
+            if (timerContent.style.display === 'none') {
+                timerContent.style.display = 'block';
+                toggleIcon.className = 'fas fa-chevron-up';
+                timerContainer.classList.remove('collapsed');
+            } else {
+                timerContent.style.display = 'none';
+                toggleIcon.className = 'fas fa-chevron-down';
+                timerContainer.classList.add('collapsed');
+            }
+        }
+
         // Start announcement header cycling for shop page
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
