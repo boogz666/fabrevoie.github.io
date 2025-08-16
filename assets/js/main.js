@@ -144,6 +144,15 @@ function addToCart(color, size) {
         cartCount.classList.add('updated');
         setTimeout(() => cartCount.classList.remove('updated'), 500);
     }
+    
+    // Make spider move when fly gets caught
+    const spider = document.querySelector('.spider');
+    if (spider) {
+        spider.style.animation = 'spiderMove 0.8s ease-in-out';
+        setTimeout(() => {
+            spider.style.animation = 'spiderMove 4s infinite ease-in-out';
+        }, 800);
+    }
 }
 
 function removeFromCart(itemId) {
@@ -214,7 +223,8 @@ function updateCartDisplay() {
 function updateCartCount() {
     const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountElement = document.getElementById('headerCartCount');
-    const nestBirds = document.getElementById('nestBirds');
+    const webFlies = document.getElementById('webFlies');
+    const spider = document.querySelector('.spider');
     
     if (cartCountElement) {
         if (count > 0) {
@@ -227,23 +237,48 @@ function updateCartCount() {
         }
     }
     
-    // Update baby birds in nest
-    if (nestBirds) {
-        // Clear existing birds
-        nestBirds.innerHTML = '';
+    // Update spider behavior based on cart
+    if (spider) {
+        if (count === 0) {
+            // Hungry spider - more aggressive movement
+            spider.style.animation = 'spiderMove 2s infinite ease-in-out';
+        } else {
+            // Fed spider - slower, satisfied movement
+            spider.style.animation = 'spiderMove 4s infinite ease-in-out';
+        }
+    }
+    
+    // Update trapped flies in web
+    if (webFlies) {
+        // Clear existing flies
+        webFlies.innerHTML = '';
         
-        // Add baby birds based on cart count (max 5 visible)
-        const birdsToShow = Math.min(count, 5);
-        for (let i = 0; i < birdsToShow; i++) {
-            const bird = document.createElement('div');
-            bird.className = 'baby-bird';
-            bird.style.animationDelay = `${i * 0.1}s`;
-            nestBirds.appendChild(bird);
+        // Fly positions in the web (predetermined spots that look natural)
+        const flyPositions = [
+            { top: '15px', left: '18px' },
+            { top: '8px', left: '12px' },
+            { top: '25px', left: '25px' },
+            { top: '12px', left: '28px' },
+            { top: '30px', left: '15px' },
+            { top: '20px', left: '8px' },
+            { top: '28px', left: '32px' },
+            { top: '6px', left: '22px' }
+        ];
+        
+        // Add trapped flies based on cart count (max 8 positions)
+        const fliesToShow = Math.min(count, flyPositions.length);
+        for (let i = 0; i < fliesToShow; i++) {
+            const fly = document.createElement('div');
+            fly.className = 'trapped-fly';
+            fly.style.top = flyPositions[i].top;
+            fly.style.left = flyPositions[i].left;
+            fly.style.animationDelay = `${i * 0.2}s`;
+            webFlies.appendChild(fly);
             
-            // Animate bird appearance
+            // Animate fly getting trapped
             setTimeout(() => {
-                bird.classList.add('show');
-            }, i * 100);
+                fly.classList.add('show');
+            }, i * 150);
         }
     }
 }
