@@ -599,6 +599,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cartIcon) {
         cartIcon.onclick = toggleCart; // Use custom cart instead of Shopify
     }
+
+    // Add this function to your main.js
+window.toggleTimer = function() {
+    const timerContent = document.getElementById('timerContent');
+    const toggleIcon = document.getElementById('timerToggleIcon');
+    const timerContainer = document.getElementById('timerContainer');
+    
+    if (timerContent.style.display === 'none') {
+        timerContent.style.display = 'block';
+        toggleIcon.className = 'fas fa-chevron-up';
+        timerContainer.classList.remove('collapsed');
+    } else {
+        timerContent.style.display = 'none';
+        toggleIcon.className = 'fas fa-chevron-down';
+        timerContainer.classList.add('collapsed');
+    }
+};
+
 });
 
 // MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
