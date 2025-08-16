@@ -142,7 +142,7 @@ function addToCart(color, size) {
     const cartCount = document.getElementById('headerCartCount');
     if (cartCount) {
         cartCount.classList.add('updated');
-        setTimeout(() => cartCount.classList.remove('updated'), 300);
+        setTimeout(() => cartCount.classList.remove('updated'), 500);
     }
 }
 
@@ -214,8 +214,37 @@ function updateCartDisplay() {
 function updateCartCount() {
     const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountElement = document.getElementById('headerCartCount');
+    const nestBirds = document.getElementById('nestBirds');
+    
     if (cartCountElement) {
-        cartCountElement.textContent = count;
+        if (count > 0) {
+            cartCountElement.textContent = count;
+            cartCountElement.style.display = 'flex';
+            cartCountElement.classList.add('updated');
+            setTimeout(() => cartCountElement.classList.remove('updated'), 300);
+        } else {
+            cartCountElement.style.display = 'none';
+        }
+    }
+    
+    // Update baby birds in nest
+    if (nestBirds) {
+        // Clear existing birds
+        nestBirds.innerHTML = '';
+        
+        // Add baby birds based on cart count (max 5 visible)
+        const birdsToShow = Math.min(count, 5);
+        for (let i = 0; i < birdsToShow; i++) {
+            const bird = document.createElement('div');
+            bird.className = 'baby-bird';
+            bird.style.animationDelay = `${i * 0.1}s`;
+            nestBirds.appendChild(bird);
+            
+            // Animate bird appearance
+            setTimeout(() => {
+                bird.classList.add('show');
+            }, i * 100);
+        }
     }
 }
 
@@ -310,7 +339,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// TIMER FUNCTION - UPDATED FOR NEW LOGIC
+// TIMER FUNCTION - UPDATED FOR CORRECT LOGIC
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -329,23 +358,18 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // Before pre-sale (2 weeks countdown)
+        // Before Aug 21 - Show "Coming Soon"
+        timerHours.textContent = '---';
+        timerMinutes.textContent = '--';
+        timerSeconds.textContent = '--';
+        timerStatus.textContent = 'COMING SOON';
+        
+        // Show detailed countdown to presale start
         const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((presaleTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
-
-        // Show countdown to presale in hours (up to 360 hours max for 15 days)
-        const totalHoursUntilPresale = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
-        const remainingMinutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const remainingSeconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
         
-        timerHours.textContent = Math.min(totalHoursUntilPresale, 360).toString().padStart(3, '0');
-        timerMinutes.textContent = remainingMinutes.toString().padStart(2, '0');
-        timerSeconds.textContent = remainingSeconds.toString().padStart(2, '0');
-        timerStatus.textContent = 'PRE-SALE STARTS IN';
-        
-        // Detailed countdown
         if (countdownDays) {
             countdownDays.textContent = days.toString().padStart(2, '0');
             countdownHours.textContent = hours.toString().padStart(2, '0');
@@ -353,7 +377,7 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else if (now < config.dropDate) {
-        // During pre-sale period (15 days = 360 hours countdown to drop)
+        // Aug 21 to Sep 5 - Show countdown (360 hours max)
         const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -361,7 +385,7 @@ function updateTimer() {
         
         timerStatus.textContent = 'PRE-SALE LIVE - DROP IN';
         
-        // Show countdown to drop (max 360 hours for 15 days)
+        // Show countdown to drop (360 hours for 15 days)
         const totalHoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
         const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
@@ -377,7 +401,7 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else {
-        // After drop - show 120 hours countdown
+        // After Sep 5 - show 120 hours countdown
         const hoursAfterDrop = Math.floor((now - config.dropDate) / (1000 * 60 * 60));
         const remainingCountdownHours = Math.max(0, 120 - hoursAfterDrop);
         
@@ -695,6 +719,8 @@ function toggleTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     // Load cart from localStorage
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
+    
+    // Initialize cart display
     updateCartCount();
     
     const isShopPage = window.location.pathname.includes('shop');
@@ -703,7 +729,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         showPageContent();
         updatePairsLeft();
-        updateCartCount();
+        updateCartCount(); // Update again after page loads
     }, 1000);
 
     if (document.getElementById('timerHours')) {
