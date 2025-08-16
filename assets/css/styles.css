@@ -2617,4 +2617,273 @@ body:not(.loaded) .main-header { opacity: 0; }
         font-size: 12px;
         margin-top: 5px;
     }
+    /* MOBILE CSS FIXES - Add to end of styles.css */
+
+/* =================================
+   MOBILE TEXT CENTERING & ALIGNMENT FIXES
+   ================================= */
+@media screen and (max-width: 768px) {
+    /* Fix content right-tilt - center everything properly */
+    .content-wrapper {
+        padding: 80px 20px 20px 20px !important;
+        display: flex;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .landing-content {
+        text-align: center !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Center all text elements */
+    .product-title,
+    .product-subtitle,
+    .product-description,
+    .product-price,
+    .features-title,
+    .feature-title,
+    .feature-description,
+    .bundle-promo-title,
+    .bundle-promo-subtitle,
+    .tagline,
+    .social-text,
+    .email-signup-title {
+        text-align: center !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    
+    /* Properly center product descriptions with padding */
+    .product-description {
+        padding: 0 15px !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Fix any container alignment issues */
+    .product-container,
+    .product-main-layout,
+    .product-info-section,
+    .product-image-section {
+        margin: 0 auto !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    /* Ensure proper centering for all containers */
+    body, html {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/* =================================
+   VERTICAL SPACING REDUCTION
+   ================================= */
+@media screen and (max-width: 768px) {
+    /* Reduce vertical spacing between elements */
+    .logo-container {
+        margin-bottom: 15px !important; /* Was 25px */
+        height: 240px !important; /* Was 280px */
+    }
+    
+    .tagline {
+        margin-bottom: 15px !important; /* Was 20px */
+    }
+    
+    .email-signup {
+        margin-top: 20px !important; /* Was 30px */
+    }
+    
+    .social-container {
+        margin-top: 15px !important; /* Was 20px */
+    }
+    
+    /* Product page spacing */
+    .product-title {
+        margin-bottom: 5px !important;
+    }
+    
+    .product-subtitle {
+        margin-bottom: 10px !important; /* Was 20px */
+    }
+    
+    .product-price {
+        margin-bottom: 15px !important; /* Was 30px */
+    }
+    
+    .product-description {
+        margin-bottom: 20px !important; /* Was 30px */
+    }
+    
+    .size-selector {
+        margin-top: 20px !important; /* Was 40px */
+        padding: 15px !important; /* Was 25px */
+    }
+    
+    .bundle-promo {
+        margin-top: 20px !important; /* Was 30px */
+        padding: 15px !important; /* Was 20px */
+    }
+    
+    .product-features {
+        margin-top: 20px !important; /* Was 30px */
+    }
+    
+    .features-title {
+        margin-bottom: 20px !important; /* Was 30px */
+    }
+    
+    .features-grid {
+        gap: 20px !important; /* Was 30px */
+        margin-bottom: 20px !important; /* Was 40px */
+    }
+    
+    /* Reduce button padding */
+    .btn-primary {
+        padding: 16px 30px !important; /* Was 20px 40px */
+    }
+    
+    .buy-button {
+        padding: 14px 25px !important; /* Was 15px 30px */
+        margin-top: 15px !important; /* Was 20px */
+    }
+}
+
+/* Extra small mobile (under 480px) */
+@media screen and (max-width: 480px) {
+    /* Even tighter spacing for small screens */
+    .logo-container {
+        height: 200px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .content-wrapper {
+        padding: 60px 10px 10px 10px !important;
+    }
+    
+    .product-container {
+        padding-top: 100px !important; /* Was 140px */
+    }
+    
+    .product-main-layout {
+        padding: 20px 10px !important; /* Was 40px */
+    }
+}
+
+/* =================================
+   TIMER POSITION FIX
+   ================================= */
+.timer-container {
+    top: 140px !important; /* Increased from 120px to move it down */
+    right: 30px;
+}
+
+/* Shop page timer adjustment */
+.shop-page .timer-container {
+    top: 160px !important; /* Increased from 140px */
+}
+
+/* Mobile timer position */
+@media screen and (max-width: 768px) {
+    .timer-container {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 20px !important; /* Move to bottom on mobile */
+        right: 20px !important;
+        left: auto !important;
+        margin: 0 !important;
+        width: 200px !important;
+        max-width: calc(100vw - 100px) !important; /* Leave space for cart */
+    }
+    
+    .shop-page .timer-container {
+        bottom: 20px !important;
+        top: auto !important;
+    }
+    
+    /* Ensure cart icon doesn't overlap */
+    .header-cart-icon {
+        margin-right: 5px !important;
+    }
+}
+
+/* Small mobile timer adjustments */
+@media screen and (max-width: 480px) {
+    .timer-container {
+        width: 160px !important;
+        bottom: 15px !important;
+        right: 15px !important;
+    }
+}
+
+/* =================================
+   ADDITIONAL MOBILE CENTERING FIXES
+   ================================= */
+@media screen and (max-width: 768px) {
+    /* Fix any flexbox alignment issues */
+    * {
+        box-sizing: border-box !important;
+    }
+    
+    /* Ensure no horizontal overflow */
+    body, html {
+        overflow-x: hidden !important;
+        width: 100vw !important;
+        max-width: 100% !important;
+    }
+    
+    /* Center headers properly */
+    .main-header,
+    .shop-header {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        justify-content: space-between !important;
+    }
+    
+    /* Fix any absolute positioned elements */
+    .header-center {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    
+    /* Ensure forms are centered */
+    .email-form {
+        justify-content: center !important;
+        width: 100% !important;
+        max-width: 350px !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Product info centering */
+    .product-info-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    /* Size selector centering */
+    .size-selector {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .size-options {
+        justify-content: center !important;
+    }
+    
+    /* Color selector centering */
+    .color-selector-moved {
+        width: 100% !important;
+        margin: 0 auto 20px auto !important;
+    }
+}
 }
