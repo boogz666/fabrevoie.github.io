@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background: #000;">
+<html lang="en" class="shop-page" style="background: #000;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,225 +23,8 @@
     
     <!-- Your Styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    
-    <style>
-        /* CRITICAL FIX: Allow scrolling on shop page */
-        html, body {
-            overflow-x: hidden;
-            overflow-y: auto !important;
-            height: auto !important;
-        }
-        
-        /* Shop Page Specific */
-        .shop-header {
-            position: fixed;
-            top: 44px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* BIGGER CENTER LOGO IN HEADER */
-        .header-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-        }
-        
-        .center-text-logo {
-            height: 45px; /* MADE IT BIGGER - was 30px */
-            width: auto;
-            filter: brightness(0) saturate(100%) invert(100%);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .center-text-logo:hover {
-            filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(437%) hue-rotate(82deg) brightness(95%) contrast(89%);
-            transform: scale(1.05);
-        }
-        
-        /* DARKER BACKGROUND OVERLAY */
-        .product-container {
-            position: relative;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.75);
-            min-height: 100vh;
-        }
-        
-        /* FIX COLOR SELECTOR CENTERING */
-        .color-selector-moved {
-            margin-bottom: 30px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .color-option-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .color-label {
-            font-family: var(--font-headers);
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .color-options {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* FIX COLOR OPTIONS */
-        .color-option {
-            width: 60px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            pointer-events: auto;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .color-option:focus {
-            outline: none;
-        }
-        
-        .color-option.red { 
-            background: #dc3545; 
-        }
-        
-        .color-option.black { 
-            background: #000000; 
-            border: 3px solid #333; 
-        }
-        
-        .color-option.active {
-            border-color: var(--color-primary) !important;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
-        }
-        
-        /* Ensure video background is darker */
-        .bg-video {
-            filter: brightness(0.3);
-        }
-        
-        /* ACCESS DENIED MODAL */
-        .access-denied-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10005;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .access-denied-modal.active {
-            display: flex;
-        }
-
-        .access-denied-content {
-            background: #000;
-            border: 3px solid #ffff00;
-            border-radius: 0;
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
-        }
-
-        .access-denied-content::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: repeating-linear-gradient(
-                45deg,
-                #ffff00 0px,
-                #ffff00 20px,
-                #000 20px,
-                #000 40px
-            );
-            z-index: -1;
-            border-radius: 0;
-        }
-
-        .access-denied-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 2rem;
-            color: #ffff00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-        }
-
-        .access-denied-text {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: white;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .access-denied-close {
-            background: #ffff00;
-            border: none;
-            border-radius: 0;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 16px;
-            padding: 15px 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .access-denied-close:hover {
-            background: #000;
-            color: #ffff00;
-            border: 2px solid #ffff00;
-        }
-    </style>
 </head>
-<body>
+<body class="shop-page">
     <script>document.body.classList.add('loaded');</script>
 
     <!-- Loading Screen -->
@@ -284,7 +67,7 @@
         <div class="announcement-phrase" id="headerPhrase3">LIVE DROP SEPTEMBER 5TH 8AM NYC</div>
     </div>
 
-    <!-- Shop Header with BIGGER Center Logo -->
+    <!-- Shop Header with 5X BIGGER Center Logo -->
     <header class="shop-header">
         <div class="header-left">
             <a href="index.html">
@@ -312,15 +95,15 @@
         </div>
     </header>
 
-    <!-- Timer Container with Collapse Button -->
-    <div class="timer-container" id="timerContainer" style="top: 140px;">
-        <button class="timer-collapse-btn" onclick="toggleTimer()">
-            <i class="fas fa-chevron-up" id="timerToggleIcon"></i>
+    <!-- Timer Container with BETTER TOGGLE BUTTON -->
+    <div class="timer-container" id="timerContainer">
+        <button class="timer-toggle-btn" onclick="toggleTimer()" title="Minimize Timer">
+            <i class="fas fa-minus"></i>
         </button>
         <div class="timer-content" id="timerContent">
             <div class="timer-display">
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerHours">72</div>
+                    <div class="timer-number" id="timerHours">336</div>
                     <div class="timer-label">Hours</div>
                 </div>
                 <div class="timer-unit">
@@ -354,6 +137,9 @@
             <div class="pairs-left">
                 <span id="pairsLeft">100</span>/100 PAIRS LEFT
             </div>
+        </div>
+        <div class="timer-collapsed-icon" style="display: none;">
+            <i class="fas fa-clock"></i>
         </div>
     </div>
 
@@ -632,32 +418,11 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Timer collapse function
-        function toggleTimer() {
-            const timerContent = document.getElementById('timerContent');
-            const toggleIcon = document.getElementById('timerToggleIcon');
-            const timerContainer = document.getElementById('timerContainer');
-            
-            if (timerContent.style.display === 'none') {
-                timerContent.style.display = 'block';
-                toggleIcon.className = 'fas fa-chevron-up';
-                timerContainer.classList.remove('collapsed');
-            } else {
-                timerContent.style.display = 'none';
-                toggleIcon.className = 'fas fa-chevron-down';
-                timerContainer.classList.add('collapsed');
-            }
-        }
-
         // Start announcement header cycling for shop page
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
                 startHeaderAnnouncementCycling();
             }
-            
-            // Ensure page is scrollable
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
             
             // Populate sizes from config
             if (typeof populateSizes === 'function') {
@@ -686,5 +451,103 @@
             });
         }
     </script>
+
+    <style>
+        /* Shop Page Specific Styles */
+        .shop-header {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* DARKER BACKGROUND OVERLAY */
+        .product-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.75);
+            min-height: 100vh;
+        }
+        
+        /* FIX COLOR SELECTOR CENTERING */
+        .color-selector-moved {
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .color-option-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .color-label {
+            font-family: var(--font-headers);
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* FIX COLOR OPTIONS */
+        .color-option {
+            width: 60px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .color-option:focus {
+            outline: none;
+        }
+        
+        .color-option.red { 
+            background: #dc3545; 
+        }
+        
+        .color-option.black { 
+            background: #000000; 
+            border: 3px solid #333; 
+        }
+        
+        .color-option.active {
+            border-color: var(--color-primary) !important;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
+        }
+        
+        /* Ensure video background is darker */
+        .bg-video {
+            filter: brightness(0.3);
+        }
+    </style>
 </body>
 </html>
