@@ -2138,38 +2138,64 @@ padding: 20px;
        height: 45px;
    }
     
-    /* TIMER COLLAPSE BUTTON - Add this to your CSS */
-    .timer-collapse-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background: none;
-        border: none;
-        color: var(--color-primary);
-        font-size: 14px;
+        /* BETTER TIMER COLLAPSE DESIGN - Add to your styles.css */
+    .timer-container {
         cursor: pointer;
-        padding: 5px;
         transition: all 0.3s ease;
-        z-index: 10;
     }
     
-    .timer-collapse-btn:hover {
-        color: #7BC097;
-        transform: scale(1.1);
+    .timer-minimize-text {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-family: var(--font-headers);
+        font-size: 10px;
+        color: var(--color-primary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .timer-container:hover .timer-minimize-text {
+        opacity: 0.7;
     }
     
     .timer-container.collapsed {
         min-width: 60px !important;
-        padding: 10px !important;
+        padding: 15px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    .timer-container.collapsed .timer-collapse-btn {
-        position: static;
-        margin: 0 auto;
-        display: block;
+    .timer-container.collapsed:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 35px rgba(158, 217, 181, 0.6);
+    }
+    
+    .timer-collapsed-icon {
+        font-size: 24px;
+        color: var(--color-primary);
+        text-align: center;
     }
     
     .timer-content {
         transition: all 0.3s ease;
+    }
+    
+    /* FIX OVERFLOW ON INDEX PAGE */
+    .content-container {
+        overflow: hidden !important;
+    }
+    
+    .content-wrapper {
+        overflow: hidden !important;
+    }
+    
+    /* Remove any scrollbars */
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
 }
