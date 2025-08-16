@@ -215,12 +215,16 @@
             font-family: var(--font-headers);
             font-weight: var(--font-primary-weight);
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
+        }
+        
+        .social-container {
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -283,8 +287,13 @@
 
         <div class="header-right">
             <div class="header-cart-icon" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="headerCartCount">0</span>
+                <div class="nest-container">
+                    <div class="nest-base"></div>
+                    <div class="nest-birds" id="nestBirds">
+                        <!-- Baby birds will be added dynamically -->
+                    </div>
+                    <span class="nest-count" id="headerCartCount" style="display: none;">0</span>
+                </div>
             </div>
         </div>
     </header>
@@ -297,19 +306,19 @@
         <div class="timer-content" id="timerContent">
             <div class="timer-display">
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerHours">360</div>
+                    <div class="timer-number" id="timerHours">---</div>
                     <div class="timer-label">Hours</div>
                 </div>
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerMinutes">00</div>
+                    <div class="timer-number" id="timerMinutes">--</div>
                     <div class="timer-label">Minutes</div>
                 </div>
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerSeconds">00</div>
+                    <div class="timer-number" id="timerSeconds">--</div>
                     <div class="timer-label">Seconds</div>
                 </div>
             </div>
-            <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN</div>
+            <div class="timer-status" id="timerStatus">COMING SOON</div>
             <div class="countdown-display">
                 <div class="countdown-unit">
                     <div class="countdown-number" id="countdownDays">00</div>
@@ -379,7 +388,7 @@
                             <i class="fab fa-tiktok"></i>
                         </a>
                     </div>
-                    <p class="social-text">Follow here</p>
+                    <p class="social-text">Follow us</p>
                 </div>
             </div>
         </div>
