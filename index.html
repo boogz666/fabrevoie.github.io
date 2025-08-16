@@ -298,8 +298,8 @@
 
     <!-- Background Video -->
     <video class="bg-video" id="bgVideo" autoplay muted loop playsinline>
-        <source src="assets/videos/bgffm.mp4" type="video/mp4">
-        <source src="assets/videos/bgffm.webm" type="video/webm">
+        <source src="assets/videos/bibi.mp4" type="video/mp4">
+        <source src="assets/videos/bibi.webm" type="video/webm">
         Your browser does not support background video.
     </video>
 
@@ -506,31 +506,6 @@
             // Scene setup
             scene = new THREE.Scene();
             
-            // Create environment map for chrome reflections
-            const cubeTextureLoader = new THREE.CubeTextureLoader();
-            
-            // Create a simple gradient environment for reflections
-            const pmremGenerator = new THREE.PMREMGenerator(renderer);
-            pmremGenerator.compileEquirectangularShader();
-            
-            // Create a fake studio environment for chrome reflections
-            const envScene = new THREE.Scene();
-            envScene.background = new THREE.Color(0xffffff);
-            
-            // Add gradient background for reflections
-            const envMesh = new THREE.Mesh(
-                new THREE.SphereGeometry(500, 60, 40),
-                new THREE.MeshBasicMaterial({
-                    map: createGradientTexture(),
-                    side: THREE.BackSide
-                })
-            );
-            envScene.add(envMesh);
-            
-            // Generate environment map
-            const renderTarget = pmremGenerator.fromScene(envScene);
-            scene.environment = renderTarget.texture;
-            
             // Camera setup
             camera = new THREE.PerspectiveCamera(
                 45,
@@ -540,7 +515,7 @@
             );
             camera.position.set(0, 0, 5);
             
-            // Renderer setup
+            // Renderer setup - MUST BE BEFORE USING IT
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 antialias: true,
@@ -549,9 +524,10 @@
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setClearColor(0x000000, 0); // Transparent
-            renderer.toneMapping = THREE.ACESFilmicToneMapping; // Better for metallic materials
-            renderer.toneMappingExposure = 1.0;
-            renderer.outputEncoding = THREE.sRGBEncoding; // Proper color space
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.5; // Increased exposure
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.physicallyCorrectLights = true; // Better lighting
             
             // Much stronger lighting for chrome material
             const ambientLight = new THREE.AmbientLight(0xffffff, 1.0); // Increased
@@ -615,30 +591,7 @@
                     // Center the model
                     model.position.sub(center.multiplyScalar(scale));
                     
-                    // Create environment map for chrome reflections (if material is metallic)
-                    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256);
-                    cubeRenderTarget.texture.type = THREE.HalfFloatType;
-                    
-                    const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget);
-                    
-                    // Create a simple environment to reflect
-                    const envGeometry = new THREE.BoxGeometry(10, 10, 10);
-                    const envMaterial = new THREE.MeshBasicMaterial({
-                        color: 0xffffff,
-                        side: THREE.BackSide
-                    });
-                    const envMesh = new THREE.Mesh(envGeometry, envMaterial);
-                    scene.add(envMesh);
-                    envMesh.visible = false; // Hide but use for reflections
-                    
-                    // Apply environment map to chrome materials
-                    model.traverse((child) => {
-                        if (child.isMesh && child.material) {
-                            child.material.envMap = cubeRenderTarget.texture;
-                            child.material.envMapIntensity = 1.0;
-                            child.material.needsUpdate = true;
-                        }
-                    });
+                    // Don't override materials - let the chrome from Blender show
                     
                     scene.add(model);
                     
