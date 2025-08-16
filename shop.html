@@ -53,6 +53,19 @@
         </div>
     </div>
 
+    <!-- Size Warning Modal -->
+    <div class="size-warning-modal" id="sizeWarningModal">
+        <div class="size-warning-content">
+            <h2 class="size-warning-title">PICK A SIZE OR GET LOST</h2>
+            <p class="size-warning-text">
+                Seriously?<br>
+                You can't buy shoes without picking a size.<br>
+                This isn't rocket science.
+            </p>
+            <button class="size-warning-close" onclick="closeSizeWarning()">FINE, I'LL PICK ONE</button>
+        </div>
+    </div>
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
@@ -240,7 +253,7 @@
                     Each step is a middle finger to mediocrity.
                 </p>
                 
-                <!-- SIZE SELECTOR -->
+                <!-- SIZE SELECTOR WITH COLOR OPTIONS -->
                 <div class="size-selector">
                     <div class="size-selector-header">
                         <h4 class="size-title">Pick Your Size (Unisex)</h4>
@@ -251,8 +264,18 @@
                     <div class="size-options" id="sizeOptions">
                         <!-- Will be populated by JS -->
                     </div>
-                    <div class="size-warning" id="sizeWarning" style="display: none;">
-                        PICK A SIZE OR GET LOST
+                    
+                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR -->
+                    <div class="size-section-colors">
+                        <div class="size-section-color-title">Choose Color</div>
+                        <div class="size-section-color-options">
+                            <div class="size-section-color-option red active" data-color="red" onclick="changeProductColor('red')">
+                                <span class="size-section-color-label">RED</span>
+                            </div>
+                            <div class="size-section-color-option black" data-color="black" onclick="changeProductColor('black')">
+                                <span class="size-section-color-label">BLACK</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -360,9 +383,9 @@
         </footer>
     </div>
 
-    <!-- Image Popup Modal -->
+    <!-- Image Popup Modal with Touch Support -->
     <div class="image-popup-modal" id="imagePopupModal">
-        <div class="image-popup-content">
+        <div class="image-popup-content" id="imagePopupContent">
             <button class="image-popup-close" onclick="closeImagePopup()">
                 <i class="fas fa-times"></i>
             </button>
@@ -452,6 +475,105 @@
 
     <script src="assets/js/main.js"></script>
     <script>
+        // Override buyProduct to use modal instead of inline warning
+        function buyProduct() {
+            if (!state.selectedSize) {
+                const modal = document.getElementById('sizeWarningModal');
+                if (modal) {
+                    modal.classList.add('active');
+                }
+                return;
+            }
+            
+            // Visual feedback
+            const buyButton = document.getElementById('buyButton');
+            if (buyButton) {
+                buyButton.innerHTML = 'ADDING TO CART... <i class="fas fa-spinner fa-spin"></i>';
+                buyButton.disabled = true;
+            }
+            
+            // Add to cart instead of direct checkout
+            addToCart(state.currentColor, state.selectedSize);
+            
+            // Reset button after short delay
+            setTimeout(() => {
+                if (buyButton) {
+                    buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
+                    buyButton.disabled = false;
+                }
+                // Reset size selection
+                resetSizeSelection();
+            }, 500);
+        }
+        
+        // Close size warning modal
+        function closeSizeWarning() {
+            const modal = document.getElementById('sizeWarningModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
+        // Update color selection in both places
+        function changeProductColor(color) {
+            // Update all color options
+            document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Set active state for both selectors
+            document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
+                option.classList.add('active');
+            });
+            
+            // If the function exists in main.js, call it
+            if (window.changeProductColor) {
+                window.changeProductColor(color);
+            }
+        }
+        
+        // Initialize popup swipe support
+        function initPopupSwipe() {
+            const popupContent = document.getElementById('imagePopupContent');
+            const popupImage = document.getElementById('popupImage');
+            
+            if (!popupContent || !popupImage) return;
+            
+            let startX = 0;
+            let startY = 0;
+            let endX = 0;
+            let endY = 0;
+            
+            // Touch start
+            popupImage.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            // Touch end
+            popupImage.addEventListener('touchend', function(e) {
+                endX = e.changedTouches[0].clientX;
+                endY = e.changedTouches[0].clientY;
+                handlePopupSwipe();
+            }, { passive: true });
+            
+            function handlePopupSwipe() {
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                const threshold = 50;
+                
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+                    if (diffX > 0) {
+                        // Swipe left - next image
+                        nextPopupImage();
+                    } else {
+                        // Swipe right - previous image
+                        previousPopupImage();
+                    }
+                }
+            }
+        }
+        
         // Start announcement header cycling for shop page
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
@@ -462,10 +584,23 @@
             if (typeof populateSizes === 'function') {
                 populateSizes();
             }
+            
+            // Initialize popup swipe support
+            initPopupSwipe();
+            
+            // Close size warning modal when clicking outside
+            const sizeWarningModal = document.getElementById('sizeWarningModal');
+            if (sizeWarningModal) {
+                sizeWarningModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeSizeWarning();
+                    }
+                });
+            }
         });
         
         // Override any color option click handlers to prevent keyboard
-        document.querySelectorAll('.color-option').forEach(option => {
+        document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
             option.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -484,6 +619,11 @@
                 }
             });
         }
+        
+        // Make functions globally accessible
+        window.buyProduct = buyProduct;
+        window.closeSizeWarning = closeSizeWarning;
+        window.changeProductColor = changeProductColor;
     </script>
 
     <style>
@@ -508,6 +648,96 @@
             z-index: 10;
             background: rgba(0, 0, 0, 0.75);
             min-height: 100vh;
+        }
+        
+        /* SIZE WARNING MODAL WITH YELLOW TAPE DESIGN */
+        .size-warning-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .size-warning-modal.active {
+            display: flex;
+        }
+
+        .size-warning-content {
+            background: #000;
+            border: 3px solid #ffff00;
+            border-radius: 0;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
+        }
+
+        .size-warning-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffff00 0px,
+                #ffff00 20px,
+                #000 20px,
+                #000 40px
+            );
+            z-index: -1;
+            border-radius: 0;
+        }
+
+        .size-warning-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-primary-weight);
+            font-size: 2rem;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .size-warning-text {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .size-warning-close {
+            background: #ffff00;
+            border: none;
+            border-radius: 0;
+            color: #000;
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 16px;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .size-warning-close:hover {
+            background: #000;
+            color: #ffff00;
+            border: 2px solid #ffff00;
         }
         
         /* FIX COLOR SELECTOR CENTERING */
@@ -586,6 +816,42 @@
         /* Ensure video background is darker */
         .bg-video {
             filter: brightness(0.3);
+        }
+        
+        /* Enhanced popup image for better swipe experience */
+        .image-popup-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(158, 217, 181, 0.3);
+            touch-action: pan-y;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        
+        /* Mobile specific popup adjustments */
+        @media screen and (max-width: 768px) {
+            .size-warning-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .size-warning-title {
+                font-size: 1.5rem;
+            }
+            
+            .size-warning-text {
+                font-size: 1rem;
+            }
+            
+            .image-popup-content {
+                touch-action: pan-y;
+            }
+            
+            .image-popup-nav {
+                opacity: 0.8;
+            }
         }
     </style>
 </body>
