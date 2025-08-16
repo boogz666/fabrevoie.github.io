@@ -352,7 +352,7 @@ body:not(.loaded) .main-header { opacity: 0; }
     animation: cartBounce 0.3s ease;
 }
 
-/* IMPROVED TIMER CONTAINER */
+/* WINDOWED TIMER CONTAINER - SMALL SIDE WIDGET */
 .timer-container {
     position: fixed;
     top: 120px;
@@ -364,11 +364,11 @@ body:not(.loaded) .main-header { opacity: 0; }
     padding: 15px;
     text-align: center;
     box-shadow: 0 0 25px rgba(158, 217, 181, 0.3);
-    min-width: 220px;
+    width: 220px;
+    max-width: 220px;
     z-index: 9999;
     animation: timerPulse 3s infinite;
     transition: all 0.3s ease;
-    position: relative;
 }
 
 /* SHOP PAGE TIMER POSITION FIX */
