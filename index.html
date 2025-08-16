@@ -525,22 +525,26 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setClearColor(0x000000, 0); // Transparent
             
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            // Lighting optimized for chrome
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
             scene.add(ambientLight);
             
-            const directionalLight = new THREE.DirectionalLight(0x9ED9B5, 0.8);
-            directionalLight.position.set(5, 5, 5);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            directionalLight.position.set(5, 10, 5);
             scene.add(directionalLight);
             
-            const directionalLight2 = new THREE.DirectionalLight(0x7BC097, 0.4);
+            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
             directionalLight2.position.set(-5, -5, 5);
             scene.add(directionalLight2);
             
-            // Add some rim lighting for better visibility
-            const rimLight = new THREE.DirectionalLight(0x9ED9B5, 0.3);
-            rimLight.position.set(0, 0, -5);
-            scene.add(rimLight);
+            // Add point lights for better chrome reflections
+            const pointLight1 = new THREE.PointLight(0xffffff, 0.5);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0x9ED9B5, 0.3);
+            pointLight2.position.set(-10, -10, 10);
+            scene.add(pointLight2);
             
             // OrbitControls for user interaction
             controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -571,16 +575,15 @@
                     // Center the model
                     model.position.sub(center.multiplyScalar(scale));
                     
-                    // Apply emissive material for glow effect
+                    // Apply chrome material for shiny metallic effect
                     model.traverse((child) => {
                         if (child.isMesh) {
-                            // Make the material glow with brand colors
-                            child.material = new THREE.MeshPhongMaterial({
-                                color: 0x9ED9B5,
-                                emissive: 0x9ED9B5,
-                                emissiveIntensity: 0.2,
-                                shininess: 100,
-                                specular: 0x7BC097
+                            // Create shiny chrome material
+                            child.material = new THREE.MeshStandardMaterial({
+                                color: 0xffffff,
+                                metalness: 1.0,
+                                roughness: 0.0,
+                                envMapIntensity: 1.0
                             });
                         }
                     });
@@ -643,9 +646,9 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            // Auto-rotate the model
+            // Auto-rotate the model (reversed direction)
             if (model && autoRotate) {
-                model.rotation.y += 0.005; // Slow rotation
+                model.rotation.y -= 0.005; // Slow rotation (reversed)
             }
             
             // Update controls
