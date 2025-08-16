@@ -138,7 +138,7 @@
                 <span id="pairsLeft">100</span>/100 PAIRS LEFT
             </div>
         </div>
-        <div class="timer-collapsed-icon" style="display: none;">
+        <div class="timer-collapsed-icon" style="display: none;" onclick="toggleTimer()">
             <i class="fas fa-clock"></i>
         </div>
     </div>
@@ -341,6 +341,23 @@
                 <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy</a> | Don't be the best... Be the worst.</p>
             </div>
         </footer>
+    </div>
+
+    <!-- Image Popup Modal -->
+    <div class="image-popup-modal" id="imagePopupModal">
+        <div class="image-popup-content">
+            <button class="image-popup-close" onclick="closeImagePopup()">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="image-popup-nav prev" onclick="previousPopupImage()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img src="" alt="Product Image" class="image-popup-img" id="popupImage">
+            <button class="image-popup-nav next" onclick="nextPopupImage()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="image-popup-counter" id="popupCounter">1 / 5</div>
+        </div>
     </div>
 
     <!-- Size Guide Modal -->
@@ -547,6 +564,21 @@
         /* Ensure video background is darker */
         .bg-video {
             filter: brightness(0.3);
+        }
+        
+        /* ENSURE WHITE BOX AROUND COLOR SELECTOR */
+        .color-selector-moved {
+            margin-bottom: 30px !important;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 20px !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-radius: 15px !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
     </style>
 </body>
