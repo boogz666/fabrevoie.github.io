@@ -172,11 +172,11 @@
                     <div class="color-selector-title">Choose Your Poison</div>
                     <div class="color-options">
                         <div class="color-option-container">
-                            <div class="color-option red active" data-color="red" onclick="changeProductColor('red')" tabindex="-1"></div>
+                            <div class="color-option red active" data-color="red" onclick="updateProductColor('red')" tabindex="-1"></div>
                             <span class="color-label">RED</span>
                         </div>
                         <div class="color-option-container">
-                            <div class="color-option black" data-color="black" onclick="changeProductColor('black')" tabindex="-1"></div>
+                            <div class="color-option black" data-color="black" onclick="updateProductColor('black')" tabindex="-1"></div>
                             <span class="color-label">BLACK</span>
                         </div>
                     </div>
@@ -269,10 +269,10 @@
                     <div class="size-section-colors">
                         <div class="size-section-color-title">Choose Color</div>
                         <div class="size-section-color-options">
-                            <div class="size-section-color-option red active" data-color="red" onclick="changeProductColor('red')">
+                            <div class="size-section-color-option red active" data-color="red" onclick="updateProductColor('red')">
                                 <span class="size-section-color-label">RED</span>
                             </div>
-                            <div class="size-section-color-option black" data-color="black" onclick="changeProductColor('black')">
+                            <div class="size-section-color-option black" data-color="black" onclick="updateProductColor('black')">
                                 <span class="size-section-color-label">BLACK</span>
                             </div>
                         </div>
@@ -442,7 +442,7 @@
         </div>
     </div>
 
-    <!-- Custom Cart Modal -->
+    <!-- Custom Cart Modal with Discount Notice -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-backdrop" onclick="closeCart()"></div>
         <div class="cart-content">
@@ -461,6 +461,13 @@
             </div>
             
             <div class="cart-footer" id="cartFooter">
+                <!-- Bundle Discount Notice -->
+                <div class="cart-discount-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <span>BUNDLE DISCOUNTS APPLIED AT CHECKOUT</span>
+                    <small>Add multiple pairs for automatic savings</small>
+                </div>
+                
                 <div class="cart-total">
                     <span>TOTAL DAMAGE:</span>
                     <span class="cart-total-price" id="cartTotalPrice">$0</span>
@@ -475,6 +482,24 @@
 
     <script src="assets/js/main.js"></script>
     <script>
+        // Fixed color change function that properly calls the main.js function
+        function updateProductColor(color) {
+            // Update all color options UI
+            document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Set active state for both selectors
+            document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
+                option.classList.add('active');
+            });
+            
+            // Call the actual changeProductColor from main.js
+            if (window.changeProductColor && typeof window.changeProductColor === 'function') {
+                window.changeProductColor(color);
+            }
+        }
+        
         // Override buyProduct to use modal instead of inline warning
         function buyProduct() {
             if (!state.selectedSize) {
@@ -511,24 +536,6 @@
             const modal = document.getElementById('sizeWarningModal');
             if (modal) {
                 modal.classList.remove('active');
-            }
-        }
-        
-        // Update color selection in both places
-        function changeProductColor(color) {
-            // Update all color options
-            document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            // Set active state for both selectors
-            document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
-                option.classList.add('active');
-            });
-            
-            // If the function exists in main.js, call it
-            if (window.changeProductColor) {
-                window.changeProductColor(color);
             }
         }
         
@@ -623,7 +630,7 @@
         // Make functions globally accessible
         window.buyProduct = buyProduct;
         window.closeSizeWarning = closeSizeWarning;
-        window.changeProductColor = changeProductColor;
+        window.updateProductColor = updateProductColor;
     </script>
 
     <style>
@@ -740,6 +747,54 @@
             border: 2px solid #ffff00;
         }
         
+        /* CART DISCOUNT NOTICE */
+        .cart-discount-notice {
+            background: linear-gradient(135deg, rgba(158, 217, 181, 0.2), rgba(158, 217, 181, 0.1));
+            border: 1px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: subtleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(158, 217, 181, 0.2);
+                border-color: var(--color-primary);
+            }
+            50% { 
+                box-shadow: 0 0 15px rgba(158, 217, 181, 0.3);
+                border-color: #7BC097;
+            }
+        }
+
+        .cart-discount-notice i {
+            font-size: 18px;
+            color: var(--color-primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cart-discount-notice span {
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cart-discount-notice small {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: #ccc;
+            display: block;
+            opacity: 0.9;
+        }
+        
         /* FIX COLOR SELECTOR CENTERING */
         .color-selector-moved {
             margin-bottom: 30px;
@@ -851,6 +906,19 @@
             
             .image-popup-nav {
                 opacity: 0.8;
+            }
+            
+            .cart-discount-notice {
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .cart-discount-notice span {
+                font-size: 0.8rem;
+            }
+            
+            .cart-discount-notice small {
+                font-size: 0.7rem;
             }
         }
     </style>
