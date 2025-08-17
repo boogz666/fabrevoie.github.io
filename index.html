@@ -258,6 +258,129 @@
         .social-container {
             margin-top: 30px;
         }
+        
+        /* MOBILE FIXES FOR EMAIL AND BUTTON */
+        @media screen and (max-width: 768px) {
+            .landing-content {
+                padding: 0 20px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .email-signup {
+                max-width: 100% !important;
+                padding: 0 10px !important;
+                box-sizing: border-box !important;
+            }
+            
+            .email-form {
+                flex-direction: column !important;
+                gap: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .email-input {
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 12px 15px !important;
+                font-size: 13px !important;
+                letter-spacing: 1px !important;
+            }
+            
+            .email-input::placeholder {
+                font-size: 11px !important;
+                letter-spacing: 1px !important;
+            }
+            
+            .email-submit {
+                width: 100% !important;
+                padding: 12px 20px !important;
+                font-size: 13px !important;
+                letter-spacing: 1px !important;
+            }
+            
+            /* Smaller Disturb the Peace button on mobile */
+            .btn-primary {
+                font-size: 15px !important;
+                padding: 16px 28px !important;
+                letter-spacing: 0.5px !important;
+                width: auto !important;
+                max-width: 90% !important;
+            }
+            
+            .email-disclaimer {
+                font-size: 10px !important;
+                padding: 0 10px !important;
+            }
+            
+            .email-welcome {
+                font-size: 1rem !important;
+                padding: 0 10px !important;
+            }
+            
+            .email-welcome-subtext {
+                font-size: 11px !important;
+                padding: 0 10px !important;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .landing-content {
+                padding: 0 15px !important;
+            }
+            
+            .email-signup {
+                padding: 0 5px !important;
+            }
+            
+            .email-form {
+                gap: 10px !important;
+            }
+            
+            .email-input {
+                padding: 10px 12px !important;
+                font-size: 12px !important;
+                letter-spacing: 0.8px !important;
+            }
+            
+            .email-input::placeholder {
+                font-size: 10px !important;
+                letter-spacing: 0.8px !important;
+            }
+            
+            .email-submit {
+                padding: 10px 15px !important;
+                font-size: 12px !important;
+                letter-spacing: 0.8px !important;
+            }
+            
+            /* Even smaller Disturb the Peace button on very small screens */
+            .btn-primary {
+                font-size: 14px !important;
+                padding: 14px 24px !important;
+                letter-spacing: 0.3px !important;
+            }
+            
+            .email-disclaimer {
+                font-size: 9px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .email-welcome {
+                font-size: 0.9rem !important;
+                letter-spacing: 1px !important;
+            }
+            
+            .email-welcome-subtext {
+                font-size: 10px !important;
+            }
+            
+            .email-reset-link {
+                font-size: 9px !important;
+            }
+        }
     </style>
 </head>
 <body class="index-page">
