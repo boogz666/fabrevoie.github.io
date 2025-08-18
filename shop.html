@@ -167,7 +167,7 @@
         <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
             <!-- Left: Images -->
             <div class="product-image-section">
-                <!-- Color Selector with Labels -->
+                <!-- Color Selector with Labels - KEEPING YOUR ORIGINAL STYLE -->
                 <div class="color-selector-moved">
                     <div class="color-selector-title">Choose Your Poison</div>
                     <div class="color-options">
@@ -240,7 +240,8 @@
                     </div>
                 </div>
             </div>
-<!-- Right: Product Info -->
+            
+            <!-- Right: Product Info -->
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
@@ -677,73 +678,6 @@
             z-index: 10;
             background: rgba(0, 0, 0, 0.75);
             min-height: 100vh;
-        }
-
-        /* FIX FOR CHOOSE YOUR POISON CENTERING */
-        .color-selector-moved {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .color-selector-title {
-            font-family: 'Montserrat', sans-serif !important;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: white;
-            text-align: center;
-        }
-
-        .color-options {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .color-option-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .color-label {
-            font-family: 'Montserrat', sans-serif !important;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-        }
-
-        .color-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-        }
-
-        .color-option.red {
-            background: linear-gradient(135deg, #8B0000, #DC143C);
-        }
-
-        .color-option.black {
-            background: linear-gradient(135deg, #000000, #333333);
-        }
-
-        .color-option.active {
-            border-color: var(--color-primary);
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
-        }
-
-        .color-option:hover {
-            transform: scale(1.05);
         }
         
         /* NEW: LIFESTYLE CAROUSEL STYLES */
