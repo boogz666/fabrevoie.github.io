@@ -623,7 +623,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// FIXED TIMER FUNCTION - 168 HOURS FROM AUG 21 TO AUG 28
+// PROPERLY FIXED TIMER FUNCTION - NO LEADING ZEROS, CORRECT COUNTDOWN
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -650,16 +650,16 @@ function updateTimer() {
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
         
-        // Total hours until presale (around 72 now)
+        // Total hours until presale (should be around 72)
         const totalHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
         
-        // Format hours properly - no leading zeros under 100
+        // NO LEADING ZEROS FOR HOURS UNDER 100
         if (totalHours < 10) {
             timerHours.textContent = totalHours.toString();
         } else if (totalHours < 100) {
-            timerHours.textContent = totalHours.toString().padStart(2, '0');
+            timerHours.textContent = totalHours.toString();
         } else {
-            timerHours.textContent = totalHours.toString().padStart(3, '0');
+            timerHours.textContent = totalHours.toString();
         }
         
         timerMinutes.textContent = minutes.toString().padStart(2, '0');
@@ -685,8 +685,8 @@ function updateTimer() {
         const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
         
-        // Display hours (will be 168 max, counting down)
-        timerHours.textContent = totalHoursUntilDrop.toString().padStart(3, '0');
+        // Display hours (168 down to 0)
+        timerHours.textContent = totalHoursUntilDrop.toString();
         timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
         timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
         
@@ -698,7 +698,7 @@ function updateTimer() {
         }
     } else {
         // After Aug 28 - Drop is fully live
-        timerHours.textContent = '000';
+        timerHours.textContent = '0';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
         timerStatus.textContent = 'DROP IS LIVE NOW!';
