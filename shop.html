@@ -69,7 +69,7 @@
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
-            FIRST COME, FIRST SERVED. • PRE-SALE STARTS AUGUST 21ST 8AM NYC • LIVE DROP SEPTEMBER 5TH 8AM NYC • 
+            FIRST COME, FIRST SERVED. • PRE-SALE STARTS AUGUST 21ST 8AM NYC • LIVE DROP AUGUST 28TH 8AM NYC • 
         </div>
     </div>
 
@@ -77,10 +77,10 @@
     <div class="announcement-header">
         <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
         <div class="announcement-phrase" id="headerPhrase2">PRE-SALE STARTS AUGUST 21ST 8AM NYC</div>
-        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP SEPTEMBER 5TH 8AM NYC</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP THURSDAY AUGUST 28TH 8AM NYC</div>
     </div>
 
-    <!-- Shop Header with 5X BIGGER Center Logo -->
+    <!-- Shop Header with Center Logo -->
     <header class="shop-header">
         <div class="header-left">
             <a href="index.html">
@@ -114,7 +114,7 @@
         </div>
     </header>
 
-    <!-- Timer Container with BETTER TOGGLE BUTTON -->
+    <!-- Timer Container -->
     <div class="timer-container" id="timerContainer">
         <button class="timer-toggle-btn" onclick="toggleTimer()" title="Minimize Timer">
             <i class="fas fa-minus"></i>
@@ -240,8 +240,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Right: Product Info -->
+<!-- Right: Product Info -->
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
@@ -285,7 +284,7 @@
                     <i class="fas fa-shopping-cart"></i>
                 </button>
                 
-                <!-- UPDATED Bundle Promo -->
+                <!-- Bundle Promo -->
                 <div class="bundle-promo">
                     <h3 class="bundle-promo-title">GET GREEDY - BUNDLE DEALS</h3>
                     <p class="bundle-promo-subtitle">Why stop at one when you can dominate in every color?</p>
@@ -311,7 +310,6 @@
                         </div>
                     </div>
                     
-                    <!-- BIG DISCLAIMER REPLACING "Stack your arsenal" -->
                     <div class="bundle-disclaimer">
                         <i class="fas fa-info-circle"></i>
                         <span>DISCOUNTS AUTOMATICALLY APPLIED AT CHECKOUT</span>
@@ -321,6 +319,50 @@
                     <a href="https://shop.fabrevoie.com/products/sbhmn-1" class="btn btn-secondary">
                         <i class="fas fa-crown"></i> START SHOPPING
                     </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: LIFESTYLE CAROUSEL SECTION -->
+        <div class="lifestyle-section">
+            <h2 class="lifestyle-title">LIFESTYLE SHOTS</h2>
+            <p class="lifestyle-subtitle">See how troublemakers rock the SBHMN 1</p>
+            
+            <div class="lifestyle-carousel">
+                <button class="carousel-nav carousel-nav-prev" onclick="previousLifestyleImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="lifestyle-carousel-wrapper">
+                    <div class="lifestyle-carousel-track">
+                        <div class="lifestyle-slide">
+                            <img src="assets/images/lifestyle-1.jpg" alt="Lifestyle 1">
+                        </div>
+                        <div class="lifestyle-slide">
+                            <img src="assets/images/lifestyle-2.jpg" alt="Lifestyle 2">
+                        </div>
+                        <div class="lifestyle-slide">
+                            <img src="assets/images/lifestyle-3.jpg" alt="Lifestyle 3">
+                        </div>
+                        <div class="lifestyle-slide">
+                            <img src="assets/images/lifestyle-4.jpg" alt="Lifestyle 4">
+                        </div>
+                        <div class="lifestyle-slide">
+                            <img src="assets/images/lifestyle-5.jpg" alt="Lifestyle 5">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="carousel-nav carousel-nav-next" onclick="nextLifestyleImage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <div class="carousel-dots">
+                    <span class="carousel-dot active" onclick="goToLifestyleSlide(0)"></span>
+                    <span class="carousel-dot" onclick="goToLifestyleSlide(1)"></span>
+                    <span class="carousel-dot" onclick="goToLifestyleSlide(2)"></span>
+                    <span class="carousel-dot" onclick="goToLifestyleSlide(3)"></span>
+                    <span class="carousel-dot" onclick="goToLifestyleSlide(4)"></span>
                 </div>
             </div>
         </div>
@@ -383,7 +425,7 @@
         </footer>
     </div>
 
-    <!-- Image Popup Modal with Touch Support -->
+    <!-- Image Popup Modal -->
     <div class="image-popup-modal" id="imagePopupModal">
         <div class="image-popup-content" id="imagePopupContent">
             <button class="image-popup-close" onclick="closeImagePopup()">
@@ -442,7 +484,7 @@
         </div>
     </div>
 
-    <!-- Custom Cart Modal with Discount Notice -->
+    <!-- Custom Cart Modal -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-backdrop" onclick="closeCart()"></div>
         <div class="cart-content">
@@ -482,25 +524,22 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Fixed color change function that properly calls the main.js function
+        // Fixed color change function
         function updateProductColor(color) {
-            // Update all color options UI
             document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
                 option.classList.remove('active');
             });
             
-            // Set active state for both selectors
             document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
                 option.classList.add('active');
             });
             
-            // Call the actual changeProductColor from main.js
             if (window.changeProductColor && typeof window.changeProductColor === 'function') {
                 window.changeProductColor(color);
             }
         }
         
-        // Override buyProduct to use modal instead of inline warning
+        // Override buyProduct to use modal
         function buyProduct() {
             if (!state.selectedSize) {
                 const modal = document.getElementById('sizeWarningModal');
@@ -510,28 +549,23 @@
                 return;
             }
             
-            // Visual feedback
             const buyButton = document.getElementById('buyButton');
             if (buyButton) {
                 buyButton.innerHTML = 'ADDING TO CART... <i class="fas fa-spinner fa-spin"></i>';
                 buyButton.disabled = true;
             }
             
-            // Add to cart instead of direct checkout
             addToCart(state.currentColor, state.selectedSize);
             
-            // Reset button after short delay
             setTimeout(() => {
                 if (buyButton) {
                     buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
                     buyButton.disabled = false;
                 }
-                // Reset size selection
                 resetSizeSelection();
             }, 500);
         }
         
-        // Close size warning modal
         function closeSizeWarning() {
             const modal = document.getElementById('sizeWarningModal');
             if (modal) {
@@ -539,7 +573,6 @@
             }
         }
         
-        // Initialize popup swipe support
         function initPopupSwipe() {
             const popupContent = document.getElementById('imagePopupContent');
             const popupImage = document.getElementById('popupImage');
@@ -551,13 +584,11 @@
             let endX = 0;
             let endY = 0;
             
-            // Touch start
             popupImage.addEventListener('touchstart', function(e) {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             }, { passive: true });
             
-            // Touch end
             popupImage.addEventListener('touchend', function(e) {
                 endX = e.changedTouches[0].clientX;
                 endY = e.changedTouches[0].clientY;
@@ -571,31 +602,25 @@
                 
                 if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
                     if (diffX > 0) {
-                        // Swipe left - next image
                         nextPopupImage();
                     } else {
-                        // Swipe right - previous image
                         previousPopupImage();
                     }
                 }
             }
         }
         
-        // Start announcement header cycling for shop page
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof startHeaderAnnouncementCycling === 'function') {
                 startHeaderAnnouncementCycling();
             }
             
-            // Populate sizes from config
             if (typeof populateSizes === 'function') {
                 populateSizes();
             }
             
-            // Initialize popup swipe support
             initPopupSwipe();
             
-            // Close size warning modal when clicking outside
             const sizeWarningModal = document.getElementById('sizeWarningModal');
             if (sizeWarningModal) {
                 sizeWarningModal.addEventListener('click', function(e) {
@@ -606,7 +631,6 @@
             }
         });
         
-        // Override any color option click handlers to prevent keyboard
         document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
             option.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -617,7 +641,6 @@
             });
         });
         
-        // Close access denied modal when clicking outside
         const accessDeniedModal = document.getElementById('accessDeniedModal');
         if (accessDeniedModal) {
             accessDeniedModal.addEventListener('click', function(e) {
@@ -627,7 +650,6 @@
             });
         }
         
-        // Make functions globally accessible
         window.buyProduct = buyProduct;
         window.closeSizeWarning = closeSizeWarning;
         window.updateProductColor = updateProductColor;
@@ -656,8 +678,184 @@
             background: rgba(0, 0, 0, 0.75);
             min-height: 100vh;
         }
+
+        /* FIX FOR CHOOSE YOUR POISON CENTERING */
+        .color-selector-moved {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .color-selector-title {
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .color-option-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-label {
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .color-option.red {
+            background: linear-gradient(135deg, #8B0000, #DC143C);
+        }
+
+        .color-option.black {
+            background: linear-gradient(135deg, #000000, #333333);
+        }
+
+        .color-option.active {
+            border-color: var(--color-primary);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(158, 217, 181, 0.5);
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+        }
         
-        /* SIZE WARNING MODAL WITH YELLOW TAPE DESIGN */
+        /* NEW: LIFESTYLE CAROUSEL STYLES */
+        .lifestyle-section {
+            padding: 80px 40px;
+            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+        }
+
+        .lifestyle-title {
+            font-family: var(--font-headers);
+            font-weight: var(--font-weight-bold);
+            font-size: 2.5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .lifestyle-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: #999;
+            margin-bottom: 50px;
+        }
+
+        .lifestyle-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .lifestyle-carousel-wrapper {
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .lifestyle-carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .lifestyle-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .lifestyle-slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 2px solid var(--color-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background: var(--color-primary);
+            color: black;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav-prev {
+            left: 20px;
+        }
+
+        .carousel-nav-next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--color-primary);
+            transform: scale(1.3);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* SIZE WARNING MODAL */
         .size-warning-modal {
             position: fixed;
             top: 0;
@@ -795,8 +993,6 @@
             opacity: 0.9;
         }
         
-        /* Rest of your styles... */
-        
         /* Ensure video background is darker */
         .bg-video {
             filter: brightness(0.3);
@@ -804,6 +1000,27 @@
         
         /* Mobile specific adjustments */
         @media screen and (max-width: 768px) {
+            .lifestyle-slide img {
+                height: 400px;
+            }
+            
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-nav-prev {
+                left: 10px;
+            }
+            
+            .carousel-nav-next {
+                right: 10px;
+            }
+            
+            .lifestyle-title {
+                font-size: 2rem;
+            }
+            
             .size-warning-content {
                 padding: 30px 20px;
                 margin: 20px;
@@ -828,6 +1045,24 @@
             
             .cart-discount-notice small {
                 font-size: 0.7rem;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .lifestyle-slide img {
+                height: 300px;
+            }
+            
+            .lifestyle-section {
+                padding: 60px 20px;
+            }
+            
+            .lifestyle-title {
+                font-size: 1.5rem;
+            }
+            
+            .lifestyle-subtitle {
+                font-size: 1rem;
             }
         }
     </style>
