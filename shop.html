@@ -134,7 +134,7 @@
                     <div class="timer-label">Seconds</div>
                 </div>
             </div>
-            <div class="timer-status" id="timerStatus">COMING SOON</div>
+            <div class="timer-status" id="timerStatus">PRE-SALE STARTS IN...</div>
             <div class="countdown-display">
                 <div class="countdown-unit">
                     <div class="countdown-number" id="countdownDays">00</div>
@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div class="pairs-left">
-                <span id="pairsLeft">100</span>/100 PAIRS LEFT
+                <span id="pairsLeft">150</span>/150 PAIRS LEFT
             </div>
         </div>
         <div class="timer-collapsed-icon" style="display: none;" onclick="toggleTimer()">
@@ -795,97 +795,14 @@
             opacity: 0.9;
         }
         
-        /* FIX COLOR SELECTOR CENTERING */
-        .color-selector-moved {
-            margin-bottom: 30px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            padding: 20px !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        .color-option-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .color-label {
-            font-family: var(--font-headers);
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .color-options {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* FIX COLOR OPTIONS */
-        .color-option {
-            width: 60px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            pointer-events: auto;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .color-option:focus {
-            outline: none;
-        }
-        
-        .color-option.red { 
-            background: #dc3545; 
-        }
-        
-        .color-option.black { 
-            background: #000000; 
-            border: 3px solid #333; 
-        }
-        
-        .color-option.active {
-            border-color: var(--color-primary) !important;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(158, 217, 181, 0.5);
-        }
+        /* Rest of your styles... */
         
         /* Ensure video background is darker */
         .bg-video {
             filter: brightness(0.3);
         }
         
-        /* Enhanced popup image for better swipe experience */
-        .image-popup-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(158, 217, 181, 0.3);
-            touch-action: pan-y;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-        
-        /* Mobile specific popup adjustments */
+        /* Mobile specific adjustments */
         @media screen and (max-width: 768px) {
             .size-warning-content {
                 padding: 30px 20px;
@@ -898,14 +815,6 @@
             
             .size-warning-text {
                 font-size: 1rem;
-            }
-            
-            .image-popup-content {
-                touch-action: pan-y;
-            }
-            
-            .image-popup-nav {
-                opacity: 0.8;
             }
             
             .cart-discount-notice {
