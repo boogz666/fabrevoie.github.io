@@ -1,5 +1,5 @@
 // FABREVOIE MAIN.JS - COMPLETE WITH PNG SPIDER SYSTEM & MOBILE FEATURES
-// Last Updated: Aug 16, 2025
+// Last Updated: Aug 18, 2025
 // Shop Domain: shop.fabrevoie.com
 
 // STATE MANAGEMENT
@@ -8,7 +8,7 @@ const state = {
     currentImageIndex: 0,
     selectedSize: null,
     currentGender: 'unisex',
-    pairsLeft: 100,
+    pairsLeft: 150,  // CHANGED TO 150
     cart: [],
     currentHeaderPhraseIndex: 0,
     headerAnnouncementInterval: null,
@@ -18,6 +18,10 @@ const state = {
 
 // CART STATE
 let localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
+
+// SHOPIFY STOREFRONT API CONFIGURATION
+const SHOPIFY_STOREFRONT_TOKEN = '8c1c303201210453ae54e2f37ecfaeab';
+const SHOPIFY_DOMAIN = 'shop.fabrevoie.com';
 
 // VARIANT MAP - YOUR ACTUAL SHOPIFY VARIANT IDS
 const variantMap = {
@@ -90,6 +94,65 @@ const config = {
         { us: '11.5', eu: '45', uk: '10.5', cm: '29.0', inches: '11.4' }
     ]
 };
+
+// FETCH SHOPIFY INVENTORY FUNCTION
+async function fetchShopifyInventory() {
+    try {
+        // Fetch inventory using the public product JSON endpoint
+        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.json`);
+        const data = await response.json();
+        
+        // Calculate total inventory across all variants
+        let totalInventory = 0;
+        let soldOut = 0;
+        
+        if (data.product && data.product.variants) {
+            data.product.variants.forEach(variant => {
+                // Check if variant is available
+                if (variant.available) {
+                    // Shopify doesn't expose exact inventory via JSON API
+                    // We'll estimate based on availability
+                    totalInventory++;
+                } else {
+                    soldOut++;
+                }
+            });
+        }
+        
+        // Calculate approximate pairs left (assuming 150 initial stock)
+        const estimatedSold = Math.floor((soldOut / data.product.variants.length) * 150);
+        state.pairsLeft = Math.max(0, 150 - estimatedSold);
+        
+        // If all variants are available, show full stock
+        if (soldOut === 0) {
+            state.pairsLeft = 150;
+        }
+        
+        // If many are sold out, show lower number
+        if (soldOut > 15) {
+            state.pairsLeft = Math.max(0, 150 - (soldOut * 6));
+        }
+        
+        updatePairsLeft();
+        
+        // Store in localStorage for offline access
+        localStorage.setItem('fabrevoie_inventory', state.pairsLeft);
+        localStorage.setItem('fabrevoie_inventory_time', Date.now());
+        
+    } catch (error) {
+        console.error('Failed to fetch inventory:', error);
+        
+        // Fallback to cached value if available
+        const cachedInventory = localStorage.getItem('fabrevoie_inventory');
+        const cacheTime = localStorage.getItem('fabrevoie_inventory_time');
+        
+        // Use cache if it's less than 5 minutes old
+        if (cachedInventory && cacheTime && (Date.now() - parseInt(cacheTime) < 300000)) {
+            state.pairsLeft = parseInt(cachedInventory);
+            updatePairsLeft();
+        }
+    }
+}
 
 // HEADER HIDE/SHOW ON SCROLL
 function initHeaderScroll() {
@@ -511,7 +574,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// TIMER FUNCTION - UPDATED FOR CORRECT LOGIC
+// TIMER FUNCTION - UPDATED WITH "PRE-SALE STARTS IN..."
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -530,17 +593,20 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // Before Aug 21 - Show "Coming Soon"
-        timerHours.textContent = '---';
-        timerMinutes.textContent = '--';
-        timerSeconds.textContent = '--';
-        timerStatus.textContent = 'COMING SOON';
+        // Before Aug 21 - Show "PRE-SALE STARTS IN..."
+        timerStatus.textContent = 'PRE-SALE STARTS IN...';  // CHANGED FROM "COMING SOON"
         
-        // Show detailed countdown to presale start
+        // Show countdown to presale start
         const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((presaleTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
+        
+        // Show total hours for timer display
+        const totalHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
+        timerHours.textContent = totalHours.toString().padStart(3, '0');
+        timerMinutes.textContent = minutes.toString().padStart(2, '0');
+        timerSeconds.textContent = seconds.toString().padStart(2, '0');
         
         if (countdownDays) {
             countdownDays.textContent = days.toString().padStart(2, '0');
@@ -676,13 +742,22 @@ function changeProductColor(color) {
     resetSizeSelection();
 }
 
+// UPDATED selectSize FUNCTION - NOW DESELECTABLE
 function selectSize(size) {
-    document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
-
     const sizeElement = document.querySelector(`[data-size="${size}"]`);
+    
     if (sizeElement && !sizeElement.classList.contains('out-of-stock')) {
-        sizeElement.classList.add('selected');
-        state.selectedSize = size;
+        // If already selected, deselect it
+        if (sizeElement.classList.contains('selected')) {
+            sizeElement.classList.remove('selected');
+            state.selectedSize = null;
+        } else {
+            // Otherwise, select it
+            document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
+            sizeElement.classList.add('selected');
+            state.selectedSize = size;
+        }
+        
         const sizeWarning = document.getElementById('sizeWarning');
         if (sizeWarning) sizeWarning.style.display = 'none';
         updateBuyButtonText();
@@ -896,6 +971,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         updateCartCount();
     }, 100);
+    
+    // Fetch Shopify inventory every 30 seconds
+    fetchShopifyInventory();
+    setInterval(fetchShopifyInventory, 30000);
     
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
