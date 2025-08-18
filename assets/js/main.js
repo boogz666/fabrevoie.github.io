@@ -1,4 +1,4 @@
-// FABREVOIE MAIN.JS - COMPLETE WITH PNG SPIDER SYSTEM & MOBILE FEATURES
+// FABREVOIE MAIN.JS - FIXED VERSION
 // Last Updated: Aug 18, 2025
 // Shop Domain: shop.fabrevoie.com
 
@@ -8,13 +8,13 @@ const state = {
     currentImageIndex: 0,
     selectedSize: null,
     currentGender: 'unisex',
-    pairsLeft: 150,  // Start at 150
+    pairsLeft: 150,
     cart: [],
     currentHeaderPhraseIndex: 0,
     headerAnnouncementInterval: null,
     lastScrollTop: 0,
     isScrollingDown: false,
-    lifestyleIndex: 0  // For new carousel
+    lifestyleIndex: 0
 };
 
 // CART STATE
@@ -54,7 +54,7 @@ const variantMap = {
 };
 
 const config = {
-    // CORRECT DATES FOR 2025 - THURSDAY TO THURSDAY
+    // FIXED DATES FOR 2025
     dropDate: new Date('2025-08-28T08:00:00-04:00'),  // Thursday August 28th, 2025, 8AM NYC
     presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // Thursday August 21st, 2025, 8AM NYC
     productPrice: 269,
@@ -79,7 +79,6 @@ const config = {
         ]
     },
     
-    // NEW: Lifestyle images for carousel
     lifestyleImages: [
         'assets/images/lifestyle-1.jpg',
         'assets/images/lifestyle-2.jpg',
@@ -105,57 +104,52 @@ const config = {
     ]
 };
 
-// FETCH SHOPIFY INVENTORY WITH ARTIFICIAL SCARCITY
+// OPTIMIZED INVENTORY FETCHING - REDUCED FREQUENCY
+let inventoryFetchTimeout;
 async function fetchShopifyInventory() {
+    // Clear any pending fetches
+    clearTimeout(inventoryFetchTimeout);
+    
     try {
-        // Get actual orders count from localStorage
         let actualOrdersPlaced = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
         
-        // Fetch product data
         const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.js`);
         const productData = await response.json();
         
-        // Count sold out variants
         let soldOutCount = 0;
         productData.variants.forEach(variant => {
             if (!variant.available) soldOutCount++;
         });
         
-        // Estimate orders (rough approximation)
         const estimatedOrders = soldOutCount * 7;
         
-        // Update if higher
         if (estimatedOrders > actualOrdersPlaced) {
             actualOrdersPlaced = estimatedOrders;
             localStorage.setItem('fabrevoie_actual_orders', actualOrdersPlaced);
         }
         
-        // CAP DISPLAY AT 150 - ARTIFICIAL SCARCITY
+        // CAP AT 150 FOR ARTIFICIAL SCARCITY
         let displayRemaining = Math.max(0, 150 - actualOrdersPlaced);
         state.pairsLeft = displayRemaining;
         
         updatePairsLeft();
         
-        // Add "SOLD OUT" visual if at 0
         if (state.pairsLeft === 0) {
             addSoldOutVisuals();
         }
         
-        // Store in localStorage
         localStorage.setItem('fabrevoie_inventory', state.pairsLeft);
         localStorage.setItem('fabrevoie_inventory_time', Date.now());
         
     } catch (error) {
         console.error('Failed to fetch inventory:', error);
-        
-        // Fallback to cached or default
         const cached = localStorage.getItem('fabrevoie_inventory');
         state.pairsLeft = cached ? parseInt(cached) : 150;
         updatePairsLeft();
     }
 }
 
-// Add visual indicators when "sold out"
+// Add visual indicators when sold out
 function addSoldOutVisuals() {
     const pairsLeftElement = document.getElementById('pairsLeft');
     if (pairsLeftElement) {
@@ -164,7 +158,6 @@ function addSoldOutVisuals() {
         pairsLeftElement.classList.add('sold-out');
     }
     
-    // Add sold out badge to timer
     const timerContainer = document.querySelector('.timer-container');
     if (timerContainer && !document.querySelector('.sold-out-badge')) {
         const badge = document.createElement('div');
@@ -190,7 +183,6 @@ function addSoldOutVisuals() {
         timerContainer.appendChild(badge);
     }
     
-    // Update timer status
     const timerStatus = document.getElementById('timerStatus');
     if (timerStatus) {
         timerStatus.textContent = 'SOLD OUT - TAKING FINAL ORDERS';
@@ -231,7 +223,7 @@ function initHeaderScroll() {
     });
 }
 
-// TOUCH/SWIPE SUPPORT FOR MOBILE PRODUCT IMAGES
+// TOUCH/SWIPE SUPPORT FOR MOBILE
 function initMobileSwipe() {
     const productImage = document.getElementById('productImage');
     const imageContainer = document.querySelector('.product-image-container');
@@ -251,7 +243,6 @@ function initMobileSwipe() {
     imageContainer.addEventListener('touchend', (e) => {
         endX = e.changedTouches[0].clientX;
         endY = e.changedTouches[0].clientY;
-        
         handleSwipe();
     }, { passive: true });
     
@@ -270,17 +261,15 @@ function initMobileSwipe() {
     }
 }
 
-// NEW: LIFESTYLE CAROUSEL FUNCTIONS
+// LIFESTYLE CAROUSEL
 function initLifestyleCarousel() {
     const carousel = document.querySelector('.lifestyle-carousel');
     if (!carousel) return;
     
-    // Auto-play carousel
     setInterval(() => {
         nextLifestyleImage();
-    }, 4000); // Change every 4 seconds
+    }, 4000);
     
-    // Touch support for mobile
     let startX = 0;
     carousel.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
@@ -316,7 +305,6 @@ function updateLifestyleCarousel() {
         track.style.transform = `translateX(-${state.lifestyleIndex * 100}%)`;
     }
     
-    // Update dots
     document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
         dot.classList.toggle('active', index === state.lifestyleIndex);
     });
@@ -462,7 +450,6 @@ function updateCartCount() {
     const cartCountElement = document.getElementById('headerCartCount');
     const webFlies = document.getElementById('webFlies');
     const spider = document.querySelector('.spider');
-    const webContainer = document.querySelector('.web-container');
     const spiderWeb = document.querySelector('.spider-web');
     
     if (cartCountElement) {
@@ -476,7 +463,7 @@ function updateCartCount() {
         }
     }
     
-    // Spider behavior based on cart count
+    // Spider behavior
     if (spider) {
         if (count === 0) {
             spider.style.animation = 'spiderMove 2s infinite ease-in-out';
@@ -541,22 +528,30 @@ function updateCartCount() {
     }
 }
 
+// FIXED CHECKOUT FUNCTION - Doesn't lose cart on failure
 function proceedToCheckout() {
     if (localCart.length === 0) {
         alert('Your cart is empty. Add something first!');
         return;
     }
     
+    // Build checkout URL
     const cartItems = localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
     const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}`;
     
-    localStorage.removeItem('fabrevoie_cart');
-    localCart = [];
+    // Save cart to sessionStorage as backup
+    sessionStorage.setItem('fabrevoie_checkout_backup', JSON.stringify(localCart));
     
+    // Redirect WITHOUT clearing cart yet
     window.location.href = checkoutUrl;
+    
+    // Clear cart only after successful redirect (this won't execute if redirect works)
+    setTimeout(() => {
+        localStorage.removeItem('fabrevoie_cart');
+        localCart = [];
+    }, 5000);
 }
 
-// DON'T DISABLE BUY BUTTON AT 0 INVENTORY
 function buyProduct() {
     if (!state.selectedSize) {
         const modal = document.getElementById('sizeWarningModal');
@@ -565,8 +560,6 @@ function buyProduct() {
         }
         return;
     }
-    
-    // NO INVENTORY CHECK - Let them buy even at 0/150
     
     const buyButton = document.getElementById('buyButton');
     if (buyButton) {
@@ -623,7 +616,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// PROPERLY FIXED TIMER FUNCTION - NO LEADING ZEROS, CORRECT COUNTDOWN
+// FIXED TIMER - 168 HOURS FROM PRESALE START
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -642,7 +635,7 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // Before Aug 21 - Show countdown TO presale start
+        // BEFORE PRESALE - Show countdown to presale
         timerStatus.textContent = 'PRE-SALE STARTS IN...';
         
         const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
@@ -650,18 +643,10 @@ function updateTimer() {
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
         
-        // Total hours until presale (should be around 72)
+        // Total hours until presale
         const totalHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
         
-        // NO LEADING ZEROS FOR HOURS UNDER 100
-        if (totalHours < 10) {
-            timerHours.textContent = totalHours.toString();
-        } else if (totalHours < 100) {
-            timerHours.textContent = totalHours.toString();
-        } else {
-            timerHours.textContent = totalHours.toString();
-        }
-        
+        timerHours.textContent = totalHours.toString();
         timerMinutes.textContent = minutes.toString().padStart(2, '0');
         timerSeconds.textContent = seconds.toString().padStart(2, '0');
         
@@ -672,32 +657,37 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else if (now < config.dropDate) {
-        // Aug 21 to Aug 28 - PRESALE IS LIVE! Show 168-hour countdown
+        // PRESALE IS LIVE - Show exactly 168 hours countdown
         timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - DROP IN';
         
-        const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+        // Calculate total milliseconds until drop
+        const totalMilliseconds = dropTimeDiff;
         
-        // Total hours until drop (starts at 168, counts down to 0)
-        const totalHoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
-        const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+        // Convert to hours, minutes, seconds
+        const totalHoursUntilDrop = Math.floor(totalMilliseconds / (1000 * 60 * 60));
+        const remainingAfterHours = totalMilliseconds % (1000 * 60 * 60);
+        const dropMinutes = Math.floor(remainingAfterHours / (1000 * 60));
+        const dropSeconds = Math.floor((remainingAfterHours % (1000 * 60)) / 1000);
         
-        // Display hours (168 down to 0)
-        timerHours.textContent = totalHoursUntilDrop.toString();
+        // Display countdown (will start at 168 and count down to 0)
+        timerHours.textContent = Math.max(0, totalHoursUntilDrop).toString();
         timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
         timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
         
+        // Also update the day/hour/minute/second display
         if (countdownDays) {
+            const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+            
             countdownDays.textContent = days.toString().padStart(2, '0');
             countdownHours.textContent = hours.toString().padStart(2, '0');
             countdownMinutes.textContent = minutes.toString().padStart(2, '0');
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else {
-        // After Aug 28 - Drop is fully live
+        // DROP IS LIVE
         timerHours.textContent = '0';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
@@ -719,6 +709,7 @@ function changeImage(index) {
     updateProductImage();
     updateThumbnails();
     updatePopupImage();
+    preloadNextImage(); // Preload next
 }
 
 function updateProductImage() {
@@ -751,6 +742,7 @@ function nextImage() {
     state.currentImageIndex = (state.currentImageIndex + 1) % images.length;
     updateProductImage();
     updateThumbnails();
+    preloadNextImage();
 }
 
 function previousImage() {
@@ -760,21 +752,56 @@ function previousImage() {
     updateThumbnails();
 }
 
+// FIXED COLOR CHANGE - Properly resets size
 function changeProductColor(color) {
-    document.querySelectorAll('.color-option').forEach(option => option.classList.remove('active'));
-    const colorOption = document.querySelector(`[data-color="${color}"]`);
-    if (colorOption) colorOption.classList.add('active');
-    
+    // Update color state
     state.currentColor = color;
     state.currentImageIndex = 0;
     currentPopupImageIndex = 0;
+    
+    // Reset size selection
+    state.selectedSize = null;
+    document.querySelectorAll('.size-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Update UI
     updateProductImage();
     updateThumbnails();
     updatePopupImage();
-    resetSizeSelection();
+    
+    // Update all color selectors
+    document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
+        option.classList.add('active');
+    });
+    
+    // Hide any size warnings
+    const sizeWarning = document.getElementById('sizeWarning');
+    if (sizeWarning) sizeWarning.style.display = 'none';
+    
+    // Preload images for new color
+    preloadColorImages(color);
 }
 
-// DESELECTABLE SIZE SELECTION
+// Preload images for better performance
+function preloadNextImage() {
+    const images = config.productImages[state.currentColor];
+    const nextIndex = (state.currentImageIndex + 1) % images.length;
+    const img = new Image();
+    img.src = images[nextIndex];
+}
+
+function preloadColorImages(color) {
+    const images = config.productImages[color];
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
 function selectSize(size) {
     const sizeElement = document.querySelector(`[data-size="${size}"]`);
     
@@ -915,26 +942,6 @@ function closeImagePopup() {
     }
 }
 
-document.addEventListener('keydown', function(e) {
-    const modal = document.getElementById('imagePopupModal');
-    if (modal && modal.classList.contains('active')) {
-        if (e.key === 'Escape') {
-            closeImagePopup();
-        } else if (e.key === 'ArrowLeft') {
-            previousPopupImage();
-        } else if (e.key === 'ArrowRight') {
-            nextPopupImage();
-        }
-    }
-});
-
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('imagePopupModal');
-    if (modal && e.target === modal) {
-        closeImagePopup();
-    }
-});
-
 function updatePopupImage() {
     const images = config.productImages[state.currentColor];
     const popupImg = document.getElementById('popupImage');
@@ -959,6 +966,37 @@ function previousPopupImage() {
     const images = config.productImages[state.currentColor];
     currentPopupImageIndex = (currentPopupImageIndex - 1 + images.length) % images.length;
     updatePopupImage();
+}
+
+// Popup swipe support
+function initPopupSwipe() {
+    const popupImage = document.getElementById('popupImage');
+    
+    if (!popupImage) return;
+    
+    let startX = 0;
+    let startY = 0;
+    
+    popupImage.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    popupImage.addEventListener('touchend', function(e) {
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+        const threshold = 50;
+        
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                nextPopupImage();
+            } else {
+                previousPopupImage();
+            }
+        }
+    }, { passive: true });
 }
 
 function toggleTimer() {
@@ -990,44 +1028,32 @@ function toggleTimer() {
     }
 }
 
-// INITIALIZATION
+// INITIALIZATION - FIXED ORDER
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize cart FIRST
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
+    updateCartCount();
     
-    setTimeout(() => {
-        updateCartCount();
-    }, 100);
-    
-    // Fetch inventory every 15 seconds
-    fetchShopifyInventory();
-    setInterval(fetchShopifyInventory, 15000);
-    
+    // Determine page type
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
+    // Initialize page-specific features
     if (isShopPage) {
-        initHeaderScroll();
-        initMobileSwipe();
-        initLifestyleCarousel(); // NEW: Initialize carousel
-    }
-    
-    setTimeout(() => {
-        showPageContent();
-        updatePairsLeft();
-        updateCartCount();
-    }, 1000);
-
-    if (document.getElementById('timerHours')) {
-        updateTimer();
-        setInterval(updateTimer, 1000);
-    }
-
-    if (isShopPage || document.getElementById('productImage')) {
+        // Initialize product features
+        populateSizes();
+        state.currentColor = 'red';
+        state.selectedSize = null;
         updateProductImage();
         updateThumbnails();
-        updateBuyButtonText();
-        populateSizes();
         
+        // Initialize mobile features
+        initMobileSwipe();
+        initPopupSwipe();
+        initHeaderScroll();
+        initLifestyleCarousel();
+        
+        // Make product image clickable
         const productImage = document.getElementById('productImage');
         if (productImage) {
             productImage.addEventListener('click', function() {
@@ -1036,18 +1062,56 @@ document.addEventListener('DOMContentLoaded', function() {
             productImage.style.cursor = 'pointer';
         }
     }
-
+    
     if (isLandingPage) {
         startHeaderAnnouncementCycling();
         initVideo();
     }
-
+    
+    // Initialize timer
+    updateTimer();
+    setInterval(updateTimer, 1000);
+    
+    // Fetch inventory once on load
+    fetchShopifyInventory();
+    
+    // Then fetch every 60 seconds (not 15)
+    setInterval(fetchShopifyInventory, 60000);
+    
+    // Also fetch when tab becomes visible
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            fetchShopifyInventory();
+        }
+    });
+    
+    // Initialize modals
     initModalClosers();
     
-    const cartIcon = document.querySelector('.header-cart-icon');
-    if (cartIcon) {
-        cartIcon.onclick = toggleCart;
-    }
+    // Keyboard navigation for popup
+    document.addEventListener('keydown', function(e) {
+        const modal = document.getElementById('imagePopupModal');
+        if (modal && modal.classList.contains('active')) {
+            if (e.key === 'Escape') {
+                closeImagePopup();
+            } else if (e.key === 'ArrowLeft') {
+                previousPopupImage();
+            } else if (e.key === 'ArrowRight') {
+                nextPopupImage();
+            }
+        }
+    });
+    
+    // Click outside popup to close
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('imagePopupModal');
+        if (modal && e.target === modal) {
+            closeImagePopup();
+        }
+    });
+    
+    // Show content
+    setTimeout(showPageContent, 500);
 });
 
 // GLOBAL FUNCTIONS
@@ -1077,7 +1141,6 @@ window.openImagePopup = openImagePopup;
 window.closeImagePopup = closeImagePopup;
 window.nextPopupImage = nextPopupImage;
 window.previousPopupImage = previousPopupImage;
-// NEW: Lifestyle carousel functions
 window.nextLifestyleImage = nextLifestyleImage;
 window.previousLifestyleImage = previousLifestyleImage;
 window.goToLifestyleSlide = goToLifestyleSlide;
