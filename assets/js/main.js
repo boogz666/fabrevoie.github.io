@@ -8,12 +8,13 @@ const state = {
     currentImageIndex: 0,
     selectedSize: null,
     currentGender: 'unisex',
-    pairsLeft: 150,  // CHANGED TO 150
+    pairsLeft: 150,  // Start at 150
     cart: [],
     currentHeaderPhraseIndex: 0,
     headerAnnouncementInterval: null,
     lastScrollTop: 0,
-    isScrollingDown: false
+    isScrollingDown: false,
+    lifestyleIndex: 0  // For new carousel
 };
 
 // CART STATE
@@ -53,9 +54,9 @@ const variantMap = {
 };
 
 const config = {
-    // UPDATED DATES - NYC TIME (EDT/EST)
-    dropDate: new Date('2025-09-05T08:00:00-04:00'),  // September 5th, 8AM NYC
-    presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // August 21st, 8AM NYC
+    // CORRECT DATES FOR 2025 - THURSDAY TO THURSDAY
+    dropDate: new Date('2025-08-28T08:00:00-04:00'),  // Thursday August 28th, 2025, 8AM NYC
+    presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // Thursday August 21st, 2025, 8AM NYC
     productPrice: 269,
     presalePrice: 229,
     shopifyDomain: 'shop.fabrevoie.com',
@@ -78,6 +79,15 @@ const config = {
         ]
     },
     
+    // NEW: Lifestyle images for carousel
+    lifestyleImages: [
+        'assets/images/lifestyle-1.jpg',
+        'assets/images/lifestyle-2.jpg',
+        'assets/images/lifestyle-3.jpg',
+        'assets/images/lifestyle-4.jpg',
+        'assets/images/lifestyle-5.jpg'
+    ],
+    
     sizes: ['5.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
     
     sizeChart: [
@@ -95,62 +105,95 @@ const config = {
     ]
 };
 
-// FETCH SHOPIFY INVENTORY FUNCTION
+// FETCH SHOPIFY INVENTORY WITH ARTIFICIAL SCARCITY
 async function fetchShopifyInventory() {
     try {
-        // Fetch inventory using the public product JSON endpoint
-        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.json`);
-        const data = await response.json();
+        // Get actual orders count from localStorage
+        let actualOrdersPlaced = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
         
-        // Calculate total inventory across all variants
-        let totalInventory = 0;
-        let soldOut = 0;
+        // Fetch product data
+        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.js`);
+        const productData = await response.json();
         
-        if (data.product && data.product.variants) {
-            data.product.variants.forEach(variant => {
-                // Check if variant is available
-                if (variant.available) {
-                    // Shopify doesn't expose exact inventory via JSON API
-                    // We'll estimate based on availability
-                    totalInventory++;
-                } else {
-                    soldOut++;
-                }
-            });
+        // Count sold out variants
+        let soldOutCount = 0;
+        productData.variants.forEach(variant => {
+            if (!variant.available) soldOutCount++;
+        });
+        
+        // Estimate orders (rough approximation)
+        const estimatedOrders = soldOutCount * 7;
+        
+        // Update if higher
+        if (estimatedOrders > actualOrdersPlaced) {
+            actualOrdersPlaced = estimatedOrders;
+            localStorage.setItem('fabrevoie_actual_orders', actualOrdersPlaced);
         }
         
-        // Calculate approximate pairs left (assuming 150 initial stock)
-        const estimatedSold = Math.floor((soldOut / data.product.variants.length) * 150);
-        state.pairsLeft = Math.max(0, 150 - estimatedSold);
-        
-        // If all variants are available, show full stock
-        if (soldOut === 0) {
-            state.pairsLeft = 150;
-        }
-        
-        // If many are sold out, show lower number
-        if (soldOut > 15) {
-            state.pairsLeft = Math.max(0, 150 - (soldOut * 6));
-        }
+        // CAP DISPLAY AT 150 - ARTIFICIAL SCARCITY
+        let displayRemaining = Math.max(0, 150 - actualOrdersPlaced);
+        state.pairsLeft = displayRemaining;
         
         updatePairsLeft();
         
-        // Store in localStorage for offline access
+        // Add "SOLD OUT" visual if at 0
+        if (state.pairsLeft === 0) {
+            addSoldOutVisuals();
+        }
+        
+        // Store in localStorage
         localStorage.setItem('fabrevoie_inventory', state.pairsLeft);
         localStorage.setItem('fabrevoie_inventory_time', Date.now());
         
     } catch (error) {
         console.error('Failed to fetch inventory:', error);
         
-        // Fallback to cached value if available
-        const cachedInventory = localStorage.getItem('fabrevoie_inventory');
-        const cacheTime = localStorage.getItem('fabrevoie_inventory_time');
-        
-        // Use cache if it's less than 5 minutes old
-        if (cachedInventory && cacheTime && (Date.now() - parseInt(cacheTime) < 300000)) {
-            state.pairsLeft = parseInt(cachedInventory);
-            updatePairsLeft();
-        }
+        // Fallback to cached or default
+        const cached = localStorage.getItem('fabrevoie_inventory');
+        state.pairsLeft = cached ? parseInt(cached) : 150;
+        updatePairsLeft();
+    }
+}
+
+// Add visual indicators when "sold out"
+function addSoldOutVisuals() {
+    const pairsLeftElement = document.getElementById('pairsLeft');
+    if (pairsLeftElement) {
+        pairsLeftElement.style.color = '#ff6b6b';
+        pairsLeftElement.style.fontWeight = 'bold';
+        pairsLeftElement.classList.add('sold-out');
+    }
+    
+    // Add sold out badge to timer
+    const timerContainer = document.querySelector('.timer-container');
+    if (timerContainer && !document.querySelector('.sold-out-badge')) {
+        const badge = document.createElement('div');
+        badge.className = 'sold-out-badge';
+        badge.innerHTML = '🔥 SOLD OUT 🔥';
+        badge.style.cssText = `
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            font-family: var(--font-headers);
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            z-index: 10001;
+        `;
+        timerContainer.appendChild(badge);
+    }
+    
+    // Update timer status
+    const timerStatus = document.getElementById('timerStatus');
+    if (timerStatus) {
+        timerStatus.textContent = 'SOLD OUT - TAKING FINAL ORDERS';
     }
 }
 
@@ -167,23 +210,18 @@ function initHeaderScroll() {
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         
-        // Clear existing timer
         if (scrollTimer) clearTimeout(scrollTimer);
         
-        // Only hide/show after a certain scroll distance to avoid jitter
         if (Math.abs(currentScroll - lastScroll) > 10) {
             if (currentScroll > lastScroll && currentScroll > 100) {
-                // Scrolling down - hide header
                 header.classList.add('hidden');
                 if (announcement) announcement.style.transform = 'translateY(-100%)';
             } else {
-                // Scrolling up - show header
                 header.classList.remove('hidden');
                 if (announcement) announcement.style.transform = 'translateY(0)';
             }
         }
         
-        // Set timer to show header if user stops scrolling
         scrollTimer = setTimeout(() => {
             header.classList.remove('hidden');
             if (announcement) announcement.style.transform = 'translateY(0)';
@@ -205,18 +243,11 @@ function initMobileSwipe() {
     let endX = 0;
     let endY = 0;
     
-    // Touch start
     imageContainer.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
     }, { passive: true });
     
-    // Touch move (optional - for visual feedback)
-    imageContainer.addEventListener('touchmove', (e) => {
-        // Could add visual feedback here
-    }, { passive: true });
-    
-    // Touch end
     imageContainer.addEventListener('touchend', (e) => {
         endX = e.changedTouches[0].clientX;
         endY = e.changedTouches[0].clientY;
@@ -227,22 +258,76 @@ function initMobileSwipe() {
     function handleSwipe() {
         const diffX = startX - endX;
         const diffY = startY - endY;
-        const threshold = 50; // Minimum swipe distance
+        const threshold = 50;
         
-        // Only handle horizontal swipes
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
             if (diffX > 0) {
-                // Swipe left - next image
                 nextImage();
             } else {
-                // Swipe right - previous image
                 previousImage();
             }
         }
     }
 }
 
-// ENHANCED CART FUNCTIONS WITH PNG SPIDER ANIMATIONS
+// NEW: LIFESTYLE CAROUSEL FUNCTIONS
+function initLifestyleCarousel() {
+    const carousel = document.querySelector('.lifestyle-carousel');
+    if (!carousel) return;
+    
+    // Auto-play carousel
+    setInterval(() => {
+        nextLifestyleImage();
+    }, 4000); // Change every 4 seconds
+    
+    // Touch support for mobile
+    let startX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                nextLifestyleImage();
+            } else {
+                previousLifestyleImage();
+            }
+        }
+    }, { passive: true });
+}
+
+function nextLifestyleImage() {
+    state.lifestyleIndex = (state.lifestyleIndex + 1) % config.lifestyleImages.length;
+    updateLifestyleCarousel();
+}
+
+function previousLifestyleImage() {
+    state.lifestyleIndex = (state.lifestyleIndex - 1 + config.lifestyleImages.length) % config.lifestyleImages.length;
+    updateLifestyleCarousel();
+}
+
+function updateLifestyleCarousel() {
+    const track = document.querySelector('.lifestyle-carousel-track');
+    if (track) {
+        track.style.transform = `translateX(-${state.lifestyleIndex * 100}%)`;
+    }
+    
+    // Update dots
+    document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === state.lifestyleIndex);
+    });
+}
+
+function goToLifestyleSlide(index) {
+    state.lifestyleIndex = index;
+    updateLifestyleCarousel();
+}
+
+// CART FUNCTIONS
 function toggleCart() {
     const cartModal = document.getElementById('cartModal');
     if (cartModal) {
@@ -261,7 +346,6 @@ function closeCart() {
 }
 
 function addToCart(color, size) {
-    // Create cart item
     const cartItem = {
         id: `${color}-${size}`,
         name: 'SBHMN 1',
@@ -273,7 +357,6 @@ function addToCart(color, size) {
         image: config.productImages[color][0]
     };
     
-    // Check if item already exists
     const existingIndex = localCart.findIndex(item => item.id === cartItem.id);
     
     if (existingIndex >= 0) {
@@ -282,28 +365,15 @@ function addToCart(color, size) {
         localCart.push(cartItem);
     }
     
-    // Save to localStorage
     localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
-    
-    // Update cart count with enhanced animation
     updateCartCount();
-    
-    // Show cart
     toggleCart();
     
-    // Enhanced visual feedback
-    const cartCount = document.getElementById('headerCartCount');
-    if (cartCount) {
-        cartCount.classList.add('updated');
-        setTimeout(() => cartCount.classList.remove('updated'), 700);
-    }
-    
-    // Enhanced PNG spider reaction
+    // Spider animation
     const spider = document.querySelector('.spider');
     const webContainer = document.querySelector('.web-container');
     
     if (spider) {
-        // Make spider excited - quick movements
         spider.style.animation = 'spiderMove 0.3s ease-in-out 3';
         spider.style.transform = 'scale(1.3) rotate(10deg)';
         spider.style.filter = 'drop-shadow(0 0 8px rgba(158, 217, 181, 1))';
@@ -315,7 +385,6 @@ function addToCart(color, size) {
         }, 1000);
     }
     
-    // Web vibration effect
     if (webContainer) {
         webContainer.style.animation = 'webShake 0.8s ease-in-out';
         setTimeout(() => {
@@ -380,7 +449,6 @@ function updateCartDisplay() {
             </div>
         `).join('');
         
-        // Update total
         const total = localCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const totalElement = document.getElementById('cartTotalPrice');
         if (totalElement) {
@@ -389,7 +457,6 @@ function updateCartDisplay() {
     }
 }
 
-// ENHANCED updateCartCount WITH PNG SPIDER AND FLY SYSTEM
 function updateCartCount() {
     const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountElement = document.getElementById('headerCartCount');
@@ -409,32 +476,27 @@ function updateCartCount() {
         }
     }
     
-    // Enhanced PNG spider behavior
+    // Spider behavior based on cart count
     if (spider) {
         if (count === 0) {
-            // Hungry spider - aggressive movement
             spider.style.animation = 'spiderMove 2s infinite ease-in-out';
             spider.style.filter = 'none';
             spider.style.transform = 'scale(1)';
         } else if (count < 3) {
-            // Somewhat fed - normal movement
             spider.style.animation = 'spiderMove 4s infinite ease-in-out';
             spider.style.filter = 'drop-shadow(0 0 3px rgba(158, 217, 181, 0.5))';
             spider.style.transform = 'scale(1.1)';
         } else {
-            // Well fed - slow satisfied movement
             spider.style.animation = 'spiderMove 6s infinite ease-in-out';
             spider.style.filter = 'drop-shadow(0 0 5px rgba(158, 217, 181, 0.8))';
             spider.style.transform = 'scale(1.2)';
         }
     }
     
-    // Enhanced PNG fly system
+    // Fly system
     if (webFlies) {
-        // Clear existing flies
         webFlies.innerHTML = '';
         
-        // Optimized fly positions for 60x60 web
         const flyPositions = [
             { top: '15px', left: '20px' },
             { top: '10px', left: '35px' },
@@ -448,7 +510,6 @@ function updateCartCount() {
             { top: '25px', left: '5px' }
         ];
         
-        // Add PNG flies
         const fliesToShow = Math.min(count, flyPositions.length);
         for (let i = 0; i < fliesToShow; i++) {
             const fly = document.createElement('div');
@@ -459,13 +520,11 @@ function updateCartCount() {
             
             webFlies.appendChild(fly);
             
-            // Animate fly getting trapped
             setTimeout(() => {
                 fly.classList.add('show');
             }, i * 150);
         }
         
-        // Make web glow based on fly count
         if (spiderWeb && count > 0) {
             const glowIntensity = Math.min(count * 2, 10);
             spiderWeb.style.filter = `drop-shadow(0 0 ${glowIntensity}px rgba(158, 217, 181, 0.6))`;
@@ -474,7 +533,6 @@ function updateCartCount() {
         }
     }
     
-    // Web shake when items added
     if (count > 0 && webContainer) {
         webContainer.style.animation = 'webShake 0.5s ease-in-out';
         setTimeout(() => {
@@ -489,52 +547,44 @@ function proceedToCheckout() {
         return;
     }
     
-    // Build Shopify checkout URL with multiple items
     const cartItems = localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
     const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}`;
     
-    // Clear cart after checkout
     localStorage.removeItem('fabrevoie_cart');
     localCart = [];
     
-    // Redirect to Shopify
     window.location.href = checkoutUrl;
 }
 
-// UPDATE THE buyProduct FUNCTION
+// DON'T DISABLE BUY BUTTON AT 0 INVENTORY
 function buyProduct() {
     if (!state.selectedSize) {
-        const sizeWarning = document.getElementById('sizeWarning');
-        if (sizeWarning) {
-            sizeWarning.style.display = 'block';
-            sizeWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const modal = document.getElementById('sizeWarningModal');
+        if (modal) {
+            modal.classList.add('active');
         }
-        alert('PICK A SIZE OR GET LOST!');
         return;
     }
     
-    // Visual feedback
+    // NO INVENTORY CHECK - Let them buy even at 0/150
+    
     const buyButton = document.getElementById('buyButton');
     if (buyButton) {
         buyButton.innerHTML = 'ADDING TO CART... <i class="fas fa-spinner fa-spin"></i>';
         buyButton.disabled = true;
     }
     
-    // Add to cart instead of direct checkout
     addToCart(state.currentColor, state.selectedSize);
     
-    // Reset button after short delay
     setTimeout(() => {
         if (buyButton) {
             buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
             buyButton.disabled = false;
         }
-        // Reset size selection
         resetSizeSelection();
     }, 500);
 }
 
-// ACCESS DENIED FUNCTIONS
 function showAccessDenied() {
     const modal = document.getElementById('accessDeniedModal');
     if (modal) modal.classList.add('active');
@@ -545,7 +595,6 @@ function closeAccessDenied() {
     if (modal) modal.classList.remove('active');
 }
 
-// SIZE FUNCTIONS
 function populateSizes() {
     const sizeOptions = document.getElementById('sizeOptions');
     if (!sizeOptions) return;
@@ -574,7 +623,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// TIMER FUNCTION - UPDATED WITH "PRE-SALE STARTS IN..."
+// FIXED TIMER FUNCTION - 168 HOURS FROM AUG 21 TO AUG 28
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -593,18 +642,26 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // Before Aug 21 - Show "PRE-SALE STARTS IN..."
-        timerStatus.textContent = 'PRE-SALE STARTS IN...';  // CHANGED FROM "COMING SOON"
+        // Before Aug 21 - Show countdown TO presale start
+        timerStatus.textContent = 'PRE-SALE STARTS IN...';
         
-        // Show countdown to presale start
         const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((presaleTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
         
-        // Show total hours for timer display
+        // Total hours until presale (around 72 now)
         const totalHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
-        timerHours.textContent = totalHours.toString().padStart(3, '0');
+        
+        // Format hours properly - no leading zeros under 100
+        if (totalHours < 10) {
+            timerHours.textContent = totalHours.toString();
+        } else if (totalHours < 100) {
+            timerHours.textContent = totalHours.toString().padStart(2, '0');
+        } else {
+            timerHours.textContent = totalHours.toString().padStart(3, '0');
+        }
+        
         timerMinutes.textContent = minutes.toString().padStart(2, '0');
         timerSeconds.textContent = seconds.toString().padStart(2, '0');
         
@@ -615,20 +672,21 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else if (now < config.dropDate) {
-        // Aug 21 to Sep 5 - Show countdown (360 hours max)
+        // Aug 21 to Aug 28 - PRESALE IS LIVE! Show 168-hour countdown
+        timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - DROP IN';
+        
         const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
         
-        timerStatus.textContent = 'PRE-SALE LIVE - DROP IN';
-        
-        // Show countdown to drop (360 hours for 15 days)
+        // Total hours until drop (starts at 168, counts down to 0)
         const totalHoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
         const dropMinutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const dropSeconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
         
-        timerHours.textContent = Math.min(totalHoursUntilDrop, 360).toString().padStart(3, '0');
+        // Display hours (will be 168 max, counting down)
+        timerHours.textContent = totalHoursUntilDrop.toString().padStart(3, '0');
         timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
         timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
         
@@ -639,43 +697,17 @@ function updateTimer() {
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
     } else {
-        // After Sep 5 - show 120 hours countdown
-        const hoursAfterDrop = Math.floor((now - config.dropDate) / (1000 * 60 * 60));
-        const remainingCountdownHours = Math.max(0, 120 - hoursAfterDrop);
+        // After Aug 28 - Drop is fully live
+        timerHours.textContent = '000';
+        timerMinutes.textContent = '00';
+        timerSeconds.textContent = '00';
+        timerStatus.textContent = 'DROP IS LIVE NOW!';
         
-        if (remainingCountdownHours > 0) {
-            const currentTime = new Date();
-            const dropEndTime = new Date(config.dropDate.getTime() + (120 * 60 * 60 * 1000));
-            const timeLeft = dropEndTime - currentTime;
-            
-            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            
-            timerHours.textContent = hours.toString().padStart(3, '0');
-            timerMinutes.textContent = minutes.toString().padStart(2, '0');
-            timerSeconds.textContent = seconds.toString().padStart(2, '0');
-            timerStatus.textContent = 'LIVE NOW - TIME LEFT';
-            
-            if (countdownDays) {
-                countdownDays.textContent = '00';
-                countdownHours.textContent = hours.toString().padStart(2, '0');
-                countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-                countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
-            }
-        } else {
-            // 120 hours have passed
-            timerHours.textContent = '000';
-            timerMinutes.textContent = '00';
-            timerSeconds.textContent = '00';
-            timerStatus.textContent = 'DROP ENDED';
-            
-            if (countdownDays) {
-                countdownDays.textContent = '00';
-                countdownHours.textContent = '00';
-                countdownMinutes.textContent = '00';
-                countdownSecondsEl.textContent = '00';
-            }
+        if (countdownDays) {
+            countdownDays.textContent = '00';
+            countdownHours.textContent = '00';
+            countdownMinutes.textContent = '00';
+            countdownSecondsEl.textContent = '00';
         }
     }
 }
@@ -683,10 +715,10 @@ function updateTimer() {
 // PRODUCT FUNCTIONS
 function changeImage(index) {
     state.currentImageIndex = index;
-    currentPopupImageIndex = index; // Sync popup with main image
+    currentPopupImageIndex = index;
     updateProductImage();
     updateThumbnails();
-    updatePopupImage(); // Update popup if open
+    updatePopupImage();
 }
 
 function updateProductImage() {
@@ -735,24 +767,22 @@ function changeProductColor(color) {
     
     state.currentColor = color;
     state.currentImageIndex = 0;
-    currentPopupImageIndex = 0; // Reset popup index when color changes
+    currentPopupImageIndex = 0;
     updateProductImage();
     updateThumbnails();
-    updatePopupImage(); // Update popup if open
+    updatePopupImage();
     resetSizeSelection();
 }
 
-// UPDATED selectSize FUNCTION - NOW DESELECTABLE
+// DESELECTABLE SIZE SELECTION
 function selectSize(size) {
     const sizeElement = document.querySelector(`[data-size="${size}"]`);
     
     if (sizeElement && !sizeElement.classList.contains('out-of-stock')) {
-        // If already selected, deselect it
         if (sizeElement.classList.contains('selected')) {
             sizeElement.classList.remove('selected');
             state.selectedSize = null;
         } else {
-            // Otherwise, select it
             document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
             sizeElement.classList.add('selected');
             state.selectedSize = size;
@@ -779,7 +809,6 @@ function updateBuyButtonText() {
     buyButton.innerHTML = 'ADD TO CART <i class="fas fa-shopping-cart"></i>';
 }
 
-// SIZE GUIDE FUNCTIONS
 function openSizeGuide() {
     const modal = document.getElementById('sizeGuideModal');
     if (modal) {
@@ -797,10 +826,17 @@ function closeSizeGuide() {
 
 function updatePairsLeft() {
     const pairsLeftElement = document.getElementById('pairsLeft');
-    if (pairsLeftElement) pairsLeftElement.textContent = state.pairsLeft;
+    if (pairsLeftElement) {
+        pairsLeftElement.textContent = state.pairsLeft;
+        
+        if (state.pairsLeft === 0) {
+            pairsLeftElement.style.color = '#ff6b6b';
+            pairsLeftElement.style.fontWeight = 'bold';
+            pairsLeftElement.classList.add('sold-out');
+        }
+    }
 }
 
-// HEADER ANNOUNCEMENT FUNCTIONS
 function startHeaderAnnouncementCycling() {
     const headerPhrases = ['headerPhrase1', 'headerPhrase2', 'headerPhrase3'];
     
@@ -822,7 +858,6 @@ function startHeaderAnnouncementCycling() {
     }, 3000);
 }
 
-// INITIALIZATION
 function showPageContent() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
@@ -831,7 +866,6 @@ function showPageContent() {
     }
 }
 
-// CLOSE MODALS WHEN CLICKING OUTSIDE
 function initModalClosers() {
     const sizeGuideModal = document.getElementById('sizeGuideModal');
     if (sizeGuideModal) {
@@ -848,7 +882,6 @@ function initModalClosers() {
     }
 }
 
-// VIDEO SETUP
 function initVideo() {
     const video = document.getElementById('bgVideo');
     if (video) {
@@ -882,7 +915,6 @@ function closeImagePopup() {
     }
 }
 
-// Add keyboard support for image popup
 document.addEventListener('keydown', function(e) {
     const modal = document.getElementById('imagePopupModal');
     if (modal && modal.classList.contains('active')) {
@@ -896,7 +928,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Close popup when clicking backdrop
 document.addEventListener('click', function(e) {
     const modal = document.getElementById('imagePopupModal');
     if (modal && e.target === modal) {
@@ -930,7 +961,6 @@ function previousPopupImage() {
     updatePopupImage();
 }
 
-// IMPROVED TIMER TOGGLE FUNCTION
 function toggleTimer() {
     const timerContent = document.getElementById('timerContent');
     const timerContainer = document.getElementById('timerContainer');
@@ -938,7 +968,6 @@ function toggleTimer() {
     const collapsedIcon = document.querySelector('.timer-collapsed-icon');
     
     if (timerContainer.classList.contains('collapsed')) {
-        // Expand
         timerContent.style.display = 'block';
         timerContainer.classList.remove('collapsed');
         if (toggleBtn) {
@@ -950,7 +979,6 @@ function toggleTimer() {
             collapsedIcon.style.display = 'none';
         }
     } else {
-        // Collapse
         timerContent.style.display = 'none';
         timerContainer.classList.add('collapsed');
         if (toggleBtn) {
@@ -962,33 +990,31 @@ function toggleTimer() {
     }
 }
 
-// ENHANCED INITIALIZATION
+// INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
-    // Load cart from localStorage
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     
-    // Initialize cart display
     setTimeout(() => {
         updateCartCount();
     }, 100);
     
-    // Fetch Shopify inventory every 30 seconds
+    // Fetch inventory every 15 seconds
     fetchShopifyInventory();
-    setInterval(fetchShopifyInventory, 30000);
+    setInterval(fetchShopifyInventory, 15000);
     
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
-    // Initialize header scroll behavior
     if (isShopPage) {
         initHeaderScroll();
-        initMobileSwipe(); // Initialize swipe for mobile
+        initMobileSwipe();
+        initLifestyleCarousel(); // NEW: Initialize carousel
     }
     
     setTimeout(() => {
         showPageContent();
         updatePairsLeft();
-        updateCartCount(); // Update again after page loads
+        updateCartCount();
     }, 1000);
 
     if (document.getElementById('timerHours')) {
@@ -1002,7 +1028,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateBuyButtonText();
         populateSizes();
         
-        // Add click handler to main product image for popup
         const productImage = document.getElementById('productImage');
         if (productImage) {
             productImage.addEventListener('click', function() {
@@ -1019,14 +1044,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initModalClosers();
     
-    // Add click handler for cart icon
     const cartIcon = document.querySelector('.header-cart-icon');
     if (cartIcon) {
         cartIcon.onclick = toggleCart;
     }
 });
 
-// MAKE FUNCTIONS GLOBALLY ACCESSIBLE FOR ONCLICK HANDLERS
+// GLOBAL FUNCTIONS
 window.state = state;
 window.config = config;
 window.variantMap = variantMap;
@@ -1053,3 +1077,7 @@ window.openImagePopup = openImagePopup;
 window.closeImagePopup = closeImagePopup;
 window.nextPopupImage = nextPopupImage;
 window.previousPopupImage = previousPopupImage;
+// NEW: Lifestyle carousel functions
+window.nextLifestyleImage = nextLifestyleImage;
+window.previousLifestyleImage = previousLifestyleImage;
+window.goToLifestyleSlide = goToLifestyleSlide;
