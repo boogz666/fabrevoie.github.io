@@ -42,7 +42,7 @@
             position: fixed;
         }
         
-        /* Landing Page Specific Styles - UPDATED FOR BETTER FONTS */
+        /* Landing Page Specific Styles */
         .email-signup {
             margin-top: 30px;
             width: 100%;
@@ -258,8 +258,24 @@
         .social-container {
             margin-top: 30px;
         }
+
+        /* SOLD OUT ANIMATION */
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        .sold-out-badge {
+            z-index: 10001;
+        }
+
+        #pairsLeft.sold-out {
+            color: #ff6b6b !important;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            animation: pulse 2s infinite;
+        }
         
-        /* MOBILE FIXES FOR EMAIL AND BUTTON */
+        /* MOBILE FIXES */
         @media screen and (max-width: 768px) {
             .landing-content {
                 padding: 0 20px !important;
@@ -301,7 +317,6 @@
                 letter-spacing: 1px !important;
             }
             
-            /* Smaller Disturb the Peace button on mobile */
             .btn-primary {
                 font-size: 15px !important;
                 padding: 16px 28px !important;
@@ -356,7 +371,6 @@
                 letter-spacing: 0.8px !important;
             }
             
-            /* Even smaller Disturb the Peace button on very small screens */
             .btn-primary {
                 font-size: 14px !important;
                 padding: 14px 24px !important;
@@ -415,7 +429,7 @@
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <div class="announcement-content">
-            FIRST COME, FIRST SERVED. • PRE-SALE STARTS AUGUST 21ST 8AM NYC • LIVE DROP SEPTEMBER 5TH 8AM NYC • 
+            FIRST COME, FIRST SERVED. • PRE-SALE STARTS AUGUST 21ST 8AM NYC • LIVE DROP AUGUST 28TH 8AM NYC • 
         </div>
     </div>
 
@@ -423,7 +437,7 @@
     <div class="announcement-header">
         <div class="announcement-phrase" id="headerPhrase1">FIRST COME, FIRST SERVED</div>
         <div class="announcement-phrase" id="headerPhrase2">PRE-SALE STARTS AUGUST 21ST 8AM NYC</div>
-        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP SEPTEMBER 5TH 8AM NYC</div>
+        <div class="announcement-phrase" id="headerPhrase3">LIVE DROP THURSDAY AUGUST 28TH 8AM NYC</div>
     </div>
 
     <!-- Header WITHOUT Center Logo -->
@@ -454,7 +468,7 @@
         </div>
     </header>
 
-    <!-- Timer Container with BETTER TOGGLE BUTTON -->
+    <!-- Timer Container -->
     <div class="timer-container" id="timerContainer">
         <button class="timer-toggle-btn" onclick="toggleTimer()" title="Minimize Timer">
             <i class="fas fa-minus"></i>
@@ -586,7 +600,7 @@
                     <a href="#" class="email-reset-link" onclick="resetEmailSignup(); return false;">NOT YOU? SIGN UP AGAIN</a>
                 `;
             } else {
-                // Show signup form (without "Join the Chaos" title)
+                // Show signup form
                 emailSignupContainer.innerHTML = `
                     <form class="email-form" id="emailForm">
                         <input type="email" 
