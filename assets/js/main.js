@@ -7,8 +7,8 @@
 // ================================================
 const STOREFRONT_CONFIG = {
     domain: 'shop.fabrevoie.com',
-    storefrontAccessToken: '8c1c303201210453ae54e2f37ecfaeab', // ← ADD YOUR TOKEN HERE
-    productId: 'gid://shopify/Product/10306739470663', // ← ADD YOUR PRODUCT GID
+    storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN', // ← ADD YOUR TOKEN HERE
+    productId: 'gid://shopify/Product/YOUR_PRODUCT_ID', // ← ADD YOUR PRODUCT GID
     initialInventory: 11000, // Your starting total inventory (500 per variant × 22 variants)
     fallbackSales: 4 // Fallback if API fails
 };
@@ -124,108 +124,37 @@ const config = {
 // ORDER NOTIFICATION SYSTEM - REMOVED FAKE DATA
 // Only used for real customer orders now
 
-// AUTOMATIC REAL INVENTORY TRACKING WITH STOREFRONT API
-let inventoryFetchTimeout;
-async function fetchShopifyInventory() {
-    clearTimeout(inventoryFetchTimeout);
+// MANUAL INVENTORY TRACKING - NO API CALLS
+function fetchShopifyInventory() {
+    // Just use the manual fallback sales number
+    const realSalesCount = STOREFRONT_CONFIG.fallbackSales;
     
-    try {
-        // GraphQL query to get all variant inventory levels
-        const query = `
-            query getProduct {
-                product(id: "${STOREFRONT_CONFIG.productGid}") {
-                    totalInventory
-                    variants(first: 100) {
-                        edges {
-                            node {
-                                id
-                                quantityAvailable
-                                sku
-                            }
-                        }
-                    }
-                }
-            }
-        `;
-        
-        // Fetch from Shopify Storefront API
-        const response = await fetch(`https://${STOREFRONT_CONFIG.domain}/api/2024-01/graphql.json`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Shopify-Storefront-Access-Token': STOREFRONT_CONFIG.storefrontAccessToken
-            },
-            body: JSON.stringify({ query })
-        });
-        
-        const data = await response.json();
-        
-        if (data.data && data.data.product) {
-            // Get total inventory from response
-            const currentTotalInventory = data.data.product.totalInventory || 0;
-            
-            // If totalInventory is not available, sum up variants
-            let calculatedInventory = currentTotalInventory;
-            if (!currentTotalInventory && data.data.product.variants) {
-                calculatedInventory = 0;
-                data.data.product.variants.edges.forEach(edge => {
-                    calculatedInventory += (edge.node.quantityAvailable || 0);
-                });
-            }
-            
-            // Calculate real sales
-            const realSalesCount = STOREFRONT_CONFIG.initialInventory - calculatedInventory;
-            
-            console.log('=== AUTOMATIC INVENTORY TRACKING ===');
-            console.log('Initial Inventory:', STOREFRONT_CONFIG.initialInventory);
-            console.log('Current Inventory:', calculatedInventory);
-            console.log('Real Sales:', realSalesCount);
-            
-            // ARTIFICIAL SCARCITY LOGIC (150 max → 2 min)
-            let displayRemaining;
-            
-            if (realSalesCount >= 148) {
-                // After 148 sales, always show 2 left
-                displayRemaining = MINIMUM_REMAINING;
-                console.log('Status: LOCKED AT MINIMUM (2 left forever)');
-            } else {
-                // Show countdown from 150
-                displayRemaining = FAKE_MAX_STOCK - realSalesCount;
-                console.log('Status: COUNTING DOWN');
-            }
-            
-            // Update display
-            state.pairsLeft = displayRemaining;
-            updatePairsLeft();
-            
-            // Add urgency visuals when "low"
-            if (displayRemaining <= 10) {
-                addLowStockVisuals();
-            }
-            
-            // Store state
-            localStorage.setItem('fabrevoie_real_sales', realSalesCount);
-            localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
-            
-            console.log('Display Showing:', displayRemaining + '/150');
-            console.log('=====================================');
-            
-        } else {
-            throw new Error('No product data received');
-        }
-        
-    } catch (error) {
-        console.error('Shopify API Error:', error);
-        console.log('Using fallback sales count:', STOREFRONT_CONFIG.fallbackSales);
-        
-        // Fallback to known sales if API fails
-        const displayRemaining = FAKE_MAX_STOCK - STOREFRONT_CONFIG.fallbackSales;
-        state.pairsLeft = displayRemaining;
-        updatePairsLeft();
+    console.log('=== INVENTORY STATUS ===');
+    console.log('Manual Sales Count:', realSalesCount);
+    console.log('(Update fallbackSales in config to change)');
+    
+    // ARTIFICIAL SCARCITY LOGIC (150 max → 2 min)
+    let displayRemaining;
+    
+    if (realSalesCount >= 148) {
+        displayRemaining = MINIMUM_REMAINING;
+        console.log('Status: LOCKED AT MINIMUM');
+    } else {
+        displayRemaining = FAKE_MAX_STOCK - realSalesCount;
+        console.log('Status: COUNTING DOWN');
     }
     
-    // Schedule next check (every 15 seconds)
-    inventoryFetchTimeout = setTimeout(fetchShopifyInventory, 15000);
+    // Update display
+    state.pairsLeft = displayRemaining;
+    updatePairsLeft();
+    
+    // Add urgency visuals when "low"
+    if (displayRemaining <= 10) {
+        addLowStockVisuals();
+    }
+    
+    console.log('Display:', displayRemaining + '/150');
+    console.log('========================');
 }
 
 // Show order notification popup - REAL ORDERS ONLY
@@ -1261,12 +1190,10 @@ document.addEventListener('DOMContentLoaded', function() {
         setInterval(updateTimer, 1000);
     }, 100);
     
-    // Initialize inventory tracking with automatic API
+    // Initialize inventory tracking (manual only, no API)
     fetchShopifyInventory();
-    // Check inventory every 15 seconds
-    setInterval(fetchShopifyInventory, 15000);
     
-    // Also check when tab becomes visible
+    // Also update when tab becomes visible
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
             fetchShopifyInventory();
