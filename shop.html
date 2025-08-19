@@ -150,7 +150,7 @@
                 </div>
             </div>
             <div class="pairs-left">
-                <span id="pairsLeft">150</span>/150 PAIRS LEFT
+                <span id="pairsLeft">146</span>/150 PAIRS LEFT
             </div>
         </div>
         <div class="timer-collapsed-icon" style="display: none;" onclick="toggleTimer()">
@@ -511,6 +511,8 @@
         </div>
     </div>
 
+    <!-- Order notifications will be dynamically added here by JS -->
+
     <!-- Load main.js first -->
     <script src="assets/js/main.js"></script>
     
@@ -594,6 +596,14 @@
             if (typeof populateSizes === 'function') {
                 populateSizes();
             }
+
+            // Demo notification after 10 seconds (optional - remove in production)
+            setTimeout(() => {
+                if (typeof showOrderNotification === 'function') {
+                    // Show a demo notification
+                    showOrderNotification(1);
+                }
+            }, 10000);
         });
         
         // Update pricing every minute in case user has page open during transition
@@ -663,6 +673,13 @@
             localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
             updateCartCount();
             toggleCart();
+            
+            // Show order notification for current user
+            setTimeout(() => {
+                if (typeof showOrderNotification === 'function') {
+                    showOrderNotification(1, state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1), state.selectedSize);
+                }
+            }, 2000);
             
             setTimeout(() => {
                 if (buyButton) {
