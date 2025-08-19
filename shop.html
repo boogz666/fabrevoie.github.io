@@ -105,9 +105,7 @@
                 <div class="web-container">
                     <div class="spider-web"></div>
                     <div class="spider"></div>
-                    <div class="web-flies" id="webFlies">
-                        <!-- Trapped flies will be added dynamically -->
-                    </div>
+                    <div class="web-flies" id="webFlies"></div>
                     <span class="web-count" id="headerCartCount" style="display: none;">0</span>
                 </div>
             </div>
@@ -165,10 +163,8 @@
     <!-- Product Container -->
     <div class="product-container" style="padding-top: 140px;">
         <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
-            <!-- Left: Images - FIXED VERSION WITHOUT UGLY LABELS -->
+            <!-- Left: Images -->
             <div class="product-image-section">
-                <!-- REMOVED THE UGLY COLOR SELECTOR WITH LABELS -->
-                
                 <!-- Product Images -->
                 <div class="product-image-container">
                     <button class="image-nav-arrow left" onclick="previousImage()">
@@ -228,11 +224,18 @@
                 </div>
             </div>
             
-            <!-- Right: Product Info -->
+            <!-- Right: Product Info WITH PRESALE PRICING -->
             <div class="product-info-section">
                 <h1 class="product-title">SBHMN 1</h1>
                 <p class="product-subtitle">Because subtle is for cowards.</p>
-                <div class="product-price">$269</div>
+                
+                <!-- PRESALE PRICING DISPLAY -->
+                <div class="product-price" id="productPriceDisplay">
+                    <span class="original-price">$269</span>
+                    <span class="presale-price">$199</span>
+                    <span class="presale-badge">PRE-SALE</span>
+                </div>
+                
                 <p class="product-description">
                     Oversized. Overwhelmingly obnoxious. Exactly how you like it. 
                     Built for those who enter rooms like natural disasters. 
@@ -252,7 +255,7 @@
                         <!-- Will be populated by JS -->
                     </div>
                     
-                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR - THIS IS THE ONLY PLACE FOR COLORS -->
+                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR -->
                     <div class="size-section-colors">
                         <div class="size-section-color-title">Choose Color</div>
                         <div class="size-section-color-options">
@@ -281,19 +284,19 @@
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">2 PAIRS</div>
                             <div class="bundle-offer-price">$300</div>
-                            <div class="bundle-offer-savings">SAVE $158</div>
+                            <div class="bundle-offer-savings">SAVE $98</div>
                             <div class="bundle-offer-description">During presale only</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">3 PAIRS</div>
                             <div class="bundle-offer-price">$400</div>
-                            <div class="bundle-offer-savings">SAVE $287</div>
+                            <div class="bundle-offer-savings">SAVE $197</div>
                             <div class="bundle-offer-description">Mix and match colors</div>
                         </div>
                         <div class="bundle-offer">
                             <div class="bundle-offer-title">4 PAIRS</div>
                             <div class="bundle-offer-price">$500</div>
-                            <div class="bundle-offer-savings">SAVE $416</div>
+                            <div class="bundle-offer-savings">SAVE $296</div>
                             <div class="bundle-offer-description">Ultimate collection</div>
                         </div>
                     </div>
@@ -311,7 +314,7 @@
             </div>
         </div>
 
-        <!-- NEW: LIFESTYLE CAROUSEL SECTION -->
+        <!-- LIFESTYLE CAROUSEL SECTION -->
         <div class="lifestyle-section">
             <h2 class="lifestyle-title">LIFESTYLE SHOTS</h2>
             <p class="lifestyle-subtitle">See how troublemakers rock the SBHMN 1</p>
@@ -512,6 +515,66 @@
 
     <script src="assets/js/main.js"></script>
     <script>
+        // Dynamic pricing based on presale dates
+        function updatePricing() {
+            const now = new Date();
+            const presaleStart = new Date('2025-08-21T08:00:00-04:00');
+            const presaleEnd = new Date('2025-08-24T08:00:00-04:00');
+            const priceDisplay = document.getElementById('productPriceDisplay');
+            
+            if (!priceDisplay) return;
+            
+            if (now >= presaleStart && now < presaleEnd) {
+                // During presale - show discounted price
+                priceDisplay.innerHTML = `
+                    <span class="original-price">$269</span>
+                    <span class="presale-price">$199</span>
+                    <span class="presale-badge">PRE-SALE LIVE</span>
+                `;
+                
+                // Update cart item price
+                if (window.state) {
+                    window.state.currentPrice = 199;
+                }
+            } else if (now < presaleStart) {
+                // Before presale - show coming soon
+                priceDisplay.innerHTML = `
+                    <span class="original-price">$269</span>
+                    <span class="presale-price">$199</span>
+                    <span class="presale-badge">PRE-SALE SOON</span>
+                `;
+                
+                if (window.state) {
+                    window.state.currentPrice = 199; // Will be this price when sale starts
+                }
+            } else {
+                // After presale - regular price
+                priceDisplay.innerHTML = `
+                    <span style="font-size: 2rem;">$269</span>
+                `;
+                
+                if (window.state) {
+                    window.state.currentPrice = 269;
+                }
+            }
+        }
+        
+        // Update pricing on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePricing();
+            
+            if (typeof startHeaderAnnouncementCycling === 'function') {
+                startHeaderAnnouncementCycling();
+            }
+            
+            if (typeof populateSizes === 'function') {
+                populateSizes();
+            }
+        });
+        
+        // Update pricing every minute in case user has page open during transition
+        setInterval(updatePricing, 60000);
+
         // Fixed color change function
         function updateProductColor(color) {
             document.querySelectorAll('.size-section-color-option').forEach(option => {
@@ -527,7 +590,7 @@
             }
         }
         
-        // Override buyProduct to use modal
+        // Override buyProduct to use modal and correct pricing
         function buyProduct() {
             if (!state.selectedSize) {
                 const modal = document.getElementById('sizeWarningModal');
@@ -543,7 +606,39 @@
                 buyButton.disabled = true;
             }
             
-            addToCart(state.currentColor, state.selectedSize);
+            // Use current price (199 during presale, 269 after)
+            const now = new Date();
+            const presaleEnd = new Date('2025-08-24T08:00:00-04:00');
+            const price = now < presaleEnd ? 199 : 269;
+            
+            // Update state before adding to cart
+            if (window.state) {
+                window.state.currentPrice = price;
+            }
+            
+            // Modified addToCart to use dynamic price
+            const cartItem = {
+                id: `${state.currentColor}-${state.selectedSize}`,
+                name: 'SBHMN 1',
+                color: state.currentColor,
+                size: state.selectedSize,
+                price: price,
+                quantity: 1,
+                variantId: variantMap[`${state.currentColor}-${state.selectedSize}`],
+                image: config.productImages[state.currentColor][0]
+            };
+            
+            const existingIndex = localCart.findIndex(item => item.id === cartItem.id);
+            
+            if (existingIndex >= 0) {
+                localCart[existingIndex].quantity += 1;
+            } else {
+                localCart.push(cartItem);
+            }
+            
+            localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
+            updateCartCount();
+            toggleCart();
             
             setTimeout(() => {
                 if (buyButton) {
@@ -561,73 +656,15 @@
             }
         }
         
-        function initPopupSwipe() {
-            const popupContent = document.getElementById('imagePopupContent');
-            const popupImage = document.getElementById('popupImage');
-            
-            if (!popupContent || !popupImage) return;
-            
-            let startX = 0;
-            let startY = 0;
-            let endX = 0;
-            let endY = 0;
-            
-            popupImage.addEventListener('touchstart', function(e) {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            popupImage.addEventListener('touchend', function(e) {
-                endX = e.changedTouches[0].clientX;
-                endY = e.changedTouches[0].clientY;
-                handlePopupSwipe();
-            }, { passive: true });
-            
-            function handlePopupSwipe() {
-                const diffX = startX - endX;
-                const diffY = startY - endY;
-                const threshold = 50;
-                
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
-                    if (diffX > 0) {
-                        nextPopupImage();
-                    } else {
-                        previousPopupImage();
-                    }
-                }
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof startHeaderAnnouncementCycling === 'function') {
-                startHeaderAnnouncementCycling();
-            }
-            
-            if (typeof populateSizes === 'function') {
-                populateSizes();
-            }
-            
-            initPopupSwipe();
-            
-            const sizeWarningModal = document.getElementById('sizeWarningModal');
-            if (sizeWarningModal) {
-                sizeWarningModal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeSizeWarning();
-                    }
-                });
-            }
-        });
-        
-        document.querySelectorAll('.size-section-color-option').forEach(option => {
-            option.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (document.activeElement) {
-                    document.activeElement.blur();
+        // Modal event listeners
+        const sizeWarningModal = document.getElementById('sizeWarningModal');
+        if (sizeWarningModal) {
+            sizeWarningModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSizeWarning();
                 }
             });
-        });
+        }
         
         const accessDeniedModal = document.getElementById('accessDeniedModal');
         if (accessDeniedModal) {
@@ -638,363 +675,11 @@
             });
         }
         
+        // Make functions globally accessible
         window.buyProduct = buyProduct;
         window.closeSizeWarning = closeSizeWarning;
         window.updateProductColor = updateProductColor;
+        window.updatePricing = updatePricing;
     </script>
-
-    <style>
-        /* Shop Page Specific Styles */
-        .shop-header {
-            position: fixed;
-            top: 44px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* DARKER BACKGROUND OVERLAY */
-        .product-container {
-            position: relative;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.75);
-            min-height: 100vh;
-        }
-        
-        /* HIDE THE UGLY COLOR SELECTOR ABOVE IMAGES */
-        .color-selector-moved {
-            display: none !important;
-        }
-        
-        .color-option-container {
-            display: none !important;
-        }
-        
-        /* NEW: LIFESTYLE CAROUSEL STYLES */
-        .lifestyle-section {
-            padding: 80px 40px;
-            background: rgba(0, 0, 0, 0.9);
-            text-align: center;
-        }
-
-        .lifestyle-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 2.5rem;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-        }
-
-        .lifestyle-subtitle {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: #999;
-            margin-bottom: 50px;
-        }
-
-        .lifestyle-carousel {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .lifestyle-carousel-wrapper {
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .lifestyle-carousel-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .lifestyle-slide {
-            min-width: 100%;
-            position: relative;
-        }
-
-        .lifestyle-slide img {
-            width: 100%;
-            height: 600px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: 2px solid var(--color-primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .carousel-nav:hover {
-            background: var(--color-primary);
-            color: black;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-nav-prev {
-            left: 20px;
-        }
-
-        .carousel-nav-next {
-            right: 20px;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .carousel-dot.active {
-            background: var(--color-primary);
-            transform: scale(1.3);
-        }
-
-        .carousel-dot:hover {
-            background: rgba(255, 255, 255, 0.6);
-        }
-        
-        /* SIZE WARNING MODAL */
-        .size-warning-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10005;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .size-warning-modal.active {
-            display: flex;
-        }
-
-        .size-warning-content {
-            background: #000;
-            border: 3px solid #ffff00;
-            border-radius: 0;
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 50px rgba(255, 255, 0, 0.3);
-        }
-
-        .size-warning-content::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: repeating-linear-gradient(
-                45deg,
-                #ffff00 0px,
-                #ffff00 20px,
-                #000 20px,
-                #000 40px
-            );
-            z-index: -1;
-            border-radius: 0;
-        }
-
-        .size-warning-title {
-            font-family: var(--font-headers);
-            font-weight: var(--font-primary-weight);
-            font-size: 2rem;
-            color: #ffff00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-        }
-
-        .size-warning-text {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: white;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .size-warning-close {
-            background: #ffff00;
-            border: none;
-            border-radius: 0;
-            color: #000;
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 16px;
-            padding: 15px 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .size-warning-close:hover {
-            background: #000;
-            color: #ffff00;
-            border: 2px solid #ffff00;
-        }
-        
-        /* CART DISCOUNT NOTICE */
-        .cart-discount-notice {
-            background: linear-gradient(135deg, rgba(158, 217, 181, 0.2), rgba(158, 217, 181, 0.1));
-            border: 1px solid var(--color-primary);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-            animation: subtleGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes subtleGlow {
-            0%, 100% { 
-                box-shadow: 0 0 10px rgba(158, 217, 181, 0.2);
-                border-color: var(--color-primary);
-            }
-            50% { 
-                box-shadow: 0 0 15px rgba(158, 217, 181, 0.3);
-                border-color: #7BC097;
-            }
-        }
-
-        .cart-discount-notice i {
-            font-size: 18px;
-            color: var(--color-primary);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .cart-discount-notice span {
-            font-family: var(--font-headers);
-            font-weight: var(--font-weight-bold);
-            font-size: 0.9rem;
-            color: var(--color-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .cart-discount-notice small {
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            color: #ccc;
-            display: block;
-            opacity: 0.9;
-        }
-        
-        /* Ensure video background is darker */
-        .bg-video {
-            filter: brightness(0.3);
-        }
-        
-        /* Mobile specific adjustments */
-        @media screen and (max-width: 768px) {
-            .lifestyle-slide img {
-                height: 400px;
-            }
-            
-            .carousel-nav {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .carousel-nav-prev {
-                left: 10px;
-            }
-            
-            .carousel-nav-next {
-                right: 10px;
-            }
-            
-            .lifestyle-title {
-                font-size: 2rem;
-            }
-            
-            .size-warning-content {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-            
-            .size-warning-title {
-                font-size: 1.5rem;
-            }
-            
-            .size-warning-text {
-                font-size: 1rem;
-            }
-            
-            .cart-discount-notice {
-                padding: 10px;
-                margin-bottom: 15px;
-            }
-            
-            .cart-discount-notice span {
-                font-size: 0.8rem;
-            }
-            
-            .cart-discount-notice small {
-                font-size: 0.7rem;
-            }
-        }
-        
-        @media screen and (max-width: 480px) {
-            .lifestyle-slide img {
-                height: 300px;
-            }
-            
-            .lifestyle-section {
-                padding: 60px 20px;
-            }
-            
-            .lifestyle-title {
-                font-size: 1.5rem;
-            }
-            
-            .lifestyle-subtitle {
-                font-size: 1rem;
-            }
-        }
-    </style>
 </body>
 </html>
