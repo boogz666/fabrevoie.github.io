@@ -257,6 +257,54 @@
             color: #ff6b6b;
         }
 
+        .timeline-box {
+            background: rgba(158, 217, 181, 0.05);
+            border: 2px solid rgba(158, 217, 181, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--color-primary);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-headers);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content strong {
+            color: var(--color-primary);
+            font-family: var(--font-headers);
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
         .contact-info {
             background: rgba(158, 217, 181, 0.1);
             border: 1px solid rgba(158, 217, 181, 0.3);
@@ -447,14 +495,14 @@
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
-            <a href="index.html#shop" class="nav-link">Shop</a>
+            <a href="shop.html" class="nav-link">Shop</a>
         </nav>
     </header>
 
     <div class="page-container">
         <main class="content">
             <h1 class="page-title">Shipping Policy</h1>
-            <p class="page-subtitle">It ships when it ships</p>
+            <p class="page-subtitle">Good things come to those who wait (and wait... and wait)</p>
 
             <div class="good-news-box">
                 <h2 class="section-title">The One Nice Thing We Do</h2>
@@ -463,66 +511,115 @@
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="section-title">Processing Time</h2>
+            <div class="warning-box">
+                <h2 class="section-title">⚠️ IMPORTANT: READ THIS FIRST</h2>
                 <div class="section-content">
-                    <p>Your order will be processed and shipped within:</p>
-                    <ul>
-                        <li><strong>1-3 business days</strong> for in-stock items</li>
-                        <li><strong>2-4 weeks</strong> for made-to-order items</li>
-                        <li><strong>Eventually</strong> for limited edition drops</li>
-                    </ul>
-                    <p>Business days = Monday through Friday, excluding holidays when we're probably at the beach.</p>
-                    <p>Processing time starts after your payment clears, not when you place the order. Basic economics.</p>
+                    <p><strong>These are custom-made shoes.</strong> We don't have a warehouse full of boxes waiting for you. Each pair is crafted after you order.</p>
+                    <p><strong>Total time from order to delivery: 52-74 days</strong></p>
+                    <p>If you need shoes for next week's event, buy something else. If you can wait for quality, keep reading.</p>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">Shipping Times & Methods</h2>
+                <h2 class="section-title">The Timeline (Buckle Up)</h2>
+                <div class="timeline-box">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <strong>Days 1-14: Processing</strong>
+                            <p>Your order enters our system. We verify payment, confirm your size, and queue your shoes for production. This takes 7-14 business days.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <strong>Days 15-60: Production & Shipping</strong>
+                            <p>Your shoes are crafted, quality checked, packaged, and shipped. This takes 45-60 days after processing.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <strong>Day 52-74: Delivery</strong>
+                            <p>Your shoes arrive at your door. Total time: approximately 52-74 days from order placement.</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;"><strong>Yes, it's a long wait. No, we won't speed it up because you asked nicely.</strong></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Why Does It Take So Long?</h2>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Custom manufacturing:</strong> Each pair is made to order, not sitting in a warehouse</li>
+                        <li><strong>Quality control:</strong> We check every detail because returns are a nightmare</li>
+                        <li><strong>International logistics:</strong> Shoes travel further than most people's vacation plans</li>
+                        <li><strong>We're not Amazon:</strong> We're a small brand, not a trillion-dollar logistics empire</li>
+                    </ul>
+                    <p>The wait is part of the exclusivity. If everyone could get them tomorrow, they wouldn't be special.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Shipping Destinations</h2>
                 <div class="section-content">
                     <table class="shipping-table">
                         <thead>
                             <tr>
                                 <th>Region</th>
-                                <th>Delivery Time</th>
-                                <th>Carrier</th>
+                                <th>Total Delivery Time</th>
                                 <th>Cost</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>United States</strong></td>
-                                <td>3-7 business days</td>
-                                <td>FedEx, UPS, or USPS</td>
+                                <td>52-74 days</td>
                                 <td><strong>FREE</strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Canada</strong></td>
-                                <td>5-10 business days</td>
-                                <td>Canada Post, FedEx</td>
+                                <td>52-74 days</td>
                                 <td><strong>FREE</strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Europe</strong></td>
-                                <td>7-14 business days</td>
-                                <td>DHL, FedEx</td>
+                                <td>52-74 days</td>
                                 <td><strong>FREE</strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Australia/NZ</strong></td>
-                                <td>10-14 business days</td>
-                                <td>Australia Post, DHL</td>
+                                <td>52-74 days</td>
+                                <td><strong>FREE</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Asia</strong></td>
+                                <td>52-74 days</td>
                                 <td><strong>FREE</strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Rest of World</strong></td>
-                                <td>10-21 business days</td>
-                                <td>DHL, FedEx</td>
+                                <td>52-74 days</td>
                                 <td><strong>FREE</strong></td>
                             </tr>
                         </tbody>
                     </table>
-                    <p><strong>Note:</strong> These are estimates, not guarantees. Shipping times depend on customs, weather, and the general competence of postal services.</p>
+                    <p><strong>Note:</strong> These are estimates. Could be faster, could be slower. Depends on customs, weather, and cosmic alignment.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Order Tracking</h2>
+                <div class="section-content">
+                    <p>You'll receive email updates at these stages:</p>
+                    <ul>
+                        <li><strong>Order confirmed:</strong> Immediately after purchase</li>
+                        <li><strong>Processing complete:</strong> After 7-14 days</li>
+                        <li><strong>Shipped:</strong> When your shoes leave the facility (with tracking number)</li>
+                        <li><strong>Out for delivery:</strong> When they're almost at your door</li>
+                    </ul>
+                    <p><strong>Please note:</strong> There will be a long gap between "processing complete" and "shipped" emails. This is normal. Your shoes are being made. Be patient.</p>
                 </div>
             </div>
 
@@ -531,115 +628,68 @@
                 <div class="section-content">
                     <p>Every order includes:</p>
                     <ul>
-                        <li>Your overpriced shoes in their original box</li>
-                        <li>Tracking information via email</li>
-                        <li>Discreet packaging (no one needs to know what you spent)</li>
+                        <li>Your custom-made shoes in their original box</li>
+                        <li>Tracking information (when shipped)</li>
+                        <li>Discreet packaging</li>
                         <li>Insurance coverage</li>
-                        <li>Our judgment-free delivery service</li>
+                        <li>The satisfaction of waiting 2+ months for shoes</li>
                     </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Order Tracking</h2>
-                <div class="section-content">
-                    <p>Once your order ships, you'll receive:</p>
-                    <ul>
-                        <li>Tracking number via email</li>
-                        <li>Direct link to carrier tracking</li>
-                        <li>Delivery confirmation when it arrives</li>
-                    </ul>
-                    <p>Don't email us asking where your package is if it's been less than the estimated delivery time. Check the tracking first.</p>
                 </div>
             </div>
 
             <div class="warning-box">
                 <h2 class="section-title">International Customers</h2>
                 <div class="section-content">
-                    <p><strong>Important:</strong> You're responsible for any customs duties, taxes, or import fees in your country. We can't control what your government charges, and we won't pay it for you.</p>
-                    <p>Some countries have restrictions on certain materials or products. It's your job to know your local laws before ordering.</p>
+                    <p><strong>Important:</strong> You're responsible for any customs duties, taxes, or import fees in your country. These are NOT included in the price.</p>
+                    <p>Customs can add additional delays. We have zero control over this.</p>
+                    <p>Some countries have restrictions on certain materials. Know your local laws before ordering.</p>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">Delivery Requirements</h2>
+                <h2 class="section-title">Lost or Damaged Packages</h2>
                 <div class="section-content">
-                    <p>For successful delivery:</p>
+                    <p>If your package is lost or arrives damaged:</p>
                     <ul>
-                        <li><strong>Provide accurate addresses:</strong> We're not detectives</li>
-                        <li><strong>Be available to sign:</strong> Or designate someone who can</li>
-                        <li><strong>Check your mailbox:</strong> Sometimes carriers leave notices</li>
-                        <li><strong>Respond to delivery attempts:</strong> Carriers usually try 3 times</li>
+                        <li>Contact us immediately with photos and tracking info</li>
+                        <li>We'll file a claim with the carrier</li>
+                        <li>Replacement or refund provided after claim approval</li>
+                        <li>This process can take 2-4 weeks additional time</li>
                     </ul>
-                    <p>If you're not available and the package gets returned to us, we'll contact you about reshipping. You might have to pay for the second attempt.</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Lost or Stolen Packages</h2>
-                <div class="section-content">
-                    <p>If your package shows as delivered but you didn't receive it:</p>
-                    <ul>
-                        <li>Check with neighbors, building management, or family members</li>
-                        <li>Look around your property (porches, garages, etc.)</li>
-                        <li>Contact the carrier directly</li>
-                        <li>Wait 24-48 hours (sometimes tracking updates are delayed)</li>
-                    </ul>
-                    <p>If it's genuinely lost or stolen, contact us at fabrevoie@gmail.com with your order number and tracking information. We'll work with the carrier to resolve it.</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Damaged Packages</h2>
-                <div class="section-content">
-                    <p>If your package arrives damaged:</p>
-                    <ul>
-                        <li>Take photos of the damaged packaging</li>
-                        <li>Check if the contents are damaged too</li>
-                        <li>Contact us immediately with photos and your order number</li>
-                        <li>Keep all packaging materials for potential carrier inspection</li>
-                    </ul>
-                    <p>We'll either send a replacement or issue a refund, depending on stock availability.</p>
                 </div>
             </div>
 
             <div class="section">
                 <h2 class="section-title">Address Changes</h2>
                 <div class="section-content">
-                    <p>Need to change your shipping address? You have exactly <strong>1 hour</strong> after placing your order to contact us. After that, the package goes where you originally said it should go.</p>
-                    <p>We can't intercept packages once they're in transit. That's between you and the carrier.</p>
+                    <p><strong>You have 24 hours after ordering to change your address.</strong></p>
+                    <p>After that, it's locked in. We can't change it during production or shipping. Double-check your address before ordering.</p>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">Holidays & Delays</h2>
+                <h2 class="section-title">Can You Ship Faster?</h2>
                 <div class="section-content">
-                    <p>Shipping may be delayed during:</p>
-                    <ul>
-                        <li>Major holidays (Christmas, New Year, etc.)</li>
-                        <li>Black Friday/Cyber Monday chaos</li>
-                        <li>Natural disasters</li>
-                        <li>Global pandemics</li>
-                        <li>Carrier strikes or other labor disputes</li>
-                        <li>Acts of God or government</li>
-                    </ul>
-                    <p>We'll update you if there are significant delays, but patience is a virtue.</p>
+                    <p><strong>No.</strong></p>
+                    <p>We don't offer expedited shipping. Every order takes the same time. No exceptions for birthdays, anniversaries, or "I really need them."</p>
+                    <p>If 52-74 days is too long, we understand. There are plenty of shoes you can buy and receive tomorrow. They just won't be ours.</p>
                 </div>
             </div>
 
             <div class="contact-info">
                 <h2 class="section-title">Shipping Questions?</h2>
                 <div class="section-content">
-                    <p>Contact us at: <strong>fabrevoie@gmail.com</strong></p>
-                    <p>Subject line: "Shipping Question"</p>
-                    <p>Include your order number and tracking information if applicable.</p>
-                    <p>Don't ask us to make the post office work faster. We have influence, but not that much.</p>
+                    <p>Before emailing, ask yourself: "Is my question answered above?"</p>
+                    <p>If not, contact us at: <strong>fabrevoie@gmail.com</strong></p>
+                    <p>Subject line: "Shipping Question - Order #[your order number]"</p>
+                    <p>We'll respond within 48 hours, unless we don't.</p>
                 </div>
             </div>
 
             <div class="section-content" style="text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem;">
-                <p>Last updated: January 2025</p>
-                <p>Shipping times are estimates and not guaranteed.</p>
+                <p>Last updated: August 2025</p>
+                <p>All timeframes are estimates. Actual delivery may vary.</p>
+                <p>By ordering, you acknowledge the 52-74 day delivery timeframe.</p>
             </div>
         </main>
     </div>
@@ -709,7 +759,7 @@
             const referrer = document.referrer;
             if (referrer && referrer.includes(window.location.hostname)) {
                 if (referrer.includes('#shop') || referrer.includes('productOverlay')) {
-                    window.location.href = 'index.html#shop';
+                    window.location.href = 'shop.html';
                 } else {
                     window.history.back();
                 }
