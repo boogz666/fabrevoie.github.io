@@ -2824,3 +2824,204 @@ body.loaded {
         padding: 12px 20px;
     }
 }
+/* ORDER NOTIFICATION POPUP */
+.order-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    max-width: 380px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 30, 30, 0.95));
+    border: 2px solid var(--color-primary);
+    border-radius: 12px;
+    padding: 0;
+    z-index: 10008;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 40px rgba(158, 217, 181, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.order-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.order-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.order-notification-icon {
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, var(--color-primary), #7BC097);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: notificationPulse 2s infinite;
+}
+
+@keyframes notificationPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(158, 217, 181, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(158, 217, 181, 0);
+    }
+}
+
+.order-notification-icon i {
+    color: #000;
+    font-size: 20px;
+}
+
+.order-notification-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.order-notification-header {
+    font-family: var(--font-headers);
+    font-weight: var(--font-primary-weight);
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.order-notification-header strong {
+    color: var(--color-primary);
+}
+
+.order-notification-details {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-bottom: 3px;
+}
+
+.order-notification-time {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: #888;
+    font-style: italic;
+}
+
+.order-notification-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.order-notification-close:hover {
+    color: var(--color-primary);
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* LOW STOCK ANIMATIONS */
+@keyframes pulse-urgent {
+    0%, 100% { 
+        transform: scale(1);
+        color: #ffaa00;
+    }
+    50% { 
+        transform: scale(1.1);
+        color: #ff6b6b;
+    }
+}
+
+.low-stock {
+    animation: pulse-urgent 2s infinite;
+}
+
+.final-stock {
+    color: #ff6b6b !important;
+    animation: pulse-urgent 1s infinite;
+}
+
+/* MOBILE ADJUSTMENTS FOR NOTIFICATION */
+@media screen and (max-width: 768px) {
+    .order-notification {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+        bottom: 20px;
+    }
+    
+    .order-notification-content {
+        padding: 12px 15px;
+    }
+    
+    .order-notification-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .order-notification-icon i {
+        font-size: 18px;
+    }
+    
+    .order-notification-header {
+        font-size: 0.85rem;
+    }
+    
+    .order-notification-details {
+        font-size: 0.8rem;
+    }
+    
+    .order-notification-time {
+        font-size: 0.7rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .order-notification {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+    }
+    
+    .order-notification-content {
+        padding: 10px 12px;
+        gap: 12px;
+    }
+    
+    .order-notification-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .order-notification-icon i {
+        font-size: 16px;
+    }
+    
+    .order-notification-header {
+        font-size: 0.8rem;
+    }
+    
+    .order-notification-details {
+        font-size: 0.75rem;
+    }
+    
+    .order-notification-time {
+        font-size: 0.65rem;
+    }
+}
