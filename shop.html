@@ -25,8 +25,6 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="shop-page">
-    <script>document.body.classList.add('loaded');</script>
-
     <!-- Loading Screen -->
     <div id="loading-screen">
         <img src="assets/images/logo-small.png" alt="Fabrevoie Logo" class="loading-logo">
@@ -120,15 +118,15 @@
         <div class="timer-content" id="timerContent">
             <div class="timer-display">
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerHours">---</div>
+                    <div class="timer-number" id="timerHours">0</div>
                     <div class="timer-label">Hours</div>
                 </div>
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerMinutes">--</div>
+                    <div class="timer-number" id="timerMinutes">00</div>
                     <div class="timer-label">Minutes</div>
                 </div>
                 <div class="timer-unit">
-                    <div class="timer-number" id="timerSeconds">--</div>
+                    <div class="timer-number" id="timerSeconds">00</div>
                     <div class="timer-label">Seconds</div>
                 </div>
             </div>
@@ -513,8 +511,34 @@
         </div>
     </div>
 
+    <!-- Load main.js first -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- Then add the fixes and shop-specific code -->
     <script>
+        // IMMEDIATE LOADING SCREEN FIX
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(function() {
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 300);
+            }
+            document.body.classList.add('loaded');
+        });
+
+        // Fallback removal after 2 seconds
+        setTimeout(function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen && loadingScreen.style.display !== 'none') {
+                loadingScreen.style.display = 'none';
+            }
+            document.body.classList.add('loaded');
+        }, 2000);
+
         // Dynamic pricing based on presale dates
         function updatePricing() {
             const now = new Date();
