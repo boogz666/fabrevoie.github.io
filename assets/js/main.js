@@ -136,6 +136,7 @@ const orderNotifications = {
 
 // REAL SHOPIFY INVENTORY TRACKING WITH ARTIFICIAL SCARCITY
 let inventoryFetchTimeout;
+// REAL SHOPIFY INVENTORY TRACKING - FIXED VERSION
 async function fetchShopifyInventory() {
     clearTimeout(inventoryFetchTimeout);
     
@@ -149,65 +150,49 @@ async function fetchShopifyInventory() {
         
         const product = await response.json();
         
-        // Calculate REAL sales from inventory changes
-        let totalRealSold = 0;
-        let variantsSoldOut = 0;
+        // Get or set initial inventory snapshot
+        let initialInventorySnapshot = localStorage.getItem('fabrevoie_initial_inventory');
         
-        // Check each variant's inventory
-        product.variants.forEach(variant => {
-            const currentInventory = variant.inventory_quantity || 0;
+        if (!initialInventorySnapshot) {
+            // First time - save current inventory as baseline
+            let totalCurrentInventory = 0;
+            product.variants.forEach(variant => {
+                totalCurrentInventory += (variant.inventory_quantity || 0);
+            });
             
-            // Calculate how many sold based on starting inventory
-            if (currentInventory < STARTING_INVENTORY_PER_VARIANT) {
-                const variantSold = STARTING_INVENTORY_PER_VARIANT - currentInventory;
-                totalRealSold += variantSold;
-            }
+            // You said you have about 500 per variant, 22 variants = ~11,000 total
+            // But let's use the ACTUAL current inventory as baseline
+            localStorage.setItem('fabrevoie_initial_inventory', totalCurrentInventory);
+            initialInventorySnapshot = totalCurrentInventory;
             
-            // Count completely sold out variants
-            if (!variant.available || currentInventory === 0) {
-                variantsSoldOut++;
-            }
-        });
-        
-        console.log('REAL Shopify sales detected:', totalRealSold);
-        console.log('Variants sold out:', variantsSoldOut);
-        
-        // Check if we have new sales since last check
-        const lastKnownSales = parseInt(localStorage.getItem('fabrevoie_last_real_sales') || '0');
-        if (totalRealSold > lastKnownSales && lastKnownSales > 0) {
-            const newSales = totalRealSold - lastKnownSales;
-            console.log('NEW SALES DETECTED:', newSales);
-            
-            // Show notification for new sales
-            for (let i = 0; i < Math.min(newSales, 3); i++) {
-                setTimeout(() => {
-                    showOrderNotification(1);
-                }, i * 2000);
-            }
+            console.log('Initial inventory baseline set:', totalCurrentInventory);
         }
         
-        // Store the real sales count
-        localStorage.setItem('fabrevoie_last_real_sales', totalRealSold);
-        state.lastKnownRealSales = totalRealSold;
+        // Calculate current total inventory
+        let currentTotalInventory = 0;
+        product.variants.forEach(variant => {
+            currentTotalInventory += (variant.inventory_quantity || 0);
+        });
         
-        // ARTIFICIAL SCARCITY DISPLAY LOGIC
+        // Calculate REAL sales (initial inventory - current inventory)
+        const initialInventory = parseInt(initialInventorySnapshot);
+        const realSalesCount = initialInventory - currentTotalInventory;
+        
+        console.log('Initial Inventory:', initialInventory);
+        console.log('Current Inventory:', currentTotalInventory);
+        console.log('REAL Sales:', realSalesCount);
+        
+        // ARTIFICIAL SCARCITY DISPLAY (150 max, 2 min)
         let displayRemaining;
         
-        if (totalRealSold >= FAKE_MAX_STOCK) {
-            // We've "sold out" of our fake 150, but keep showing 2
+        if (realSalesCount >= FAKE_MAX_STOCK) {
+            // Sold 150+, show minimum of 2
             displayRemaining = MINIMUM_REMAINING;
-            
-            // Update status to show urgency
-            const timerStatus = document.getElementById('timerStatus');
-            if (timerStatus) {
-                timerStatus.textContent = 'FINAL PAIRS - ORDER NOW!';
-                timerStatus.style.color = '#ff6b6b';
-            }
         } else {
             // Show countdown from 150
-            displayRemaining = FAKE_MAX_STOCK - totalRealSold;
+            displayRemaining = FAKE_MAX_STOCK - realSalesCount;
             
-            // Never go below minimum
+            // Never go below 2
             if (displayRemaining < MINIMUM_REMAINING) {
                 displayRemaining = MINIMUM_REMAINING;
             }
@@ -223,15 +208,15 @@ async function fetchShopifyInventory() {
         }
         
         // Store state
-        localStorage.setItem('fabrevoie_inventory', displayRemaining);
-        localStorage.setItem('fabrevoie_inventory_time', Date.now());
+        localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
+        localStorage.setItem('fabrevoie_real_sales', realSalesCount);
         
     } catch (error) {
         console.error('Failed to fetch Shopify inventory:', error);
         
-        // Fallback to stored values
-        const stored = localStorage.getItem('fabrevoie_inventory');
-        state.pairsLeft = stored ? parseInt(stored) : 146; // Start at 146 to look realistic
+        // Fallback - if you know you have 4 real sales
+        const fallbackSales = 4;
+        state.pairsLeft = FAKE_MAX_STOCK - fallbackSales; // 146
         updatePairsLeft();
     }
 }
@@ -1303,11 +1288,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // REAL INVENTORY TRACKING - Fetch immediately and every 15 seconds
     fetchShopifyInventory();
     setInterval(fetchShopifyInventory, 15000); // Check every 15 seconds for real sales
-    
-    // Start simulating random orders after 30 seconds
-    setTimeout(() => {
-        simulateRandomOrders();
-    }, 30000);
     
     // Also fetch when tab becomes visible
     document.addEventListener('visibilitychange', function() {
