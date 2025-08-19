@@ -1,6 +1,16 @@
-// FABREVOIE MAIN.JS - REAL SHOPIFY TRACKING + ARTIFICIAL SCARCITY
+// FABREVOIE MAIN.JS - MANUAL SALES TRACKING + ARTIFICIAL SCARCITY
 // Last Updated: Aug 19, 2025
 // Shop Domain: shop.fabrevoie.com
+
+// ================================================
+// MANUAL SALES TRACKING - UPDATE THIS SECTION ONLY
+// ================================================
+const REAL_SALES_TRACKER = {
+    totalSales: 4,              // ← UPDATE THIS NUMBER AS YOU GET SALES
+    lastUpdated: '2025-08-19',  // ← UPDATE THE DATE WHEN YOU CHANGE IT
+    notes: 'Launch day: 4 sales' // ← ADD NOTES IF YOU WANT
+};
+// ================================================
 
 // STATE MANAGEMENT
 const state = {
@@ -25,7 +35,6 @@ let localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
 
 // SHOPIFY CONFIGURATION
 const SHOPIFY_DOMAIN = 'shop.fabrevoie.com';
-const STARTING_INVENTORY_PER_VARIANT = 500; // Your actual Shopify inventory per variant
 const FAKE_MAX_STOCK = 150; // What we show to customers
 const MINIMUM_REMAINING = 2; // Never go below this
 
@@ -134,91 +143,42 @@ const orderNotifications = {
     ]
 };
 
-// REAL SHOPIFY INVENTORY TRACKING WITH ARTIFICIAL SCARCITY
+// SIMPLIFIED MANUAL INVENTORY TRACKING
 let inventoryFetchTimeout;
-// REAL SHOPIFY INVENTORY TRACKING - FIXED VERSION
 async function fetchShopifyInventory() {
     clearTimeout(inventoryFetchTimeout);
     
-    try {
-        // Fetch REAL product data from Shopify
-        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.js`);
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch product data');
-        }
-        
-        const product = await response.json();
-        
-        // Get or set initial inventory snapshot
-        let initialInventorySnapshot = localStorage.getItem('fabrevoie_initial_inventory');
-        
-        if (!initialInventorySnapshot) {
-            // First time - save current inventory as baseline
-            let totalCurrentInventory = 0;
-            product.variants.forEach(variant => {
-                totalCurrentInventory += (variant.inventory_quantity || 0);
-            });
-            
-            // You said you have about 500 per variant, 22 variants = ~11,000 total
-            // But let's use the ACTUAL current inventory as baseline
-            localStorage.setItem('fabrevoie_initial_inventory', totalCurrentInventory);
-            initialInventorySnapshot = totalCurrentInventory;
-            
-            console.log('Initial inventory baseline set:', totalCurrentInventory);
-        }
-        
-        // Calculate current total inventory
-        let currentTotalInventory = 0;
-        product.variants.forEach(variant => {
-            currentTotalInventory += (variant.inventory_quantity || 0);
-        });
-        
-        // Calculate REAL sales (initial inventory - current inventory)
-        const initialInventory = parseInt(initialInventorySnapshot);
-        const realSalesCount = initialInventory - currentTotalInventory;
-        
-        console.log('Initial Inventory:', initialInventory);
-        console.log('Current Inventory:', currentTotalInventory);
-        console.log('REAL Sales:', realSalesCount);
-        
-        // ARTIFICIAL SCARCITY DISPLAY (150 max, 2 min)
-        let displayRemaining;
-        
-        if (realSalesCount >= FAKE_MAX_STOCK) {
-            // Sold 150+, show minimum of 2
-            displayRemaining = MINIMUM_REMAINING;
-        } else {
-            // Show countdown from 150
-            displayRemaining = FAKE_MAX_STOCK - realSalesCount;
-            
-            // Never go below 2
-            if (displayRemaining < MINIMUM_REMAINING) {
-                displayRemaining = MINIMUM_REMAINING;
-            }
-        }
-        
-        // Update the display
-        state.pairsLeft = displayRemaining;
-        updatePairsLeft();
-        
-        // Add visual urgency when "low stock"
-        if (displayRemaining <= 10) {
-            addLowStockVisuals();
-        }
-        
-        // Store state
-        localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
-        localStorage.setItem('fabrevoie_real_sales', realSalesCount);
-        
-    } catch (error) {
-        console.error('Failed to fetch Shopify inventory:', error);
-        
-        // Fallback - if you know you have 4 real sales
-        const fallbackSales = 4;
-        state.pairsLeft = FAKE_MAX_STOCK - fallbackSales; // 146
-        updatePairsLeft();
+    // Use the manual tracker at the top of the file
+    const realSalesCount = REAL_SALES_TRACKER.totalSales;
+    
+    console.log('=== INVENTORY STATUS ===');
+    console.log('Real Sales:', realSalesCount);
+    console.log('Last Updated:', REAL_SALES_TRACKER.lastUpdated);
+    console.log('Notes:', REAL_SALES_TRACKER.notes);
+    
+    // Calculate display remaining (150 max, down to 2 min)
+    let displayRemaining = FAKE_MAX_STOCK - realSalesCount;
+    
+    // Never go below minimum
+    if (displayRemaining < MINIMUM_REMAINING) {
+        displayRemaining = MINIMUM_REMAINING;
     }
+    
+    // Update the display
+    state.pairsLeft = displayRemaining;
+    updatePairsLeft();
+    
+    // Add visual urgency when "low stock"
+    if (displayRemaining <= 10) {
+        addLowStockVisuals();
+    }
+    
+    // Store state
+    localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
+    localStorage.setItem('fabrevoie_real_sales', realSalesCount);
+    
+    console.log('Display Showing:', displayRemaining + '/150');
+    console.log('========================');
 }
 
 // Show order notification popup
@@ -341,7 +301,7 @@ function simulateRandomOrders() {
     setTimeout(simulateRandomOrders, nextCheck);
 }
 
-// Add visual urgency for low stock
+// FIXED: Add visual urgency for low stock with better badge placement
 function addLowStockVisuals() {
     const pairsLeftElement = document.getElementById('pairsLeft');
     if (pairsLeftElement) {
@@ -361,7 +321,7 @@ function addLowStockVisuals() {
         badge.innerHTML = '⚠️ LOW STOCK ⚠️';
         badge.style.cssText = `
             position: absolute;
-            top: -20px;
+            bottom: -25px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, #ffaa00, #ff6b6b);
@@ -374,7 +334,8 @@ function addLowStockVisuals() {
             font-family: var(--font-headers);
             letter-spacing: 1px;
             box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
-            z-index: 10001;
+            z-index: 9999;
+            white-space: nowrap;
         `;
         timerContainer.appendChild(badge);
     }
@@ -1285,16 +1246,13 @@ document.addEventListener('DOMContentLoaded', function() {
         setInterval(updateTimer, 1000);
     }, 100);
     
-    // REAL INVENTORY TRACKING - Fetch immediately and every 15 seconds
+    // Initialize inventory tracking with manual values
     fetchShopifyInventory();
-    setInterval(fetchShopifyInventory, 15000); // Check every 15 seconds for real sales
+    // Check inventory every 30 seconds (less frequent since it's manual)
+    setInterval(fetchShopifyInventory, 30000);
     
-    // Also fetch when tab becomes visible
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            fetchShopifyInventory();
-        }
-    });
+    // Start simulating random orders during presale
+    setTimeout(simulateRandomOrders, 30000);
     
     // Initialize modals
     initModalClosers();
