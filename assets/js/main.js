@@ -452,6 +452,7 @@ function updateCartCount() {
     const webFlies = document.getElementById('webFlies');
     const spider = document.querySelector('.spider');
     const spiderWeb = document.querySelector('.spider-web');
+    const webContainer = document.querySelector('.web-container');
     
     if (cartCountElement) {
         if (count > 0) {
@@ -612,7 +613,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// COMPLETELY FIXED TIMER FUNCTION - 72 HOURS PRESALE!
+// COMPLETELY FIXED TIMER FUNCTION - HANDLES ALL EDGE CASES
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -629,85 +630,80 @@ function updateTimer() {
     const countdownMinutes = document.getElementById('countdownMinutes');
     const countdownSecondsEl = document.getElementById('countdownSeconds');
     
-    if (!timerHours) return;
+    // Return early if elements don't exist
+    if (!timerHours || !timerMinutes || !timerSeconds) {
+        console.warn('Timer elements not found, retrying...');
+        return;
+    }
+
+    // Helper function to safely calculate time units
+    function calculateTimeUnits(timeDiff) {
+        if (timeDiff <= 0) {
+            return { days: 0, hours: 0, minutes: 0, seconds: 0, totalHours: 0 };
+        }
+        
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        const totalHours = Math.floor(timeDiff / (1000 * 60 * 60));
+        
+        return { days, hours, minutes, seconds, totalHours };
+    }
 
     if (now < config.presaleStartDate) {
         // BEFORE PRESALE - Countdown to presale start
-        timerStatus.textContent = 'PRE-SALE STARTS IN...';
+        if (timerStatus) timerStatus.textContent = 'PRE-SALE STARTS IN...';
+        const time = calculateTimeUnits(presaleTimeDiff);
         
-        const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((presaleTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((presaleTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((presaleTimeDiff % (1000 * 60)) / 1000);
-        
-        // Total hours until presale
-        const totalHours = Math.floor(presaleTimeDiff / (1000 * 60 * 60));
-        
-        timerHours.textContent = totalHours.toString();
-        timerMinutes.textContent = minutes.toString().padStart(2, '0');
-        timerSeconds.textContent = seconds.toString().padStart(2, '0');
+        timerHours.textContent = time.totalHours.toString();
+        timerMinutes.textContent = time.minutes.toString().padStart(2, '0');
+        timerSeconds.textContent = time.seconds.toString().padStart(2, '0');
         
         if (countdownDays) {
-            countdownDays.textContent = days.toString().padStart(2, '0');
-            countdownHours.textContent = hours.toString().padStart(2, '0');
-            countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-            countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
+            countdownDays.textContent = time.days.toString().padStart(2, '0');
+            countdownHours.textContent = time.hours.toString().padStart(2, '0');
+            countdownMinutes.textContent = time.minutes.toString().padStart(2, '0');
+            countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else if (now >= config.presaleStartDate && now < config.presaleEndDate) {
         // PRESALE IS LIVE FOR 72 HOURS!
-        timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - ENDS IN';
+        if (timerStatus) {
+            timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - ENDS IN';
+        }
+        const time = calculateTimeUnits(presaleEndTimeDiff);
         
-        // Calculate time until presale ENDS (72 hours from start)
-        const hoursLeft = Math.floor(presaleEndTimeDiff / (1000 * 60 * 60));
-        const minutesLeft = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const secondsLeft = Math.floor((presaleEndTimeDiff % (1000 * 60)) / 1000);
+        timerHours.textContent = time.totalHours.toString();
+        timerMinutes.textContent = time.minutes.toString().padStart(2, '0');
+        timerSeconds.textContent = time.seconds.toString().padStart(2, '0');
         
-        // Display the 72-hour countdown
-        timerHours.textContent = Math.max(0, hoursLeft).toString();
-        timerMinutes.textContent = Math.max(0, minutesLeft).toString().padStart(2, '0');
-        timerSeconds.textContent = Math.max(0, secondsLeft).toString().padStart(2, '0');
-        
-        // Also update the day/hour/minute/second display
         if (countdownDays) {
-            const days = Math.floor(presaleEndTimeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((presaleEndTimeDiff % (1000 * 60)) / 1000);
-            
-            countdownDays.textContent = Math.max(0, days).toString().padStart(2, '0');
-            countdownHours.textContent = Math.max(0, hours).toString().padStart(2, '0');
-            countdownMinutes.textContent = Math.max(0, minutes).toString().padStart(2, '0');
-            countdownSecondsEl.textContent = Math.max(0, seconds).toString().padStart(2, '0');
+            countdownDays.textContent = time.days.toString().padStart(2, '0');
+            countdownHours.textContent = time.hours.toString().padStart(2, '0');
+            countdownMinutes.textContent = time.minutes.toString().padStart(2, '0');
+            countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else if (now >= config.presaleEndDate && now < config.dropDate) {
         // BETWEEN PRESALE END AND DROP
-        timerStatus.textContent = 'LIVE DROP IN';
+        if (timerStatus) timerStatus.textContent = 'LIVE DROP IN';
+        const time = calculateTimeUnits(dropTimeDiff);
         
-        const hoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
-        const minutesUntilDrop = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const secondsUntilDrop = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
-        
-        timerHours.textContent = Math.max(0, hoursUntilDrop).toString();
-        timerMinutes.textContent = Math.max(0, minutesUntilDrop).toString().padStart(2, '0');
-        timerSeconds.textContent = Math.max(0, secondsUntilDrop).toString().padStart(2, '0');
+        timerHours.textContent = time.totalHours.toString();
+        timerMinutes.textContent = time.minutes.toString().padStart(2, '0');
+        timerSeconds.textContent = time.seconds.toString().padStart(2, '0');
         
         if (countdownDays) {
-            const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
-            
-            countdownDays.textContent = Math.max(0, days).toString().padStart(2, '0');
-            countdownHours.textContent = Math.max(0, hours).toString().padStart(2, '0');
-            countdownMinutes.textContent = Math.max(0, minutes).toString().padStart(2, '0');
-            countdownSecondsEl.textContent = Math.max(0, seconds).toString().padStart(2, '0');
+            countdownDays.textContent = time.days.toString().padStart(2, '0');
+            countdownHours.textContent = time.hours.toString().padStart(2, '0');
+            countdownMinutes.textContent = time.minutes.toString().padStart(2, '0');
+            countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else {
         // DROP IS LIVE
         timerHours.textContent = '0';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
-        timerStatus.textContent = 'DROP IS LIVE NOW!';
+        if (timerStatus) timerStatus.textContent = 'DROP IS LIVE NOW!';
         
         if (countdownDays) {
             countdownDays.textContent = '00';
@@ -901,12 +897,16 @@ function startHeaderAnnouncementCycling() {
     }, 3000);
 }
 
+// FIXED: Better loading screen removal
 function showPageContent() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
         loadingScreen.classList.add('fade-out');
-        setTimeout(() => loadingScreen.style.display = 'none', 500);
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
     }
+    document.body.classList.add('loaded');
 }
 
 function initModalClosers() {
@@ -1102,9 +1102,11 @@ document.addEventListener('DOMContentLoaded', function() {
         initVideo();
     }
     
-    // Initialize timer
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    // Initialize timer with retry logic
+    setTimeout(() => {
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    }, 100);
     
     // Fetch inventory once on load
     fetchShopifyInventory();
@@ -1144,9 +1146,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Show content
+    // FIXED: Show content after a delay
+    setTimeout(showPageContent, 800);
+});
+
+// FIXED: Additional loading screen handler
+window.addEventListener('load', function() {
     setTimeout(showPageContent, 500);
 });
+
+// Fallback: Force remove loading screen after 3 seconds
+setTimeout(function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+    }
+    document.body.classList.add('loaded');
+}, 3000);
 
 // GLOBAL FUNCTIONS
 window.state = state;
