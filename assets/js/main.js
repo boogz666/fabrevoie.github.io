@@ -1,4 +1,4 @@
-// FABREVOIE MAIN.JS - COMPLETELY FIXED VERSION
+// FABREVOIE MAIN.JS - COMPLETE WITH ORDER NOTIFICATIONS
 // Last Updated: Aug 19, 2025
 // Shop Domain: shop.fabrevoie.com
 
@@ -14,7 +14,9 @@ const state = {
     headerAnnouncementInterval: null,
     lastScrollTop: 0,
     isScrollingDown: false,
-    lifestyleIndex: 0
+    lifestyleIndex: 0,
+    notificationQueue: [],
+    isShowingNotification: false
 };
 
 // CART STATE
@@ -55,9 +57,9 @@ const variantMap = {
 
 const config = {
     // FIXED DATES FOR 2025
-    dropDate: new Date('2025-08-28T08:00:00-04:00'),  // Thursday August 28th, 2025, 8AM NYC
-    presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // Thursday August 21st, 2025, 8AM NYC
-    presaleEndDate: new Date('2025-08-24T08:00:00-04:00'),  // Sunday August 24th, 2025, 8AM NYC (72 HOURS AFTER START!)
+    dropDate: new Date('2025-08-28T08:00:00-04:00'),
+    presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),
+    presaleEndDate: new Date('2025-08-24T08:00:00-04:00'),
     productPrice: 269,
     presalePrice: 229,
     shopifyDomain: 'shop.fabrevoie.com',
@@ -105,88 +107,279 @@ const config = {
     ]
 };
 
-// OPTIMIZED INVENTORY FETCHING - REDUCED FREQUENCY
+// ORDER NOTIFICATION SYSTEM
+const orderNotifications = {
+    locations: [
+        'New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ',
+        'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA', 'Dallas, TX', 'San Jose, CA',
+        'Austin, TX', 'Jacksonville, FL', 'Fort Worth, TX', 'Columbus, OH', 'Charlotte, NC',
+        'San Francisco, CA', 'Indianapolis, IN', 'Seattle, WA', 'Denver, CO', 'Boston, MA',
+        'Miami, FL', 'Nashville, TN', 'Atlanta, GA', 'Portland, OR', 'Las Vegas, NV',
+        'Detroit, MI', 'Memphis, TN', 'Louisville, KY', 'Milwaukee, WI', 'Baltimore, MD',
+        'Toronto, ON', 'Vancouver, BC', 'Montreal, QC', 'London, UK', 'Paris, FR',
+        'Berlin, DE', 'Tokyo, JP', 'Sydney, AU', 'Melbourne, AU', 'Singapore, SG'
+    ],
+    
+    names: [
+        'Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie', 'Cameron',
+        'Avery', 'Quinn', 'Blake', 'Hayden', 'Sage', 'Drew', 'Emerson', 'Finley',
+        'Kai', 'Reese', 'Skyler', 'River', 'Rowan', 'Phoenix', 'Dakota', 'Charlie'
+    ],
+    
+    lastNames: [
+        'S.', 'M.', 'L.', 'K.', 'J.', 'B.', 'C.', 'D.', 'R.', 'T.', 'W.', 'P.'
+    ]
+};
+
+function showOrderNotification(quantity = 1, color = null, size = null) {
+    // Don't show if already showing
+    if (state.isShowingNotification) {
+        state.notificationQueue.push({ quantity, color, size });
+        return;
+    }
+    
+    state.isShowingNotification = true;
+    
+    // Random data
+    const location = orderNotifications.locations[Math.floor(Math.random() * orderNotifications.locations.length)];
+    const name = orderNotifications.names[Math.floor(Math.random() * orderNotifications.names.length)];
+    const lastName = orderNotifications.lastNames[Math.floor(Math.random() * orderNotifications.lastNames.length)];
+    const timeAgo = Math.floor(Math.random() * 59) + 1; // 1-59 seconds ago
+    
+    // If not specified, randomize color and size
+    if (!color) {
+        color = Math.random() > 0.5 ? 'Red' : 'Black';
+    }
+    if (!size) {
+        size = config.sizes[Math.floor(Math.random() * config.sizes.length)];
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'order-notification';
+    notification.innerHTML = `
+        <div class="order-notification-content">
+            <div class="order-notification-icon">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="order-notification-text">
+                <div class="order-notification-header">
+                    <strong>${name} ${lastName}</strong> from ${location}
+                </div>
+                <div class="order-notification-details">
+                    Just ordered ${quantity} ${quantity > 1 ? 'pairs' : 'pair'} • ${color} • Size ${size}
+                </div>
+                <div class="order-notification-time">
+                    ${timeAgo} seconds ago
+                </div>
+            </div>
+            <button class="order-notification-close" onclick="closeOrderNotification(this)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Trigger animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Update inventory count
+    const currentOrders = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
+    localStorage.setItem('fabrevoie_actual_orders', currentOrders + quantity);
+    fetchShopifyInventory();
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        if (notification && notification.parentNode) {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification && notification.parentNode) {
+                    notification.remove();
+                }
+                state.isShowingNotification = false;
+                
+                // Show next in queue if any
+                if (state.notificationQueue.length > 0) {
+                    const next = state.notificationQueue.shift();
+                    setTimeout(() => {
+                        showOrderNotification(next.quantity, next.color, next.size);
+                    }, 500);
+                }
+            }, 300);
+        }
+    }, 5000);
+}
+
+function closeOrderNotification(btn) {
+    const notification = btn.closest('.order-notification');
+    if (notification) {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+            state.isShowingNotification = false;
+            
+            // Show next in queue if any
+            if (state.notificationQueue.length > 0) {
+                const next = state.notificationQueue.shift();
+                setTimeout(() => {
+                    showOrderNotification(next.quantity, next.color, next.size);
+                }, 500);
+            }
+        }, 300);
+    }
+}
+
+// Simulate random orders
+function simulateRandomOrders() {
+    // Only simulate during presale period
+    const now = new Date();
+    if (now < config.presaleStartDate || now > config.presaleEndDate) {
+        return;
+    }
+    
+    // Random chance of order (adjust probability as needed)
+    const shouldShowOrder = Math.random() > 0.85; // 15% chance
+    
+    if (shouldShowOrder) {
+        const quantity = Math.random() > 0.8 ? 2 : 1; // 20% chance of 2 pairs
+        showOrderNotification(quantity);
+    }
+    
+    // Schedule next check (random between 30-120 seconds)
+    const nextCheck = Math.random() * 90000 + 30000;
+    setTimeout(simulateRandomOrders, nextCheck);
+}
+
+// ARTIFICIAL SCARCITY INVENTORY SYSTEM
 let inventoryFetchTimeout;
 async function fetchShopifyInventory() {
-    // Clear any pending fetches
     clearTimeout(inventoryFetchTimeout);
     
     try {
+        // Get the actual order count from localStorage
         let actualOrdersPlaced = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
         
-        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.js`);
-        const productData = await response.json();
-        
-        let soldOutCount = 0;
-        productData.variants.forEach(variant => {
-            if (!variant.available) soldOutCount++;
-        });
-        
-        const estimatedOrders = soldOutCount * 7;
-        
-        if (estimatedOrders > actualOrdersPlaced) {
-            actualOrdersPlaced = estimatedOrders;
-            localStorage.setItem('fabrevoie_actual_orders', actualOrdersPlaced);
+        // Try to fetch real product data
+        try {
+            const response = await fetch(`https://shop.fabrevoie.com/products/sbhmn-1.js`);
+            if (response.ok) {
+                const productData = await response.json();
+                
+                // Calculate approximate orders based on inventory changes
+                let estimatedOrders = 0;
+                productData.variants.forEach(variant => {
+                    if (variant.inventory_quantity && variant.inventory_quantity < 500) {
+                        estimatedOrders += (500 - variant.inventory_quantity);
+                    }
+                });
+                
+                // Use the higher of stored or estimated orders
+                if (estimatedOrders > actualOrdersPlaced) {
+                    actualOrdersPlaced = estimatedOrders;
+                    localStorage.setItem('fabrevoie_actual_orders', actualOrdersPlaced);
+                }
+            }
+        } catch (e) {
+            // Silently fail, use localStorage value
         }
         
-        // CAP AT 150 FOR ARTIFICIAL SCARCITY
-        let displayRemaining = Math.max(0, 150 - actualOrdersPlaced);
-        state.pairsLeft = displayRemaining;
+        // ARTIFICIAL SCARCITY LOGIC
+        const FAKE_INITIAL_STOCK = 150;
+        const MINIMUM_REMAINING = 2; // Always show at least 2 left
         
+        let displayRemaining;
+        
+        if (actualOrdersPlaced >= FAKE_INITIAL_STOCK) {
+            // If we've "sold out", keep showing 2 left
+            displayRemaining = MINIMUM_REMAINING;
+            
+            // Add urgency messaging
+            const timerStatus = document.getElementById('timerStatus');
+            if (timerStatus) {
+                timerStatus.textContent = 'FINAL PAIRS - ORDER NOW!';
+                timerStatus.style.color = '#ff6b6b';
+            }
+        } else {
+            // Show countdown from 150
+            displayRemaining = FAKE_INITIAL_STOCK - actualOrdersPlaced;
+            
+            // But never go below minimum
+            if (displayRemaining < MINIMUM_REMAINING) {
+                displayRemaining = MINIMUM_REMAINING;
+            }
+        }
+        
+        state.pairsLeft = displayRemaining;
         updatePairsLeft();
         
-        if (state.pairsLeft === 0) {
-            addSoldOutVisuals();
+        // Add visual urgency when "low stock"
+        if (displayRemaining <= 10) {
+            addLowStockVisuals();
         }
         
-        localStorage.setItem('fabrevoie_inventory', state.pairsLeft);
+        // Save state
+        localStorage.setItem('fabrevoie_inventory', displayRemaining);
         localStorage.setItem('fabrevoie_inventory_time', Date.now());
         
     } catch (error) {
         console.error('Failed to fetch inventory:', error);
-        const cached = localStorage.getItem('fabrevoie_inventory');
-        state.pairsLeft = cached ? parseInt(cached) : 150;
+        
+        // Fallback display
+        const stored = localStorage.getItem('fabrevoie_inventory');
+        state.pairsLeft = stored ? parseInt(stored) : 148; // Start at 148 to look realistic
         updatePairsLeft();
     }
 }
 
-// Add visual indicators when sold out
-function addSoldOutVisuals() {
+// Add visual urgency for low stock
+function addLowStockVisuals() {
     const pairsLeftElement = document.getElementById('pairsLeft');
     if (pairsLeftElement) {
-        pairsLeftElement.style.color = '#ff6b6b';
+        pairsLeftElement.style.color = '#ffaa00';
         pairsLeftElement.style.fontWeight = 'bold';
-        pairsLeftElement.classList.add('sold-out');
+        pairsLeftElement.style.textShadow = '0 0 10px rgba(255, 170, 0, 0.5)';
+        
+        if (!pairsLeftElement.classList.contains('low-stock')) {
+            pairsLeftElement.classList.add('low-stock');
+        }
     }
     
     const timerContainer = document.querySelector('.timer-container');
-    if (timerContainer && !document.querySelector('.sold-out-badge')) {
+    if (timerContainer && !document.querySelector('.low-stock-badge')) {
         const badge = document.createElement('div');
-        badge.className = 'sold-out-badge';
-        badge.innerHTML = '🔥 SOLD OUT 🔥';
+        badge.className = 'low-stock-badge';
+        badge.innerHTML = '⚠️ LOW STOCK ⚠️';
         badge.style.cssText = `
             position: absolute;
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            background: linear-gradient(135deg, #ffaa00, #ff6b6b);
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 10px;
             font-weight: bold;
-            animation: pulse 2s infinite;
+            animation: pulse 1.5s infinite;
             font-family: var(--font-headers);
             letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
             z-index: 10001;
         `;
         timerContainer.appendChild(badge);
     }
-    
-    const timerStatus = document.getElementById('timerStatus');
-    if (timerStatus) {
-        timerStatus.textContent = 'SOLD OUT - TAKING FINAL ORDERS';
+}
+
+// Simulate initial orders to make it look active
+function setInitialActivity() {
+    const hasInitialized = localStorage.getItem('fabrevoie_initialized');
+    if (!hasInitialized) {
+        // Start with some "sold" to look active (your 4 real orders)
+        localStorage.setItem('fabrevoie_actual_orders', '4');
+        localStorage.setItem('fabrevoie_initialized', 'true');
     }
 }
 
@@ -335,12 +528,16 @@ function closeCart() {
 }
 
 function addToCart(color, size) {
+    const now = new Date();
+    const presaleEnd = new Date('2025-08-24T08:00:00-04:00');
+    const price = now < presaleEnd ? 199 : 269;
+    
     const cartItem = {
         id: `${color}-${size}`,
         name: 'SBHMN 1',
         color: color,
         size: size,
-        price: 269,
+        price: price,
         quantity: 1,
         variantId: variantMap[`${color}-${size}`],
         image: config.productImages[color][0]
@@ -357,6 +554,11 @@ function addToCart(color, size) {
     localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
     updateCartCount();
     toggleCart();
+    
+    // Show order notification for current user's order
+    setTimeout(() => {
+        showOrderNotification(1, color.charAt(0).toUpperCase() + color.slice(1), size);
+    }, 2000);
     
     // Spider animation
     const spider = document.querySelector('.spider');
@@ -530,7 +732,7 @@ function updateCartCount() {
     }
 }
 
-// FIXED CHECKOUT FUNCTION - Preserves cart properly
+// CHECKOUT FUNCTION
 function proceedToCheckout() {
     if (localCart.length === 0) {
         alert('Your cart is empty. Add something first!');
@@ -545,7 +747,12 @@ function proceedToCheckout() {
     sessionStorage.setItem('fabrevoie_checkout_backup', JSON.stringify(localCart));
     localStorage.setItem('fabrevoie_checkout_pending', 'true');
     
-    // DO NOT clear cart here - wait for confirmation
+    // Track the checkout
+    const totalQuantity = localCart.reduce((sum, item) => sum + item.quantity, 0);
+    setTimeout(() => {
+        showOrderNotification(totalQuantity);
+    }, 5000);
+    
     window.location.href = checkoutUrl;
 }
 
@@ -613,7 +820,7 @@ function updateSizeChart() {
     `).join('');
 }
 
-// COMPLETELY FIXED TIMER FUNCTION - HANDLES ALL EDGE CASES
+// TIMER FUNCTION
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
@@ -630,13 +837,11 @@ function updateTimer() {
     const countdownMinutes = document.getElementById('countdownMinutes');
     const countdownSecondsEl = document.getElementById('countdownSeconds');
     
-    // Return early if elements don't exist
     if (!timerHours || !timerMinutes || !timerSeconds) {
         console.warn('Timer elements not found, retrying...');
         return;
     }
 
-    // Helper function to safely calculate time units
     function calculateTimeUnits(timeDiff) {
         if (timeDiff <= 0) {
             return { days: 0, hours: 0, minutes: 0, seconds: 0, totalHours: 0 };
@@ -652,7 +857,6 @@ function updateTimer() {
     }
 
     if (now < config.presaleStartDate) {
-        // BEFORE PRESALE - Countdown to presale start
         if (timerStatus) timerStatus.textContent = 'PRE-SALE STARTS IN...';
         const time = calculateTimeUnits(presaleTimeDiff);
         
@@ -667,7 +871,6 @@ function updateTimer() {
             countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else if (now >= config.presaleStartDate && now < config.presaleEndDate) {
-        // PRESALE IS LIVE FOR 72 HOURS!
         if (timerStatus) {
             timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - ENDS IN';
         }
@@ -684,7 +887,6 @@ function updateTimer() {
             countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else if (now >= config.presaleEndDate && now < config.dropDate) {
-        // BETWEEN PRESALE END AND DROP
         if (timerStatus) timerStatus.textContent = 'LIVE DROP IN';
         const time = calculateTimeUnits(dropTimeDiff);
         
@@ -699,7 +901,6 @@ function updateTimer() {
             countdownSecondsEl.textContent = time.seconds.toString().padStart(2, '0');
         }
     } else {
-        // DROP IS LIVE
         timerHours.textContent = '0';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
@@ -721,7 +922,7 @@ function changeImage(index) {
     updateProductImage();
     updateThumbnails();
     updatePopupImage();
-    preloadNextImage(); // Preload next
+    preloadNextImage();
 }
 
 function updateProductImage() {
@@ -764,25 +965,20 @@ function previousImage() {
     updateThumbnails();
 }
 
-// FIXED COLOR CHANGE - Properly resets size
 function changeProductColor(color) {
-    // Update color state
     state.currentColor = color;
     state.currentImageIndex = 0;
     currentPopupImageIndex = 0;
     
-    // Reset size selection
     state.selectedSize = null;
     document.querySelectorAll('.size-option').forEach(option => {
         option.classList.remove('selected');
     });
     
-    // Update UI
     updateProductImage();
     updateThumbnails();
     updatePopupImage();
     
-    // Update all color selectors
     document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
         option.classList.remove('active');
     });
@@ -790,15 +986,12 @@ function changeProductColor(color) {
         option.classList.add('active');
     });
     
-    // Hide any size warnings
     const sizeWarning = document.getElementById('sizeWarning');
     if (sizeWarning) sizeWarning.style.display = 'none';
     
-    // Preload images for new color
     preloadColorImages(color);
 }
 
-// Preload images for better performance
 function preloadNextImage() {
     const images = config.productImages[state.currentColor];
     const nextIndex = (state.currentImageIndex + 1) % images.length;
@@ -868,10 +1061,10 @@ function updatePairsLeft() {
     if (pairsLeftElement) {
         pairsLeftElement.textContent = state.pairsLeft;
         
-        if (state.pairsLeft === 0) {
+        if (state.pairsLeft <= 2) {
             pairsLeftElement.style.color = '#ff6b6b';
             pairsLeftElement.style.fontWeight = 'bold';
-            pairsLeftElement.classList.add('sold-out');
+            pairsLeftElement.classList.add('final-stock');
         }
     }
 }
@@ -897,7 +1090,6 @@ function startHeaderAnnouncementCycling() {
     }, 3000);
 }
 
-// FIXED: Better loading screen removal
 function showPageContent() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
@@ -984,7 +1176,6 @@ function previousPopupImage() {
     updatePopupImage();
 }
 
-// Popup swipe support
 function initPopupSwipe() {
     const popupImage = document.getElementById('popupImage');
     
@@ -1044,20 +1235,18 @@ function toggleTimer() {
     }
 }
 
-// INITIALIZATION - FIXED ORDER
+// INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if returning from checkout and restore cart if needed
+    // Check if returning from checkout
     if (localStorage.getItem('fabrevoie_checkout_pending') === 'true') {
         const backup = sessionStorage.getItem('fabrevoie_checkout_backup');
         if (backup) {
             const backupCart = JSON.parse(backup);
-            // Only restore if current cart is empty (user didn't complete purchase)
             if (localCart.length === 0 && backupCart.length > 0) {
                 localCart = backupCart;
                 localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
             }
         }
-        // Clear the pending flag after 30 seconds
         setTimeout(() => {
             localStorage.removeItem('fabrevoie_checkout_pending');
             sessionStorage.removeItem('fabrevoie_checkout_backup');
@@ -1068,26 +1257,26 @@ document.addEventListener('DOMContentLoaded', function() {
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     updateCartCount();
     
+    // Set initial activity
+    setInitialActivity();
+    
     // Determine page type
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
     
     // Initialize page-specific features
     if (isShopPage) {
-        // Initialize product features
         populateSizes();
         state.currentColor = 'red';
         state.selectedSize = null;
         updateProductImage();
         updateThumbnails();
         
-        // Initialize mobile features
         initMobileSwipe();
         initPopupSwipe();
         initHeaderScroll();
         initLifestyleCarousel();
         
-        // Make product image clickable
         const productImage = document.getElementById('productImage');
         if (productImage) {
             productImage.addEventListener('click', function() {
@@ -1102,17 +1291,22 @@ document.addEventListener('DOMContentLoaded', function() {
         initVideo();
     }
     
-    // Initialize timer with retry logic
+    // Initialize timer
     setTimeout(() => {
         updateTimer();
         setInterval(updateTimer, 1000);
     }, 100);
     
-    // Fetch inventory once on load
+    // Fetch inventory immediately
     fetchShopifyInventory();
     
-    // Then fetch every 60 seconds (not 15)
-    setInterval(fetchShopifyInventory, 60000);
+    // Update inventory every 30 seconds
+    setInterval(fetchShopifyInventory, 30000);
+    
+    // Start simulating random orders after 20 seconds
+    setTimeout(() => {
+        simulateRandomOrders();
+    }, 20000);
     
     // Also fetch when tab becomes visible
     document.addEventListener('visibilitychange', function() {
@@ -1146,11 +1340,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // FIXED: Show content after a delay
     setTimeout(showPageContent, 800);
 });
 
-// FIXED: Additional loading screen handler
+// Additional loading screen handler
 window.addEventListener('load', function() {
     setTimeout(showPageContent, 500);
 });
@@ -1195,3 +1388,5 @@ window.nextLifestyleImage = nextLifestyleImage;
 window.previousLifestyleImage = previousLifestyleImage;
 window.goToLifestyleSlide = goToLifestyleSlide;
 window.updateTimer = updateTimer;
+window.showOrderNotification = showOrderNotification;
+window.closeOrderNotification = closeOrderNotification;
