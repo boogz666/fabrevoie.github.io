@@ -771,5 +771,68 @@
             }
         });
     </script>
+
+<!-- Cookie Banner -->
+<div id="cookieBanner" style="
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    border-top: 2px solid var(--color-primary);
+    padding: 20px;
+    z-index: 10010;
+    text-align: center;
+">
+    <p style="color: white; font-family: var(--font-body); margin-bottom: 15px;">
+        We use cookies to track your data and sell it to the highest bidder. Just kidding. 
+        We use them for analytics and to remember your cart. 
+        <a href="privacy-policy.html" style="color: var(--color-primary);">Privacy Policy</a>
+    </p>
+    <button onclick="acceptCookies()" style="
+        background: var(--color-primary);
+        color: #000;
+        border: none;
+        padding: 10px 30px;
+        margin-right: 10px;
+        cursor: pointer;
+        font-family: var(--font-headers);
+        text-transform: uppercase;
+    ">Accept</button>
+    <button onclick="rejectCookies()" style="
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+        padding: 10px 30px;
+        cursor: pointer;
+        font-family: var(--font-headers);
+        text-transform: uppercase;
+    ">Reject</button>
+</div>
+
+<script>
+// Cookie Banner Logic
+if (!localStorage.getItem('cookiesAccepted')) {
+    document.getElementById('cookieBanner').style.display = 'block';
+}
+
+function acceptCookies() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookieBanner').style.display = 'none';
+    // Enable Google Analytics
+    gtag('consent', 'update', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted'
+    });
+}
+
+function rejectCookies() {
+    localStorage.setItem('cookiesAccepted', 'false');
+    document.getElementById('cookieBanner').style.display = 'none';
+    // Keep analytics disabled
+}
+</script>
+    
 </body>
 </html>
