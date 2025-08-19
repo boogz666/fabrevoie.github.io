@@ -227,6 +227,14 @@
             color: #ff6b6b;
         }
 
+        .eu-notice {
+            background: rgba(158, 217, 181, 0.1);
+            border: 2px solid var(--color-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
         ul {
             padding-left: 20px;
         }
@@ -422,8 +430,10 @@
             <div class="section">
                 <h2 class="section-title">Who We Are</h2>
                 <div class="section-content">
-                    <p><strong>Fabrevoie, Inc.</strong> is a company that makes shoes that cost more than your rent. We're incorporated and legitimate, unfortunately for your wallet.</p>
+                    <p><strong>Fabrevoie, Inc.</strong> is a company registered in France that makes shoes that cost more than your rent. We're incorporated and legitimate, unfortunately for your wallet.</p>
+                    <p><strong>Registered Address:</strong> 37 rue Claude Tillier, 75012 Paris, France</p>
                     <p><strong>Contact:</strong> fabrevoie@gmail.com</p>
+                    <p><strong>VAT Number:</strong> [PENDING REGISTRATION]</p>
                 </div>
             </div>
 
@@ -450,9 +460,24 @@
                         <li>We reserve the right to accept or decline your order</li>
                         <li>Payment is processed immediately upon order confirmation</li>
                         <li>All prices are in USD unless otherwise stated</li>
-                        <li>You're responsible for any applicable taxes</li>
+                        <li><strong>EU customers: Prices include VAT (20% French TVA)</strong></li>
+                        <li>Non-EU customers may be responsible for import duties</li>
                     </ul>
                     <p>We accept major credit cards and other payment methods displayed at checkout. We don't accept cryptocurrency, Monopoly money, or promises.</p>
+                </div>
+            </div>
+
+            <div class="eu-notice">
+                <h2 class="section-title">EU Consumer Rights</h2>
+                <div class="section-content">
+                    <p><strong>For EU customers:</strong> You have specific rights under EU consumer law:</p>
+                    <ul>
+                        <li>14-day withdrawal period for online purchases</li>
+                        <li>2-year legal guarantee for product conformity</li>
+                        <li>Clear pricing including all taxes and fees</li>
+                        <li>Protection against unfair commercial practices</li>
+                    </ul>
+                    <p>See our Returns Policy for details on exercising these rights.</p>
                 </div>
             </div>
 
@@ -467,6 +492,7 @@
                         <li>Cancel orders for any reason</li>
                     </ul>
                     <p>If we cancel your order after payment, we'll refund you. Eventually.</p>
+                    <p><strong>All prices displayed include applicable VAT for EU customers.</strong></p>
                 </div>
             </div>
 
@@ -510,19 +536,21 @@
                         <li>Your inability to handle our level of honesty</li>
                     </ul>
                     <p>Our maximum liability is limited to the amount you paid for your order.</p>
+                    <p><strong>Note:</strong> EU consumer protection laws may provide additional rights that cannot be waived.</p>
                 </div>
             </div>
 
             <div class="section">
                 <h2 class="section-title">Disclaimers</h2>
                 <div class="section-content">
-                    <p>Our products and services are provided "as is" without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to:</p>
+                    <p>Our products and services are provided "as is" without warranties of any kind, except as required by law. We disclaim all warranties, express or implied, including but not limited to:</p>
                     <ul>
                         <li>Merchantability</li>
                         <li>Fitness for a particular purpose</li>
                         <li>Non-infringement</li>
                         <li>Your ability to impress people</li>
                     </ul>
+                    <p><strong>EU customers:</strong> This does not affect your statutory rights under EU consumer law.</p>
                 </div>
             </div>
 
@@ -532,11 +560,25 @@
                     <p>If you have a problem with us:</p>
                     <ul>
                         <li>First, try talking to us like adults at fabrevoie@gmail.com</li>
-                        <li>If that doesn't work, disputes will be resolved through binding arbitration</li>
-                        <li>Arbitration will be conducted under the rules of JAMS</li>
-                        <li>You waive your right to a jury trial or class action lawsuit</li>
+                        <li>EU customers can use the EU Online Dispute Resolution platform</li>
+                        <li>French customers can contact a consumer mediator</li>
+                        <li>If necessary, disputes will be resolved in French courts</li>
                     </ul>
-                    <p>These terms are governed by the laws of [YOUR STATE/COUNTRY].</p>
+                    <p><strong>These terms are governed by the laws of France and the European Union.</strong> Any disputes will be resolved in the courts of Paris, France.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Data Protection</h2>
+                <div class="section-content">
+                    <p>We comply with GDPR and French data protection laws. Your personal data is processed in accordance with our Privacy Policy. You have the right to:</p>
+                    <ul>
+                        <li>Access your personal data</li>
+                        <li>Correct inaccurate data</li>
+                        <li>Delete your data (right to be forgotten)</li>
+                        <li>Object to data processing</li>
+                        <li>Data portability</li>
+                    </ul>
                 </div>
             </div>
 
@@ -560,6 +602,7 @@
                 <div class="section-content">
                     <p>Contact us at: <strong>fabrevoie@gmail.com</strong></p>
                     <p>Subject line: "Terms Question" (so we know you actually read this)</p>
+                    <p>Registered address: 37 rue Claude Tillier, 75012 Paris, France</p>
                 </div>
             </div>
 
@@ -623,6 +666,10 @@
 
         <div class="footer-bottom">
             <p>&copy; 2025, Fabrevoie, Inc. All rights reserved. | <a href="privacy-policy.html">Privacy</a> | Made for villains, by villains</p>
+            <p style="font-size: 11px; color: #666; margin-top: 10px;">
+                Fabrevoie, Inc. • 37 rue Claude Tillier, 75012 Paris, France<br>
+                EU VAT: [PENDING] • All prices include VAT where applicable
+            </p>
         </div>
     </footer>
 
@@ -641,7 +688,6 @@
                 }
             } else {
                 window.location.href = 'index.html';
-            }
         }
     </script>
 </body>
