@@ -165,22 +165,9 @@
     <!-- Product Container -->
     <div class="product-container" style="padding-top: 140px;">
         <div class="product-main-layout" style="max-width: 1400px; margin: 0 auto; padding: 40px;">
-            <!-- Left: Images -->
+            <!-- Left: Images - FIXED VERSION WITHOUT UGLY LABELS -->
             <div class="product-image-section">
-                <!-- Color Selector with Labels - KEEPING YOUR ORIGINAL STYLE -->
-                <div class="color-selector-moved">
-                    <div class="color-selector-title">Choose Your Poison</div>
-                    <div class="color-options">
-                        <div class="color-option-container">
-                            <div class="color-option red active" data-color="red" onclick="updateProductColor('red')" tabindex="-1"></div>
-                            <span class="color-label">RED</span>
-                        </div>
-                        <div class="color-option-container">
-                            <div class="color-option black" data-color="black" onclick="updateProductColor('black')" tabindex="-1"></div>
-                            <span class="color-label">BLACK</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- REMOVED THE UGLY COLOR SELECTOR WITH LABELS -->
                 
                 <!-- Product Images -->
                 <div class="product-image-container">
@@ -265,7 +252,7 @@
                         <!-- Will be populated by JS -->
                     </div>
                     
-                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR -->
+                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR - THIS IS THE ONLY PLACE FOR COLORS -->
                     <div class="size-section-colors">
                         <div class="size-section-color-title">Choose Color</div>
                         <div class="size-section-color-options">
@@ -527,7 +514,7 @@
     <script>
         // Fixed color change function
         function updateProductColor(color) {
-            document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
+            document.querySelectorAll('.size-section-color-option').forEach(option => {
                 option.classList.remove('active');
             });
             
@@ -632,7 +619,7 @@
             }
         });
         
-        document.querySelectorAll('.color-option, .size-section-color-option').forEach(option => {
+        document.querySelectorAll('.size-section-color-option').forEach(option => {
             option.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -678,6 +665,15 @@
             z-index: 10;
             background: rgba(0, 0, 0, 0.75);
             min-height: 100vh;
+        }
+        
+        /* HIDE THE UGLY COLOR SELECTOR ABOVE IMAGES */
+        .color-selector-moved {
+            display: none !important;
+        }
+        
+        .color-option-container {
+            display: none !important;
         }
         
         /* NEW: LIFESTYLE CAROUSEL STYLES */
