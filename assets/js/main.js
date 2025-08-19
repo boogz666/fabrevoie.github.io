@@ -1,5 +1,5 @@
-// FABREVOIE MAIN.JS - FIXED VERSION
-// Last Updated: Aug 18, 2025
+// FABREVOIE MAIN.JS - COMPLETELY FIXED VERSION
+// Last Updated: Aug 19, 2025
 // Shop Domain: shop.fabrevoie.com
 
 // STATE MANAGEMENT
@@ -57,6 +57,7 @@ const config = {
     // FIXED DATES FOR 2025
     dropDate: new Date('2025-08-28T08:00:00-04:00'),  // Thursday August 28th, 2025, 8AM NYC
     presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),  // Thursday August 21st, 2025, 8AM NYC
+    presaleEndDate: new Date('2025-08-24T08:00:00-04:00'),  // Sunday August 24th, 2025, 8AM NYC (72 HOURS AFTER START!)
     productPrice: 269,
     presalePrice: 229,
     shopifyDomain: 'shop.fabrevoie.com',
@@ -528,7 +529,7 @@ function updateCartCount() {
     }
 }
 
-// FIXED CHECKOUT FUNCTION - Doesn't lose cart on failure
+// FIXED CHECKOUT FUNCTION - Preserves cart properly
 function proceedToCheckout() {
     if (localCart.length === 0) {
         alert('Your cart is empty. Add something first!');
@@ -539,17 +540,12 @@ function proceedToCheckout() {
     const cartItems = localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
     const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}`;
     
-    // Save cart to sessionStorage as backup
+    // Save cart state for recovery
     sessionStorage.setItem('fabrevoie_checkout_backup', JSON.stringify(localCart));
+    localStorage.setItem('fabrevoie_checkout_pending', 'true');
     
-    // Redirect WITHOUT clearing cart yet
+    // DO NOT clear cart here - wait for confirmation
     window.location.href = checkoutUrl;
-    
-    // Clear cart only after successful redirect (this won't execute if redirect works)
-    setTimeout(() => {
-        localStorage.removeItem('fabrevoie_cart');
-        localCart = [];
-    }, 5000);
 }
 
 function buyProduct() {
@@ -616,10 +612,11 @@ function updateSizeChart() {
     `).join('');
 }
 
-// FIXED TIMER - 168 HOURS FROM PRESALE START
+// COMPLETELY FIXED TIMER FUNCTION - 72 HOURS PRESALE!
 function updateTimer() {
     const now = new Date();
     const presaleTimeDiff = config.presaleStartDate - now;
+    const presaleEndTimeDiff = config.presaleEndDate - now;
     const dropTimeDiff = config.dropDate - now;
 
     const timerHours = document.getElementById('timerHours');
@@ -635,7 +632,7 @@ function updateTimer() {
     if (!timerHours) return;
 
     if (now < config.presaleStartDate) {
-        // BEFORE PRESALE - Show countdown to presale
+        // BEFORE PRESALE - Countdown to presale start
         timerStatus.textContent = 'PRE-SALE STARTS IN...';
         
         const days = Math.floor(presaleTimeDiff / (1000 * 60 * 60 * 24));
@@ -656,35 +653,54 @@ function updateTimer() {
             countdownMinutes.textContent = minutes.toString().padStart(2, '0');
             countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
         }
-    } else if (now < config.dropDate) {
-        // PRESALE IS LIVE - Show exactly 168 hours countdown
-        timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - DROP IN';
+    } else if (now >= config.presaleStartDate && now < config.presaleEndDate) {
+        // PRESALE IS LIVE FOR 72 HOURS!
+        timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - ENDS IN';
         
-        // Calculate total milliseconds until drop
-        const totalMilliseconds = dropTimeDiff;
+        // Calculate time until presale ENDS (72 hours from start)
+        const hoursLeft = Math.floor(presaleEndTimeDiff / (1000 * 60 * 60));
+        const minutesLeft = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const secondsLeft = Math.floor((presaleEndTimeDiff % (1000 * 60)) / 1000);
         
-        // Convert to hours, minutes, seconds
-        const totalHoursUntilDrop = Math.floor(totalMilliseconds / (1000 * 60 * 60));
-        const remainingAfterHours = totalMilliseconds % (1000 * 60 * 60);
-        const dropMinutes = Math.floor(remainingAfterHours / (1000 * 60));
-        const dropSeconds = Math.floor((remainingAfterHours % (1000 * 60)) / 1000);
-        
-        // Display countdown (will start at 168 and count down to 0)
-        timerHours.textContent = Math.max(0, totalHoursUntilDrop).toString();
-        timerMinutes.textContent = dropMinutes.toString().padStart(2, '0');
-        timerSeconds.textContent = dropSeconds.toString().padStart(2, '0');
+        // Display the 72-hour countdown
+        timerHours.textContent = Math.max(0, hoursLeft).toString();
+        timerMinutes.textContent = Math.max(0, minutesLeft).toString().padStart(2, '0');
+        timerSeconds.textContent = Math.max(0, secondsLeft).toString().padStart(2, '0');
         
         // Also update the day/hour/minute/second display
+        if (countdownDays) {
+            const days = Math.floor(presaleEndTimeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((presaleEndTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((presaleEndTimeDiff % (1000 * 60)) / 1000);
+            
+            countdownDays.textContent = Math.max(0, days).toString().padStart(2, '0');
+            countdownHours.textContent = Math.max(0, hours).toString().padStart(2, '0');
+            countdownMinutes.textContent = Math.max(0, minutes).toString().padStart(2, '0');
+            countdownSecondsEl.textContent = Math.max(0, seconds).toString().padStart(2, '0');
+        }
+    } else if (now >= config.presaleEndDate && now < config.dropDate) {
+        // BETWEEN PRESALE END AND DROP
+        timerStatus.textContent = 'LIVE DROP IN';
+        
+        const hoursUntilDrop = Math.floor(dropTimeDiff / (1000 * 60 * 60));
+        const minutesUntilDrop = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const secondsUntilDrop = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
+        
+        timerHours.textContent = Math.max(0, hoursUntilDrop).toString();
+        timerMinutes.textContent = Math.max(0, minutesUntilDrop).toString().padStart(2, '0');
+        timerSeconds.textContent = Math.max(0, secondsUntilDrop).toString().padStart(2, '0');
+        
         if (countdownDays) {
             const days = Math.floor(dropTimeDiff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((dropTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((dropTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((dropTimeDiff % (1000 * 60)) / 1000);
             
-            countdownDays.textContent = days.toString().padStart(2, '0');
-            countdownHours.textContent = hours.toString().padStart(2, '0');
-            countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-            countdownSecondsEl.textContent = seconds.toString().padStart(2, '0');
+            countdownDays.textContent = Math.max(0, days).toString().padStart(2, '0');
+            countdownHours.textContent = Math.max(0, hours).toString().padStart(2, '0');
+            countdownMinutes.textContent = Math.max(0, minutes).toString().padStart(2, '0');
+            countdownSecondsEl.textContent = Math.max(0, seconds).toString().padStart(2, '0');
         }
     } else {
         // DROP IS LIVE
@@ -1030,7 +1046,25 @@ function toggleTimer() {
 
 // INITIALIZATION - FIXED ORDER
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize cart FIRST
+    // Check if returning from checkout and restore cart if needed
+    if (localStorage.getItem('fabrevoie_checkout_pending') === 'true') {
+        const backup = sessionStorage.getItem('fabrevoie_checkout_backup');
+        if (backup) {
+            const backupCart = JSON.parse(backup);
+            // Only restore if current cart is empty (user didn't complete purchase)
+            if (localCart.length === 0 && backupCart.length > 0) {
+                localCart = backupCart;
+                localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
+            }
+        }
+        // Clear the pending flag after 30 seconds
+        setTimeout(() => {
+            localStorage.removeItem('fabrevoie_checkout_pending');
+            sessionStorage.removeItem('fabrevoie_checkout_backup');
+        }, 30000);
+    }
+    
+    // Initialize cart
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     updateCartCount();
     
@@ -1144,3 +1178,4 @@ window.previousPopupImage = previousPopupImage;
 window.nextLifestyleImage = nextLifestyleImage;
 window.previousLifestyleImage = previousLifestyleImage;
 window.goToLifestyleSlide = goToLifestyleSlide;
+window.updateTimer = updateTimer;
