@@ -3,12 +3,14 @@
 // Shop Domain: shop.fabrevoie.com
 
 // ================================================
-// MANUAL SALES TRACKING - UPDATE THIS SECTION ONLY
+// STOREFRONT API CONFIGURATION
 // ================================================
-const REAL_SALES_TRACKER = {
-    totalSales: 4,              // ← UPDATE THIS NUMBER AS YOU GET SALES
-    lastUpdated: '2025-08-19',  // ← UPDATE THE DATE WHEN YOU CHANGE IT
-    notes: 'Launch day: 4 sales' // ← ADD NOTES IF YOU WANT
+const STOREFRONT_CONFIG = {
+    domain: 'shop.fabrevoie.com',
+    storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN', // ← ADD YOUR TOKEN HERE
+    productId: 'gid://shopify/Product/YOUR_PRODUCT_ID', // ← ADD YOUR PRODUCT GID
+    initialInventory: 11000, // Your starting total inventory (500 per variant × 22 variants)
+    fallbackSales: 4 // Fallback if API fails
 };
 // ================================================
 
@@ -119,70 +121,118 @@ const config = {
     ]
 };
 
-// ORDER NOTIFICATION SYSTEM
-const orderNotifications = {
-    locations: [
-        'New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ',
-        'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA', 'Dallas, TX', 'San Jose, CA',
-        'Austin, TX', 'Jacksonville, FL', 'Fort Worth, TX', 'Columbus, OH', 'Charlotte, NC',
-        'San Francisco, CA', 'Indianapolis, IN', 'Seattle, WA', 'Denver, CO', 'Boston, MA',
-        'Miami, FL', 'Nashville, TN', 'Atlanta, GA', 'Portland, OR', 'Las Vegas, NV',
-        'Detroit, MI', 'Memphis, TN', 'Louisville, KY', 'Milwaukee, WI', 'Baltimore, MD',
-        'Toronto, ON', 'Vancouver, BC', 'Montreal, QC', 'London, UK', 'Paris, FR',
-        'Berlin, DE', 'Tokyo, JP', 'Sydney, AU', 'Melbourne, AU', 'Singapore, SG'
-    ],
-    
-    names: [
-        'Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie', 'Cameron',
-        'Avery', 'Quinn', 'Blake', 'Hayden', 'Sage', 'Drew', 'Emerson', 'Finley',
-        'Kai', 'Reese', 'Skyler', 'River', 'Rowan', 'Phoenix', 'Dakota', 'Charlie'
-    ],
-    
-    lastNames: [
-        'S.', 'M.', 'L.', 'K.', 'J.', 'B.', 'C.', 'D.', 'R.', 'T.', 'W.', 'P.'
-    ]
-};
+// ORDER NOTIFICATION SYSTEM - REMOVED FAKE DATA
+// Only used for real customer orders now
 
-// SIMPLIFIED MANUAL INVENTORY TRACKING
+// AUTOMATIC REAL INVENTORY TRACKING WITH STOREFRONT API
 let inventoryFetchTimeout;
 async function fetchShopifyInventory() {
     clearTimeout(inventoryFetchTimeout);
     
-    // Use the manual tracker at the top of the file
-    const realSalesCount = REAL_SALES_TRACKER.totalSales;
-    
-    console.log('=== INVENTORY STATUS ===');
-    console.log('Real Sales:', realSalesCount);
-    console.log('Last Updated:', REAL_SALES_TRACKER.lastUpdated);
-    console.log('Notes:', REAL_SALES_TRACKER.notes);
-    
-    // Calculate display remaining (150 max, down to 2 min)
-    let displayRemaining = FAKE_MAX_STOCK - realSalesCount;
-    
-    // Never go below minimum
-    if (displayRemaining < MINIMUM_REMAINING) {
-        displayRemaining = MINIMUM_REMAINING;
+    try {
+        // GraphQL query to get all variant inventory levels
+        const query = `
+            query getProduct {
+                product(id: "${STOREFRONT_CONFIG.productGid}") {
+                    totalInventory
+                    variants(first: 100) {
+                        edges {
+                            node {
+                                id
+                                quantityAvailable
+                                sku
+                            }
+                        }
+                    }
+                }
+            }
+        `;
+        
+        // Fetch from Shopify Storefront API
+        const response = await fetch(`https://${STOREFRONT_CONFIG.domain}/api/2024-01/graphql.json`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Shopify-Storefront-Access-Token': STOREFRONT_CONFIG.storefrontAccessToken
+            },
+            body: JSON.stringify({ query })
+        });
+        
+        const data = await response.json();
+        
+        if (data.data && data.data.product) {
+            // Get total inventory from response
+            const currentTotalInventory = data.data.product.totalInventory || 0;
+            
+            // If totalInventory is not available, sum up variants
+            let calculatedInventory = currentTotalInventory;
+            if (!currentTotalInventory && data.data.product.variants) {
+                calculatedInventory = 0;
+                data.data.product.variants.edges.forEach(edge => {
+                    calculatedInventory += (edge.node.quantityAvailable || 0);
+                });
+            }
+            
+            // Calculate real sales
+            const realSalesCount = STOREFRONT_CONFIG.initialInventory - calculatedInventory;
+            
+            console.log('=== AUTOMATIC INVENTORY TRACKING ===');
+            console.log('Initial Inventory:', STOREFRONT_CONFIG.initialInventory);
+            console.log('Current Inventory:', calculatedInventory);
+            console.log('Real Sales:', realSalesCount);
+            
+            // ARTIFICIAL SCARCITY LOGIC (150 max → 2 min)
+            let displayRemaining;
+            
+            if (realSalesCount >= 148) {
+                // After 148 sales, always show 2 left
+                displayRemaining = MINIMUM_REMAINING;
+                console.log('Status: LOCKED AT MINIMUM (2 left forever)');
+            } else {
+                // Show countdown from 150
+                displayRemaining = FAKE_MAX_STOCK - realSalesCount;
+                console.log('Status: COUNTING DOWN');
+            }
+            
+            // Update display
+            state.pairsLeft = displayRemaining;
+            updatePairsLeft();
+            
+            // Add urgency visuals when "low"
+            if (displayRemaining <= 10) {
+                addLowStockVisuals();
+            }
+            
+            // Store state
+            localStorage.setItem('fabrevoie_real_sales', realSalesCount);
+            localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
+            
+            console.log('Display Showing:', displayRemaining + '/150');
+            console.log('=====================================');
+            
+        } else {
+            throw new Error('No product data received');
+        }
+        
+    } catch (error) {
+        console.error('Shopify API Error:', error);
+        console.log('Using fallback sales count:', STOREFRONT_CONFIG.fallbackSales);
+        
+        // Fallback to known sales if API fails
+        const displayRemaining = FAKE_MAX_STOCK - STOREFRONT_CONFIG.fallbackSales;
+        state.pairsLeft = displayRemaining;
+        updatePairsLeft();
     }
     
-    // Update the display
-    state.pairsLeft = displayRemaining;
-    updatePairsLeft();
-    
-    // Add visual urgency when "low stock"
-    if (displayRemaining <= 10) {
-        addLowStockVisuals();
-    }
-    
-    // Store state
-    localStorage.setItem('fabrevoie_inventory_display', displayRemaining);
-    localStorage.setItem('fabrevoie_real_sales', realSalesCount);
-    
-    console.log('Display Showing:', displayRemaining + '/150');
-    console.log('========================');
+    // Schedule next check (every 15 seconds)
+    inventoryFetchTimeout = setTimeout(fetchShopifyInventory, 15000);
 }
 
-// Show order notification popup
+// Show order notification popup - REAL ORDERS ONLY
 function showOrderNotification(quantity = 1, color = null, size = null, isRealOrder = false) {
+    // Only show notifications for real orders
+    if (!isRealOrder) return;
+    
     // Don't show if already showing
     if (state.isShowingNotification) {
         state.notificationQueue.push({ quantity, color, size, isRealOrder });
@@ -191,21 +241,7 @@ function showOrderNotification(quantity = 1, color = null, size = null, isRealOr
     
     state.isShowingNotification = true;
     
-    // Random data for fake orders
-    const location = orderNotifications.locations[Math.floor(Math.random() * orderNotifications.locations.length)];
-    const name = orderNotifications.names[Math.floor(Math.random() * orderNotifications.names.length)];
-    const lastName = orderNotifications.lastNames[Math.floor(Math.random() * orderNotifications.lastNames.length)];
-    const timeAgo = isRealOrder ? 'just now' : `${Math.floor(Math.random() * 59) + 1} seconds ago`;
-    
-    // If not specified, randomize color and size
-    if (!color) {
-        color = Math.random() > 0.5 ? 'Red' : 'Black';
-    }
-    if (!size) {
-        size = config.sizes[Math.floor(Math.random() * config.sizes.length)];
-    }
-    
-    // Create notification element
+    // For real orders, show actual data
     const notification = document.createElement('div');
     notification.className = 'order-notification';
     notification.innerHTML = `
@@ -215,13 +251,13 @@ function showOrderNotification(quantity = 1, color = null, size = null, isRealOr
             </div>
             <div class="order-notification-text">
                 <div class="order-notification-header">
-                    <strong>${name} ${lastName}</strong> from ${location}
+                    <strong>New Order</strong> just placed
                 </div>
                 <div class="order-notification-details">
-                    Just ordered ${quantity} ${quantity > 1 ? 'pairs' : 'pair'} • ${color} • Size ${size}
+                    ${quantity} ${quantity > 1 ? 'pairs' : 'pair'} • ${color} • Size ${size}
                 </div>
                 <div class="order-notification-time">
-                    ${timeAgo}
+                    just now
                 </div>
             </div>
             <button class="order-notification-close" onclick="closeOrderNotification(this)">
@@ -278,28 +314,7 @@ function closeOrderNotification(btn) {
     }
 }
 
-// Simulate random orders during presale
-function simulateRandomOrders() {
-    // Only simulate during presale period and if we haven't "sold out"
-    const now = new Date();
-    if (now < config.presaleStartDate || now > config.presaleEndDate || state.pairsLeft <= 2) {
-        // Schedule next check in 60 seconds
-        setTimeout(simulateRandomOrders, 60000);
-        return;
-    }
-    
-    // Random chance of showing order (reduced frequency)
-    const shouldShowOrder = Math.random() > 0.92; // 8% chance
-    
-    if (shouldShowOrder) {
-        const quantity = Math.random() > 0.8 ? 2 : 1;
-        showOrderNotification(quantity, null, null, false);
-    }
-    
-    // Schedule next check (random between 45-120 seconds)
-    const nextCheck = Math.random() * 75000 + 45000;
-    setTimeout(simulateRandomOrders, nextCheck);
-}
+// REMOVED - No more fake order simulations
 
 // FIXED: Add visual urgency for low stock with better badge placement
 function addLowStockVisuals() {
@@ -1246,13 +1261,17 @@ document.addEventListener('DOMContentLoaded', function() {
         setInterval(updateTimer, 1000);
     }, 100);
     
-    // Initialize inventory tracking with manual values
+    // Initialize inventory tracking with automatic API
     fetchShopifyInventory();
-    // Check inventory every 30 seconds (less frequent since it's manual)
-    setInterval(fetchShopifyInventory, 30000);
+    // Check inventory every 15 seconds
+    setInterval(fetchShopifyInventory, 15000);
     
-    // Start simulating random orders during presale
-    setTimeout(simulateRandomOrders, 30000);
+    // Also check when tab becomes visible
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            fetchShopifyInventory();
+        }
+    });
     
     // Initialize modals
     initModalClosers();
