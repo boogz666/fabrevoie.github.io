@@ -1,4 +1,4 @@
-// FABREVOIE MAIN.JS - COMPLETE WITH ORDER NOTIFICATIONS
+// FABREVOIE MAIN.JS - REAL SHOPIFY TRACKING + ARTIFICIAL SCARCITY
 // Last Updated: Aug 19, 2025
 // Shop Domain: shop.fabrevoie.com
 
@@ -16,15 +16,18 @@ const state = {
     isScrollingDown: false,
     lifestyleIndex: 0,
     notificationQueue: [],
-    isShowingNotification: false
+    isShowingNotification: false,
+    lastKnownRealSales: 0
 };
 
 // CART STATE
 let localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
 
-// SHOPIFY STOREFRONT API CONFIGURATION
-const SHOPIFY_STOREFRONT_TOKEN = '8c1c303201210453ae54e2f37ecfaeab';
+// SHOPIFY CONFIGURATION
 const SHOPIFY_DOMAIN = 'shop.fabrevoie.com';
+const STARTING_INVENTORY_PER_VARIANT = 500; // Your actual Shopify inventory per variant
+const FAKE_MAX_STOCK = 150; // What we show to customers
+const MINIMUM_REMAINING = 2; // Never go below this
 
 // VARIANT MAP - YOUR ACTUAL SHOPIFY VARIANT IDS
 const variantMap = {
@@ -61,7 +64,7 @@ const config = {
     presaleStartDate: new Date('2025-08-21T08:00:00-04:00'),
     presaleEndDate: new Date('2025-08-24T08:00:00-04:00'),
     productPrice: 269,
-    presalePrice: 229,
+    presalePrice: 199,
     shopifyDomain: 'shop.fabrevoie.com',
     productHandle: 'sbhmn-1',
     
@@ -131,20 +134,123 @@ const orderNotifications = {
     ]
 };
 
-function showOrderNotification(quantity = 1, color = null, size = null) {
+// REAL SHOPIFY INVENTORY TRACKING WITH ARTIFICIAL SCARCITY
+let inventoryFetchTimeout;
+async function fetchShopifyInventory() {
+    clearTimeout(inventoryFetchTimeout);
+    
+    try {
+        // Fetch REAL product data from Shopify
+        const response = await fetch(`https://${SHOPIFY_DOMAIN}/products/sbhmn-1.js`);
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch product data');
+        }
+        
+        const product = await response.json();
+        
+        // Calculate REAL sales from inventory changes
+        let totalRealSold = 0;
+        let variantsSoldOut = 0;
+        
+        // Check each variant's inventory
+        product.variants.forEach(variant => {
+            const currentInventory = variant.inventory_quantity || 0;
+            
+            // Calculate how many sold based on starting inventory
+            if (currentInventory < STARTING_INVENTORY_PER_VARIANT) {
+                const variantSold = STARTING_INVENTORY_PER_VARIANT - currentInventory;
+                totalRealSold += variantSold;
+            }
+            
+            // Count completely sold out variants
+            if (!variant.available || currentInventory === 0) {
+                variantsSoldOut++;
+            }
+        });
+        
+        console.log('REAL Shopify sales detected:', totalRealSold);
+        console.log('Variants sold out:', variantsSoldOut);
+        
+        // Check if we have new sales since last check
+        const lastKnownSales = parseInt(localStorage.getItem('fabrevoie_last_real_sales') || '0');
+        if (totalRealSold > lastKnownSales && lastKnownSales > 0) {
+            const newSales = totalRealSold - lastKnownSales;
+            console.log('NEW SALES DETECTED:', newSales);
+            
+            // Show notification for new sales
+            for (let i = 0; i < Math.min(newSales, 3); i++) {
+                setTimeout(() => {
+                    showOrderNotification(1);
+                }, i * 2000);
+            }
+        }
+        
+        // Store the real sales count
+        localStorage.setItem('fabrevoie_last_real_sales', totalRealSold);
+        state.lastKnownRealSales = totalRealSold;
+        
+        // ARTIFICIAL SCARCITY DISPLAY LOGIC
+        let displayRemaining;
+        
+        if (totalRealSold >= FAKE_MAX_STOCK) {
+            // We've "sold out" of our fake 150, but keep showing 2
+            displayRemaining = MINIMUM_REMAINING;
+            
+            // Update status to show urgency
+            const timerStatus = document.getElementById('timerStatus');
+            if (timerStatus) {
+                timerStatus.textContent = 'FINAL PAIRS - ORDER NOW!';
+                timerStatus.style.color = '#ff6b6b';
+            }
+        } else {
+            // Show countdown from 150
+            displayRemaining = FAKE_MAX_STOCK - totalRealSold;
+            
+            // Never go below minimum
+            if (displayRemaining < MINIMUM_REMAINING) {
+                displayRemaining = MINIMUM_REMAINING;
+            }
+        }
+        
+        // Update the display
+        state.pairsLeft = displayRemaining;
+        updatePairsLeft();
+        
+        // Add visual urgency when "low stock"
+        if (displayRemaining <= 10) {
+            addLowStockVisuals();
+        }
+        
+        // Store state
+        localStorage.setItem('fabrevoie_inventory', displayRemaining);
+        localStorage.setItem('fabrevoie_inventory_time', Date.now());
+        
+    } catch (error) {
+        console.error('Failed to fetch Shopify inventory:', error);
+        
+        // Fallback to stored values
+        const stored = localStorage.getItem('fabrevoie_inventory');
+        state.pairsLeft = stored ? parseInt(stored) : 146; // Start at 146 to look realistic
+        updatePairsLeft();
+    }
+}
+
+// Show order notification popup
+function showOrderNotification(quantity = 1, color = null, size = null, isRealOrder = false) {
     // Don't show if already showing
     if (state.isShowingNotification) {
-        state.notificationQueue.push({ quantity, color, size });
+        state.notificationQueue.push({ quantity, color, size, isRealOrder });
         return;
     }
     
     state.isShowingNotification = true;
     
-    // Random data
+    // Random data for fake orders
     const location = orderNotifications.locations[Math.floor(Math.random() * orderNotifications.locations.length)];
     const name = orderNotifications.names[Math.floor(Math.random() * orderNotifications.names.length)];
     const lastName = orderNotifications.lastNames[Math.floor(Math.random() * orderNotifications.lastNames.length)];
-    const timeAgo = Math.floor(Math.random() * 59) + 1; // 1-59 seconds ago
+    const timeAgo = isRealOrder ? 'just now' : `${Math.floor(Math.random() * 59) + 1} seconds ago`;
     
     // If not specified, randomize color and size
     if (!color) {
@@ -170,7 +276,7 @@ function showOrderNotification(quantity = 1, color = null, size = null) {
                     Just ordered ${quantity} ${quantity > 1 ? 'pairs' : 'pair'} • ${color} • Size ${size}
                 </div>
                 <div class="order-notification-time">
-                    ${timeAgo} seconds ago
+                    ${timeAgo}
                 </div>
             </div>
             <button class="order-notification-close" onclick="closeOrderNotification(this)">
@@ -186,11 +292,6 @@ function showOrderNotification(quantity = 1, color = null, size = null) {
         notification.classList.add('show');
     }, 100);
     
-    // Update inventory count
-    const currentOrders = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
-    localStorage.setItem('fabrevoie_actual_orders', currentOrders + quantity);
-    fetchShopifyInventory();
-    
     // Auto-hide after 5 seconds
     setTimeout(() => {
         if (notification && notification.parentNode) {
@@ -205,7 +306,7 @@ function showOrderNotification(quantity = 1, color = null, size = null) {
                 if (state.notificationQueue.length > 0) {
                     const next = state.notificationQueue.shift();
                     setTimeout(() => {
-                        showOrderNotification(next.quantity, next.color, next.size);
+                        showOrderNotification(next.quantity, next.color, next.size, next.isRealOrder);
                     }, 500);
                 }
             }, 300);
@@ -225,113 +326,34 @@ function closeOrderNotification(btn) {
             if (state.notificationQueue.length > 0) {
                 const next = state.notificationQueue.shift();
                 setTimeout(() => {
-                    showOrderNotification(next.quantity, next.color, next.size);
+                    showOrderNotification(next.quantity, next.color, next.size, next.isRealOrder);
                 }, 500);
             }
         }, 300);
     }
 }
 
-// Simulate random orders
+// Simulate random orders during presale
 function simulateRandomOrders() {
-    // Only simulate during presale period
+    // Only simulate during presale period and if we haven't "sold out"
     const now = new Date();
-    if (now < config.presaleStartDate || now > config.presaleEndDate) {
+    if (now < config.presaleStartDate || now > config.presaleEndDate || state.pairsLeft <= 2) {
+        // Schedule next check in 60 seconds
+        setTimeout(simulateRandomOrders, 60000);
         return;
     }
     
-    // Random chance of order (adjust probability as needed)
-    const shouldShowOrder = Math.random() > 0.85; // 15% chance
+    // Random chance of showing order (reduced frequency)
+    const shouldShowOrder = Math.random() > 0.92; // 8% chance
     
     if (shouldShowOrder) {
-        const quantity = Math.random() > 0.8 ? 2 : 1; // 20% chance of 2 pairs
-        showOrderNotification(quantity);
+        const quantity = Math.random() > 0.8 ? 2 : 1;
+        showOrderNotification(quantity, null, null, false);
     }
     
-    // Schedule next check (random between 30-120 seconds)
-    const nextCheck = Math.random() * 90000 + 30000;
+    // Schedule next check (random between 45-120 seconds)
+    const nextCheck = Math.random() * 75000 + 45000;
     setTimeout(simulateRandomOrders, nextCheck);
-}
-
-// ARTIFICIAL SCARCITY INVENTORY SYSTEM
-let inventoryFetchTimeout;
-async function fetchShopifyInventory() {
-    clearTimeout(inventoryFetchTimeout);
-    
-    try {
-        // Get the actual order count from localStorage
-        let actualOrdersPlaced = parseInt(localStorage.getItem('fabrevoie_actual_orders') || '0');
-        
-        // Try to fetch real product data
-        try {
-            const response = await fetch(`https://shop.fabrevoie.com/products/sbhmn-1.js`);
-            if (response.ok) {
-                const productData = await response.json();
-                
-                // Calculate approximate orders based on inventory changes
-                let estimatedOrders = 0;
-                productData.variants.forEach(variant => {
-                    if (variant.inventory_quantity && variant.inventory_quantity < 500) {
-                        estimatedOrders += (500 - variant.inventory_quantity);
-                    }
-                });
-                
-                // Use the higher of stored or estimated orders
-                if (estimatedOrders > actualOrdersPlaced) {
-                    actualOrdersPlaced = estimatedOrders;
-                    localStorage.setItem('fabrevoie_actual_orders', actualOrdersPlaced);
-                }
-            }
-        } catch (e) {
-            // Silently fail, use localStorage value
-        }
-        
-        // ARTIFICIAL SCARCITY LOGIC
-        const FAKE_INITIAL_STOCK = 150;
-        const MINIMUM_REMAINING = 2; // Always show at least 2 left
-        
-        let displayRemaining;
-        
-        if (actualOrdersPlaced >= FAKE_INITIAL_STOCK) {
-            // If we've "sold out", keep showing 2 left
-            displayRemaining = MINIMUM_REMAINING;
-            
-            // Add urgency messaging
-            const timerStatus = document.getElementById('timerStatus');
-            if (timerStatus) {
-                timerStatus.textContent = 'FINAL PAIRS - ORDER NOW!';
-                timerStatus.style.color = '#ff6b6b';
-            }
-        } else {
-            // Show countdown from 150
-            displayRemaining = FAKE_INITIAL_STOCK - actualOrdersPlaced;
-            
-            // But never go below minimum
-            if (displayRemaining < MINIMUM_REMAINING) {
-                displayRemaining = MINIMUM_REMAINING;
-            }
-        }
-        
-        state.pairsLeft = displayRemaining;
-        updatePairsLeft();
-        
-        // Add visual urgency when "low stock"
-        if (displayRemaining <= 10) {
-            addLowStockVisuals();
-        }
-        
-        // Save state
-        localStorage.setItem('fabrevoie_inventory', displayRemaining);
-        localStorage.setItem('fabrevoie_inventory_time', Date.now());
-        
-    } catch (error) {
-        console.error('Failed to fetch inventory:', error);
-        
-        // Fallback display
-        const stored = localStorage.getItem('fabrevoie_inventory');
-        state.pairsLeft = stored ? parseInt(stored) : 148; // Start at 148 to look realistic
-        updatePairsLeft();
-    }
 }
 
 // Add visual urgency for low stock
@@ -370,16 +392,6 @@ function addLowStockVisuals() {
             z-index: 10001;
         `;
         timerContainer.appendChild(badge);
-    }
-}
-
-// Simulate initial orders to make it look active
-function setInitialActivity() {
-    const hasInitialized = localStorage.getItem('fabrevoie_initialized');
-    if (!hasInitialized) {
-        // Start with some "sold" to look active (your 4 real orders)
-        localStorage.setItem('fabrevoie_actual_orders', '4');
-        localStorage.setItem('fabrevoie_initialized', 'true');
     }
 }
 
@@ -555,9 +567,9 @@ function addToCart(color, size) {
     updateCartCount();
     toggleCart();
     
-    // Show order notification for current user's order
+    // Show order notification for current user's order (mark as real)
     setTimeout(() => {
-        showOrderNotification(1, color.charAt(0).toUpperCase() + color.slice(1), size);
+        showOrderNotification(1, color.charAt(0).toUpperCase() + color.slice(1), size, true);
     }, 2000);
     
     // Spider animation
@@ -747,12 +759,6 @@ function proceedToCheckout() {
     sessionStorage.setItem('fabrevoie_checkout_backup', JSON.stringify(localCart));
     localStorage.setItem('fabrevoie_checkout_pending', 'true');
     
-    // Track the checkout
-    const totalQuantity = localCart.reduce((sum, item) => sum + item.quantity, 0);
-    setTimeout(() => {
-        showOrderNotification(totalQuantity);
-    }, 5000);
-    
     window.location.href = checkoutUrl;
 }
 
@@ -872,7 +878,7 @@ function updateTimer() {
         }
     } else if (now >= config.presaleStartDate && now < config.presaleEndDate) {
         if (timerStatus) {
-            timerStatus.textContent = state.pairsLeft === 0 ? 'SOLD OUT - TAKING FINAL ORDERS' : 'PRE-SALE LIVE - ENDS IN';
+            timerStatus.textContent = state.pairsLeft <= 2 ? 'FINAL PAIRS - ORDER NOW!' : 'PRE-SALE LIVE - ENDS IN';
         }
         const time = calculateTimeUnits(presaleEndTimeDiff);
         
@@ -1257,9 +1263,6 @@ document.addEventListener('DOMContentLoaded', function() {
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     updateCartCount();
     
-    // Set initial activity
-    setInitialActivity();
-    
     // Determine page type
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
@@ -1297,16 +1300,14 @@ document.addEventListener('DOMContentLoaded', function() {
         setInterval(updateTimer, 1000);
     }, 100);
     
-    // Fetch inventory immediately
+    // REAL INVENTORY TRACKING - Fetch immediately and every 15 seconds
     fetchShopifyInventory();
+    setInterval(fetchShopifyInventory, 15000); // Check every 15 seconds for real sales
     
-    // Update inventory every 30 seconds
-    setInterval(fetchShopifyInventory, 30000);
-    
-    // Start simulating random orders after 20 seconds
+    // Start simulating random orders after 30 seconds
     setTimeout(() => {
         simulateRandomOrders();
-    }, 20000);
+    }, 30000);
     
     // Also fetch when tab becomes visible
     document.addEventListener('visibilitychange', function() {
@@ -1390,3 +1391,4 @@ window.goToLifestyleSlide = goToLifestyleSlide;
 window.updateTimer = updateTimer;
 window.showOrderNotification = showOrderNotification;
 window.closeOrderNotification = closeOrderNotification;
+window.fetchShopifyInventory = fetchShopifyInventory;
