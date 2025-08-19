@@ -262,6 +262,37 @@
             color: #ff6b6b;
         }
 
+        .legal-address {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .legal-address .section-title {
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .address-block {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .address-block strong {
+            color: var(--color-primary);
+            display: block;
+            margin-bottom: 10px;
+            font-family: var(--font-headers);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .social-links {
             display: flex;
             justify-content: center;
@@ -503,7 +534,7 @@
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link active">Contact</a>
-            <a href="index.html#shop" class="nav-link">Shop</a>
+            <a href="shop.html" class="nav-link">Shop</a>
         </nav>
     </header>
 
@@ -543,6 +574,23 @@
                     <p><strong>Email:</strong> <a href="mailto:fabrevoie@gmail.com" class="email-link">fabrevoie@gmail.com</a></p>
                     <p><strong>Business Hours:</strong> When we feel like it</p>
                     <p><strong>Phone:</strong> We don't have one. Email exists for a reason.</p>
+                    <p style="margin-top: 20px; font-size: 0.9rem; color: #888;">
+                        Registered in France • EU VAT compliant
+                    </p>
+                </div>
+            </div>
+
+            <div class="legal-address">
+                <h2 class="section-title">Legal Address</h2>
+                <div class="address-block">
+                    <strong>Fabrevoie, Inc.</strong>
+                    37 rue Claude Tillier<br>
+                    75012 Paris<br>
+                    France
+                </div>
+                <div class="section-content" style="margin-top: 25px; font-size: 0.9rem; color: #888;">
+                    <p>For legal notices, official correspondence, and when you absolutely need to send us physical mail that we'll probably ignore.</p>
+                    <p style="margin-top: 15px;">EU customers: This is our registered business address for all regulatory purposes.</p>
                 </div>
             </div>
 
