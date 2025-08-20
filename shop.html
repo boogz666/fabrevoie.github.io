@@ -312,48 +312,213 @@
             </div>
         </div>
 
-        <!-- LIFESTYLE CAROUSEL SECTION -->
-        <div class="lifestyle-section">
-            <h2 class="lifestyle-title">LIFESTYLE SHOTS</h2>
-            <p class="lifestyle-subtitle">See how troublemakers rock the SBHMN 1</p>
+              <!-- INSTAGRAM FEED SECTION -->
+        <div class="instagram-section" style="
+            padding: 80px 40px;
+            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            border-top: 1px solid rgba(158, 217, 181, 0.2);
+        ">
+            <h2 class="lifestyle-title" style="
+                font-family: var(--font-headers);
+                font-weight: var(--font-weight-bold);
+                font-size: 2.5rem;
+                color: white;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: 10px;
+            ">FOLLOW THE CHAOS</h2>
             
-            <div class="lifestyle-carousel">
-                <button class="carousel-nav carousel-nav-prev" onclick="previousLifestyleImage()">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+            <p class="lifestyle-subtitle" style="
+                font-family: var(--font-body);
+                font-size: 1.1rem;
+                color: #999;
+                margin-bottom: 20px;
+            ">@fabrevoie - Where troublemakers unite</p>
+            
+            <!-- Instagram Handle Link -->
+            <a href="https://www.instagram.com/fabrevoie" target="_blank" style="
+                display: inline-block;
+                font-family: var(--font-headers);
+                font-size: 1.2rem;
+                color: var(--color-primary);
+                text-decoration: none;
+                margin-bottom: 40px;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fab fa-instagram" style="margin-right: 8px;"></i>@FABREVOIE
+            </a>
+            
+            <!-- Instagram Grid Placeholder -->
+            <div id="instagramFeed" style="
+                max-width: 1200px;
+                margin: 0 auto 40px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+                padding: 0 20px;
+            ">
+                <!-- Placeholder posts with hover effects -->
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
                 
-                <div class="lifestyle-carousel-wrapper">
-                    <div class="lifestyle-carousel-track">
-                        <div class="lifestyle-slide">
-                            <img src="assets/images/lifestyle-1.jpg" alt="Lifestyle 1">
-                        </div>
-                        <div class="lifestyle-slide">
-                            <img src="assets/images/lifestyle-2.jpg" alt="Lifestyle 2">
-                        </div>
-                        <div class="lifestyle-slide">
-                            <img src="assets/images/lifestyle-3.jpg" alt="Lifestyle 3">
-                        </div>
-                        <div class="lifestyle-slide">
-                            <img src="assets/images/lifestyle-4.jpg" alt="Lifestyle 4">
-                        </div>
-                        <div class="lifestyle-slide">
-                            <img src="assets/images/lifestyle-5.jpg" alt="Lifestyle 5">
-                        </div>
-                    </div>
-                </div>
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
                 
-                <button class="carousel-nav carousel-nav-next" onclick="nextLifestyleImage()">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
                 
-                <div class="carousel-dots">
-                    <span class="carousel-dot active" onclick="goToLifestyleSlide(0)"></span>
-                    <span class="carousel-dot" onclick="goToLifestyleSlide(1)"></span>
-                    <span class="carousel-dot" onclick="goToLifestyleSlide(2)"></span>
-                    <span class="carousel-dot" onclick="goToLifestyleSlide(3)"></span>
-                    <span class="carousel-dot" onclick="goToLifestyleSlide(4)"></span>
-                </div>
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/fabrevoie" target="_blank" class="ig-post" style="
+                    aspect-ratio: 1;
+                    background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.8));
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    position: relative;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(158, 217, 181, 0.2);
+                " onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--color-primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(158, 217, 181, 0.2)'">
+                    <i class="fab fa-instagram" style="font-size: 2rem; color: var(--color-primary); opacity: 0.5;"></i>
+                </a>
             </div>
+            
+            <!-- Call to Action -->
+            <div style="
+                background: linear-gradient(135deg, rgba(158, 217, 181, 0.1), rgba(0, 0, 0, 0.5));
+                border-radius: 15px;
+                padding: 30px;
+                max-width: 600px;
+                margin: 0 auto 40px;
+                border: 1px solid rgba(158, 217, 181, 0.3);
+            ">
+                <p style="
+                    font-family: var(--font-headers);
+                    font-size: 1.1rem;
+                    color: white;
+                    margin-bottom: 20px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                ">JOIN THE REBELLION</p>
+                <p style="
+                    font-family: var(--font-body);
+                    font-size: 0.9rem;
+                    color: #ccc;
+                    margin-bottom: 0;
+                ">Tag us @fabrevoie to be featured. Show us how you disturb the peace.</p>
+            </div>
+            
+            <!-- Follow Button -->
+            <a href="https://www.instagram.com/fabrevoie" target="_blank" class="btn btn-primary" style="
+                background: linear-gradient(135deg, #E1306C, #C13584, #833AB4, #5851DB);
+                padding: 18px 40px;
+                font-size: 16px;
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                transition: all 0.4s ease;
+                box-shadow: 0 8px 25px rgba(131, 58, 180, 0.3);
+            " onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 30px rgba(131, 58, 180, 0.5)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 25px rgba(131, 58, 180, 0.3)'">
+                FOLLOW @FABREVOIE ON INSTAGRAM
+                <i class="fab fa-instagram" style="font-size: 20px;"></i>
+            </a>
         </div>
 
         <!-- Footer -->
