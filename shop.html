@@ -193,6 +193,18 @@
                     </div>
                 </div>
 
+                <!-- Mobile Color Picker - Only visible on mobile -->
+                <div class="mobile-color-picker">
+                    <div class="mobile-color-options">
+                        <div class="mobile-color-option red active" data-color="red" onclick="updateProductColor('red')">
+                            <span class="mobile-color-label">RED</span>
+                        </div>
+                        <div class="mobile-color-option black" data-color="black" onclick="updateProductColor('black')">
+                            <span class="mobile-color-label">BLACK</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Features Section -->
                 <div class="product-features">
                     <h3 class="features-title">WHY YOU NEED THESE</h3>
@@ -253,7 +265,7 @@
                         <!-- Will be populated by JS -->
                     </div>
                     
-                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR -->
+                    <!-- COLOR OPTIONS INSIDE SIZE SELECTOR - Hidden on mobile -->
                     <div class="size-section-colors">
                         <div class="size-section-color-title">Choose Color</div>
                         <div class="size-section-color-options">
@@ -599,16 +611,19 @@
         // Update pricing every minute in case user has page open during transition
         setInterval(updatePricing, 60000);
 
-        // Fixed color change function
+        // UPDATED COLOR SYNC FUNCTION
         function updateProductColor(color) {
-            document.querySelectorAll('.size-section-color-option').forEach(option => {
+            // Remove active class from ALL color options (desktop and mobile)
+            document.querySelectorAll('.size-section-color-option, .mobile-color-option').forEach(option => {
                 option.classList.remove('active');
             });
             
+            // Add active class to ALL matching color options (desktop and mobile)
             document.querySelectorAll(`[data-color="${color}"]`).forEach(option => {
                 option.classList.add('active');
             });
             
+            // Call the main color change function
             if (window.changeProductColor && typeof window.changeProductColor === 'function') {
                 window.changeProductColor(color);
             }
@@ -667,7 +682,7 @@
             // Show order notification for current user
             setTimeout(() => {
                 if (typeof showOrderNotification === 'function') {
-                    showOrderNotification(1, state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1), state.selectedSize);
+                    showOrderNotification(1, state.currentColor.charAt(0).toUpperCase() + state.currentColor.slice(1), state.selectedSize, true);
                 }
             }, 2000);
             
