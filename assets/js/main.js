@@ -26,7 +26,7 @@ const state = {
     headerAnnouncementInterval: null,
     lastScrollTop: 0,
     isScrollingDown: false,
-    lifestyleIndex: 0,
+    // REMOVED: lifestyleIndex
     notificationQueue: [],
     isShowingNotification: false,
     lastKnownRealSales: 0
@@ -96,13 +96,7 @@ const config = {
         ]
     },
     
-    lifestyleImages: [
-        'assets/images/lifestyle-1.jpg',
-        'assets/images/lifestyle-2.jpg',
-        'assets/images/lifestyle-3.jpg',
-        'assets/images/lifestyle-4.jpg',
-        'assets/images/lifestyle-5.jpg'
-    ],
+    // REMOVED: lifestyleImages array
     
     sizes: ['5.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
     
@@ -243,8 +237,6 @@ function closeOrderNotification(btn) {
     }
 }
 
-// REMOVED - No more fake order simulations
-
 // FIXED: Add visual urgency for low stock with better badge placement
 function addLowStockVisuals() {
     const pairsLeftElement = document.getElementById('pairsLeft');
@@ -357,59 +349,7 @@ function initMobileSwipe() {
     }
 }
 
-// LIFESTYLE CAROUSEL
-function initLifestyleCarousel() {
-    const carousel = document.querySelector('.lifestyle-carousel');
-    if (!carousel) return;
-    
-    setInterval(() => {
-        nextLifestyleImage();
-    }, 4000);
-    
-    let startX = 0;
-    carousel.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-    }, { passive: true });
-    
-    carousel.addEventListener('touchend', (e) => {
-        const endX = e.changedTouches[0].clientX;
-        const diff = startX - endX;
-        
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                nextLifestyleImage();
-            } else {
-                previousLifestyleImage();
-            }
-        }
-    }, { passive: true });
-}
-
-function nextLifestyleImage() {
-    state.lifestyleIndex = (state.lifestyleIndex + 1) % config.lifestyleImages.length;
-    updateLifestyleCarousel();
-}
-
-function previousLifestyleImage() {
-    state.lifestyleIndex = (state.lifestyleIndex - 1 + config.lifestyleImages.length) % config.lifestyleImages.length;
-    updateLifestyleCarousel();
-}
-
-function updateLifestyleCarousel() {
-    const track = document.querySelector('.lifestyle-carousel-track');
-    if (track) {
-        track.style.transform = `translateX(-${state.lifestyleIndex * 100}%)`;
-    }
-    
-    document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === state.lifestyleIndex);
-    });
-}
-
-function goToLifestyleSlide(index) {
-    state.lifestyleIndex = index;
-    updateLifestyleCarousel();
-}
+// REMOVED: Lifestyle carousel functions (initLifestyleCarousel, nextLifestyleImage, previousLifestyleImage, updateLifestyleCarousel, goToLifestyleSlide)
 
 // CART FUNCTIONS
 function toggleCart() {
@@ -1168,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initMobileSwipe();
         initPopupSwipe();
         initHeaderScroll();
-        initLifestyleCarousel();
+        // REMOVED: initLifestyleCarousel();
         
         const productImage = document.getElementById('productImage');
         if (productImage) {
@@ -1269,9 +1209,7 @@ window.openImagePopup = openImagePopup;
 window.closeImagePopup = closeImagePopup;
 window.nextPopupImage = nextPopupImage;
 window.previousPopupImage = previousPopupImage;
-window.nextLifestyleImage = nextLifestyleImage;
-window.previousLifestyleImage = previousLifestyleImage;
-window.goToLifestyleSlide = goToLifestyleSlide;
+// REMOVED: Lifestyle carousel functions from global scope
 window.updateTimer = updateTimer;
 window.showOrderNotification = showOrderNotification;
 window.closeOrderNotification = closeOrderNotification;
