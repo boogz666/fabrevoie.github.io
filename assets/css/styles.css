@@ -3120,3 +3120,38 @@ body.loaded {
         margin: 15px 0;
     }
 }
+/* Add this to your styles.css or in the <style> section of index.html */
+
+/* Remove the patterned background from body.loaded */
+body.loaded {
+    /* REMOVED: background-image: url('../../assets/images/patterned1.png'); */
+    background-color: #000; /* Keep it black until video loads */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Optional: Add a fade-in effect for the video */
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0; /* Start invisible */
+    transition: opacity 0.5s ease; /* Smooth fade in */
+}
+
+/* When video is ready */
+body.loaded .bg-video {
+    opacity: 1;
+}
+
+/* For shop page, keep the darkening filter */
+.shop-page .bg-video {
+    filter: brightness(0.3);
+}
