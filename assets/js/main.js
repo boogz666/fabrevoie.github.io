@@ -10,7 +10,7 @@ const STOREFRONT_CONFIG = {
     storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN', // ← ADD YOUR TOKEN HERE
     productId: 'gid://shopify/Product/YOUR_PRODUCT_ID', // ← ADD YOUR PRODUCT GID
     initialInventory: 11000, // Your starting total inventory (500 per variant × 22 variants)
-    fallbackSales: 4 // Fallback if API fails
+    fallbackSales: 24 // Fallback if API fails
 };
 // ================================================
 
