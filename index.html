@@ -109,6 +109,12 @@
             position: fixed;
         }
         
+        /* FIXED: Don't show patterned background */
+        body.loaded {
+            background-color: #000 !important;
+            background-image: none !important;
+        }
+        
         /* FIXED LOADING SCREEN CENTERING */
         #loading-screen {
             position: fixed;
@@ -145,15 +151,20 @@
             display: block;
         }
 
-        body.loaded #loading-screen {
+        .fade-out {
             opacity: 0;
             pointer-events: none;
             visibility: hidden;
         }
-
-        .fade-out {
+        
+        /* VIDEO FIX: Start invisible, fade in when ready */
+        .bg-video {
             opacity: 0;
-            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        body.video-ready .bg-video {
+            opacity: 1;
         }
         
         /* Landing Page Specific Styles */
@@ -699,34 +710,66 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // FIXED LOADING SCREEN SCRIPT
-        window.addEventListener('load', function() {
-            // Ensure body has loaded class
-            document.body.classList.add('loaded');
-            
-            // Fade out loading screen after a short delay
-            setTimeout(function() {
+        // FIXED VIDEO LOADING SCRIPT
+        let videoLoaded = false;
+        let pageLoaded = false;
+        
+        function removeLoadingScreen() {
+            // Only remove when BOTH video and page are ready
+            if (videoLoaded && pageLoaded) {
                 const loadingScreen = document.getElementById('loading-screen');
                 if (loadingScreen) {
                     loadingScreen.classList.add('fade-out');
-                    
-                    // Remove loading screen from DOM after fade
                     setTimeout(function() {
                         loadingScreen.style.display = 'none';
                     }, 500);
                 }
-            }, 500);
+                document.body.classList.add('loaded');
+                document.body.classList.add('video-ready');
+            }
+        }
+        
+        // Check video loading
+        const bgVideo = document.getElementById('bgVideo');
+        if (bgVideo) {
+            // Try multiple events to catch video ready state
+            bgVideo.addEventListener('canplaythrough', function() {
+                videoLoaded = true;
+                removeLoadingScreen();
+            });
+            
+            bgVideo.addEventListener('loadeddata', function() {
+                setTimeout(function() {
+                    videoLoaded = true;
+                    removeLoadingScreen();
+                }, 200);
+            });
+            
+            // If video is already ready (from cache)
+            if (bgVideo.readyState >= 3) {
+                videoLoaded = true;
+            }
+        } else {
+            // No video = ready
+            videoLoaded = true;
+        }
+        
+        // Check page loading
+        window.addEventListener('load', function() {
+            pageLoaded = true;
+            removeLoadingScreen();
         });
         
-        // Fallback: Force remove loading screen after 3 seconds no matter what
+        // Fallback: Force remove loading screen after 4 seconds
         setTimeout(function() {
             const loadingScreen = document.getElementById('loading-screen');
             if (loadingScreen && loadingScreen.style.display !== 'none') {
-                console.log('Force removing stuck loading screen');
-                loadingScreen.style.display = 'none';
+                console.log('Force removing loading screen');
+                videoLoaded = true;
+                pageLoaded = true;
+                removeLoadingScreen();
             }
-            document.body.classList.add('loaded');
-        }, 3000);
+        }, 4000);
 
         // Check if user has signed up before
         function checkEmailSignup() {
