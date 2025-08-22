@@ -89,6 +89,47 @@
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
 
+    <!-- SHOPIFY ANALYTICS INTEGRATION -->
+    <script>
+        // Shopify Analytics Configuration
+        window.Shopify = window.Shopify || {};
+        window.Shopify.shop = "shop.fabrevoie.com";
+        window.Shopify.currency = {"active":"USD","rate":"1.0"};
+        window.Shopify.theme = {"name":"Headless","id":123456789,"theme_store_id":null,"role":"main"};
+        
+        window.ShopifyAnalytics = window.ShopifyAnalytics || {};
+        window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
+        window.ShopifyAnalytics.meta.currency = 'USD';
+        window.ShopifyAnalytics.meta.merchant = 'shop.fabrevoie.com';
+        window.ShopifyAnalytics.meta.page = {
+            pageType: 'home',
+            resourceType: 'page',
+            resourceId: ''
+        };
+
+        // Cross-domain session tracking
+        (function() {
+            var domain = '.fabrevoie.com';
+            var shopifySessionId = 'sh_' + Math.random().toString(36).substring(2, 15);
+            document.cookie = '_shopify_s=' + shopifySessionId + '; domain=' + domain + '; path=/; max-age=86400; SameSite=Lax';
+            
+            // Store session ID for tracking
+            window.shopifySessionId = shopifySessionId;
+            
+            // Ping Shopify to register the session
+            var img = new Image();
+            img.src = 'https://shop.fabrevoie.com/cdn-cgi/image/width=1,height=1,quality=1/t/pixel.gif?s=' + shopifySessionId + '&ref=headless&source=fabrevoie.com';
+            
+            // Initialize cart session
+            fetch('https://shop.fabrevoie.com/cart.json', {
+                credentials: 'include',
+                mode: 'no-cors'
+            }).catch(function() {
+                // Expected CORS error, ignore
+            });
+        })();
+    </script>
+
     <!-- External -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -571,7 +612,7 @@
             </a>
             <nav class="header-nav">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="shop.html?utm_source=homepage&utm_medium=internal&utm_campaign=navigation" class="nav-link">Shop</a>
                 <a href="about.html" class="nav-link">About</a>
                 <a href="#" class="nav-link" onclick="showAccessDenied(); return false;">FAQ</a>
             </nav>
@@ -649,7 +690,7 @@
                 </div>
 
                 <!-- Shop Button -->
-                <a href="shop.html" class="btn btn-primary">
+                <a href="shop.html?utm_source=homepage&utm_medium=cta&utm_campaign=hero" class="btn btn-primary">
                     DISTURB THE PEACE
                     <i class="fas fa-arrow-right"></i>
                 </a>
@@ -710,6 +751,26 @@
 
     <script src="assets/js/main.js"></script>
     <script>
+        // Track page view with Shopify Analytics
+        function trackShopifyPageView() {
+            if (window.Shopify && window.Shopify.analytics) {
+                window.Shopify.analytics.publish('page_view', {
+                    page_title: document.title,
+                    location_href: window.location.href,
+                    location_path: window.location.pathname,
+                    location_search: window.location.search,
+                    referrer: document.referrer,
+                    source: 'headless_site'
+                });
+            }
+            
+            // Also send tracking pixel
+            var trackingImg = new Image();
+            trackingImg.src = 'https://shop.fabrevoie.com/track?event=page_view&page=' + 
+                            encodeURIComponent(window.location.href) + 
+                            '&ref=headless&source=fabrevoie.com&t=' + Date.now();
+        }
+
         // FIXED VIDEO LOADING SCRIPT
         let videoLoaded = false;
         let pageLoaded = false;
@@ -726,6 +787,9 @@
                 }
                 document.body.classList.add('loaded');
                 document.body.classList.add('video-ready');
+                
+                // Track page view once loaded
+                trackShopifyPageView();
             }
         }
         
@@ -824,6 +888,14 @@
                     // Show loading state
                     submitBtn.textContent = 'SENDING...';
                     submitBtn.disabled = true;
+                    
+                    // Track email signup
+                    if (window.Shopify && window.Shopify.analytics) {
+                        window.Shopify.analytics.publish('newsletter_signup', {
+                            email: email,
+                            source: 'homepage'
+                        });
+                    }
                     
                     // Try to send to Shopify - it will work but throw CORS error
                     fetch('https://shop.fabrevoie.com/contact', {
@@ -942,6 +1014,15 @@ function rejectCookies() {
     document.getElementById('cookieBanner').style.display = 'none';
     // Keep analytics disabled
 }
+</script>
+
+<!-- Shopify Session Tracker -->
+<script>
+    // Create Shopify session for tracking
+    (function() {
+        var img = new Image();
+        img.src = 'https://shop.fabrevoie.com/cart.json?t=' + Date.now();
+    })();
 </script>
     
 </body>
