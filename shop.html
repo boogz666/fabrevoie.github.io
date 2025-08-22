@@ -104,6 +104,57 @@
         gtag('js', new Date());
         gtag('config', 'G-TZJE1XNS2Z');
     </script>
+
+    <!-- SHOPIFY ANALYTICS INTEGRATION -->
+    <script>
+        // Shopify Analytics Configuration
+        window.Shopify = window.Shopify || {};
+        window.Shopify.shop = "shop.fabrevoie.com";
+        window.Shopify.currency = {"active":"USD","rate":"1.0"};
+        window.Shopify.theme = {"name":"Headless","id":123456789,"theme_store_id":null,"role":"main"};
+        
+        window.ShopifyAnalytics = window.ShopifyAnalytics || {};
+        window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
+        window.ShopifyAnalytics.meta.currency = 'USD';
+        window.ShopifyAnalytics.meta.merchant = 'shop.fabrevoie.com';
+        window.ShopifyAnalytics.meta.page = {
+            pageType: 'product',
+            resourceType: 'product',
+            resourceId: 'sbhmn-1'
+        };
+
+        // Product specific tracking
+        window.ShopifyAnalytics.meta.product = {
+            id: 'sbhmn-1',
+            vendor: 'Fabrevoie',
+            type: 'Footwear',
+            price: '19900', // in cents
+            currency: 'USD'
+        };
+
+        // Cross-domain session tracking
+        (function() {
+            var domain = '.fabrevoie.com';
+            var shopifySessionId = localStorage.getItem('_shopify_s') || 'sh_' + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('_shopify_s', shopifySessionId);
+            document.cookie = '_shopify_s=' + shopifySessionId + '; domain=' + domain + '; path=/; max-age=86400; SameSite=Lax';
+            
+            // Store session ID for tracking
+            window.shopifySessionId = shopifySessionId;
+            
+            // Ping Shopify to register the session
+            var img = new Image();
+            img.src = 'https://shop.fabrevoie.com/cdn-cgi/image/width=1,height=1,quality=1/t/pixel.gif?s=' + shopifySessionId + '&ref=headless&source=fabrevoie.com&page=product';
+            
+            // Initialize cart session
+            fetch('https://shop.fabrevoie.com/cart.json', {
+                credentials: 'include',
+                mode: 'no-cors'
+            }).catch(function() {
+                // Expected CORS error, ignore
+            });
+        })();
+    </script>
     
     <!-- External -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -608,6 +659,23 @@
     
     <!-- Then add the fixes and shop-specific code -->
     <script>
+        // Track product view with Shopify Analytics
+        function trackProductView() {
+            if (window.Shopify && window.Shopify.analytics) {
+                window.Shopify.analytics.publish('product_view', {
+                    productId: 'sbhmn-1',
+                    productTitle: 'SBHMN 1',
+                    productPrice: '199.00',
+                    currency: 'USD',
+                    source: 'headless_site'
+                });
+            }
+            
+            // Also send tracking pixel
+            var trackingImg = new Image();
+            trackingImg.src = 'https://shop.fabrevoie.com/track?event=product_view&product=sbhmn-1&price=199&ref=headless&source=fabrevoie.com&t=' + Date.now();
+        }
+
         // IMMEDIATE LOADING SCREEN FIX
         window.addEventListener('load', function() {
             const loadingScreen = document.getElementById('loading-screen');
@@ -620,6 +688,9 @@
                 }, 300);
             }
             document.body.classList.add('loaded');
+            
+            // Track product view once loaded
+            trackProductView();
         });
 
         // Fallback removal after 2 seconds
@@ -715,9 +786,18 @@
             if (window.changeProductColor && typeof window.changeProductColor === 'function') {
                 window.changeProductColor(color);
             }
+            
+            // Track color selection
+            if (window.Shopify && window.Shopify.analytics) {
+                window.Shopify.analytics.publish('product_option_change', {
+                    productId: 'sbhmn-1',
+                    option: 'color',
+                    value: color
+                });
+            }
         }
         
-        // Override buyProduct to use modal and correct pricing
+        // Override buyProduct to use modal and correct pricing with tracking
         function buyProduct() {
             if (!state.selectedSize) {
                 const modal = document.getElementById('sizeWarningModal');
@@ -741,6 +821,19 @@
             // Update state before adding to cart
             if (window.state) {
                 window.state.currentPrice = price;
+            }
+            
+            // Track add to cart with Shopify Analytics
+            if (window.Shopify && window.Shopify.analytics) {
+                window.Shopify.analytics.publish('cart_add', {
+                    productId: variantMap[`${state.currentColor}-${state.selectedSize}`],
+                    productTitle: 'SBHMN 1',
+                    quantity: 1,
+                    price: price,
+                    currency: 'USD',
+                    color: state.currentColor,
+                    size: state.selectedSize
+                });
             }
             
             // Modified addToCart to use dynamic price
@@ -876,5 +969,15 @@ function rejectCookies() {
     // Keep analytics disabled
 }
 </script>
+
+<!-- Shopify Session Tracker -->
+<script>
+    // Create Shopify session for tracking
+    (function() {
+        var img = new Image();
+        img.src = 'https://shop.fabrevoie.com/cart.json?t=' + Date.now();
+    })();
+</script>
+
 </body>
 </html>
