@@ -7,8 +7,8 @@
 // ================================================
 const STOREFRONT_CONFIG = {
     domain: 'shop.fabrevoie.com',
-    storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN', // ← ADD YOUR TOKEN HERE
-    productId: 'gid://shopify/Product/YOUR_PRODUCT_ID', // ← ADD YOUR PRODUCT GID
+    storefrontAccessToken: '8c1c303201210453ae54e2f37ecfaeab', // ← ADD YOUR TOKEN HERE
+    productId: 'gid://shopify/Product/10306739470663', // ← ADD YOUR PRODUCT GID
     initialInventory: 11000, // Your starting total inventory (500 per variant × 22 variants)
     fallbackSales: 24 // Fallback if API fails - UPDATE THIS MANUALLY
 };
