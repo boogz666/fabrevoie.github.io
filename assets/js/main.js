@@ -1,5 +1,5 @@
-// FABREVOIE MAIN.JS - MANUAL SALES TRACKING + ARTIFICIAL SCARCITY
-// Last Updated: Aug 19, 2025
+// FABREVOIE MAIN.JS - WITH SHOPIFY TRACKING INTEGRATION
+// Last Updated: Aug 22, 2025
 // Shop Domain: shop.fabrevoie.com
 
 // ================================================
@@ -10,7 +10,7 @@ const STOREFRONT_CONFIG = {
     storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN', // ← ADD YOUR TOKEN HERE
     productId: 'gid://shopify/Product/YOUR_PRODUCT_ID', // ← ADD YOUR PRODUCT GID
     initialInventory: 11000, // Your starting total inventory (500 per variant × 22 variants)
-    fallbackSales: 24 // Fallback if API fails
+    fallbackSales: 24 // Fallback if API fails - UPDATE THIS MANUALLY
 };
 // ================================================
 
@@ -26,10 +26,10 @@ const state = {
     headerAnnouncementInterval: null,
     lastScrollTop: 0,
     isScrollingDown: false,
-    // REMOVED: lifestyleIndex
     notificationQueue: [],
     isShowingNotification: false,
-    lastKnownRealSales: 0
+    lastKnownRealSales: 0,
+    currentPrice: 199 // Dynamic pricing
 };
 
 // CART STATE
@@ -96,8 +96,6 @@ const config = {
         ]
     },
     
-    // REMOVED: lifestyleImages array
-    
     sizes: ['5.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5'],
     
     sizeChart: [
@@ -115,10 +113,89 @@ const config = {
     ]
 };
 
-// ORDER NOTIFICATION SYSTEM - REMOVED FAKE DATA
-// Only used for real customer orders now
+// ================================================
+// SHOPIFY ANALYTICS TRACKING FUNCTIONS
+// ================================================
 
-// MANUAL INVENTORY TRACKING - NO API CALLS
+function initShopifyTracking() {
+    // Track page views
+    if (window.Shopify && window.Shopify.analytics) {
+        window.Shopify.analytics.publish('page_view', {
+            page_title: document.title,
+            location_href: window.location.href,
+            location_path: window.location.pathname,
+            location_search: window.location.search,
+            referrer: document.referrer,
+            source: 'headless_site'
+        });
+    }
+    
+    // Track product views on shop.html
+    if (window.location.pathname.includes('shop')) {
+        trackProductView();
+    }
+}
+
+function trackProductView() {
+    if (window.Shopify && window.Shopify.analytics) {
+        window.Shopify.analytics.publish('product_view', {
+            productId: config.productHandle,
+            productTitle: 'SBHMN 1',
+            productPrice: state.currentPrice.toString(),
+            currency: 'USD'
+        });
+    }
+}
+
+function trackAddToCart(item) {
+    if (window.Shopify && window.Shopify.analytics) {
+        window.Shopify.analytics.publish('cart_add', {
+            productId: item.variantId,
+            productTitle: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            currency: 'USD',
+            color: item.color,
+            size: item.size
+        });
+    }
+    
+    // Also send to GA4 if available
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'add_to_cart', {
+            currency: 'USD',
+            value: item.price,
+            items: [{
+                item_id: item.variantId,
+                item_name: item.name,
+                item_category: 'Footwear',
+                item_variant: `${item.color}-${item.size}`,
+                price: item.price,
+                quantity: item.quantity
+            }]
+        });
+    }
+}
+
+function trackCheckoutBegin(cart) {
+    if (window.Shopify && window.Shopify.analytics) {
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        window.Shopify.analytics.publish('checkout_started', {
+            total: total,
+            currency: 'USD',
+            items: cart.map(item => ({
+                productId: item.variantId,
+                quantity: item.quantity,
+                price: item.price
+            }))
+        });
+    }
+}
+
+// ================================================
+// INVENTORY TRACKING
+// ================================================
+
 function fetchShopifyInventory() {
     // Just use the manual fallback sales number
     const realSalesCount = STOREFRONT_CONFIG.fallbackSales;
@@ -349,8 +426,6 @@ function initMobileSwipe() {
     }
 }
 
-// REMOVED: Lifestyle carousel functions (initLifestyleCarousel, nextLifestyleImage, previousLifestyleImage, updateLifestyleCarousel, goToLifestyleSlide)
-
 // CART FUNCTIONS
 function toggleCart() {
     const cartModal = document.getElementById('cartModal');
@@ -396,6 +471,9 @@ function addToCart(color, size) {
     localStorage.setItem('fabrevoie_cart', JSON.stringify(localCart));
     updateCartCount();
     toggleCart();
+    
+    // Track add to cart
+    trackAddToCart(cartItem);
     
     // Show order notification for current user's order (mark as real)
     setTimeout(() => {
@@ -574,22 +652,31 @@ function updateCartCount() {
     }
 }
 
-// CHECKOUT FUNCTION
+// CHECKOUT FUNCTION WITH TRACKING
 function proceedToCheckout() {
     if (localCart.length === 0) {
         alert('Your cart is empty. Add something first!');
         return;
     }
     
-    // Build checkout URL
+    // Track checkout begin
+    trackCheckoutBegin(localCart);
+    
+    // Build checkout URL with tracking parameters
     const cartItems = localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
-    const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}`;
+    const checkoutUrl = `https://shop.fabrevoie.com/cart/${cartItems}?ref=headless&source=fabrevoie.com&utm_source=headless_site&utm_medium=custom_site&utm_campaign=presale`;
     
     // Save cart state for recovery
     sessionStorage.setItem('fabrevoie_checkout_backup', JSON.stringify(localCart));
     localStorage.setItem('fabrevoie_checkout_pending', 'true');
     
-    window.location.href = checkoutUrl;
+    // Pass session ID for tracking
+    const sessionId = window.shopifySessionId || localStorage.getItem('_shopify_s');
+    if (sessionId) {
+        window.location.href = checkoutUrl + '&session=' + sessionId;
+    } else {
+        window.location.href = checkoutUrl;
+    }
 }
 
 function buyProduct() {
@@ -854,6 +941,15 @@ function selectSize(size) {
             document.querySelectorAll('.size-option').forEach(option => option.classList.remove('selected'));
             sizeElement.classList.add('selected');
             state.selectedSize = size;
+            
+            // Track size selection
+            if (window.Shopify && window.Shopify.analytics) {
+                window.Shopify.analytics.publish('product_option_change', {
+                    productId: config.productHandle,
+                    option: 'size',
+                    value: size
+                });
+            }
         }
         
         const sizeWarning = document.getElementById('sizeWarning');
@@ -1073,6 +1169,9 @@ function toggleTimer() {
 
 // INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Shopify tracking
+    initShopifyTracking();
+    
     // Check if returning from checkout
     if (localStorage.getItem('fabrevoie_checkout_pending') === 'true') {
         const backup = sessionStorage.getItem('fabrevoie_checkout_backup');
@@ -1093,6 +1192,11 @@ document.addEventListener('DOMContentLoaded', function() {
     localCart = JSON.parse(localStorage.getItem('fabrevoie_cart')) || [];
     updateCartCount();
     
+    // Update pricing based on current date
+    const now = new Date();
+    const presaleEnd = new Date('2025-08-24T08:00:00-04:00');
+    state.currentPrice = now < presaleEnd ? 199 : 269;
+    
     // Determine page type
     const isShopPage = window.location.pathname.includes('shop');
     const isLandingPage = window.location.pathname === '/' || window.location.pathname.includes('index');
@@ -1108,7 +1212,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initMobileSwipe();
         initPopupSwipe();
         initHeaderScroll();
-        // REMOVED: initLifestyleCarousel();
         
         const productImage = document.getElementById('productImage');
         if (productImage) {
@@ -1209,8 +1312,10 @@ window.openImagePopup = openImagePopup;
 window.closeImagePopup = closeImagePopup;
 window.nextPopupImage = nextPopupImage;
 window.previousPopupImage = previousPopupImage;
-// REMOVED: Lifestyle carousel functions from global scope
 window.updateTimer = updateTimer;
 window.showOrderNotification = showOrderNotification;
 window.closeOrderNotification = closeOrderNotification;
 window.fetchShopifyInventory = fetchShopifyInventory;
+window.trackAddToCart = trackAddToCart;
+window.trackProductView = trackProductView;
+window.initShopifyTracking = initShopifyTracking;
