@@ -50,6 +50,17 @@ async function openInvitation(page) {
   await until(() => isOpen(page), 'Explicit invitation CTA should open its dialog');
 }
 
+async function dismissInvitation(page, action) {
+  const minimumDismissedUntil = await page.evaluate(() => Date.now() + 7 * 86_400_000);
+  await action();
+  // Native dialog.close() removes `open` before its queued close event persists
+  // dismissal. Await that side effect before navigating or changing the clock.
+  await until(() => page.evaluate(minimum => {
+    const state = JSON.parse(localStorage.getItem('fabrevoie-invitation-state-v1') || '{}');
+    return !document.querySelector('#waitlist-dialog').open && state.dismissedUntil >= minimum;
+  }, minimumDismissedUntil), 'Dismissal should be persisted before the test continues');
+}
+
 async function signup(page, email) {
   await page.locator('#popup-signup-email').fill(email);
   await page.locator('#popup-signup-consent').check();
@@ -115,13 +126,13 @@ try {
     check(!(await page.locator('#popup-signup-consent').isChecked()), 'Popup consent starts unchecked');
     for (let count = 0; count < 10; count++) await page.keyboard.press('Tab');
     check(await page.evaluate(() => document.querySelector('#waitlist-dialog').contains(document.activeElement)), 'Native modal keeps keyboard navigation inside the invitation');
-    await page.keyboard.press('Escape');
+    await dismissInvitation(page, () => page.keyboard.press('Escape'));
     check(!(await isOpen(page)), 'Escape dismisses the invitation');
     check(await page.locator('.header-access').evaluate(element => document.activeElement === element), 'Escape restores focus to the invitation CTA');
     await openInvitation(page);
     const box = await page.locator('#waitlist-dialog').boundingBox();
     assert.ok(box.x > 10, 'Desktop dialog should leave a clickable backdrop');
-    await page.mouse.click(5, Math.max(5, box.y + 20));
+    await dismissInvitation(page, () => page.mouse.click(5, Math.max(5, box.y + 20)));
     check(!(await isOpen(page)), 'Clicking outside the dialog on its backdrop dismisses it');
     check(await page.locator('.header-access').evaluate(element => document.activeElement === element), 'Backdrop dismissal restores focus to the CTA');
   });
@@ -137,7 +148,7 @@ try {
     check(posts === 1 && storedRows()[0]?.email === 'popup-reader@example.test', 'Popup signup persists the exact subscriber through the real local API');
     check(Boolean(storedRows()[0]?.consent_version), 'Popup signup records the consent version');
     check(Boolean(link?.includes('#withdraw=')), 'Confirmed popup signup supplies a private withdrawal link');
-    await page.keyboard.press('Escape');
+    await dismissInvitation(page, () => page.keyboard.press('Escape'));
     await page.clock.setSystemTime(new Date(initialTime + 8 * 86_400_000));
     await page.reload({ waitUntil: 'networkidle' });
     await page.clock.fastForward(60_000);
@@ -157,7 +168,7 @@ try {
       link = await signup(secondTab, 'second-tab-reader@example.test');
       check(storedRows()[0]?.email === 'second-tab-reader@example.test', 'A second tab can confirm a persistent popup signup');
       await page.bringToFront();
-      await page.locator('#waitlist-dialog [data-close]').click();
+      await dismissInvitation(page, () => page.locator('#waitlist-dialog [data-close]').click());
       const remembered = await page.evaluate(() => JSON.parse(localStorage.getItem('fabrevoie-invitation-state-v1')));
       check(remembered.joined === true, 'Dismissing an older tab preserves the signup confirmed in another tab');
     } finally { await secondTab.close(); }
@@ -182,13 +193,13 @@ try {
     check(!(await isOpen(page)), 'Automatic invitation waits through the first 14,999 milliseconds');
     await page.clock.fastForward(1);
     check(await isOpen(page), 'Eligible visitor receives the invitation at 15 seconds');
-    await page.locator('#waitlist-dialog [data-close]').click();
+    await dismissInvitation(page, () => page.locator('#waitlist-dialog [data-close]').click());
     await page.reload({ waitUntil: 'networkidle' });
     await page.clock.fastForward(60_000);
     check(!(await isOpen(page)), 'Dismissal suppresses automatic invitations across a reload');
     await openInvitation(page);
     check(await isOpen(page), 'A dismissed invitation can still be opened explicitly');
-    await page.keyboard.press('Escape');
+    await dismissInvitation(page, () => page.keyboard.press('Escape'));
     await page.clock.setSystemTime(new Date(initialTime + 8 * 86_400_000));
     await page.reload({ waitUntil: 'networkidle' });
     await page.clock.fastForward(15_000);
