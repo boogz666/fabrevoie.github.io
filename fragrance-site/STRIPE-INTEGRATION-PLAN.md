@@ -6,16 +6,18 @@ Prepared 11 September 2026 for https://fabrevoie.com, a single-product perfume l
 
 The requested ChatGPT Stripe app installation could not be completed in this session: no installation/planner tool was exposed, the supplied app URL redirected to the plugin directory, and automatic browser launch was rejected by the tool policy. `stripe_implementation_planner` remained unavailable. The user's specified fallback, `npx skills add https://docs.stripe.com --yes`, succeeded. This plan applies the downloaded `stripe-best-practices` payments, tax and security guidance and `stripe-docs`; it is not represented as planner-tool output.
 
-Read-only account checks confirmed the supplied keys belong to **Fabrevoie sandbox**, France, EUR. Both supplied keys are test keys. There are no existing Stripe Prices or shipping rates. Tax Settings are pending, the head-office address is absent, and there are no active Tax registrations. No account settings or registrations were changed during this audit.
+The initial read-only account audit confirmed the supplied keys belong to **Fabrevoie sandbox**, France, EUR. Both supplied keys are test keys. At that audit there were no Stripe Prices or shipping rates. Tax Settings were pending, the head-office address was absent, and there were no active Tax registrations. No account settings or registrations were changed during that audit.
 
-The current fragrance application has no payment integration. It has Node/Vercel functions, Neon Postgres and a local SQLite preview. Historical sneaker source contains Shopify links and an unverified browser-only Stripe confirmation; these are not reused as order verification.
+The application originally had no payment integration. The plan below has now been implemented in its Node/Vercel functions, Neon Postgres and local SQLite preview. Historical sneaker source contains Shopify links and an unverified browser-only Stripe confirmation; these are not reused as order verification.
+
+The owner subsequently confirmed EUR 129.99 and Made in Paris. A sandbox Product and Price now exist, with VAT treatment still unspecified. Stock reservations, private audited inventory adjustments and fulfillment tracking are implemented. See [INVENTORY-OPERATIONS.md](INVENTORY-OPERATIONS.md) for the catalog and operational contract. Live commerce remains disabled until stock, shipping, tax and live credentials are ready.
 
 ## Recommended flow
 
 Use **Stripe-hosted Checkout Sessions** for one-time bottle purchases. The product page, purchase controls and order-status page remain on FABREVOIE; Stripe hosts the payment form. This avoids handling card details and supports Stripe's dynamically selected payment methods. The publishable key is not required for a hosted Checkout redirect; the secret key remains server-side.
 
 1. The website fetches a minimal public commerce configuration from its own API. When sales are disabled or required configuration is missing, the live waitlist remains the only enabled action.
-2. A same-origin checkout request contains quantity and a client request identifier, never a client-selected amount, currency, tax rate or shipping charge. The server validates configuration and the configured Stripe Price, applies quantity limits and shared rate limits, and creates a persistent order intent.
+2. A same-origin checkout request contains quantity and a client request identifier, never a client-selected amount, currency, tax rate or shipping charge. The server validates configuration and the configured Stripe Price, applies quantity limits and shared rate limits, and atomically reserves available stock with a persistent order intent.
 3. The server creates a Checkout Session using that Price, configured shipping destinations/rates, shipping-address collection and automatic tax only after its prerequisites are verified. Session creation is idempotent. A stable integration identifier distinguishes this flow in Stripe.
 4. The browser redirects to the verified Stripe Checkout URL. Success returns to a branded FABREVOIE order page; cancellation returns to the product page without claiming payment.
 5. A signed webhook records verified payment results and order details durably. The customer return page only reads order status; visiting it never marks an order paid.
@@ -43,7 +45,7 @@ After the sandbox tax setup is confirmed, run a Stripe Tax Calculation for an ag
 
 ## Configuration and release controls
 
-Use distinct test/live configurations. Default commerce to disabled. A test secret must never activate a live purchase flow. The existing official website stays on the waitlist while product price, shipping, dispatch date and tax setup are unresolved. Use a clearly labeled sandbox preview for development; do not accept real payments with placeholder commercial terms.
+Use distinct test/live configurations. Default commerce to disabled. A test secret must never activate a live purchase flow. The existing official website stays on the waitlist while stock, shipping, dispatch date and tax setup are unresolved. Use a clearly labeled sandbox preview for development; do not accept real payments with placeholder commercial terms.
 
 Keep secrets and webhook signing secrets in ignored local environment files and sensitive Vercel environment variables, never source, browser responses, logs or Git. A restricted Stripe key with only the integration's required permissions is preferred for the eventual production deployment. The current user-supplied sandbox secret can support development.
 

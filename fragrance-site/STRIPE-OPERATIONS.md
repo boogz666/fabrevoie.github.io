@@ -8,7 +8,7 @@ The website uses Stripe-hosted Checkout for one-time ULTRA MACHO purchases, with
 - `COMMERCE_MODE=disabled` keeps purchases hidden and refuses new checkout sessions. Turning sales off preserves webhook processing and private order-status reads.
 - The sandbox key, webhook signing secret and separate order-token secret are stored privately. They are not bundled into the website. Hosted redirects do not use the publishable key.
 - Sandbox webhook: `https://fabrevoie.com/api/stripe-webhook`, endpoint `we_1UEGrZI4Ls0KfpKeib0MvNH9`. This endpoint accepts only events verified with its signing secret and matching the configured key mode.
-- Retail price, shipping rates/countries, dispatch notice, business address and applicable tax registrations await the owner's confirmed details. No placeholder retail price or tax registration has been created.
+- The owner confirmed **€129.99**, Made in Paris, for ULTRA MACHO / 100 ml. Sandbox Product `prod_VEkzAjHaGMlLXd` and Price `price_1UEHTKI4Ls0KfpKegErVPsm1` are created. Price tax behavior remains unspecified pending confirmation of inclusive/exclusive VAT. Shipping, stock, dispatch, business address and applicable tax registrations still require the owner's details. No tax registration or stock quantity has been invented.
 - Stripe's canonical Tax Codes API lists perfume under **Cosmetics - Beautifying**, `txcd_32050025`. This is the proposed classification for owner confirmation; it has not been assigned.
 
 Implementation and scope are described in [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md).
@@ -36,13 +36,13 @@ This prints payment state, amount, quantity, order reference and Stripe payment 
 
 Without `--cloud`, the order command reads only local `data/commerce.sqlite`. It refuses to silently substitute an empty local database for unavailable cloud storage. The cloud tables are `fabrevoie_commerce_orders`, `fabrevoie_commerce_events`, `fabrevoie_commerce_refunds` and `fabrevoie_commerce_rate_limits`, separate from waitlist consent.
 
-A paid order still needs fulfillment by the merchant. This integration records payment and refunds; it does not buy postage, ship a bottle, issue refunds automatically or send marketing emails. Stripe Dashboard remains available for payment review and intentional refunds. A purchase does not subscribe the buyer to the launch list.
+A paid order still needs fulfillment by the merchant. This integration records payment and refunds, reserves inventory and tracks merchant-confirmed dispatch/returns. [INVENTORY-OPERATIONS.md](INVENTORY-OPERATIONS.md) documents those commands. It does not buy postage, ship a bottle, issue refunds automatically or send marketing emails. Stripe Dashboard remains available for payment review and intentional refunds. A purchase does not subscribe the buyer to the launch list.
 
 ## Complete sandbox setup
 
-1. Confirm the 100 ml EUR price, inclusive/exclusive VAT treatment, sales-opening date, dispatch timing, shipping destinations/rates and sale/delivery/return terms. Do not treat the 1 October launch announcement as a confirmed dispatch date.
+1. Confirm the inclusive/exclusive VAT treatment of the approved EUR 129.99 price, actual stock, dispatch timing, shipping destinations/rates and sale/delivery/return terms. The earliest configured opening is 1 October 2026 at midnight Europe/Paris; do not treat the launch announcement as a confirmed dispatch date.
 2. Confirm the actual head-office address and existing tax registrations, then prepare the matching Stripe Tax settings and registrations for review. Recording a registration in Stripe does not register a business with an authority.
-3. Confirm the proposed perfume tax code. Create the Product and one-time EUR Price with explicit tax behavior, then the approved shipping rates. Configure the IDs and destination list in the environment.
+3. Confirm the proposed perfume tax code and set the existing sandbox Price's tax behavior. Create the approved shipping rates and configure their IDs/destinations. Create matching catalog objects with live credentials only when ready for the actual launch.
 4. Configure a separate clearly labeled sandbox preview with `COMMERCE_MODE=test` and its correct `PUBLIC_SITE_URL`. Production rejects test-mode purchase activation. Do not disable preview protection broadly to accommodate webhooks; use the verified public webhook endpoint or an explicitly chosen test deployment.
 5. Run an actual Stripe Tax Calculation for an approved destination and inspect `taxability_reason`. A `not_collecting` result is not successful tax setup. Verify that tax and shipping shown by Checkout match the approved treatment.
 6. Complete test-card success, decline, authentication, cancellation and delayed-payment scenarios; verify the real signed Stripe event updates the same persisted order. Verify a test refund. Mocked handler/browser tests alone do not establish this result.

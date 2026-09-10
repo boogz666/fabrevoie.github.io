@@ -10,16 +10,19 @@ if (!process.argv.includes('--cloud-write') || !process.env.DATABASE_URL) {
 }
 const id = randomUUID();
 const prefix = `integration-qa-${id}`;
+const sku = `QA-${id.toUpperCase()}`;
 const now = Date.now();
 const sql = neon(process.env.DATABASE_URL);
 const storage = await createNeonCommerceStorage(process.env.DATABASE_URL);
 const order = { id, reference: prefix, request_hash: prefix, token_hash: prefix,
-  client_hash: prefix, mode: 'test', price_id: 'price_qa_fixture', unit_amount: 100,
+  client_hash: prefix, mode: 'test', sku, price_id: 'price_qa_fixture', unit_amount: 100,
   currency: 'eur', quantity: 1, dispatch_notice: 'Integration QA only; no physical order.',
   checkout_snapshot: { qa: true }, session_expires_at: now + 3600000, created_at: now, updated_at: now };
 const event = { id: `evt_${id.replaceAll('-', '')}`, type: 'checkout.session.completed', created: Math.floor(now / 1000) };
-let stage = 'createOrder';
+let stage = 'initialize QA allocation';
 try {
+  await storage.adjustInventory({mode:'test',sku,delta:1,reason:'integration_qa_seed',operationId:randomUUID()});
+  stage = 'createOrder';
   await storage.createOrder(order);
   assert.equal((await storage.getByRequestHash(prefix)).id, id);
   await storage.createOrder(order);
@@ -56,10 +59,12 @@ try {
   process.exitCode = 1;
 } finally {
   await sql.transaction([
+    sql.query('DELETE FROM fabrevoie_commerce_inventory_audit WHERE mode = $1 AND sku = $2', ['test',sku]),
     sql.query('DELETE FROM fabrevoie_commerce_refunds WHERE order_id = $1', [id]),
     sql.query('DELETE FROM fabrevoie_commerce_events WHERE order_id = $1', [id]),
     sql.query('DELETE FROM fabrevoie_commerce_orders WHERE id = $1 AND reference = $2', [id, prefix]),
     sql.query('DELETE FROM fabrevoie_commerce_rate_limits WHERE client_hash = $1', [prefix]),
+    sql.query('DELETE FROM fabrevoie_commerce_inventory WHERE mode = $1 AND sku = $2', ['test',sku]),
   ]).then(() => console.log('Isolated QA records removed.')).catch(() => {
     console.error('QA cleanup failed; the isolated integration-qa records need private review.');
     process.exitCode = 1;

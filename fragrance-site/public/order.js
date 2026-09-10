@@ -48,6 +48,45 @@ function validOrder(order) {
     && (order.amountTotal === null || (Number.isSafeInteger(order.amountTotal) && order.amountTotal >= 0))
     && typeof order.dispatchNotice === 'string';
 }
+function safeTrackingUrl(value) {
+  if (typeof value !== 'string' || value.length > 2048 || /[\u0000-\u0020\u007f]/.test(value)) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && !url.username && !url.password && !url.port ? url.href : null;
+  } catch { return null; }
+}
+function renderFulfillment(order) {
+  const shipment = orderElement('#order-shipment');
+  const tracking = orderElement('#order-tracking-link');
+  shipment.hidden = true;
+  tracking.hidden = true;
+  tracking.removeAttribute('href');
+  orderElement('#order-carrier').hidden = true;
+  orderElement('#order-tracking-number').hidden = true;
+  const fulfillment = order.fulfillment;
+  // Payment and fulfillment are separate records. A payment problem or refund
+  // must not be presented as an order proceeding through routine dispatch.
+  if (order.status !== 'paid' || !fulfillment) return;
+  const shipmentStates = {
+    awaiting_dispatch: ['AWAITING DISPATCH', 'Your order is awaiting dispatch. Check this page for a shipment update.'],
+    shipped: ['SHIPPED', 'Your order has been dispatched.'],
+    returned: ['RETURN RECORDED', 'A return has been recorded for your order. Contact FABREVOIE with your reference for details.'],
+    needs_review: ['SHIPMENT UNDER REVIEW', 'Your shipment needs attention. Contact FABREVOIE with your order reference.']
+  };
+  if (!Object.hasOwn(shipmentStates, fulfillment.status)) return;
+  const [label, message] = shipmentStates[fulfillment.status];
+  orderElement('#order-shipment-label').textContent = label;
+  orderElement('#order-shipment-message').textContent = message;
+  shipment.hidden = false;
+  if (fulfillment.status !== 'shipped') return;
+  for (const [key, selector, prefix] of [['carrier', '#order-carrier', 'Carrier'], ['trackingNumber', '#order-tracking-number', 'Tracking number']]) {
+    if (typeof fulfillment[key] !== 'string' || !fulfillment[key].trim() || fulfillment[key].length > 200) continue;
+    orderElement(selector).textContent = `${prefix}: ${fulfillment[key]}`;
+    orderElement(selector).hidden = false;
+  }
+  const trackingUrl = safeTrackingUrl(fulfillment.trackingUrl);
+  if (trackingUrl) { tracking.href = trackingUrl; tracking.hidden = false; }
+}
 function renderOrder(order) {
   const formattedTotal = order.amountTotal === null ? 'Not yet confirmed' : formatOrderTotal(order.amountTotal, order.currency);
   const [label, message] = states[order.status];
@@ -60,7 +99,9 @@ function renderOrder(order) {
   orderElement('#order-details').hidden = false;
   orderElement('#order-help-reference').hidden = false;
   orderElement('#order-dispatch').textContent = order.dispatchNotice;
-  orderElement('#order-dispatch').hidden = !order.dispatchNotice.trim() || ['payment_failed', 'expired', 'refunded', 'partially_refunded'].includes(order.status);
+  orderElement('#order-dispatch').hidden = !order.dispatchNotice.trim() || order.status !== 'paid'
+    || ![null, undefined, 'awaiting_dispatch'].includes(order.fulfillment?.status);
+  renderFulfillment(order);
   stillPending = ['pending', 'processing'].includes(order.status);
   if (!stillPending) {
     try { sessionStorage.removeItem(CHECKOUT_STORAGE_KEY); } catch { /* Optional retry context. */ }
@@ -105,6 +146,8 @@ async function checkOrder() {
       stillPending = false;
       showStatus('STATUS UNAVAILABLE', error.name === 'AbortError' || error instanceof TypeError
         ? 'We could not check your order. Check your connection and try again.' : error.message, true);
+      orderElement('#order-shipment').hidden = true;
+      orderElement('#order-dispatch').hidden = true;
       orderElement('#order-poll-note').textContent = 'No payment status has been assumed. Use your private link to check again.';
     }
   } finally {

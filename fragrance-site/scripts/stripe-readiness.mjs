@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PRODUCT_SKU, validSku } from '../lib/commerce-inventory.mjs';
 
 export const STRIPE_API_VERSION = '2026-08-26.dahlia';
 export const WEBHOOK_EVENTS = [
@@ -104,6 +105,14 @@ export async function stripeReadiness({ argv = [], env = process.env, client, lo
   }
   const quantity = env.COMMERCE_QUANTITY_MAX === undefined ? 3 : Number(env.COMMERCE_QUANTITY_MAX);
   verify('quantity-limit', Number.isInteger(quantity) && quantity >= 1 && quantity <= 10, 'Quantity limit must be an integer from 1 to 10.');
+  const sku=env.COMMERCE_SKU??PRODUCT_SKU;
+  verify('inventory-sku',validSku(sku),'Inventory SKU must identify the configured bottle.');
+  add('inventory-stock','warning','Stock quantities and allocations are verified separately with the private inventory status command.');
+  if(env.COMMERCE_OPENS_AT) {
+    const dateValid=/^\d{4}-\d\d-\d\dT.+(?:Z|[+-]\d\d:\d\d)$/.test(env.COMMERCE_OPENS_AT)&&Number.isFinite(Date.parse(env.COMMERCE_OPENS_AT));
+    verify('launch-time',dateValid,'The opening instant must be an ISO timestamp with a timezone.');
+    if(dateValid&&mode==='live'&&now()<Date.parse(env.COMMERCE_OPENS_AT))add('launch-not-open','warning','The configured live opening instant is in the future; new purchases remain gated.');
+  }
   const countries = env.COMMERCE_ALLOWED_SHIPPING_COUNTRIES ? env.COMMERCE_ALLOWED_SHIPPING_COUNTRIES.split(',').map(value => value.trim()) : [];
   verify('shipping-countries', countries.length >= 1 && countries.length <= 30 && countries.every(value => /^[A-Z]{2}$/.test(value)) && new Set(countries).size === countries.length,
     'COMMERCE_ALLOWED_SHIPPING_COUNTRIES must contain 1–30 distinct uppercase ISO country codes.', !countries.length);
@@ -167,6 +176,7 @@ export async function stripeReadiness({ argv = [], env = process.env, client, lo
       'The expanded product must be active in the configured mode.');
     verify('product-tax-code', ID.tax.test(typeof product?.tax_code === 'string' ? product.tax_code : product?.tax_code?.id || ''),
       'Product must have a tax code. Use --tax-codes to review canonical candidates; this command does not choose the classification.');
+    verify('product-inventory-sku',product?.metadata?.fabrevoie_sku===sku,'Stripe Product metadata must match the configured inventory SKU.');
   } else if (priceResult) add('price', 'unverified', priceResult.detail);
   for (const [index, result] of (ratesResult || []).entries()) {
     if (!result.ok) { add(`shipping-rate-${index + 1}`, 'unverified', result.detail); continue; }

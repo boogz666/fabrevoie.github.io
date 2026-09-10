@@ -51,8 +51,17 @@ export function readCommerceConfiguration(env, { hasStorage = false } = {}) {
   const dispatchNotice = env.COMMERCE_DISPATCH_NOTICE;
   if (typeof dispatchNotice !== 'string' || dispatchNotice.trim().length < 8 || dispatchNotice.length > 240
     || /[\u0000-\u001f\u007f]/u.test(dispatchNotice)) unavailable();
+  const sku = env.COMMERCE_SKU ?? PRODUCT_SKU;
+  if (!validSku(sku)) unavailable();
+  let opensAt = null;
+  if (env.COMMERCE_OPENS_AT) {
+    if (typeof env.COMMERCE_OPENS_AT !== 'string' || !/^\d{4}-\d\d-\d\dT.+(?:Z|[+-]\d\d:\d\d)$/.test(env.COMMERCE_OPENS_AT)) unavailable();
+    opensAt = Date.parse(env.COMMERCE_OPENS_AT);
+    if (!Number.isFinite(opensAt)) unavailable();
+  }
+  if (mode === 'live' && opensAt !== null && Date.now() < opensAt) unavailable();
   return {
-    mode, origin, quantityMax, dispatchNotice: dispatchNotice.trim(), priceId: env.STRIPE_PRICE_ID,
+    mode, origin, sku, opensAt, quantityMax, dispatchNotice: dispatchNotice.trim(), priceId: env.STRIPE_PRICE_ID,
     shippingRateIds: list(env.STRIPE_SHIPPING_RATE_IDS, /^shr_[a-zA-Z0-9]+$/, 5),
     countries: list(env.COMMERCE_ALLOWED_SHIPPING_COUNTRIES, /^[A-Z]{2}$/, 30),
   };
@@ -83,7 +92,7 @@ export async function verifyCommerceReadiness(stripe, config) {
     || !Number.isSafeInteger(price.unit_amount) || price.unit_amount <= 0 || price.unit_amount * config.quantityMax > 99999999
     || !['inclusive', 'exclusive'].includes(price.tax_behavior)
     || !product || typeof product !== 'object' || product.deleted || !product.active
-    || product.livemode !== expectedLive || !product.tax_code) unavailable();
+    || product.livemode !== expectedLive || !product.tax_code || product.metadata?.fabrevoie_sku !== config.sku) unavailable();
   if (settings.status !== 'active' || settings.livemode !== expectedLive
     || !settings.head_office?.address?.country) unavailable();
   const now = Math.floor(Date.now() / 1000);
@@ -102,3 +111,5 @@ export async function verifyCommerceReadiness(stripe, config) {
     shippingSummary: `Delivery to ${config.countries.join(', ')}. Shipping and tax are confirmed at checkout.`,
   };
 }
+import { PRODUCT_SKU, validSku } from './commerce-inventory.mjs';
+export { PRODUCT_SKU } from './commerce-inventory.mjs';

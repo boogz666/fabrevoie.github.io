@@ -6,9 +6,9 @@ import path from 'node:path';
 import { Readable } from 'node:stream';
 import test from 'node:test';
 import Stripe from 'stripe';
-import { createCommerceHandlers, readWebhookBody } from '../lib/commerce.mjs';
+import { createCommerceHandlers, readWebhookBody, reconcileStoredOrder } from '../lib/commerce.mjs';
 import { createSqliteCommerceStorage } from '../lib/commerce-storage.mjs';
-import { INTEGRATION_IDENTIFIER, readCommerceConfiguration } from '../lib/commerce-config.mjs';
+import { INTEGRATION_IDENTIFIER, PRODUCT_SKU, readCommerceConfiguration } from '../lib/commerce-config.mjs';
 
 const ORIGIN = 'https://fabrevoie.example';
 const SECRET = ['rk', 'test', randomBytes(24).toString('hex')].join('_');
@@ -41,6 +41,8 @@ async function invoke(handler, { method = 'POST', body, headers = {}, raw } = {}
 async function setup(t, options = {}) {
   const directory = await mkdtemp(path.join(tmpdir(), 'fabrevoie-commerce-'));
   const db = await createSqliteCommerceStorage(directory);
+  if (options.stock !== null) await db.adjustInventory({ mode: 'test', sku: PRODUCT_SKU, delta: options.stock ?? 100,
+    reason: 'qa_fixture', operationId: randomUUID() });
   const env = { ...ENV, ...options.env };
   const calls = [];
   const sessions = new Map();
@@ -48,7 +50,7 @@ async function setup(t, options = {}) {
   const state = {
     price: { id: env.STRIPE_PRICE_ID, active: true, livemode: false, type: 'one_time', billing_scheme: 'per_unit',
       currency: 'eur', unit_amount: 10000, tax_behavior: 'inclusive',
-      product: { id: 'prod_fixture', active: true, livemode: false, tax_code: 'txcd_fixture' } },
+      product: { id: 'prod_fixture', active: true, livemode: false, tax_code: 'txcd_fixture', metadata: { fabrevoie_sku: PRODUCT_SKU } } },
     settings: { status: 'active', livemode: false, head_office: { address: { country: 'FR' } } },
     registrations: { data: [{ id: 'taxreg_fixture', status: 'active', livemode: false, active_from: 1, expires_at: null }], has_more: false },
     shipping: { id: 'shr_fixture', active: true, livemode: false, type: 'fixed_amount',
@@ -187,7 +189,7 @@ test('persistent order precedes Checkout, parameters are server-controlled and c
   const status = await invoke(fixture.orderStatus, { body: { token: result.token } });
   assert.equal(status.body.order.status, 'pending');
   assert.equal(status.body.order.amountTotal, null);
-  assert.deepEqual(Object.keys(status.body.order).sort(), ['amountTotal', 'currency', 'dispatchNotice', 'mode', 'quantity', 'reference', 'status']);
+  assert.deepEqual(Object.keys(status.body.order).sort(), ['amountTotal', 'currency', 'dispatchNotice', 'fulfillment', 'mode', 'quantity', 'reference', 'status']);
 });
 
 test('simultaneous retries share one persisted order, one create lease and one Checkout URL', async t => {
@@ -444,4 +446,242 @@ test('private order lookup does not trust a session id, return URL or a guessed 
   assert.equal((await invoke(fixture.orderStatus, { body: { token: randomBytes(32).toString('base64url') } })).status, 404);
   assert.equal((await invoke(fixture.orderStatus, { body: { token: item.token }, method: 'GET' })).status, 405);
   assert.equal((await fixture.db.getOrder(item.order.id)).status, 'pending');
+});
+
+test('unconfigured stock blocks sales; configured zero shows sold out without public stock numbers', async t => {
+  const fixture = await setup(t, { stock: null });
+  assert.equal((await invoke(fixture.commerce, { method: 'GET' })).body.mode, 'disabled');
+  const unavailable = await invoke(fixture.checkout, { body: { quantity: 1, requestId: randomUUID() } });
+  assert.equal(unavailable.status, 503);
+  assert.equal((await fixture.db.listOrders()).length, 0);
+  await fixture.db.adjustInventory({ mode: 'test', sku: PRODUCT_SKU, delta: 0, reason: 'initial_stock', operationId: randomUUID() });
+  const response = await invoke(fixture.commerce, { method: 'GET' });
+  assert.equal(response.body.available, false);
+  assert.equal(response.body.mode, 'test');
+  assert.equal(response.body.quantityMax, 0);
+  assert.deepEqual(response.body.inventory, { status: 'sold_out' });
+  assert.equal(JSON.stringify(response.body).includes('capacity'), false);
+  const soldOut = await invoke(fixture.checkout, { body: { quantity: 1, requestId: randomUUID() } });
+  assert.equal(soldOut.status, 409);
+  assert.equal(soldOut.body.code, 'STOCK_UNAVAILABLE');
+  assert.equal((await fixture.db.listOrders()).length, 0);
+});
+
+test('concurrent buyers cannot reserve more units than allocated selling capacity', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const responses = await Promise.all(Array.from({ length: 5 }, () => invoke(fixture.checkout,
+    { body: { quantity: 1, requestId: randomUUID() } })));
+  assert.equal(responses.filter(response => response.status === 200).length, 1);
+  assert.equal(responses.filter(response => response.body.code === 'STOCK_UNAVAILABLE').length, 4);
+  assert.equal(fixture.calls.filter(call => call[0] === 'create').length, 1);
+  assert.equal((await fixture.db.listOrders()).length, 1);
+  assert.deepEqual(await fixture.db.getInventory({ mode: 'test', sku: PRODUCT_SKU }),
+    { mode: 'test', sku: PRODUCT_SKU, configured: true, capacity: 1, held: 1, committed: 0, available: 0 });
+});
+
+test('a buyer reuses the same reservation even while the public product is sold out', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const item = await checkout(fixture);
+  assert.equal((await invoke(fixture.commerce, { method: 'GET' })).body.inventory.status, 'sold_out');
+  const retry = await invoke(fixture.checkout, { body: { quantity: 1, requestId: item.requestId } });
+  assert.equal(retry.status, 200);
+  assert.equal(retry.body.url, item.response.body.url);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).held, 1);
+  assert.equal((await fixture.db.listInventoryAudit({ mode: 'test' })).filter(row => row.action === 'allocation_held').length, 1);
+});
+
+test('stock adjustments are mode-isolated, audited, idempotent and cannot create negative availability', async t => {
+  const fixture = await setup(t, { stock: null });
+  const adjustment = { mode: 'test', sku: PRODUCT_SKU, delta: 2, reason: 'initial_stock', operationId: randomUUID() };
+  await Promise.all([fixture.db.adjustInventory(adjustment), fixture.db.adjustInventory(adjustment)]);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).capacity, 2);
+  assert.equal((await fixture.db.getInventory({ mode: 'live' })).configured, false);
+  await assert.rejects(fixture.db.adjustInventory({ ...adjustment, delta: 3 }), { code: 'OPERATION_CONFLICT' });
+  await checkout(fixture, 2);
+  await assert.rejects(fixture.db.adjustInventory({ ...adjustment, delta: -1, operationId: randomUUID() }), { code: 'STOCK_ADJUSTMENT_REJECTED' });
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 0);
+  await assert.rejects(fixture.db.adjustInventory({ ...adjustment, reason: 'buyer@example.test', operationId: randomUUID() }), { code: 'INVALID_OPERATION' });
+});
+
+test('delayed unpaid payments retain stock beyond the Checkout deadline; terminal signed events release once', async t => {
+  const fixture = await setup(t, { stock: 2 });
+  const item = await checkout(fixture, 2);
+  item.session.status = 'complete';
+  await webhook(fixture, item.session, 'checkout.session.completed', { created: 100 });
+  const future = Date.now() + 2 * 3600000;
+  const clock = t.mock.method(Date, 'now', () => future);
+  const operationId = randomUUID();
+  const reconciled = await reconcileStoredOrder({ orderId: item.order.id, operationId, storage: fixture.db, stripe: fixture.stripe });
+  assert.equal(reconciled.status, 'processing');
+  assert.equal(reconciled.allocation_state, 'held');
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 0);
+  clock.mock.restore();
+  const failure = { id: 'evt_delayedfailure', created: Math.floor(future / 1000) + 1 };
+  await webhook(fixture, item.session, 'checkout.session.async_payment_failed', failure);
+  await webhook(fixture, item.session, 'checkout.session.async_payment_failed', failure);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 2);
+  assert.equal((await fixture.db.getOrder(item.order.id)).allocation_state, 'released');
+  assert.equal((await fixture.db.listInventoryAudit({ mode: 'test' })).filter(row => row.action === 'allocation_released').length, 1);
+});
+
+test('verified paid allocation commits once and neither successful refunds nor bank returns restock', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const item = await checkout(fixture);
+  item.session.payment_status = 'paid';
+  await webhook(fixture, item.session, 'checkout.session.completed', { id: 'evt_stockpaid' });
+  await webhook(fixture, item.session, 'checkout.session.completed', { id: 'evt_stockpaid' });
+  let stock = await fixture.db.getInventory({ mode: 'test' });
+  assert.deepEqual([stock.available, stock.held, stock.committed], [0, 0, 1]);
+  assert.equal((await fixture.db.getOrder(item.order.id)).fulfillment_status, 'awaiting_dispatch');
+  fixture.state.refunds = [{ id: 're_stockrefund', payment_intent: item.session.payment_intent, amount: 10500, currency: 'eur', status: 'succeeded' }];
+  await webhook(fixture, item.session, 'refund.updated', { object: fixture.state.refunds[0] });
+  assert.equal((await fixture.db.getOrder(item.order.id)).fulfillment_status, 'needs_review');
+  fixture.state.refunds[0].status = 'failed';
+  await webhook(fixture, item.session, 'refund.failed', { object: fixture.state.refunds[0] });
+  stock = await fixture.db.getInventory({ mode: 'test' });
+  assert.deepEqual([stock.available, stock.held, stock.committed], [0, 0, 1]);
+});
+
+test('late payment after release needs review and explicit allocation cannot oversell', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const first = await checkout(fixture);
+  first.session.status = 'expired';
+  await webhook(fixture, first.session, 'checkout.session.expired', { created: 100 });
+  const second = await checkout(fixture);
+  first.session.payment_status = 'paid';
+  first.session.status = 'complete';
+  await webhook(fixture, first.session, 'checkout.session.async_payment_succeeded', { created: 200 });
+  let order = await fixture.db.getOrder(first.order.id);
+  assert.deepEqual([order.status, order.allocation_state, order.fulfillment_status], ['paid', 'released', 'needs_review']);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).held, 1);
+  const resolution = { orderId: first.order.id, reason: 'late_payment_allocation', operationId: randomUUID() };
+  await assert.rejects(fixture.db.resolveAllocation(resolution), { code: 'ALLOCATION_RESOLUTION_REJECTED' });
+  await fixture.db.adjustInventory({ mode: 'test', delta: 1, reason: 'restock', operationId: randomUUID() });
+  await Promise.all([fixture.db.resolveAllocation(resolution), fixture.db.resolveAllocation(resolution)]);
+  order = await fixture.db.getOrder(first.order.id);
+  assert.deepEqual([order.allocation_state, order.fulfillment_status], ['committed', 'awaiting_dispatch']);
+  const stock = await fixture.db.getInventory({ mode: 'test' });
+  assert.deepEqual([stock.available, stock.held, stock.committed], [0, 1, 1]);
+  assert.equal((await fixture.db.getOrder(second.order.id)).allocation_state, 'held');
+  await assert.rejects(fixture.db.resolveAllocation({ ...resolution, reason: 'different_reason' }), { code: 'OPERATION_CONFLICT' });
+});
+
+test('shipment requires paid allocated delivery details; return and refund never rewrite parcel history or stock', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const item = await checkout(fixture);
+  const shipping = { orderId: item.order.id, status: 'shipped', carrier: 'Fixture Carrier', trackingNumber: 'TRACKFIXTURE123',
+    trackingUrl: 'https://carrier.example/track/TRACKFIXTURE123', reason: 'dispatch_confirmed', operationId: randomUUID() };
+  await assert.rejects(fixture.db.setFulfillment(shipping), { code: 'FULFILLMENT_TRANSITION_REJECTED' });
+  item.session.payment_status = 'paid';
+  await webhook(fixture, item.session);
+  const before = await fixture.db.getOrder(item.order.id);
+  await fixture.db.setFulfillment(shipping);
+  const shipped = await fixture.db.setFulfillment(shipping);
+  assert.equal(shipped.fulfillment_status, 'shipped');
+  assert.equal(shipped.reconciliation_version, before.reconciliation_version + 1);
+  await assert.rejects(fixture.db.setFulfillment({ ...shipping, trackingNumber: 'DIFFERENT' }), { code: 'OPERATION_CONFLICT' });
+  await assert.rejects(fixture.db.setFulfillment({ ...shipping, operationId: randomUUID() }), { code: 'FULFILLMENT_TRANSITION_REJECTED' });
+  const returned = await fixture.db.setFulfillment({ orderId: item.order.id, status: 'returned', reason: 'return_received', operationId: randomUUID() });
+  assert.equal(returned.fulfillment_status, 'returned');
+  assert.equal(returned.fulfillment_tracking_number, 'TRACKFIXTURE123');
+  assert.ok(returned.returned_at);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 0);
+  fixture.state.refunds = [{ id: 're_shippedrefund', payment_intent: item.session.payment_intent, amount: 10500, currency: 'eur', status: 'succeeded' }];
+  await webhook(fixture, item.session, 'refund.updated', { object: fixture.state.refunds[0] });
+  fixture.state.refunds[0].status = 'failed';
+  await webhook(fixture, item.session, 'refund.failed', { object: fixture.state.refunds[0] });
+  assert.equal((await fixture.db.getOrder(item.order.id)).fulfillment_status, 'returned');
+  await assert.rejects(fixture.db.resolveAllocation({ orderId: item.order.id, reason: 'restock_attempt', operationId: randomUUID() }), { code: 'ALLOCATION_RESOLUTION_REJECTED' });
+  const audit = JSON.stringify(await fixture.db.listInventoryAudit({ mode: 'test' }));
+  assert.equal(audit.includes('TRACKFIXTURE123'), false);
+  assert.equal(audit.includes('Fixture Buyer'), false);
+  const status = await invoke(fixture.orderStatus, { body: { token: item.token } });
+  assert.equal(status.body.order.fulfillment.status, 'returned');
+  assert.equal(status.body.order.fulfillment.trackingNumber, 'TRACKFIXTURE123');
+});
+
+test('private reconciliation releases only a remotely expired unpaid Session and preserves ambiguous holds', async t => {
+  const fixture = await setup(t, { stock: 2 });
+  const item = await checkout(fixture);
+  await reconcileStoredOrder({ orderId: item.order.id, operationId: randomUUID(), storage: fixture.db, stripe: fixture.stripe });
+  assert.equal((await fixture.db.getOrder(item.order.id)).allocation_state, 'held');
+  item.session.status = 'expired';
+  const operationId = randomUUID();
+  const expired = await reconcileStoredOrder({ orderId: item.order.id, operationId, storage: fixture.db, stripe: fixture.stripe });
+  assert.equal(expired.allocation_state, 'released');
+  await reconcileStoredOrder({ orderId: item.order.id, operationId, storage: fixture.db, stripe: fixture.stripe });
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 2);
+  const ambiguous = await setup(t, { stock: 1, beforeCreate() { throw new Error('Lost API response'); } });
+  await invoke(ambiguous.checkout, { body: { quantity: 1, requestId: randomUUID() } });
+  const held = (await ambiguous.db.listHeldOrders({ mode: 'test' }))[0];
+  assert.equal(held.stripe_session_id, null);
+  await assert.rejects(reconcileStoredOrder({ orderId: held.id, operationId: randomUUID(), storage: ambiguous.db, stripe: ambiguous.stripe }),
+    { code: 'CHECKOUT_RECONCILIATION_REQUIRED' });
+  assert.equal((await ambiguous.db.getInventory({ mode: 'test' })).available, 0);
+});
+
+test('launch time gates live readiness and the configured SKU must match the Stripe Product', async t => {
+  const live = { ...ENV, COMMERCE_MODE: 'live', VERCEL_ENV: 'production', STRIPE_SECRET_KEY: SECRET.replace('_test_', '_live_'),
+    COMMERCE_OPENS_AT: new Date(Date.now() + 3600000).toISOString() };
+  assert.throws(() => readCommerceConfiguration(live, { hasStorage: true }));
+  assert.doesNotThrow(() => readCommerceConfiguration({ ...ENV, COMMERCE_OPENS_AT: live.COMMERCE_OPENS_AT }, { hasStorage: true }));
+  const fixture = await setup(t);
+  fixture.state.price.product.metadata.fabrevoie_sku = 'OTHER-PRODUCT';
+  assert.equal((await invoke(fixture.commerce, { method: 'GET' })).body.available, false);
+});
+
+test('definitive Stripe validation rejection releases only its unattached worker-owned hold', async t => {
+  let attempts = 0;
+  const fixture = await setup(t, { stock: 1, beforeCreate() {
+    if (++attempts === 1) throw Object.assign(new Error('Fixture validation rejection'),
+      { type: 'StripeInvalidRequestError', statusCode: 400, code: 'parameter_invalid_integer' });
+  } });
+  const response = await invoke(fixture.checkout, { body: { quantity: 1, requestId: randomUUID() } });
+  assert.equal(response.status, 409);
+  assert.equal(response.body.code, 'CHECKOUT_RESTART_REQUIRED');
+  const rejected = (await fixture.db.listOrders())[0];
+  assert.equal(rejected.allocation_state, 'released');
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 1);
+  const next = await checkout(fixture);
+  assert.equal(next.order.allocation_state, 'held');
+  const released = await fixture.db.releaseFailedCreation({ orderId: next.order.id, owner: randomUUID(), operationId: randomUUID() });
+  assert.equal(released.released, false);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 0);
+});
+
+test('Stripe idempotency contention and ambiguous failures retain the stock hold', async t => {
+  for (const properties of [
+    { type: 'StripeInvalidRequestError', statusCode: 400, code: 'idempotency_key_in_use' },
+    { type: 'StripeIdempotencyError', statusCode: 400, code: 'idempotency_error' },
+    { type: 'StripeAPIError', statusCode: 500 }, { type: 'StripeConnectionError' },
+  ]) {
+    const fixture = await setup(t, { stock: 1, beforeCreate() { throw Object.assign(new Error('Fixture ambiguous request'), properties); } });
+    const response = await invoke(fixture.checkout, { body: { quantity: 1, requestId: randomUUID() } });
+    assert.equal(response.status, 503);
+    const stock = await fixture.db.getInventory({ mode: 'test' });
+    assert.deepEqual([stock.available, stock.held, stock.committed], [0, 1, 0]);
+  }
+});
+
+test('operator reconciliation cannot hide a delayed async-failure webhook or revive its terminal state', async t => {
+  const fixture = await setup(t, { stock: 1 });
+  const item = await checkout(fixture);
+  item.session.status = 'complete';
+  await webhook(fixture, item.session, 'checkout.session.completed', { created: 100 });
+  await reconcileStoredOrder({ orderId: item.order.id, operationId: randomUUID(), storage: fixture.db, stripe: fixture.stripe });
+  let order = await fixture.db.getOrder(item.order.id);
+  assert.equal(order.status, 'processing');
+  assert.equal(order.last_event_created, 100, 'operator wall-clock time must not replace the Stripe event watermark');
+  const failure = await webhook(fixture, item.session, 'checkout.session.async_payment_failed', { created: 200 });
+  assert.equal(failure.response.status, 200);
+  order = await fixture.db.getOrder(item.order.id);
+  assert.equal(order.status, 'payment_failed');
+  assert.equal(order.allocation_state, 'released');
+  assert.equal(order.last_event_created, 200);
+  assert.equal((await fixture.db.getInventory({ mode: 'test' })).available, 1);
+  await reconcileStoredOrder({ orderId: item.order.id, operationId: randomUUID(), storage: fixture.db, stripe: fixture.stripe });
+  order = await fixture.db.getOrder(item.order.id);
+  assert.equal(order.status, 'payment_failed', 'an ambiguous complete/unpaid read must not revive a known failure');
+  assert.equal(order.last_event_created, 200);
+  assert.equal(order.allocation_state, 'released');
 });

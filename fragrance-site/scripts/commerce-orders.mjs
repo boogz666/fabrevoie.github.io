@@ -16,6 +16,9 @@ export function summarizeOrder(order) {
     quantity: order.quantity, amountTotal: order.amount_total,
     currency: order.currency, refundedAmount: order.refunded_amount,
     createdAt: new Date(order.created_at).toISOString(),
+    sku: order.sku || null,
+    allocationStatus: order.allocation_state || 'unallocated',
+    fulfillmentStatus: order.fulfillment_status || null,
     payment: order.stripe_payment_intent_id
       ? `https://dashboard.stripe.com/${order.mode === 'test' ? 'test/' : ''}payments/${encodeURIComponent(order.stripe_payment_intent_id)}`
       : null,
@@ -37,6 +40,10 @@ export async function writePrivateExport(orders, { destination, siteRoot = root 
   const rows = orders.map(order => ({
     ...summarizeOrder(order), taxAmount: order.tax_amount, shippingAmount: order.shipping_amount,
     dispatchNotice: order.dispatch_notice, customer: order.customer, shipping: order.shipping,
+    fulfillment: {status:order.fulfillment_status || null,carrier:order.fulfillment_carrier || null,
+      trackingNumber:order.fulfillment_tracking_number || null,trackingUrl:order.fulfillment_tracking_url || null,
+      shippedAt:order.shipped_at?new Date(order.shipped_at).toISOString():null,
+      returnedAt:order.returned_at?new Date(order.returned_at).toISOString():null},
   }));
   await writeFile(file, JSON.stringify({ exportedAt: new Date().toISOString(), orders: rows }, null, 2),
     { flag: 'wx', mode: 0o600 });
