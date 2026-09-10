@@ -1,20 +1,37 @@
-# FABREVOIE / ULTRA MACHO launch
+# FABREVOIE / ULTRA MACHO official launch
 
-The perfume application lives in `fragrance-site/`. The existing sneaker website remains at the repository root with its original product pages, Shopify checkout links and `CNAME`.
+The perfume application lives in `fragrance-site/`. It replaces the sneaker storefront on fabrevoie.com after the GoDaddy DNS switch documented in `fragrance-site/OFFICIAL-LAUNCH.md`. The original sneaker source remains at the repository root for rollback.
+
+## Current launch
+
+- Website: https://fabrevoie.vercel.app
+- Official domain: https://fabrevoie.com (attached to Vercel; DNS update still pending).
+- Production deployment: `dpl_6fY81SsQncu7PkjzrCbPCzoBm6qj`.
+- Source branch: `feat/official-waitlist-2026`.
+- First release: 1 October 2026.
+- Lavender/graphite Iris design, bold wide italic typography, original brand logos, native Blender campaign photography.
+- Styled popup and inline waitlist write consented emails to the connected free Neon database in Frankfurt. A disposable cloud signup and withdrawal passed, alongside 29 live deployment checks.
+- Old footwear navigation is removed. Vercel temporarily redirects the 14 original HTML routes, including shop and checkout, to the perfume homepage.
+
+The GoDaddy routing update is still required to replace what visitors see on the official domain. Nameservers and email records remain unchanged. Both official hostnames are already attached to Vercel, and www is configured to redirect to the apex. No GoDaddy access was available in this session.
 
 ## Original website and rollback
 
 - Original revision: `e8652905984dcb8fe8a4033d4fd72d1fb983f89c`.
-- Preserved branch: `backup/pre-fragrance-2026-09-10`.
-- Preserved tag: `pre-fragrance-2026-09-10`.
-- Initial fragrance design: `feat/ultra-macho-launch`.
-- Iris editorial update: `feat/iris-editorial-2026`.
+- Preserved local branch: `backup/pre-fragrance-2026-09-10`.
+- Preserved local tag: `pre-fragrance-2026-09-10`.
+- Previous fragrance branches: `feat/ultra-macho-launch`, `feat/iris-editorial-2026`.
+- Previous perfume deployment: `dpl_5UJMrsfasANkmDUQqf4PKjY5xAUV`.
 
-The initial fragrance commit only adds the application, this document and its CI workflow. The Iris revision updates the fragrance application with lavender, cool white and graphite, wide italic display typography inspired by the sneaker site, and two new native Blender campaign advertisements. Original sneaker website files are not deleted or modified. The backup branch and tag currently exist locally and must be pushed with the feature branch when GitHub write access is available. Never force-push or replace the original history.
+Original sneaker files are not deleted or overwritten. Restore the prior GoDaddy apex A and www CNAME records to restore the GitHub Pages storefront; the exact values are in the launch guide. Preserve the waitlist database during any rollback. A perfume design rollback can use Vercel's previous deployment without changing Git history.
 
-If fragrance changes have been merged later, use `git revert` on the integration commit to undo that addition while retaining history. A Vercel deployment can also be rolled back to its previous deployment independently of GitHub Pages. Review the deployment and DNS destination before any root-domain switch.
+## GitHub and Vercel
 
-## Local development
+Current GitHub CLI identity `puppetmaster666` has read-only access to `boogz666/fabrevoie.github.io`. Source changes and backups are complete locally; publishing this branch, backup branch and tag requires write access or authentication as `boogz666`. No push has succeeded for this target, and no history was force-pushed.
+
+The Vercel project is https://vercel.com/puppetmaster666s-projects/fabrevoie. Manual deployment from the authoring `website/` directory is currently used. When connecting this repository, set Root Directory to `fragrance-site`, framework Other, Node 22, build `npm run build`, output `dist`. Automatic Git deployments remain disabled until the correct repository is connected.
+
+## Development and validation
 
 ```powershell
 cd fragrance-site
@@ -22,32 +39,22 @@ npm ci
 npm start
 ```
 
-The local preview runs on `http://127.0.0.1:4173` and stores consented release signups in a private SQLite database outside its public directory. Tests use isolated temporary storage.
+The local preview uses private SQLite storage and runs on http://127.0.0.1:4173. Cloud deployments use Neon through `api/signup.js`. Neither database nor credentials are published as static assets.
 
 ```powershell
 npm test
 npm run test:browser
+npm run test:popup
 node tests/build-preview.mjs
+node tests/deployment.mjs
 ```
 
-## Vercel
-
-Set the Vercel project's **Root Directory** to `fragrance-site`. The included `vercel.json` selects the build, static output and server function. Framework is Other; Node is 22; the build command is `npm run build`; output is `dist`.
-
-The current perfume preview is `https://fabrevoie.vercel.app`. Keep the current `fabrevoie.com` sneaker site connected while reviewing the perfume page. A fragrance subdomain can be connected later; this package does not alter DNS, the root `CNAME`, GitHub Pages or the sneaker Shopify store.
-
-Current GitHub CLI authentication is `puppetmaster666`, which has read-only access to this repository. Publishing requires write access to `boogz666/fabrevoie.github.io`. The account owner can authenticate as `boogz666` or grant the connected account access. No credentials belong in this repository.
-
-Vercel's Git integration currently points to the earlier perfume repository and automatic Git deployments are disabled. After the new feature branch is pushed and reviewed, connect this repository in Vercel with the root directory above. Manual deployments can update the existing perfume preview independently.
+The explicit `node tests/deployment.mjs --signup-live` flag submits and withdraws one disposable live record; it sends no email. See the app README for private CSV export and the launch guide for account/dashboard access.
 
 ## Release and commerce
 
-The page announces 1 October 2026 and collects free release-list signups once cloud storage is enabled. Signing up places no order and reserves no stock. It includes no lore, hormonal claims, 3D viewer, fabricated reviews or invented fragrance notes.
-
-The cloud API needs `DATABASE_URL` and `RATE_LIMIT_SECRET`. Production currently has the rate-limit secret but still needs the Neon database connection; until then, the cloud build shows a release-list opening notice instead of the form. The account holder must accept the Neon integration terms before the intended free database can be provisioned. The local SQLite preview already works.
-
-No automatic emails or live payments are enabled. Stripe Checkout is the intended perfume payment service when sales open. A price, shipping setup, inventory/fulfilment process, Stripe credentials and tested payment confirmation are still needed before adding checkout. The existing sneaker store continues using Shopify.
+This is a free release waitlist. Signup places no order and reserves no stock. No confirmation or launch email is sent automatically. Stripe is unnecessary for email collection; configure the actual selling business and checkout when paid sales or preorders open. The page includes no lore, hormonal claims, fabricated product reviews or 3D viewer.
 
 ## Asset sources
 
-The included assets are the page's optimized Iris images, original brand graphics and local webfonts. `fragrance-site/asset-notes.md` documents provenance. Raw Blender and campaign sources remain in the original authoring workspace; the optional `scripts/prepare-iris-assets.py` needs that workspace to regenerate them. No raw campaign archives, databases, environment credentials or bottle design experiments are published with this application.
+`fragrance-site/asset-notes.md` documents the optimized Iris imagery, original brand graphics and supplied local fonts. Raw Blender and campaign source files remain in the original authoring workspace. They are excluded from the public application, alongside databases, credentials and design experiments.

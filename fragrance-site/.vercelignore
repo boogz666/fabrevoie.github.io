@@ -17,3 +17,5 @@ public/assets/asset-manifest.json
 public/assets/iris-asset-manifest.json
 __pycache__/
 *.pyc
+.agents/
+skills-lock.json

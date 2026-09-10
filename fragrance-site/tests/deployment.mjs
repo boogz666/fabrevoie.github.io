@@ -5,6 +5,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const origin = (process.env.DEPLOYMENT_URL || 'https://fabrevoie.vercel.app').replace(/\/$/, '');
+const canonicalOrigin = (process.env.EXPECTED_CANONICAL_URL || 'https://fabrevoie.com').replace(/\/$/, '');
 const expectLiveSignup = process.argv.includes('--signup-live');
 const artifactDir = path.resolve('tests/artifacts');
 await mkdir(artifactDir, { recursive: true });
@@ -15,6 +16,7 @@ const check = (condition, message) => { assert.ok(condition, message); report.ch
 let removalToken;
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  await page.addInitScript(() => localStorage.setItem('fabrevoie-invitation-state-v1', JSON.stringify({ dismissedUntil: Date.now() + 86400000 })));
   page.on('pageerror', error => report.errors.push(error.message));
   const response = await page.goto(origin, { waitUntil: 'networkidle' });
   check(response.status() === 200, 'Public HTTPS page responds successfully');
@@ -22,12 +24,12 @@ try {
   check((await page.locator('h1').innerText()).replace(/\s+/g, ' ').trim() === 'ULTRA MACHO', 'Product name is the primary live heading');
   check(await page.locator('.hero-slogan').innerText() === 'NEVER APOLOGIZE.', 'Approved supporting slogan is live');
   check(await page.evaluate(() => document.fonts.check('italic 900 100px HelveticaDisplay') && document.fonts.check('400 16px Founders') && getComputedStyle(document.querySelector('h1')).fontFamily.includes('HelveticaDisplay')), 'Production bold extended typography loads and applies');
-  check(await page.locator('link[rel=canonical]').getAttribute('href') === origin + '/', 'Canonical points to production');
-  check(await page.locator('meta[property="og:image"]').getAttribute('content') === origin + '/assets/iris-hero.webp', 'Absolute Iris campaign sharing image is configured');
+  check(await page.locator('link[rel=canonical]').getAttribute('href') === canonicalOrigin + '/', 'Canonical points to the official domain');
+  check(await page.locator('meta[property="og:image"]').getAttribute('content') === canonicalOrigin + '/assets/iris-hero.webp', 'Absolute Iris campaign sharing image is configured');
   check(await page.locator('canvas, model-viewer, iframe').count() === 0, 'No 3D viewer or embedded third-party content');
   check(await page.locator('#mythology, #mythology-title, #mythology-note, details, [href="#mythology"]').count() === 0, 'Removed lore and its navigation are absent from production');
   check(!/mytholog|testosterone|hormone|handkerchief|DNA sampling|extraction process|broken-hearted/i.test(await page.locator('body').textContent()), 'Production contains no fictional manufacturing or hormonal claims');
-  check(await page.locator('a[href="https://fabrevoie.com/shop.html"]').count() === 3, 'Footwear navigation links to the existing FABREVOIE store');
+  check(await page.locator('a[href*="shop.html"]').count() === 0, 'Retired footwear shop is absent from navigation');
   check(await page.locator('a[href="mailto:support@fabrevoie.com"]').count() >= 2, 'Support address appears in public contact and privacy information');
   const missingAnchors = await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')]
     .map(link => link.getAttribute('href')).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));
@@ -36,6 +38,16 @@ try {
   if (expectLiveSignup) check(signupVisible, 'Signup form is enabled for explicit cloud verification');
   else report.signup = signupVisible ? 'form visible; storage not tested (read-only)' : 'waiting for database; storage not tested (read-only)';
   if (!signupVisible) check(await page.locator('.signup-unavailable').isVisible(), 'Opening-soon notice appears while cloud signup is disabled');
+  if (signupVisible) {
+    await page.locator('.header-access').click();
+    check(await page.locator('#waitlist-dialog').evaluate(dialog => dialog.open), 'Styled waitlist invitation opens on the live site');
+    await page.screenshot({ path: path.join(artifactDir, 'vercel-waitlist-desktop.png') });
+    await page.keyboard.press('Escape');
+  }
+  for (const requestPath of ['/shop.html', '/checkout.html', '/products.html']) {
+    const legacy = await page.request.get(origin + requestPath, { maxRedirects: 0 });
+    check(legacy.status() === 307 && legacy.headers().location === '/', `Retired sneaker route redirects temporarily: ${requestPath}`);
+  }
   const errors = await page.evaluate(async () => {
     const failed = [];
     for (const img of document.images) { img.loading = 'eager'; await img.decode().catch(() => failed.push(img.src)); }

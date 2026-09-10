@@ -22,6 +22,7 @@ const html = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 assert.doesNotMatch(html, /mytholog|testosterone|hormone|handkerchief|archive-linen/i);
 assert.match(html, /<form hidden id="signup-form"/);
 assert.match(html, /class="signup-unavailable"/);
+assert.match(html, /data-signup-available="false"/);
 assert.match(html, /<link rel="canonical" href="https:\/\/fabrevoie.vercel.app\/">/);
 const files = await readdir(path.join(root, 'dist', 'assets'));
 assert.ok(!files.some(file => /archive|manifest|-src\./i.test(file)));
@@ -42,6 +43,7 @@ try {
     await page.evaluate(async () => { for (const img of document.images) { img.loading = 'eager'; await img.decode(); } });
     assert.equal(await page.locator('#signup-form').isVisible(), false);
     assert.equal(await page.locator('.signup-unavailable').isVisible(), true);
+    assert.equal(await page.locator('#waitlist-dialog').evaluate(dialog => dialog.open), false);
     assert.match(await page.locator('.signup-title').innerText(), /Your invitation is coming/);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();

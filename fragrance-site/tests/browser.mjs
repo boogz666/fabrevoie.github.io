@@ -39,6 +39,8 @@ async function prepare(page) {
 }
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  // Popup timing and repeat-visit behavior have a dedicated test suite.
+  await context.addInitScript(() => localStorage.setItem('fabrevoie-invitation-state-v1', JSON.stringify({ dismissedUntil: Date.now() + 86400000 })));
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -52,7 +54,7 @@ try {
   check(broken.length === 0, 'All product and brand images load');
   check(await page.locator('#mythology, #mythology-title, #mythology-note, details, [href="#mythology"]').count() === 0, 'Lore sections, dossiers and old navigation are removed');
   check(!/mytholog|testosterone|hormone|handkerchief|DNA sampling|extraction process|broken-hearted/i.test(await page.locator('body').textContent()), 'No fictional manufacturing or hormonal claims remain');
-  check(await page.locator('a[href="https://fabrevoie.com/shop.html"]').count() === 3, 'Desktop, mobile and footer navigation link to FABREVOIE footwear');
+  check(await page.locator('a[href*="shop.html"]').count() === 0, 'Retired footwear shop is absent from navigation');
   check(await page.locator('a[href="mailto:support@fabrevoie.com"]').count() >= 2, 'Published support address appears in footer and privacy information');
   const missingAnchors = await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')]
     .map(link => link.getAttribute('href')).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));

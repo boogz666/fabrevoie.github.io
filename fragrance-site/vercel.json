@@ -9,6 +9,22 @@
   "functions": {
     "api/signup.js": { "maxDuration": 15 }
   },
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": false },
+    { "source": "/index-backup.html", "destination": "/", "permanent": false },
+    { "source": "/homepage.html", "destination": "/", "permanent": false },
+    { "source": "/landing.html", "destination": "/", "permanent": false },
+    { "source": "/shop.html", "destination": "/", "permanent": false },
+    { "source": "/products.html", "destination": "/", "permanent": false },
+    { "source": "/about.html", "destination": "/", "permanent": false },
+    { "source": "/contact.html", "destination": "/", "permanent": false },
+    { "source": "/checkout.html", "destination": "/", "permanent": false },
+    { "source": "/order-confirmation.html", "destination": "/", "permanent": false },
+    { "source": "/privacy-policy.html", "destination": "/", "permanent": false },
+    { "source": "/returns.html", "destination": "/", "permanent": false },
+    { "source": "/shipping.html", "destination": "/", "permanent": false },
+    { "source": "/terms.html", "destination": "/", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -10,8 +10,9 @@
   "scripts": {
     "start": "node server.mjs",
     "dev": "node --watch server.mjs",
-    "test": "node --test tests/server.test.mjs tests/cloud-signups.test.mjs",
+    "test": "node --test tests/server.test.mjs tests/cloud-signups.test.mjs tests/export-signups.test.mjs",
     "test:browser": "node tests/browser.mjs",
+    "test:popup": "node tests/waitlist-popup.mjs",
     "build": "node scripts/build.mjs"
   },
   "devDependencies": {

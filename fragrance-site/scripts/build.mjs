@@ -13,6 +13,7 @@ const css = await readFile(path.join(input, 'styles.css'), 'utf8');
 const js = await readFile(path.join(input, 'app.js'), 'utf8');
 const pendingCloudStorage = process.env.VERCEL === '1' && (!process.env.DATABASE_URL || !process.env.RATE_LIMIT_SECRET);
 if (pendingCloudStorage) {
+  html = html.replace('data-signup-available="true"', 'data-signup-available="false"');
   html = html.replace('class="header-access" href="#first-release">Join the list', 'class="header-access" href="#first-release">Release details');
   html = html.replace('class="button button-dark" href="#first-release">Join the first release', 'class="button button-dark" href="#first-release">Discover the release');
   html = html.replace('Leave your email for first-release news.', 'The release list opens shortly.');
