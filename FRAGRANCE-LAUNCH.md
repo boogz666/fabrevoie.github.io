@@ -1,19 +1,19 @@
 # FABREVOIE / ULTRA MACHO official launch
 
-The perfume application lives in `fragrance-site/`. It replaces the sneaker storefront on fabrevoie.com after the GoDaddy DNS switch documented in `fragrance-site/OFFICIAL-LAUNCH.md`. The original sneaker source remains at the repository root for rollback.
+The perfume application lives in `fragrance-site/` and is now the official website at https://fabrevoie.com. The GoDaddy DNS switch and HTTPS activation are complete. The original sneaker source remains at the repository root for rollback.
 
 ## Current launch
 
-- Website: https://fabrevoie.vercel.app
-- Official domain: https://fabrevoie.com (attached to Vercel; DNS update still pending).
+- Official website: https://fabrevoie.com
+- Secondary deployment alias: https://fabrevoie.vercel.app
 - Production deployment: `dpl_6fY81SsQncu7PkjzrCbPCzoBm6qj`.
-- Source branch: `feat/official-waitlist-2026`.
+- Source merged into `main` through PR #1; `feat/official-waitlist-2026` is preserved.
 - First release: 1 October 2026.
 - Lavender/graphite Iris design, bold wide italic typography, original brand logos, native Blender campaign photography.
-- Styled popup and inline waitlist write consented emails to the connected free Neon database in Frankfurt. A disposable cloud signup and withdrawal passed, alongside 29 live deployment checks.
+- Styled popup and inline waitlist write consented emails to the connected free Neon database in Frankfurt. A disposable cloud signup and withdrawal passed on the official domain, alongside all 29 live deployment checks.
 - Old footwear navigation is removed. Vercel temporarily redirects the 14 original HTML routes, including shop and checkout, to the perfume homepage.
 
-The GoDaddy routing update is still required to replace what visitors see on the official domain. Nameservers and email records remain unchanged. Both official hostnames are already attached to Vercel, and www is configured to redirect to the apex. No GoDaddy access was available in this session.
+GoDaddy's authoritative nameservers and public resolvers confirm the new routing. The existing nameservers, both MX records and both apex TXT records are unchanged. Both official hostnames have a valid HTTPS certificate, and www redirects to the apex with HTTP 308. Domain activation was verified on 11 September 2026 (Europe/Paris); exact DNS and rollback records are in `fragrance-site/OFFICIAL-LAUNCH.md`.
 
 ## Original website and rollback
 
@@ -27,7 +27,7 @@ Original sneaker files are not deleted or overwritten. Restore the prior GoDaddy
 
 ## GitHub and Vercel
 
-Current GitHub CLI identity `puppetmaster666` has write access to `boogz666/fabrevoie.github.io`. The launch branch, original sneaker backup branch and rollback tag were pushed successfully on 11 September 2026. The original history is preserved; no force-push was used.
+Current GitHub CLI identity `puppetmaster666` has write access to `boogz666/fabrevoie.github.io`. The launch branch, original sneaker backup branch and rollback tag were pushed successfully on 11 September 2026. PR #1 was merged after both GitHub checks passed, at commit `048270ea6a3617ed6b2e47e49cac6775318e0d4c`. The original history and sneaker files are preserved; no force-push was used.
 
 The Vercel project is https://vercel.com/puppetmaster666s-projects/fabrevoie. Manual deployment from the authoring `website/` directory is currently used. When connecting this repository, set Root Directory to `fragrance-site`, framework Other, Node 22, build `npm run build`, output `dist`. Automatic Git deployments remain disabled until the correct repository is connected.
 
