@@ -295,3 +295,134 @@ $('#withdraw-signup').addEventListener('click', async () => {
     status(output, 'We couldn’t remove your signup just now. Please try again.', 'error');
   } finally { updateWithdrawal(); }
 });
+
+// Commerce is optional: the launch list remains usable if it is not enabled.
+const CHECKOUT_STORAGE_KEY = 'fabrevoie-checkout-request-v1';
+const checkoutForm = $('#checkout-form');
+const checkoutQuantity = $('#checkout-quantity');
+const checkoutSubmit = $('#checkout-submit');
+const checkoutStatus = $('#checkout-status');
+const checkoutLabel = $('span', checkoutSubmit);
+let commerceConfig;
+let checkoutContext;
+let checkoutBusy = false;
+
+function formatPrice(amount, currency) {
+  const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: currency.toUpperCase() });
+  const decimals = formatter.resolvedOptions().maximumFractionDigits;
+  return formatter.format(amount / (10 ** decimals));
+}
+function updateSubtotal() {
+  $('#checkout-subtotal').textContent = formatPrice(commerceConfig.product.unitAmount * Number(checkoutQuantity.value), commerceConfig.product.currency);
+}
+function validCommerce(config) {
+  return config?.ok === true && config.available === true && ['test', 'live'].includes(config.mode)
+    && config.product?.name === 'ULTRA MACHO' && Number.isSafeInteger(config.product.unitAmount) && config.product.unitAmount > 0
+    && /^[a-z]{3}$/i.test(config.product.currency) && Number.isInteger(config.quantityMax) && config.quantityMax >= 1 && config.quantityMax <= 99
+    && Number.isSafeInteger(config.product.unitAmount * config.quantityMax)
+    && typeof config.dispatchNotice === 'string' && config.dispatchNotice.trim().length > 0;
+}
+function checkoutRequestId(quantity) {
+  const signature = `${commerceConfig.mode}:${commerceConfig.product.currency}:${commerceConfig.product.unitAmount}`;
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if (!checkoutContext || !uuid.test(checkoutContext.requestId) || checkoutContext.quantity !== quantity || checkoutContext.signature !== signature) {
+    checkoutContext = { requestId: crypto.randomUUID(), quantity, signature };
+  }
+  try { sessionStorage.setItem(CHECKOUT_STORAGE_KEY, JSON.stringify(checkoutContext)); }
+  catch { /* Keep the same request ID in memory when browser storage is blocked. */ }
+  return checkoutContext.requestId;
+}
+function setCheckoutBusy(busy) {
+  checkoutBusy = busy;
+  checkoutSubmit.disabled = busy;
+  checkoutQuantity.disabled = busy;
+  checkoutForm.toggleAttribute('aria-busy', busy);
+  if (busy) checkoutForm.setAttribute('aria-busy', 'true');
+  checkoutLabel.textContent = busy ? 'Opening checkout' : 'Continue to checkout';
+}
+checkoutForm.addEventListener('focusin', stopAutoInvitation);
+checkoutQuantity.addEventListener('change', () => {
+  if (!commerceConfig) return;
+  updateSubtotal();
+  status(checkoutStatus, '');
+});
+checkoutForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (checkoutBusy) return;
+  if (!commerceConfig) { status(checkoutStatus, 'Checkout is not currently available.', 'error'); return; }
+  const quantity = Number(checkoutQuantity.value);
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > commerceConfig.quantityMax) {
+    status(checkoutStatus, `Choose a quantity from 1 to ${commerceConfig.quantityMax}.`, 'error');
+    return;
+  }
+  stopAutoInvitation();
+  setCheckoutBusy(true);
+  status(checkoutStatus, 'Preparing your secure checkout.');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  let redirecting = false;
+  try {
+    const response = await fetch('/api/checkout', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      cache: 'no-store', referrerPolicy: 'no-referrer', signal: controller.signal,
+      body: JSON.stringify({ quantity, requestId: checkoutRequestId(quantity) })
+    });
+    let result;
+    try { result = await response.json(); }
+    catch { throw new Error('Checkout is temporarily unavailable. Please try again.'); }
+    if (response.status === 409 && result?.code === 'CHECKOUT_RESTART_REQUIRED') {
+      checkoutContext = null;
+      try { sessionStorage.removeItem(CHECKOUT_STORAGE_KEY); } catch { /* In-memory context is already cleared. */ }
+      throw new Error('This checkout can no longer be used. Please try again to start a new one.');
+    }
+    if (!response.ok || result?.ok !== true) throw new Error(typeof result?.message === 'string' ? result.message : 'Checkout could not be opened. Please try again.');
+    let destination;
+    try { destination = new URL(result.url); }
+    catch { throw new Error('A secure checkout link could not be confirmed. Please try again.'); }
+    if (destination.protocol !== 'https:' || destination.hostname !== 'checkout.stripe.com' || destination.username || destination.password || destination.port) {
+      throw new Error('A secure checkout link could not be confirmed. Please try again.');
+    }
+    status(checkoutStatus, 'Opening secure checkout.');
+    location.assign(destination.href);
+    redirecting = true;
+  } catch (error) {
+    status(checkoutStatus, error.name === 'AbortError' || error instanceof TypeError
+      ? 'We could not open checkout. Check your connection and try again.' : error.message, 'error');
+  } finally {
+    clearTimeout(timeout);
+    if (!redirecting) setCheckoutBusy(false);
+  }
+});
+window.addEventListener('pageshow', event => {
+  if (event.persisted) { setCheckoutBusy(false); status(checkoutStatus, ''); }
+});
+async function loadCommerce() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch('/api/commerce', { credentials: 'same-origin', cache: 'no-store', signal: controller.signal });
+    if (!response.ok) return;
+    const config = await response.json();
+    if (!validCommerce(config)) return;
+    formatPrice(config.product.unitAmount, config.product.currency);
+    commerceConfig = config;
+    for (let quantity = 1; quantity <= config.quantityMax; quantity += 1) {
+      checkoutQuantity.add(new Option(String(quantity), String(quantity)));
+    }
+    try {
+      checkoutContext = JSON.parse(sessionStorage.getItem(CHECKOUT_STORAGE_KEY) || 'null');
+      if (Number.isInteger(checkoutContext?.quantity) && checkoutContext.quantity >= 1 && checkoutContext.quantity <= config.quantityMax) checkoutQuantity.value = String(checkoutContext.quantity);
+    } catch { checkoutContext = null; }
+    $('#product-unit-price').textContent = formatPrice(config.product.unitAmount, config.product.currency);
+    $('#commerce-dispatch').textContent = config.dispatchNotice;
+    if (typeof config.shippingSummary === 'string' && config.shippingSummary.trim()) {
+      $('#commerce-shipping').textContent = config.shippingSummary;
+      $('#commerce-shipping').hidden = false;
+    }
+    $('#commerce-test-notice').hidden = config.mode !== 'test';
+    updateSubtotal();
+    $('#purchase-panel').hidden = false;
+  } catch { /* An unavailable commerce service does not interrupt the waitlist. */ }
+  finally { clearTimeout(timeout); }
+}
+loadCommerce();

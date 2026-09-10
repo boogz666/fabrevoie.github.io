@@ -11,6 +11,8 @@ await mkdir(path.join(output, 'assets'), { recursive: true });
 let html = await readFile(path.join(input, 'index.html'), 'utf8');
 const css = await readFile(path.join(input, 'styles.css'), 'utf8');
 const js = await readFile(path.join(input, 'app.js'), 'utf8');
+const orderHtml = await readFile(path.join(input, 'order.html'), 'utf8');
+const orderJs = await readFile(path.join(input, 'order.js'), 'utf8');
 const pendingCloudStorage = process.env.VERCEL === '1' && (!process.env.DATABASE_URL || !process.env.RATE_LIMIT_SECRET);
 if (pendingCloudStorage) {
   html = html.replace('data-signup-available="true"', 'data-signup-available="false"');
@@ -29,12 +31,14 @@ if (configuredOrigin) {
   html = html.replace(/(<meta property="og:image" content=")(?=\/assets\/)/, `$1${origin}`);
   html = html.replace('  <title>', `  <link rel="canonical" href="${origin}/">\n  <meta property="og:url" content="${origin}/">\n  <meta name="twitter:card" content="summary_large_image">\n  <title>`);
 }
-const assets = new Set([...(html + css + js).matchAll(/\/assets\/([A-Za-z0-9._-]+)/g)].map(match => match[1]));
+const assets = new Set([...(html + css + js + orderHtml + orderJs).matchAll(/\/assets\/([A-Za-z0-9._-]+)/g)].map(match => match[1]));
 for (const file of assets) await copyFile(path.join(input, 'assets', file), path.join(output, 'assets', file));
 await writeFile(path.join(output, 'index.html'), html);
 await writeFile(path.join(output, 'styles.css'), css);
 await writeFile(path.join(output, 'app.js'), js);
-await writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\n${origin ? `Sitemap: ${origin}/sitemap.xml\n` : ''}`);
+await writeFile(path.join(output, 'order.html'), orderHtml);
+await writeFile(path.join(output, 'order.js'), orderJs);
+await writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /order.html\n${origin ? `Sitemap: ${origin}/sitemap.xml\n` : ''}`);
 if (origin) await writeFile(path.join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url></urlset>\n`);
 const bytes = (await Promise.all([...assets].map(file => stat(path.join(output, 'assets', file))))).reduce((total, file) => total + file.size, 0);
 console.log(`Built FABREVOIE: ${assets.size} referenced assets, ${(bytes / 1024 / 1024).toFixed(2)} MB. Private source files and databases excluded.`);

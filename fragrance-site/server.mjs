@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { domainToASCII } from 'node:url';
 import { createHash, randomBytes } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
+import { createCommerceHandlers } from './lib/commerce.mjs';
+import { createSqliteCommerceStorage } from './lib/commerce-storage.mjs';
 
 const SITE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const MAX_BODY_BYTES = 4096;
@@ -227,6 +229,8 @@ export async function createSiteServer(options = {}) {
   const allowedLocalNames = new Set(['localhost', '127.0.0.1', '[::1]']);
   if (!['0.0.0.0', '::'].includes(host)) allowedLocalNames.add(host.toLowerCase());
   let storage;
+  let commerceStorage;
+  let commerceHandlers;
   try {
     storage = await openStorage(dataDir, publicDir);
   } catch {
@@ -250,6 +254,11 @@ export async function createSiteServer(options = {}) {
       response.setHeader('Last-Modified', details.mtime.toUTCString());
       response.setHeader('ETag', tag);
       response.setHeader('Cache-Control', /\.(?:html|css|m?js)$/i.test(file) ? 'no-cache' : 'public, max-age=3600');
+      if (pathname === '/order.html') {
+        response.setHeader('Cache-Control', 'no-store');
+        response.setHeader('Referrer-Policy', 'no-referrer');
+        response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+      }
       if (request.headers['if-none-match'] === tag) {
         response.writeHead(304);
         response.end();
@@ -346,6 +355,26 @@ export async function createSiteServer(options = {}) {
         json(response, 200, { ok: true, message: SUCCESS_MESSAGE, ...(removalToken ? { removalToken } : {}) });
         return;
       }
+      const commerceRoute = {
+        '/api/commerce': 'commerce', '/api/checkout': 'checkout',
+        '/api/order-status': 'orderStatus', '/api/stripe-webhook': 'webhook',
+      }[pathname];
+      if (commerceRoute) {
+        // Keep local previews isolated from the cloud database in .env.local.
+        // The validated request origin supplies the ephemeral local test port.
+        if (!commerceHandlers) {
+          commerceHandlers = (async () => {
+            const env = { ...process.env, ...(options.commerceEnv || {}),
+              PUBLIC_SITE_URL: publicOrigin?.origin || requestOrigin.origin,
+              DATABASE_URL: '', VERCEL: '' };
+            if (storage) commerceStorage = await createSqliteCommerceStorage(dataDir);
+            return createCommerceHandlers({ env, storage: commerceStorage,
+              stripe: options.stripe, logger });
+          })().catch(error => { commerceHandlers = undefined; throw error; });
+        }
+        await (await commerceHandlers)[commerceRoute](request, response);
+        return;
+      }
       if (pathname.startsWith('/api/')) throw new RequestError(404, 'Page not found.');
       if (!['GET', 'HEAD'].includes(request.method)) {
         request.resume();
@@ -365,7 +394,7 @@ export async function createSiteServer(options = {}) {
   server.requestTimeout = 15000;
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
-  server.on('close', () => storage?.close());
+  server.on('close', () => { storage?.close(); commerceStorage?.close(); });
   return server;
 }
 

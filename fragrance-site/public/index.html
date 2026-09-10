@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F5F4F7">
+  <meta name="referrer" content="no-referrer">
   <meta name="description" content="Discover ULTRA MACHO, the first fragrance from FABREVOIE. NEVER APOLOGIZE. Join the list for the first release on 1 October 2026.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="FABREVOIE — ULTRA MACHO">
@@ -75,6 +76,18 @@
             <div><dt>THE FORMAT</dt><dd>100 ml</dd></div>
             <div><dt>THE FIRST RELEASE</dt><dd>1 October 2026</dd></div>
           </dl>
+          <section id="purchase-panel" class="purchase-panel" aria-label="Purchase ULTRA MACHO" hidden>
+            <p id="commerce-test-notice" class="commerce-test-notice" hidden>TEST CHECKOUT / NO LIVE PAYMENT</p>
+            <div class="purchase-price"><p class="eyebrow">ULTRA MACHO / 100 ML</p><p><span id="product-unit-price"></span><span class="price-unit"> per bottle</span></p></div>
+            <form id="checkout-form" action="/api/checkout" method="post">
+              <div class="purchase-controls"><label for="checkout-quantity">Quantity</label><select id="checkout-quantity" name="quantity" aria-describedby="checkout-status"></select><p><span class="eyebrow">PRODUCT SUBTOTAL</span><span id="checkout-subtotal"></span></p></div>
+              <p id="commerce-dispatch" class="purchase-notice"></p>
+              <p id="commerce-shipping" class="purchase-notice" hidden></p>
+              <button id="checkout-submit" type="submit" class="button button-dark"><span>Continue to checkout</span><span class="arrow" aria-hidden="true">&#8599;</span></button>
+              <p class="purchase-smallprint">Final total is shown at checkout.</p>
+              <p id="checkout-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
           <a data-open-signup aria-haspopup="dialog" aria-controls="waitlist-dialog" class="text-link" href="#first-release">Be there from the beginning <span class="arrow" aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -134,6 +147,6 @@
     <div class="waitlist-bottom"><span>NEVER APOLOGIZE.</span><img src="/assets/brand-monogram.svg" alt="" width="33" height="39"></div>
   </dialog>
   <dialog id="image-dialog" class="image-dialog" aria-labelledby="image-dialog-title"><div class="image-dialog-top"><p class="eyebrow" id="image-dialog-title">01 / THE BOTTLE</p><button type="button" class="close-button" data-close aria-label="Close photograph">×</button></div><img id="expanded-image" src="/assets/iris-studio.webp" alt="ULTRA MACHO bottle in detail." width="1200" height="1500"><div class="image-dialog-bottom"><button type="button" data-gallery-step="-1" aria-label="Previous bottle photograph">← <span>Previous</span></button><span class="eyebrow">ULTRA MACHO</span><button type="button" data-gallery-step="1" aria-label="Next bottle photograph"><span>Next</span> →</button></div></dialog>
-  <dialog id="privacy-dialog" class="privacy-dialog" aria-labelledby="privacy-title"><button type="button" class="close-button" data-close aria-label="Close privacy information">×</button><p class="eyebrow">FABREVOIE / YOUR DETAILS</p><h2 id="privacy-title">YOUR<br>DETAILS.</h2><p>When you join, we save your email address, the date and your consent to receive news about the ULTRA MACHO release. Signing up is free and does not place an order or reserve a bottle.</p><p>Your address is used for this release list. This website has no advertising trackers or third-party analytics.</p><p>For product enquiries or help with your details, contact <a href="mailto:support@fabrevoie.com">support@fabrevoie.com</a>.</p><p>This browser remembers a dismissed invitation for seven days. Joining the list also stops automatic invitations here.</p><p>This browser can keep a private withdrawal key so you can remove the signup made here. Use the button below to withdraw those saved signups.</p><button type="button" id="withdraw-signup" class="button button-dark">Withdraw my signup <span aria-hidden="true">↗</span></button><p id="withdraw-status" class="form-status" role="status" aria-live="polite"></p><p class="privacy-note">Keep the private withdrawal link shown after your first signup. It lets you manage your entry on another device or after clearing browser storage.</p></dialog>
+  <dialog id="privacy-dialog" class="privacy-dialog" aria-labelledby="privacy-title"><button type="button" class="close-button" data-close aria-label="Close privacy information">×</button><p class="eyebrow">FABREVOIE / YOUR DETAILS</p><h2 id="privacy-title">YOUR<br>DETAILS.</h2><p>When you join, we save your email address, the date and your consent to receive news about the ULTRA MACHO release. Signing up is free and does not place an order or reserve a bottle.</p><p>Your address is used for this release list. This website has no advertising trackers or third-party analytics.</p><p>If you place an order, Stripe handles your payment. FABREVOIE keeps the order reference, payment status, contact details and delivery address needed to manage it. Card details are handled by Stripe. A purchase does not add you to the release mailing list.</p><p>Your browser can keep a private order link for this tab so you can return to your order status. Keep that link private.</p><p>For product enquiries or help with your details, contact <a href="mailto:support@fabrevoie.com">support@fabrevoie.com</a>.</p><p>This browser remembers a dismissed invitation for seven days. Joining the list also stops automatic invitations here.</p><p>This browser can keep a private withdrawal key so you can remove the signup made here. Use the button below to withdraw those saved signups.</p><button type="button" id="withdraw-signup" class="button button-dark">Withdraw my signup <span aria-hidden="true">↗</span></button><p id="withdraw-status" class="form-status" role="status" aria-live="polite"></p><p class="privacy-note">Keep the private withdrawal link shown after your first signup. It lets you manage your entry on another device or after clearing browser storage.</p></dialog>
 </body>
 </html>

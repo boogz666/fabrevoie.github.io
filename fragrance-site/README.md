@@ -45,6 +45,8 @@ Cloud mode requires `DATABASE_URL` and never falls back to local storage. The CS
 
 ## Edit the website
 
+Stripe Payments and Tax are implemented behind a disabled-by-default commerce switch. The live waitlist remains available while retail price, shipping and tax setup are finalized. See [STRIPE-OPERATIONS.md](STRIPE-OPERATIONS.md) for configuration, private order reports and launch steps, and [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md) for the tailored integration plan. No live payments are enabled by the sandbox credentials.
+
 | File | Purpose |
 | --- | --- |
 | `public/index.html` | Product and campaign content, release date, gallery, contact and signup |
