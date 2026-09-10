@@ -13,6 +13,8 @@ The website uses Stripe-hosted Checkout for one-time ULTRA MACHO purchases, with
 
 Implementation and scope are described in [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md).
 
+Production and real sandbox webhook delivery were verified on 11 September 2026. [STRIPE-VERIFICATION.md](STRIPE-VERIFICATION.md) distinguishes the passing checks from paid Checkout and Tax calculation, which are still pending.
+
 ## Private commands
 
 From this directory, inspect local sandbox configuration without printing credentials or customer data:

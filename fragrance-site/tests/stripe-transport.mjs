@@ -54,8 +54,9 @@ try {
       if (current.status === 'open') await stripe.checkout.sessions.expire(session.id);
       const price = current.line_items?.data?.[0]?.price;
       const product = price?.product;
-      if (price?.id) await stripe.prices.update(price.id,{active:false});
-      if (product?.id) await stripe.products.update(product.id,{active:false});
+      // Inline Checkout catalog objects are already inactive and cannot be edited.
+      if (price?.id && price.active) await stripe.prices.update(price.id,{active:false});
+      if (product?.id && product.active) await stripe.products.update(product.id,{active:false});
       report.fixtureArchived = true;
     } catch { report.fixtureArchived=false;console.error('Sandbox QA fixture cleanup needs review.');process.exitCode=1; }
   }
