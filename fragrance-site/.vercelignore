@@ -1,0 +1,17 @@
+.git/
+.env*
+!.env.example
+data/
+tests/
+node_modules/
+*.log
+*.pid
+*.md
+scripts/prepare-assets.py
+scripts/export-signups.mjs
+start-preview.ps1
+server.mjs
+public/assets/archive-src.png
+public/assets/asset-manifest.json
+__pycache__/
+*.pyc

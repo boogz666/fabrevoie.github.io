@@ -1,0 +1,11 @@
+node_modules/
+data/
+.env*
+!.env.example
+.vercel/
+dist/
+__pycache__/
+*.pyc
+*.log
+*.pid
+tests/artifacts/
