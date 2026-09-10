@@ -10,6 +10,8 @@ node_modules/
 scripts/prepare-assets.py
 scripts/prepare-iris-assets.py
 scripts/export-signups.mjs
+scripts/commerce-orders.mjs
+scripts/stripe-readiness.mjs
 start-preview.ps1
 server.mjs
 public/assets/archive-src.png

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F5F4F7">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Your order — FABREVOIE</title>
+  <link rel="icon" href="/assets/brand-monogram.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/helvetica-black-extended-oblique.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/founders-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/order.js" defer></script>
+</head>
+<body class="order-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><a class="brand" href="/" aria-label="FABREVOIE home"><img src="/assets/brand-wordmark.png" alt="FABREVOIE" width="1994" height="537"></a><a class="order-return" href="/#fragrance">The fragrance <span aria-hidden="true">&#8599;</span></a></header>
+  <main id="main" class="order-shell">
+    <div class="order-topline eyebrow"><span>FABREVOIE / ULTRA MACHO</span><span>YOUR PRIVATE ORDER PAGE</span></div>
+    <div class="order-layout">
+      <section class="order-copy" aria-labelledby="order-title">
+        <p id="order-test-notice" class="commerce-test-notice" hidden>TEST ORDER / NO LIVE PAYMENT</p>
+        <h1 id="order-title">YOUR<br>ORDER.</h1>
+        <div id="order-status" class="order-status" role="status" aria-live="polite"><p id="order-state-label" class="eyebrow">CHECKING STATUS</p><p id="order-state-message">Checking your order with FABREVOIE.</p></div>
+        <dl id="order-details" class="product-facts" hidden>
+          <div><dt>ORDER REFERENCE</dt><dd id="order-reference"></dd></div>
+          <div><dt>THE FRAGRANCE</dt><dd>ULTRA MACHO</dd></div>
+          <div><dt>QUANTITY</dt><dd id="order-quantity"></dd></div>
+          <div><dt id="order-total-label">ORDER TOTAL</dt><dd id="order-total"></dd></div>
+        </dl>
+        <p id="order-dispatch" class="purchase-notice" hidden></p>
+        <p id="order-poll-note" class="order-poll-note" aria-live="polite"></p>
+        <button id="order-refresh" class="button button-dark" type="button" hidden>Check status again <span class="arrow" aria-hidden="true">&#8599;</span></button>
+        <p class="order-private-link"><a id="order-private-link" hidden>Keep your private order link</a></p>
+        <p class="order-help">Need help? <a href="mailto:support@fabrevoie.com">support@fabrevoie.com</a><span id="order-help-reference" hidden>Include your order reference when contacting us. Keep your private link to yourself.</span></p>
+        <noscript><p class="order-help">Enable JavaScript to check your order securely. No payment status is confirmed on this page without a response from FABREVOIE.</p></noscript>
+      </section>
+      <figure class="order-product"><img src="/assets/iris-studio.webp" alt="ULTRA MACHO with lavender liquid, dark lettering and a rectangular silver cap." width="1200" height="1500"><figcaption><span>NEVER APOLOGIZE.</span><img src="/assets/brand-monogram.svg" alt="" width="33" height="39"></figcaption></figure>
+    </div>
+  </main>
+  <footer class="order-footer"><span>© 2026 FABREVOIE</span><a href="/">Back to FABREVOIE <span aria-hidden="true">&#8599;</span></a></footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 name: Fragrance website checks
 on:
   push:
-    branches: [main, feat/ultra-macho-launch, feat/iris-editorial-2026, feat/official-waitlist-2026]
+    branches: [main, feat/ultra-macho-launch, feat/iris-editorial-2026, feat/official-waitlist-2026, feat/stripe-payments-tax-2026]
     paths: ['fragrance-site/**', '.github/workflows/fragrance-checks.yml']
   pull_request:
     paths: ['fragrance-site/**', '.github/workflows/fragrance-checks.yml']
@@ -26,4 +26,5 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: npm run test:popup
+      - run: npm run test:commerce-browser
       - run: node tests/build-preview.mjs

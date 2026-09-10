@@ -7,7 +7,11 @@
   "regions": ["cdg1"],
   "git": { "deploymentEnabled": false },
   "functions": {
-    "api/signup.js": { "maxDuration": 15 }
+    "api/signup.js": { "maxDuration": 15 },
+    "api/commerce.js": { "maxDuration": 30 },
+    "api/checkout.js": { "maxDuration": 60 },
+    "api/order-status.js": { "maxDuration": 15 },
+    "api/stripe-webhook.js": { "maxDuration": 60 }
   },
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": false },
@@ -39,6 +43,14 @@
     {
       "source": "/api/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
+      "source": "/order.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
     },
     {
       "source": "/assets/(.*)",

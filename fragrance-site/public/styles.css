@@ -4,6 +4,7 @@
 @font-face{font-family:Founders;src:url('/assets/founders-bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 :root{--graphite:#17161B;--chalk:#F5F4F7;--lavender:#C4B2EC;--mist:#E5DFF0;--silver:#B8B8C0;--muted:#6E6975;--line:#D0CCD6;--display:HelveticaDisplay,Arial,sans-serif;--sans:Founders,Arial,sans-serif;--gutter:clamp(24px,4.45vw,88px)}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:30px}
 body{margin:0;background:var(--chalk);color:var(--graphite);font-family:var(--sans);font-size:18px;font-weight:400;-webkit-font-smoothing:antialiased}
 body.dialog-open{overflow:hidden}
@@ -79,6 +80,53 @@ a:hover .arrow,button:hover .arrow{transform:translate(2px,-2px)}
 .product-facts dt{font-size:9px;font-weight:700;letter-spacing:.07em;line-height:1.5;color:var(--muted)}
 .product-facts dd{margin:0;font-size:16px;line-height:1.4;text-align:right}
 .text-link{display:inline-flex;align-items:center;justify-content:space-between;gap:34px;min-height:44px;padding-bottom:5px;border-bottom:1px solid var(--graphite);font-size:15px;font-weight:500}
+.purchase-panel{padding:25px;margin:0 0 23px;background:var(--mist);border:1px solid var(--line)}
+.commerce-test-notice{border:1px solid var(--graphite);padding:10px 12px 8px;margin-bottom:22px;font-size:11px;font-weight:700;letter-spacing:.045em;line-height:1.4;background:var(--lavender)}
+.purchase-price>.eyebrow{font-size:10px}
+.purchase-price>p:last-child{margin-top:7px;font-size:31px;font-weight:700;line-height:1.2}
+.price-unit{font-size:14px;font-weight:400;white-space:nowrap}
+.purchase-controls{display:flex;align-items:center;gap:13px;padding:21px 0 20px}
+.purchase-controls>label{font-size:15px}
+.purchase-controls>select{font:500 17px var(--sans);background:var(--chalk);border:1px solid #938A9F;border-radius:0;min-width:65px;min-height:44px;padding:9px 10px 7px;color:var(--graphite)}
+.purchase-controls>p{margin-left:auto;text-align:right}
+.purchase-controls .eyebrow{display:block;font-size:8px;letter-spacing:.045em;margin-bottom:5px}
+#checkout-subtotal{display:block;font-size:19px;font-weight:500}
+.purchase-notice{font-size:15px;line-height:1.45;color:#494550;overflow-wrap:anywhere}
+.purchase-notice+.purchase-notice{margin-top:7px}
+.purchase-panel .button{width:100%;margin-top:20px;padding-left:17px;padding-right:17px;gap:16px;font-size:12px}
+.purchase-smallprint{font-size:12px;line-height:1.45;color:#494550;margin-top:11px}
+.purchase-panel .form-status:empty{display:none}
+.purchase-panel .form-status{margin-bottom:0}
+.order-page{min-height:100svh;display:flex;flex-direction:column}
+.order-return{margin-left:auto;font-size:13px;font-weight:700;text-transform:uppercase;display:inline-flex;align-items:center;gap:18px;min-height:44px}
+.order-shell{width:min(1280px,100%);padding:39px var(--gutter) 65px;margin:0 auto;flex:1}
+.order-topline{display:flex;justify-content:space-between;gap:24px;padding-bottom:23px;border-bottom:1px solid var(--line);font-size:9px}
+.order-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(42px,6vw,90px);padding-top:48px;align-items:start}
+.order-copy{min-width:0}
+.order-copy h1{font-size:clamp(46px,5.2vw,75px);line-height:1.03;margin-bottom:29px}
+.order-copy>.commerce-test-notice{display:inline-block}
+.order-status{border-left:3px solid var(--lavender);padding:2px 0 2px 18px}
+.order-status .eyebrow{font-size:10px;margin-bottom:9px}
+#order-state-message{font-size:19px;line-height:1.4;max-width:430px}
+.order-status[data-state=error]{border-left-color:#8E4F69}
+.order-status[data-state=error] .eyebrow{color:#722348}
+.order-copy .product-facts{margin:27px 0 22px}
+.order-copy .product-facts dd{overflow-wrap:anywhere}
+.order-copy .product-facts dt{flex-shrink:0}
+.order-poll-note{font-size:13px;line-height:1.5;color:var(--muted);margin:18px 0 0}
+.order-poll-note:empty{display:none}
+#order-refresh{margin-top:20px;font-size:12px}
+.order-private-link{font-size:14px;margin-top:23px}
+.order-private-link:has(a[hidden]){display:none}
+.order-private-link a,.order-help a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.order-help{font-size:14px;line-height:1.5;color:#494550;margin-top:22px}
+.order-help>span{display:block;margin-top:8px;font-size:12px}
+.order-product{background:var(--mist);position:relative}
+.order-product>img{width:100%;height:auto;object-fit:contain}
+.order-product figcaption{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 24px;font-size:10px;font-weight:700;letter-spacing:.06em}
+.order-product figcaption>img{width:24px;height:29px}
+.order-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px var(--gutter);background:var(--graphite);color:var(--chalk);font-size:11px}
+.order-footer>a{display:inline-flex;align-items:center;gap:18px;min-height:44px;font-size:13px}
 .campaign{background:var(--graphite);color:var(--chalk);padding-top:60px;padding-bottom:68px}
 .campaign-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:35px;margin-bottom:38px}
 .campaign-intro .eyebrow{color:var(--lavender)}
@@ -223,6 +271,26 @@ dialog::backdrop{background:rgba(23,22,27,.76);backdrop-filter:blur(5px)}
   .product-facts dt{font-size:8px}
   .product-facts dd{font-size:15px}
   .text-link{font-size:14px;gap:29px}
+  .purchase-panel{padding:21px 19px}
+  .purchase-price>p:last-child{font-size:29px}
+  .purchase-controls{gap:10px}
+  .purchase-controls>label{font-size:14px}
+  .purchase-controls>select{min-width:57px}
+  .order-page .site-header{padding-left:23px;padding-right:23px}
+  .order-page .brand{width:135px}
+  .order-return{font-size:10px;gap:10px}
+  .order-shell{padding:27px 23px 43px}
+  .order-topline{font-size:8px;padding-bottom:19px}
+  .order-topline>span:last-child{display:none}
+  .order-layout{grid-template-columns:1fr;gap:36px;padding-top:32px}
+  .order-copy h1{font-size:clamp(43px,12.3vw,72px);margin-bottom:25px}
+  #order-state-message{font-size:18px;max-width:none}
+  .order-copy .product-facts dt{font-size:9px}
+  .order-copy .product-facts dd{font-size:16px}
+  .order-product{max-width:470px;width:100%}
+  .order-product figcaption{padding:17px 20px}
+  .order-footer{padding:17px 23px;font-size:9px}
+  .order-footer>a{font-size:11px;gap:12px}
   .campaign{padding-top:40px;padding-bottom:47px}
   .campaign-intro{display:block;margin-bottom:28px}
   .campaign-intro .eyebrow{font-size:9px}
