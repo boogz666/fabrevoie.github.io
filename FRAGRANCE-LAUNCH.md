@@ -18,8 +18,8 @@ The GoDaddy routing update is still required to replace what visitors see on the
 ## Original website and rollback
 
 - Original revision: `e8652905984dcb8fe8a4033d4fd72d1fb983f89c`.
-- Preserved local branch: `backup/pre-fragrance-2026-09-10`.
-- Preserved local tag: `pre-fragrance-2026-09-10`.
+- Preserved branch, local and on GitHub: `backup/pre-fragrance-2026-09-10`.
+- Preserved tag, local and on GitHub: `pre-fragrance-2026-09-10`.
 - Previous fragrance branches: `feat/ultra-macho-launch`, `feat/iris-editorial-2026`.
 - Previous perfume deployment: `dpl_5UJMrsfasANkmDUQqf4PKjY5xAUV`.
 
@@ -27,7 +27,7 @@ Original sneaker files are not deleted or overwritten. Restore the prior GoDaddy
 
 ## GitHub and Vercel
 
-Current GitHub CLI identity `puppetmaster666` has read-only access to `boogz666/fabrevoie.github.io`. Source changes and backups are complete locally; publishing this branch, backup branch and tag requires write access or authentication as `boogz666`. No push has succeeded for this target, and no history was force-pushed.
+Current GitHub CLI identity `puppetmaster666` has write access to `boogz666/fabrevoie.github.io`. The launch branch, original sneaker backup branch and rollback tag were pushed successfully on 11 September 2026. The original history is preserved; no force-push was used.
 
 The Vercel project is https://vercel.com/puppetmaster666s-projects/fabrevoie. Manual deployment from the authoring `website/` directory is currently used. When connecting this repository, set Root Directory to `fragrance-site`, framework Other, Node 22, build `npm run build`, output `dist`. Automatic Git deployments remain disabled until the correct repository is connected.
 

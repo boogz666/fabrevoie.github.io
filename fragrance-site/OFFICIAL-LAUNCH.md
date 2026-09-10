@@ -34,7 +34,7 @@ Deployment `dpl_6fY81SsQncu7PkjzrCbPCzoBm6qj` is live at https://fabrevoie.verce
 
 The perfume navigation no longer links to sneakers. Vercel temporarily redirects all 14 original root HTML page routes to `/`, including the old shop, products and checkout URLs. It does not host the sneaker source or Shopify checkout links.
 
-Original sneaker revision: `e8652905984dcb8fe8a4033d4fd72d1fb983f89c`. Local branch `backup/pre-fragrance-2026-09-10` and tag `pre-fragrance-2026-09-10` preserve it, alongside the original root files in `brand-site-review`. The new app is packaged under `fragrance-site/` on `feat/official-waitlist-2026`. GitHub write access is still required to publish that branch; the connected account currently has read-only access to `boogz666/fabrevoie.github.io`.
+Original sneaker revision: `e8652905984dcb8fe8a4033d4fd72d1fb983f89c`. Branch `backup/pre-fragrance-2026-09-10` and tag `pre-fragrance-2026-09-10` preserve it locally and on GitHub, alongside the original root files in `brand-site-review`. The new app is packaged under `fragrance-site/` on the published `feat/official-waitlist-2026` branch. The connected `puppetmaster666` account now has write access to `boogz666/fabrevoie.github.io`; the launch branch and both rollback references were pushed successfully on 11 September 2026.
 
 To restore the sneaker storefront, restore the previous apex A records and `www` CNAME above at GoDaddy. The original GitHub Pages source and CNAME have not been deleted. To undo only the new perfume popup, roll Vercel back to `dpl_5UJMrsfasANkmDUQqf4PKjY5xAUV`. Preserve database records during either rollback.
 
