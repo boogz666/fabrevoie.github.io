@@ -7,9 +7,10 @@ The perfume application lives in `fragrance-site/`. The existing sneaker website
 - Original revision: `e8652905984dcb8fe8a4033d4fd72d1fb983f89c`.
 - Preserved branch: `backup/pre-fragrance-2026-09-10`.
 - Preserved tag: `pre-fragrance-2026-09-10`.
-- Fragrance work: `feat/ultra-macho-launch`.
+- Initial fragrance design: `feat/ultra-macho-launch`.
+- Iris editorial update: `feat/iris-editorial-2026`.
 
-The fragrance commit only adds the application, this document and its CI workflow. Original website files are not deleted or modified. The backup branch and tag currently exist locally and must be pushed with the feature branch when GitHub write access is available. Never force-push or replace the original history.
+The initial fragrance commit only adds the application, this document and its CI workflow. The Iris revision updates the fragrance application with lavender, cool white and graphite, wide italic display typography inspired by the sneaker site, and two new native Blender campaign advertisements. Original sneaker website files are not deleted or modified. The backup branch and tag currently exist locally and must be pushed with the feature branch when GitHub write access is available. Never force-push or replace the original history.
 
 If fragrance changes have been merged later, use `git revert` on the integration commit to undo that addition while retaining history. A Vercel deployment can also be rolled back to its previous deployment independently of GitHub Pages. Review the deployment and DNS destination before any root-domain switch.
 
@@ -49,4 +50,4 @@ No automatic emails or live payments are enabled. Stripe Checkout is the intende
 
 ## Asset sources
 
-The included assets are the page's optimized images, original brand graphics and local webfonts. `asset-notes.md` documents provenance. Raw Blender and campaign sources remain in the original authoring workspace; the optional `scripts/prepare-assets.py` needs that workspace to regenerate them. No raw campaign archives, databases, environment credentials or bottle design experiments are published with this application.
+The included assets are the page's optimized Iris images, original brand graphics and local webfonts. `fragrance-site/asset-notes.md` documents provenance. Raw Blender and campaign sources remain in the original authoring workspace; the optional `scripts/prepare-iris-assets.py` needs that workspace to regenerate them. No raw campaign archives, databases, environment credentials or bottle design experiments are published with this application.

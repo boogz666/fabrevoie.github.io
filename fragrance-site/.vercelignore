@@ -8,10 +8,12 @@ node_modules/
 *.pid
 *.md
 scripts/prepare-assets.py
+scripts/prepare-iris-assets.py
 scripts/export-signups.mjs
 start-preview.ps1
 server.mjs
 public/assets/archive-src.png
 public/assets/asset-manifest.json
+public/assets/iris-asset-manifest.json
 __pycache__/
 *.pyc

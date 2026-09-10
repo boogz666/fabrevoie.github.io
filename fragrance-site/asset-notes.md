@@ -1,52 +1,34 @@
-# Website imagery, identity and typography
+# Iris campaign assets
 
-Prepared from existing approved project assets. Source files remain untouched.
+The current website uses the approved original rectangular Iris flask with its new rectangular silver cap. The cap has subtly convex side faces and defined corners. Product text, liquid, glass, silver finish and the black/silver side plaque are native Blender geometry and materials.
 
-## Delivery assets
+## Images
 
-All files are in `public/assets/`. The complete machine-readable source, SHA-256 and dimensions record is `public/assets/asset-manifest.json`.
-
-| Asset | Pixels | Approx. size | Source / role |
-| --- | --- | --- | --- |
-| `hero-stone.webp` | 1086 × 1448 | 273 KB | `campaign_v11/G01_STONE_PLATE.png`; warm sandstone campaign hero |
-| `campaign-water.webp` | 1086 × 1448 | 270 KB | `campaign_v11/G04_WATER_PLATE.png`; sunset water campaign image |
-| `bottle-studio.webp` | 1600 × 2000 | 77 KB | `shoot_v6/01_SILVER_HERO.png`; canonical bottle three-quarter studio view |
-| `bottle-front.webp` | 1600 × 2000 | 60 KB | `shoot_v6/02_FRONT_PORTRAIT.png`; canonical bottle straight front |
-| `bottle-side.webp` | 1280 × 1600 | 44 KB | `shoot_v6/03_SIDE_SIGNATURE.png`; canonical silver-on-black side label |
-| `detail-glass.webp` | 1600 × 2000 | 68 KB | `shoot_v6/05_CAP_DETAIL.png`; silver cap and glass shoulder close-up |
-| `smoked-glass.webp` | 1800 × 2250 | 166 KB | `campaign_v11/B05_SMOKED_GLASS.png`; native bronze glass set |
-| `brand-wordmark.png` | 1994 × 537 | 44 KB | Original `FNAME.png`, lossless transparent margin crop |
-| `brand-wordmark.svg` | 1994 × 537 | 59 KB | SVG wrapper embedding the exact cropped PNG; not redrawn vector type |
-| `brand-monogram.png` | 1337 × 1568 | 29 KB | Original `FF LETTER LOGO11.png` alpha, recoloured black |
-| `brand-monogram.svg` | 1337 × 1568 | 38 KB | SVG wrapper embedding the exact black PNG silhouette; not a trace |
-
-Every photograph also has a `-720.webp` variant, 720 pixels wide, maintaining the full source aspect ratio. Studio/detail variants are 22–30 KB; stone/water are 150–152 KB. The source photograph is resized with Lanczos and encoded as WebP quality 93. No colour grading, retouching, image generation, or composition changes were applied.
-
-### Composition guidance
-
-- **Hero stone:** retain the full 3:4 portrait for the desktop split hero. Bottle centre is approximately 59% horizontal / 48% vertical. Its cap begins at 11% image height and base ends at 83%; avoid aggressive landscape cropping. `object-position: 59% 48%` is a useful fallback for narrower containers.
-- **Water:** bottle centre is approximately 50% / 47%. Use the full portrait or a modest centre crop.
-- **Studio/front:** centred object, approximately 52% / 50% and 50% / 51%. The native front render is the authoritative readable product view.
-- **Cap detail:** focal point approximately 52% / 54%; a tighter portrait macro, not a full bottle view.
-- **Smoked glass:** bottle is to the right at approximately 66% / 54%. The upper left is useful negative space for an optional editorial treatment.
-
-The stone and water plates are generated campaign imagery. The V6 studio shots and V11 smoked-glass/desk images are native Blender renders. None should be described as photographs proving physical manufacture. Generated campaign microlettering may vary; use the native studio/front/side images when small packaging copy needs to be authoritative. All imagery depicts the short round silver cap and elongated body, with pale amber liquid.
-
-## Font delivery
-
-| File | CSS weight/style | Installed source |
+| Website asset | Source | Role |
 | --- | --- | --- |
-| `garamond-display.woff2` | 300 / normal | `GaramondPremrPro-LtDisp.otf` |
-| `garamond-display-italic.woff2` | 300 / italic | `GaramondPremrPro-LtItDisp.otf` |
-| `founders-regular.woff2` | 400 / normal | `FoundersGrotesk-Regular.otf` |
-| `founders-medium.woff2` | 500 / normal | `FoundersGrotesk-Medium.otf` |
+| `iris-hero.webp` | `campaign_iris_v1/01_HERO_WIDE.png` | Wide native editorial hero; bottle right, left space for live headings |
+| `iris-campaign-01.webp` | `campaign_iris_v1/artwork/01_MAKE_AN_IMPRESSION.png` | English advertisement over the new stone photograph |
+| `iris-campaign-02.webp` | `campaign_iris_v1/artwork/02_A_SIGNATURE_OF_YOUR_OWN.png` | English advertisement over the new sculpted-paper photograph |
+| `iris-studio.webp` | `iris_cap_v2/IRIS_RECTANGULAR_CAP_HERO.png` | Exact approved studio bottle, 1200 x 1500 |
+| `iris-detail.webp` | `iris_cap_v2/IRIS_RECTANGULAR_CAP_DETAIL.png` | In-focus silver cap and glass close-up, 1000 x 1000 |
+| `iris-side.webp` | `campaign_iris_v1/04_SIDE_SIGNATURE.png` | Native view of the side label |
 
-The supplied installed fonts were subset with fontTools to Latin, extended Latin, common typographic punctuation, the euro symbol and arrows. OpenType layout features and relevant naming information are preserved. No trial fonts or Druk font files are embedded. The Druk treatment remains inside existing product imagery and original brand artwork.
+Every image has a whole-frame `-720.webp` version. `scripts/prepare-iris-assets.py` preserves the source composition and RGB colour, resizes using Lanczos and encodes WebP at quality 90. The script does not repaint, crop, recolour or regenerate the bottle. Exact dimensions, bytes, source hashes and output hashes are recorded in `public/assets/iris-asset-manifest.json`.
 
-Font OS/2 embedding flag is 8 (editable embedding) for all four sources; these metadata flags do not establish a commercial webfont licence. Local preview uses the user's authorized font collection. A public deployment should use the corresponding licensed webfont rights/files.
+The two advertisement compositions are editable HTML/CSS in `campaign_iris_v1/artwork/`, exported through Chromium. Their typography is rendered from the actual local fonts, and their logos reuse the supplied artwork. All current photographs are native Blender renders, with no image generation in this campaign.
 
-## Reproduction
+## Palette and typography
 
-`scripts/prepare-assets.py` regenerates these website assets from the unchanged project sources using Pillow, fontTools and brotli. Its output is restricted to the asset names listed here and their manifest. It does not modify other campaign assets. The production build includes only the assets referenced by the current page.
+| Colour | Value |
+| --- | --- |
+| Graphite | `#17161B` |
+| Chalk white | `#F5F4F7` |
+| Lavender | `#C4B2EC` |
+| Lilac mist | `#E5DFF0` |
+| Silver grey | `#B8B8C0` |
 
-Logo alpha was checked pixel-for-pixel against the original source bounds. The wordmark keeps every original RGBA pixel; the monogram keeps every original alpha value while setting RGB to black. WOFF2 files were reopened successfully and validated for the product heading `ULTRA MACHO`, supporting slogan `NEVER APOLOGIZE.` and website punctuation.
+Headings use `helvetica-black-extended-oblique.woff2`, exported from the user's installed `HelveticaNeueLTPro-BlkExO.otf`, at 900 italic. Founders Grotesk supplies regular, medium and bold text. The broad italic uppercase treatment follows the sneaker site's Druk Wide direction. The actual trial Druk and personal-use SuperRich files are not embedded in this website.
+
+The existing FNAME wordmark and FF monogram are unchanged. The FF artwork appears in graphite/black or reversed for contrast, and remains a small corner signature on the advertisements. NEVER APOLOGIZE remains a secondary slogan.
+
+`prepare-iris-assets.py` exports the added font files as WOFF2 and records their original source hashes. User-installed originals, earlier campaigns, preceding colour studies and the original sneaker site are preserved. The production build includes only assets referenced by the current HTML/CSS/JavaScript; source inventories stay unpublished.

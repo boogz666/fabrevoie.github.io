@@ -46,7 +46,7 @@ try {
   check(await page.title() === 'FABREVOIE — ULTRA MACHO · NEVER APOLOGIZE.', 'Correct brand and headline in title');
   check((await page.locator('h1').innerText()).replace(/\s+/g, ' ').trim() === 'ULTRA MACHO', 'Product name is the primary heading');
   check(await page.locator('.hero-slogan').innerText() === 'NEVER APOLOGIZE.', 'Approved slogan supports the product heading');
-  check(await page.evaluate(() => document.fonts.check('300 100px Garamond') && document.fonts.check('400 16px Founders')), 'Local Garamond and Founders fonts load');
+  check(await page.evaluate(() => document.fonts.check('italic 900 100px HelveticaDisplay') && document.fonts.check('400 16px Founders') && getComputedStyle(document.querySelector('h1')).fontFamily.includes('HelveticaDisplay')), 'Local bold extended display and Founders fonts load and apply');
   check(await page.locator('canvas, model-viewer, iframe').count() === 0, 'No 3D viewer or embedded third-party content');
   const broken = await page.evaluate(() => [...document.images].filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src));
   check(broken.length === 0, 'All product and brand images load');
@@ -66,11 +66,11 @@ try {
   report.accessibility.push({ viewport: 'desktop', violations: desktopAxe.violations });
 
   await page.getByRole('button', { name: '02 The silver', exact: false }).click();
-  check((await page.locator('#product-image').getAttribute('src')).includes('detail-glass'), 'Product detail gallery changes image');
+  check((await page.locator('#product-image').getAttribute('src')).includes('iris-detail'), 'Product detail gallery changes to the approved Iris silver cap');
   await page.locator('.product-image-button').click();
   check(await page.locator('#image-dialog').evaluate(element => element.open), 'Product photograph expands into accessible dialog');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#expanded-image').getAttribute('src')).includes('bottle-front'), 'Gallery keyboard arrows work');
+  check((await page.locator('#expanded-image').getAttribute('src')).includes('iris-side'), 'Gallery keyboard arrows show the Iris signature view');
   await page.keyboard.press('Escape');
   check(!(await page.locator('#image-dialog').evaluate(element => element.open)), 'Escape closes the gallery');
   await page.locator('#signup-email').fill('first-reader@example.test');

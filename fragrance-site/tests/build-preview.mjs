@@ -35,7 +35,7 @@ const report = { passed: false, assets: files.length, signup: 'disabled: no DATA
 try {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
-  for (const width of [1440, 390]) {
+  for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);

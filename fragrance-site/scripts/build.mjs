@@ -25,7 +25,7 @@ if (configuredOrigin) {
   const parsed = new URL(configuredOrigin.startsWith('https://') ? configuredOrigin : `https://${configuredOrigin}`);
   if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.search || parsed.hash || parsed.pathname !== '/') throw new Error('PUBLIC_SITE_URL must be an HTTPS origin.');
   origin = parsed.origin;
-  html = html.replace('content="/assets/hero-stone.webp"', `content="${origin}/assets/hero-stone.webp"`);
+  html = html.replace(/(<meta property="og:image" content=")(?=\/assets\/)/, `$1${origin}`);
   html = html.replace('  <title>', `  <link rel="canonical" href="${origin}/">\n  <meta property="og:url" content="${origin}/">\n  <meta name="twitter:card" content="summary_large_image">\n  <title>`);
 }
 const assets = new Set([...(html + css + js).matchAll(/\/assets\/([A-Za-z0-9._-]+)/g)].map(match => match[1]));

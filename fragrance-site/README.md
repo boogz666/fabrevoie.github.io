@@ -1,8 +1,8 @@
 # FABREVOIE — ULTRA MACHO
 
-A launch website led by **ULTRA MACHO**, with **NEVER APOLOGIZE.** as its supporting slogan and a planned **1 October 2026** release. The design uses the original FNAME wordmark, black/ivory FF monogram, Garamond Premier Pro Light Display and Founders Grotesk from the supplied collection.
+A launch website led by **ULTRA MACHO**, with **NEVER APOLOGIZE.** as its supporting slogan and a planned **1 October 2026** release. The Iris edition uses the original FNAME wordmark and FF monogram, Helvetica Neue LT Pro Black Extended Oblique and Founders Grotesk from the supplied collection. Wide italic uppercase typography takes its direction from the existing FABREVOIE sneaker site.
 
-The site includes a responsive product opening, native Blender bottle photographs with an accessible detail gallery, an editorial campaign section and a release signup with withdrawal. It links to the existing FABREVOIE footwear collection and uses support@fabrevoie.com for contact. The visual system pairs warm ivory, ink, brushed silver and pale gold with the original brand artwork.
+The site includes a full-width editorial opening, native Blender bottle photographs with an accessible detail gallery, two new campaign advertisements and a release signup with withdrawal. It links to the existing FABREVOIE footwear collection and uses support@fabrevoie.com for contact. The palette pairs lavender `#C4B2EC`, chalk white `#F5F4F7`, graphite `#17161B`, lilac mist `#E5DFF0` and silver grey `#B8B8C0` with the approved Iris liquid and rectangular silver cap.
 
 ## Open the preview
 
@@ -43,14 +43,14 @@ This writes a timestamped CSV in `data/` and prints only the count and destinati
 | `public/app.js` | Gallery, dialogs, mobile navigation, signup and withdrawal |
 | `server.mjs` | Static server and durable signup/withdrawal API |
 | `public/assets/` | Original brand graphics, optimized campaign images and local fonts |
-| `scripts/prepare-assets.py` | Repeatable conversion from unchanged project sources |
+| `scripts/prepare-iris-assets.py` | Repeatable Iris image conversion and local font export |
 | `scripts/export-signups.mjs` | Private CSV export for the operator |
 
 Only the new `website/` directory was created. Existing campaigns, Blender sessions and `geminidesign.html` were preserved.
 
 ## Imagery and copy
 
-The sandstone and water images reuse the generated V11 campaign plates. The studio gallery uses the exact native V6 Blender bottle renders, preserving the small packaging lettering. The campaign files, logos and font assets are unchanged; the current edit adjusts page composition and copy.
+The Iris hero, stone and paper campaign plates are new native Blender renders from `campaign_iris_v1/`. The studio and silver detail come from `iris_cap_v2/`, and the side photograph shows the same approved cap and black/silver plaque. The two advertisements use real font typography and the original logos composed in HTML/CSS over the Blender photographs. There is no generated or repainted product lettering in these assets.
 
 [asset-notes.md](asset-notes.md) records source images, font files and exact logo preservation. These are digital campaign assets; they are not evidence of physical manufacture. The product sections use confirmed packaging information and do not invent a scent pyramid, formula, longevity test, reviews or endorsements.
 
@@ -70,7 +70,7 @@ Screenshots and the machine-readable browser report are in `tests/artifacts/`.
 
 ## GitHub and Vercel
 
-Target repository: **https://github.com/boogz666/fabrevoie.github.io**, branch **`feat/ultra-macho-launch`**. This `website/` directory is the working source. The deployable application is packaged under **`fragrance-site/`** in that repository so the existing root sneaker site, product routes and commerce links remain intact. The previous `puppetmaster666/fabrevoie` repository is retained as a historical project; it is not the target for this update.
+Target repository: **https://github.com/boogz666/fabrevoie.github.io**, branch **`feat/iris-editorial-2026`**. This `website/` directory is the working source. The deployable application is packaged under **`fragrance-site/`** in that repository so the existing root sneaker site, product routes and commerce links remain intact. Earlier launch branches preserve the preceding design. The previous `puppetmaster666/fabrevoie` repository is retained as a historical project; it is not the target for this update.
 
 Vercel project: **https://vercel.com/puppetmaster666s-projects/fabrevoie**. Production address: **https://fabrevoie.vercel.app**. The current workflow is a manual deployment of the perfume application after verification. No root-domain or footwear hosting changes are part of this package.
 

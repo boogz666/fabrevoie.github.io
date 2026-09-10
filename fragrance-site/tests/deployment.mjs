@@ -21,9 +21,9 @@ try {
   await page.evaluate(() => document.fonts.ready);
   check((await page.locator('h1').innerText()).replace(/\s+/g, ' ').trim() === 'ULTRA MACHO', 'Product name is the primary live heading');
   check(await page.locator('.hero-slogan').innerText() === 'NEVER APOLOGIZE.', 'Approved supporting slogan is live');
-  check(await page.evaluate(() => document.fonts.check('300 100px Garamond') && document.fonts.check('400 16px Founders')), 'Production fonts load');
+  check(await page.evaluate(() => document.fonts.check('italic 900 100px HelveticaDisplay') && document.fonts.check('400 16px Founders') && getComputedStyle(document.querySelector('h1')).fontFamily.includes('HelveticaDisplay')), 'Production bold extended typography loads and applies');
   check(await page.locator('link[rel=canonical]').getAttribute('href') === origin + '/', 'Canonical points to production');
-  check(await page.locator('meta[property="og:image"]').getAttribute('content') === origin + '/assets/hero-stone.webp', 'Absolute campaign sharing image is configured');
+  check(await page.locator('meta[property="og:image"]').getAttribute('content') === origin + '/assets/iris-hero.webp', 'Absolute Iris campaign sharing image is configured');
   check(await page.locator('canvas, model-viewer, iframe').count() === 0, 'No 3D viewer or embedded third-party content');
   check(await page.locator('#mythology, #mythology-title, #mythology-note, details, [href="#mythology"]').count() === 0, 'Removed lore and its navigation are absent from production');
   check(!/mytholog|testosterone|hormone|handkerchief|DNA sampling|extraction process|broken-hearted/i.test(await page.locator('body').textContent()), 'Production contains no fictional manufacturing or hormonal claims');
