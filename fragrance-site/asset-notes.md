@@ -1,4 +1,6 @@
-# Iris campaign assets
+# Archived Iris campaign assets
+
+This document records the previous campaign. Current media, approved B2 packaging, provenance and export instructions are in [PLEASURE-ASSETS.md](PLEASURE-ASSETS.md).
 
 The current website uses the approved original rectangular Iris flask with its new rectangular silver cap. The cap has subtly convex side faces and defined corners. Product text, liquid, glass, silver finish and the black/silver side plaque are native Blender geometry and materials.
 

@@ -18,7 +18,7 @@ function createStaticPreview(directory, useDeploymentHeaders = false) {
   return createServer(async (request, response) => {
   const pathname = new URL(request.url, 'http://localhost').pathname;
   const filename = pathname === '/' ? 'index.html' : pathname.slice(1);
-  if (!/^(?:index\.html|order\.html|styles\.css|app\.js|order\.js|assets\/[a-zA-Z0-9._-]+)$/.test(filename)) { response.writeHead(404); response.end(); return; }
+  if (!/^(?:index\.html|order\.html|styles\.css|app\.js|order\.js|assets\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9._-]+)$/.test(filename)) { response.writeHead(404); response.end(); return; }
   try {
     const data = await readFile(path.join(directory, filename));
     const headers = { 'Content-Type': `${types[path.extname(filename)] || 'application/octet-stream'}; charset=utf-8`, 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'", 'Referrer-Policy': 'no-referrer' };
