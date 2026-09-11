@@ -13,6 +13,7 @@ scripts/prepare-pleasure-assets.mjs
 scripts/prepare-signature-assets.mjs
 scripts/prepare-analog-assets.mjs
 scripts/prepare-type90s-assets.mjs
+scripts/prepare-film-hero-assets.mjs
 scripts/export-signups.mjs
 scripts/commerce-orders.mjs
 scripts/inventory.mjs
