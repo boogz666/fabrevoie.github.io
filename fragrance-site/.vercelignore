@@ -12,6 +12,7 @@ scripts/prepare-iris-assets.py
 scripts/export-signups.mjs
 scripts/commerce-orders.mjs
 scripts/inventory.mjs
+scripts/load-live-env.mjs
 scripts/stripe-readiness.mjs
 start-preview.ps1
 server.mjs

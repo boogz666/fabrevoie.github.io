@@ -4,16 +4,17 @@ The website uses Stripe-hosted Checkout for one-time ULTRA MACHO purchases, with
 
 ## Current state
 
-- Supplied credentials: dedicated **Fabrevoie sandbox**, EUR, France. No live key was supplied.
+- The supplied live key authenticates to **Fabrevoie**, `acct_1UEGS7EdyIZnMwR6`, France/EUR. Stripe reports charges and payouts enabled. This verifies account capability, not a completed website purchase.
 - `COMMERCE_MODE=disabled` keeps purchases hidden and refuses new checkout sessions. Turning sales off preserves webhook processing and private order-status reads.
-- The sandbox key, webhook signing secret and separate order-token secret are stored privately. They are not bundled into the website. Hosted redirects do not use the publishable key.
-- Sandbox webhook: `https://fabrevoie.com/api/stripe-webhook`, endpoint `we_1UEGrZI4Ls0KfpKeib0MvNH9`. This endpoint accepts only events verified with its signing secret and matching the configured key mode.
-- The owner confirmed **€129.99**, Made in Paris, for ULTRA MACHO / 100 ml. Sandbox Product `prod_VEkzAjHaGMlLXd` and Price `price_1UEHTKI4Ls0KfpKegErVPsm1` are created. Price tax behavior remains unspecified pending confirmation of inclusive/exclusive VAT. Shipping, stock, dispatch, business address and applicable tax registrations still require the owner's details. No tax registration or stock quantity has been invented.
+- Live Product `prod_VEljNNJKpZUuBy` and Price `price_1UEICIEdyIZnMwR6BSfHWM8j` are created for **ULTRA MACHO / 100 ml**, **€129.99**, Made in Paris. Price tax behavior remains unspecified pending confirmation of inclusive/exclusive VAT.
+- Live webhook `we_1UEICJEdyIZnMwR6us6HQIHH` targets `https://fabrevoie.com/api/stripe-webhook` with the eight supported Checkout/refund event types. Production uses the matching live configuration while preview retains sandbox credentials; [LIVE-STRIPE-SETUP.md](LIVE-STRIPE-SETUP.md) records deployment verification and the old sandbox endpoint transition.
+- API keys, webhook signing secrets and the separate order-token secret stay private. Hosted redirects do not use the publishable key. The local `.env.local` remains sandbox-only; the private `.env.stripe-live.local` is loaded explicitly for live operations.
+- Live Stripe Tax settings are active. The existing head-office address and default tax code `txcd_30011000` were left unchanged. There are zero active tax registrations; the owner's actual registrations and obligations must determine the next configuration. No registration or stock quantity has been invented.
 - Stripe's canonical Tax Codes API lists perfume under **Cosmetics - Beautifying**, `txcd_32050025`. This is the proposed classification for owner confirmation; it has not been assigned.
 
 Implementation and scope are described in [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md).
 
-Production and real sandbox webhook delivery were verified on 11 September 2026. [STRIPE-VERIFICATION.md](STRIPE-VERIFICATION.md) distinguishes the passing checks from paid Checkout and Tax calculation, which are still pending.
+The earlier [STRIPE-VERIFICATION.md](STRIPE-VERIFICATION.md) remains a historical record of production and real sandbox webhook checks on 11 September 2026. Paid Checkout and Tax calculation are still pending; the live transition record does not replace that evidence.
 
 ## Private commands
 
@@ -24,7 +25,9 @@ npm run stripe:status
 node --env-file=.env.local scripts/stripe-readiness.mjs --tax-codes
 ```
 
-The readiness command is read-only. Exit code 2 means configuration still needs attention. It does not certify tax obligations, successful tax calculation or completed payment. Local `.env.local` does not automatically contain Vercel's database variables; missing local database configuration is distinct from deployed storage readiness.
+For an explicit local live check, use `node --env-file=.env.stripe-live.local scripts/stripe-readiness.mjs`. The readiness command is read-only. Exit code 2 means configuration still needs attention. It does not certify tax obligations, successful tax calculation or completed payment. Local environment files do not automatically contain Vercel's database variables; missing local database configuration is distinct from deployed storage readiness.
+
+To inspect the deployed configuration, use `npx vercel@59.15.1 env run --cwd tests --project fabrevoie --environment production --scope puppetmaster666s-projects -- node --import ../scripts/load-live-env.mjs ../scripts/stripe-readiness.mjs`. Using the `tests` working directory avoids overlaying the sandbox `.env.local` onto production settings. The explicit preload supplies locally retained live credentials because Vercel does not export sensitive values. It preserves cloud configuration and the disabled sales switch, and refuses conflicting catalog IDs. Live inventory/reconciliation commands use the same working directory and preload.
 
 Review the deployed orders from the connected Vercel environment:
 
@@ -41,19 +44,19 @@ A paid order still needs fulfillment by the merchant. This integration records p
 ## Complete sandbox setup
 
 1. Confirm the inclusive/exclusive VAT treatment of the approved EUR 129.99 price, actual stock, dispatch timing, shipping destinations/rates and sale/delivery/return terms. The earliest configured opening is 1 October 2026 at midnight Europe/Paris; do not treat the launch announcement as a confirmed dispatch date.
-2. Confirm the actual head-office address and existing tax registrations, then prepare the matching Stripe Tax settings and registrations for review. Recording a registration in Stripe does not register a business with an authority.
-3. Confirm the proposed perfume tax code and set the existing sandbox Price's tax behavior. Create the approved shipping rates and configure their IDs/destinations. Create matching catalog objects with live credentials only when ready for the actual launch.
-4. Configure a separate clearly labeled sandbox preview with `COMMERCE_MODE=test` and its correct `PUBLIC_SITE_URL`. Production rejects test-mode purchase activation. Do not disable preview protection broadly to accommodate webhooks; use the verified public webhook endpoint or an explicitly chosen test deployment.
+2. Confirm the owner's applicable tax registrations and mirror the approved configuration in the sandbox. Preserve the existing live head-office settings unless a correction is supplied. Recording a registration in Stripe does not register a business with an authority.
+3. Confirm the proposed perfume tax code and set the sandbox Price's tax behavior. Create the approved shipping rates and configure their IDs/destinations. Apply the confirmed configuration to the existing live catalog after testing.
+4. Configure a separate clearly labeled sandbox preview with `COMMERCE_MODE=test`, its correct `PUBLIC_SITE_URL` and a reachable sandbox webhook destination. Production rejects test-mode purchase activation and its live webhook cannot also verify sandbox events. Do not disable preview protection broadly to accommodate webhooks.
 5. Run an actual Stripe Tax Calculation for an approved destination and inspect `taxability_reason`. A `not_collecting` result is not successful tax setup. Verify that tax and shipping shown by Checkout match the approved treatment.
 6. Complete test-card success, decline, authentication, cancellation and delayed-payment scenarios; verify the real signed Stripe event updates the same persisted order. Verify a test refund. Mocked handler/browser tests alone do not establish this result.
 
 ## Open real sales
 
-Use live account credentials only after account readiness and the confirmed commercial/tax setup are complete. Live and sandbox objects have different IDs. Configure the live Product/Price, shipping rates and applicable tax registrations; create the live webhook endpoint with the same event list and its own signing secret. Keep the test endpoint on a test deployment or disable it when replacing its shared endpoint with live configuration.
+Live credentials, catalog and webhook have been prepared with new purchases disabled. Complete the approved price tax treatment, product tax classification, shipping rates/countries, dispatch notice, stock allocation and applicable registrations. Existing live and sandbox objects have separate IDs. The handler verifies one signing secret and key mode, so the old sandbox endpoint must be disabled or moved to a dedicated test destination when production changes to live credentials.
 
 Set all runtime values, confirm customer-facing terms and dispatch wording, then change `COMMERCE_MODE` to `live` and deploy together. Never change just the mode while leaving test keys or test Price IDs. Run the live readiness report, and use a deliberate merchant-approved production transaction for any live financial verification.
 
-Keep `ORDER_TOKEN_SECRET` stable: it generates the same private order capability when a checkout request retries. The database stores only its hash. Do not expose the secret or database records through a public admin route. Store secrets using Vercel's sensitive environment variables; ordinary configuration such as mode and Price IDs is not secret.
+Keep `ORDER_TOKEN_SECRET`, `RATE_LIMIT_SECRET` and the database stable during the transition. The order-token secret generates the same private order capability when a checkout request retries; the database stores only its hash. Do not expose secrets or database records through a public admin route. Store secrets using Vercel's sensitive environment variables; ordinary configuration such as mode and Price IDs is not secret.
 
 ## Verification commands
 
@@ -71,5 +74,7 @@ The browser commerce suite uses mocked APIs. Handler tests use the real Stripe s
 ```powershell
 npx vercel@59.15.1 env run --environment production --scope puppetmaster666s-projects -- node tests/commerce-cloud.mjs --cloud-write
 ```
+
+`node tests/commerce-deployment.mjs` checks a deployed site with purchases disabled without creating an order or payment. The older `tests/stripe-transport.mjs` requires a sandbox key and hardcodes `https://fabrevoie.com`; change it to the selected sandbox destination before running future transport tests. Do not use it as a live payment fixture.
 
 See [Checkout fulfillment](https://docs.stripe.com/checkout/fulfillment), [Stripe Tax setup](https://docs.stripe.com/tax/set-up) and [Stripe webhooks](https://docs.stripe.com/webhooks) for the underlying Stripe behavior.
