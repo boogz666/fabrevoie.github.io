@@ -29,6 +29,13 @@
           <div><dt>QUANTITY</dt><dd id="order-quantity"></dd></div>
           <div><dt id="order-total-label">ORDER TOTAL</dt><dd id="order-total"></dd></div>
         </dl>
+        <section id="order-shipment" class="order-shipment" aria-labelledby="order-shipment-label" hidden>
+          <h2 id="order-shipment-label" class="eyebrow"></h2>
+          <p id="order-shipment-message"></p>
+          <p id="order-carrier" hidden></p>
+          <p id="order-tracking-number" hidden></p>
+          <a id="order-tracking-link" class="text-link" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" hidden>Track your parcel <span class="arrow" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </section>
         <p id="order-dispatch" class="purchase-notice" hidden></p>
         <p id="order-poll-note" class="order-poll-note" aria-live="polite"></p>
         <button id="order-refresh" class="button button-dark" type="button" hidden>Check status again <span class="arrow" aria-hidden="true">&#8599;</span></button>

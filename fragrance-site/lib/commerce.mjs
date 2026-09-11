@@ -1,6 +1,7 @@
 import { createHash, createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { RequestError, clientKey, readJson } from './cloud-signups.mjs';
 import { createNeonCommerceStorage } from './commerce-storage.mjs';
+import { InventoryError } from './commerce-inventory.mjs';
 import {
   createStripeClient, INTEGRATION_IDENTIFIER, keyMode, PRODUCT_NAME,
   readCommerceConfiguration, siteOrigin, verifyCommerceReadiness, WEBHOOK_EVENTS,
@@ -73,6 +74,11 @@ function publicOrder(order) {
     reference: order.reference, status: order.status, quantity: order.quantity,
     amountTotal: order.amount_total, currency: order.currency,
     dispatchNotice: order.dispatch_notice, mode: order.mode,
+    fulfillment: {
+      status: order.fulfillment_status ?? null, carrier: order.fulfillment_carrier ?? null,
+      trackingNumber: order.fulfillment_tracking_number ?? null, trackingUrl: order.fulfillment_tracking_url ?? null,
+      shippedAt: order.shipped_at ?? null, returnedAt: order.returned_at ?? null,
+    },
   };
 }
 
@@ -198,6 +204,38 @@ async function refundsFor(stripe, paymentIntentId, order, amountTotal) {
   return { refunds, refundedAmount: total };
 }
 
+/** Private operator recovery for missed callbacks, never a public payment API.
+ * The internal event is explicitly labelled; it is not represented as a Stripe
+ * webhook. An unattached/ambiguous Session remains held for manual investigation.
+ */
+export async function reconcileStoredOrder({ orderId, storage, stripe, operationId }) {
+  if (!UUID.test(orderId ?? '') || !UUID.test(operationId ?? '')) throw new InventoryError('INVALID_OPERATION', 'Valid order and operation UUIDs are required.');
+  const eventId = `operator_reconcile:${operationId.toLowerCase()}`;
+  const existing = await storage.getEvent(eventId);
+  if (existing) {
+    if (existing.order_id !== orderId || existing.type !== 'operator.checkout_reconciled') throw new InventoryError('OPERATION_CONFLICT', 'This reconciliation ID belongs to a different operation.');
+    return storage.getOrder(orderId);
+  }
+  const order = await storage.getOrder(orderId);
+  if (!order?.stripe_session_id) throw new InventoryError('CHECKOUT_RECONCILIATION_REQUIRED', 'An unattached checkout must be investigated in Stripe before releasing its allocation.');
+  const session = await stripe.checkout.sessions.retrieve(order.stripe_session_id, { expand: ['line_items.data.price'] });
+  const update = verifySession(session, order);
+  if (update.paymentConfirmed) {
+    update.status = 'paid';
+    Object.assign(update, await refundsFor(stripe, update.paymentIntentId, order, update.amountTotal));
+  } else if (session.status === 'expired' && session.payment_status === 'unpaid') {
+    update.status = 'expired'; update.inventoryAction = 'release';
+  } else {
+    // A complete/unpaid Session cannot distinguish an async payment that is
+    // processing from one that already failed. Preserve an established terminal
+    // result, and leave its future signed failure event eligible for processing.
+    update.status = ['payment_failed', 'expired', 'processing'].includes(order.status)
+      ? order.status : session.status === 'open' ? 'pending' : 'processing';
+  }
+  await storage.applyEvent({ id: eventId, type: 'operator.checkout_reconciled', created: Math.floor(Date.now() / 1000) }, update);
+  return storage.getOrder(orderId);
+}
+
 /** Shared Node/Vercel handlers; dependencies are injectable for isolated tests. */
 export function createCommerceHandlers({ env = process.env, storage: injectedStorage, stripe: injectedStripe, logger = console } = {}) {
   let storagePromise;
@@ -247,6 +285,16 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
     return async (request, response) => {
       try { await handler(request, response); }
       catch (error) {
+        if (error instanceof InventoryError) {
+          const inventory = error;
+          if (inventory.code === 'STOCK_UNAVAILABLE') {
+            error = new RequestError(409, 'This quantity is no longer available. Please check availability.');
+            error.code = 'STOCK_UNAVAILABLE';
+          } else if (inventory.code === 'OPERATION_CONFLICT') {
+            error = new RequestError(409, 'Please start a new checkout for this selection.');
+            error.code = 'CHECKOUT_RESTART_REQUIRED';
+          }
+        }
         const expected = error instanceof RequestError;
         if (!expected) logger.error('Commerce request failed. No unverified order result was returned.');
         json(response, expected ? error.status : 503, { ok: false, message: expected ? error.message : UNAVAILABLE,
@@ -259,9 +307,13 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
     method(request, 'GET');
     try {
       const config = await readiness();
-      json(response, 200, { ok: true, available: true, mode: config.mode,
+      const stock = await (await storage()).getInventory({ mode: config.mode, sku: config.sku });
+      if (!stock.configured) throw new Error('Inventory is not configured');
+      const available = stock.available > 0;
+      json(response, 200, { ok: true, available, mode: config.mode,
         product: { name: PRODUCT_NAME, unitAmount: config.unitAmount, currency: config.currency },
-        quantityMax: config.quantityMax, dispatchNotice: config.dispatchNotice, shippingSummary: config.shippingSummary });
+        quantityMax: Math.min(config.quantityMax, Math.max(0, stock.available)), dispatchNotice: config.dispatchNotice,
+        shippingSummary: config.shippingSummary, inventory: { status: available ? 'in_stock' : 'sold_out' } });
     } catch {
       json(response, 200, { ok: true, available: false, mode: 'disabled', quantityMax: 3, dispatchNotice: '' });
     }
@@ -287,14 +339,14 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
       order = await db.createOrder({
         id, reference: `FBR-${id.replaceAll('-', '').slice(0, 12).toUpperCase()}`,
         request_hash: requestHash, token_hash: hash(privateToken(id, env.ORDER_TOKEN_SECRET)),
-        client_hash: clientHash, mode: config.mode, price_id: config.priceId, unit_amount: config.unitAmount,
+        client_hash: clientHash, mode: config.mode, sku: config.sku, price_id: config.priceId, unit_amount: config.unitAmount,
         currency: config.currency, quantity: body.quantity, dispatch_notice: config.dispatchNotice,
         checkout_snapshot: { origin, countries: config.countries, shippingRateIds: config.shippingRateIds,
           taxBehavior: config.taxBehavior, productTaxCode: config.productTaxCode },
         session_expires_at: Math.floor(now / 1000) * 1000 + 3600000, created_at: now, updated_at: now,
       });
     }
-    if (order.quantity !== body.quantity || order.client_hash !== clientHash || order.mode !== config.mode
+    if (order.quantity !== body.quantity || order.client_hash !== clientHash || order.mode !== config.mode || order.sku !== config.sku
       || order.checkout_snapshot.origin !== origin || order.price_id !== config.priceId
       || order.dispatch_notice !== config.dispatchNotice
       || JSON.stringify(order.checkout_snapshot.countries) !== JSON.stringify(config.countries)
@@ -303,7 +355,7 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
       error.code = 'CHECKOUT_RESTART_REQUIRED';
       throw error;
     }
-    if (order.session_expires_at <= Date.now() || !['pending', 'processing'].includes(order.status)) {
+    if (order.session_expires_at <= Date.now() || !['pending', 'processing'].includes(order.status) || order.allocation_state !== 'held') {
       const error = new RequestError(409, 'This checkout has ended. Please start a new checkout.');
       error.code = 'CHECKOUT_RESTART_REQUIRED';
       throw error;
@@ -340,6 +392,17 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
         || !checkoutUrl(session.url)) throw new Error('Checkout redirect verification failed');
       await db.attachSession(order.id, owner, session);
       json(response, 200, { ok: true, url: session.url });
+    } catch (error) {
+      if (error?.type === 'StripeInvalidRequestError' && error.statusCode === 400
+        && error.code !== 'idempotency_key_in_use') {
+        const result = await db.releaseFailedCreation({ orderId: order.id, owner, operationId: randomUUID() });
+        if (result.released) {
+          const retry = new RequestError(409, 'Checkout could not be prepared. Please start a new checkout.');
+          retry.code = 'CHECKOUT_RESTART_REQUIRED';
+          throw retry;
+        }
+      }
+      throw error;
     } finally { await db.releaseCreation(order.id, owner); }
   });
 
@@ -411,8 +474,8 @@ export function createCommerceHandlers({ env = process.env, storage: injectedSto
       Object.assign(update, await refundsFor(client, update.paymentIntentId, order, update.amountTotal));
       update.status = 'paid';
     } else if (update.paymentConfirmed) update.status = 'paid';
-    else if (event.type === 'checkout.session.async_payment_failed') update.status = 'payment_failed';
-    else if (event.type === 'checkout.session.expired' || session.status === 'expired') update.status = 'expired';
+    else if (event.type === 'checkout.session.async_payment_failed') { update.status = 'payment_failed'; update.inventoryAction = 'release'; }
+    else if (event.type === 'checkout.session.expired' || session.status === 'expired') { update.status = 'expired'; update.inventoryAction = 'release'; }
     else update.status = 'processing';
     await db.applyEvent(event, update);
     json(response, 200, { ok: true });

@@ -82,6 +82,12 @@ a:hover .arrow,button:hover .arrow{transform:translate(2px,-2px)}
 .text-link{display:inline-flex;align-items:center;justify-content:space-between;gap:34px;min-height:44px;padding-bottom:5px;border-bottom:1px solid var(--graphite);font-size:15px;font-weight:500}
 .purchase-panel{padding:25px;margin:0 0 23px;background:var(--mist);border:1px solid var(--line)}
 .commerce-test-notice{border:1px solid var(--graphite);padding:10px 12px 8px;margin-bottom:22px;font-size:11px;font-weight:700;letter-spacing:.045em;line-height:1.4;background:var(--lavender)}
+.commerce-availability{margin-bottom:18px}
+.commerce-availability>.eyebrow{font-size:10px}
+.commerce-availability>p:nth-child(2){font-size:16px;line-height:1.45;margin-top:9px}
+.commerce-availability>p:nth-child(2):empty{display:none}
+.commerce-availability[data-state=sold_out]>.eyebrow{font-family:var(--display);font-size:clamp(23px,2.6vw,35px);font-style:italic;font-weight:900;letter-spacing:-.055em}
+.commerce-availability .text-link{margin-top:17px;font-size:14px}
 .purchase-price>.eyebrow{font-size:10px}
 .purchase-price>p:last-child{margin-top:7px;font-size:31px;font-weight:700;line-height:1.2}
 .price-unit{font-size:14px;font-weight:400;white-space:nowrap}
@@ -113,6 +119,11 @@ a:hover .arrow,button:hover .arrow{transform:translate(2px,-2px)}
 .order-copy .product-facts{margin:27px 0 22px}
 .order-copy .product-facts dd{overflow-wrap:anywhere}
 .order-copy .product-facts dt{flex-shrink:0}
+.order-shipment{padding:20px;border-left:3px solid var(--lavender);background:var(--mist);margin:0 0 22px}
+.order-shipment>.eyebrow{font-family:var(--sans);font-size:10px;font-style:normal;font-weight:700;letter-spacing:.08em;line-height:1.5}
+.order-shipment>p{font-size:16px;line-height:1.45;margin-top:10px;overflow-wrap:anywhere}
+.order-shipment>#order-carrier,.order-shipment>#order-tracking-number{font-size:14px}
+.order-shipment>.text-link{font-size:14px;margin-top:14px;gap:21px}
 .order-poll-note{font-size:13px;line-height:1.5;color:var(--muted);margin:18px 0 0}
 .order-poll-note:empty{display:none}
 #order-refresh{margin-top:20px;font-size:12px}

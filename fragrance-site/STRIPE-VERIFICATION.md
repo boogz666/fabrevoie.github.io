@@ -1,5 +1,7 @@
 # Stripe delivery verification — 11 September 2026
 
+This records the initial Stripe deployment. See [INVENTORY-VERIFICATION.md](INVENTORY-VERIFICATION.md) for the subsequent approved catalog, stock and fulfillment update.
+
 The Stripe integration is deployed on **https://fabrevoie.com** with new purchases disabled. Production deployment: `dpl_PMNDJej2gwsWBDDy2TUbAZh2RuJn`. The official waitlist is active.
 
 ## Verified

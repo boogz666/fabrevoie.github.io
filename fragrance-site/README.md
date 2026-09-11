@@ -45,7 +45,9 @@ Cloud mode requires `DATABASE_URL` and never falls back to local storage. The CS
 
 ## Edit the website
 
-Stripe Payments and Tax are implemented behind a disabled-by-default commerce switch. The live waitlist remains available while retail price, shipping and tax setup are finalized. See [STRIPE-OPERATIONS.md](STRIPE-OPERATIONS.md) for configuration, private order reports and launch steps, and [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md) for the tailored integration plan. No live payments are enabled by the sandbox credentials.
+Stripe Payments and Tax are implemented behind a disabled-by-default commerce switch. The live waitlist remains available while stock, shipping and tax setup are finalized. See [STRIPE-OPERATIONS.md](STRIPE-OPERATIONS.md) for configuration, private order reports and launch steps, and [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md) for the tailored integration plan. No live payments are enabled by the sandbox credentials.
+
+The confirmed launch price is €129.99 for ULTRA MACHO / 100 ml, Made in Paris. Its Product and Price are created in the Stripe sandbox; VAT treatment remains pending. [INVENTORY-OPERATIONS.md](INVENTORY-OPERATIONS.md) covers stock reservations, sold-out behavior, shipment tracking, return records and private management commands. No physical stock quantity is assumed.
 
 | File | Purpose |
 | --- | --- |

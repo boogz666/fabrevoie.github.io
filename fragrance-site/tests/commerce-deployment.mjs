@@ -34,9 +34,11 @@ try {
   check(page.headers.get('referrer-policy') === 'no-referrer', 'Private order page suppresses referrers');
   check(page.headers.get('x-robots-tag')?.includes('noindex') && /name="robots" content="noindex/.test(html), 'Order status is excluded from search indexing');
   check((await fetch(`${origin}/order.js`)).status === 200, 'Order-status application is deployed');
-  for (const route of ['/lib/commerce.mjs','/scripts/commerce-orders.mjs','/data/commerce.sqlite','/.env.local']) {
+  for (const route of ['/lib/commerce.mjs','/lib/commerce-inventory.mjs','/scripts/commerce-orders.mjs','/scripts/inventory.mjs','/data/commerce.sqlite','/data/stripe-catalog.json','/.env.local']) {
     check([403,404].includes((await fetch(origin+route)).status), `Private commerce path unavailable: ${route}`);
   }
+  const home = await (await fetch(origin)).text();
+  check(home.includes('Made in Paris'), 'Confirmed manufacturing origin is published');
   const robots = await (await fetch(`${origin}/robots.txt`)).text();
   check(robots.includes('Disallow: /order.html'), 'Robots excludes the private order page');
   report.passed = true;

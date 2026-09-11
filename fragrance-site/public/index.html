@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F5F4F7">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="Discover ULTRA MACHO, the first fragrance from FABREVOIE. NEVER APOLOGIZE. Join the list for the first release on 1 October 2026.">
+  <meta name="description" content="Discover ULTRA MACHO by FABREVOIE. Eau de parfum intense, made in Paris. NEVER APOLOGIZE. First release, 1 October 2026.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="FABREVOIE — ULTRA MACHO">
-  <meta property="og:description" content="ULTRA MACHO. Eau de parfum intense. First release, 1 October 2026.">
+  <meta property="og:description" content="ULTRA MACHO. Eau de parfum intense. Made in Paris. First release, 1 October 2026.">
   <meta property="og:image" content="/assets/iris-hero.webp">
   <title>FABREVOIE — ULTRA MACHO · NEVER APOLOGIZE.</title>
   <link rel="icon" href="/assets/brand-monogram.svg" type="image/svg+xml">
@@ -74,19 +74,21 @@
             <div><dt>THE FRAGRANCE</dt><dd>ULTRA MACHO</dd></div>
             <div><dt>THE EXPRESSION</dt><dd>Eau de parfum intense</dd></div>
             <div><dt>THE FORMAT</dt><dd>100 ml</dd></div>
+            <div><dt>THE ORIGIN</dt><dd>Made in Paris</dd></div>
             <div><dt>THE FIRST RELEASE</dt><dd>1 October 2026</dd></div>
           </dl>
           <section id="purchase-panel" class="purchase-panel" aria-label="Purchase ULTRA MACHO" hidden>
             <p id="commerce-test-notice" class="commerce-test-notice" hidden>TEST CHECKOUT / NO LIVE PAYMENT</p>
-            <div class="purchase-price"><p class="eyebrow">ULTRA MACHO / 100 ML</p><p><span id="product-unit-price"></span><span class="price-unit"> per bottle</span></p></div>
+            <div id="commerce-availability" class="commerce-availability" role="status" aria-live="polite" hidden><p id="commerce-availability-label" class="eyebrow"></p><p id="commerce-availability-message"></p><a id="commerce-waitlist-link" data-open-signup aria-haspopup="dialog" aria-controls="waitlist-dialog" class="text-link" href="#first-release" hidden>Join the list <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
+            <div id="purchase-price" class="purchase-price"><p class="eyebrow">ULTRA MACHO / 100 ML</p><p><span id="product-unit-price"></span><span class="price-unit"> per bottle</span></p></div>
             <form id="checkout-form" action="/api/checkout" method="post">
               <div class="purchase-controls"><label for="checkout-quantity">Quantity</label><select id="checkout-quantity" name="quantity" aria-describedby="checkout-status"></select><p><span class="eyebrow">PRODUCT SUBTOTAL</span><span id="checkout-subtotal"></span></p></div>
               <p id="commerce-dispatch" class="purchase-notice"></p>
               <p id="commerce-shipping" class="purchase-notice" hidden></p>
               <button id="checkout-submit" type="submit" class="button button-dark"><span>Continue to checkout</span><span class="arrow" aria-hidden="true">&#8599;</span></button>
               <p class="purchase-smallprint">Final total is shown at checkout.</p>
-              <p id="checkout-status" class="form-status" role="status" aria-live="polite"></p>
             </form>
+            <p id="checkout-status" class="form-status" role="status" aria-live="polite"></p>
           </section>
           <a data-open-signup aria-haspopup="dialog" aria-controls="waitlist-dialog" class="text-link" href="#first-release">Be there from the beginning <span class="arrow" aria-hidden="true">↗</span></a>
         </div>

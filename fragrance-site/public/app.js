@@ -306,6 +306,8 @@ const checkoutLabel = $('span', checkoutSubmit);
 let commerceConfig;
 let checkoutContext;
 let checkoutBusy = false;
+let checkoutContextLoaded = false;
+const checkoutUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function formatPrice(amount, currency) {
   const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: currency.toUpperCase() });
@@ -316,29 +318,81 @@ function updateSubtotal() {
   $('#checkout-subtotal').textContent = formatPrice(commerceConfig.product.unitAmount * Number(checkoutQuantity.value), commerceConfig.product.currency);
 }
 function validCommerce(config) {
-  return config?.ok === true && config.available === true && ['test', 'live'].includes(config.mode)
+  const inStock = config?.inventory?.status === 'in_stock' && config.available === true && config.quantityMax >= 1;
+  const soldOut = config?.inventory?.status === 'sold_out' && config.available === false && config.quantityMax === 0;
+  return config?.ok === true && (inStock || soldOut) && ['test', 'live'].includes(config.mode)
     && config.product?.name === 'ULTRA MACHO' && Number.isSafeInteger(config.product.unitAmount) && config.product.unitAmount > 0
-    && /^[a-z]{3}$/i.test(config.product.currency) && Number.isInteger(config.quantityMax) && config.quantityMax >= 1 && config.quantityMax <= 99
+    && /^[a-z]{3}$/i.test(config.product.currency) && Number.isInteger(config.quantityMax) && config.quantityMax >= 0 && config.quantityMax <= 99
     && Number.isSafeInteger(config.product.unitAmount * config.quantityMax)
     && typeof config.dispatchNotice === 'string' && config.dispatchNotice.trim().length > 0;
 }
-function checkoutRequestId(quantity) {
-  const signature = `${commerceConfig.mode}:${commerceConfig.product.currency}:${commerceConfig.product.unitAmount}`;
-  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  if (!checkoutContext || !uuid.test(checkoutContext.requestId) || checkoutContext.quantity !== quantity || checkoutContext.signature !== signature) {
-    checkoutContext = { requestId: crypto.randomUUID(), quantity, signature };
-  }
+function checkoutSignature() {
+  return `${commerceConfig.mode}:${commerceConfig.product.currency}:${commerceConfig.product.unitAmount}`;
+}
+function saveCheckoutContext() {
   try { sessionStorage.setItem(CHECKOUT_STORAGE_KEY, JSON.stringify(checkoutContext)); }
   catch { /* Keep the same request ID in memory when browser storage is blocked. */ }
+}
+function canResumeCheckout() {
+  return commerceConfig && (checkoutContext?.started === true || checkoutContext?.uncertain === true) && checkoutUuid.test(checkoutContext.requestId)
+    && checkoutContext.signature === checkoutSignature() && Number.isInteger(checkoutContext.quantity)
+    && checkoutContext.quantity >= 1 && checkoutContext.quantity <= 99;
+}
+function resumeOnlyCheckout() {
+  return canResumeCheckout() && (!commerceConfig.available || checkoutContext.quantity > commerceConfig.quantityMax);
+}
+function checkoutRequestId(quantity) {
+  const signature = checkoutSignature();
+  if (!checkoutContext || !checkoutUuid.test(checkoutContext.requestId) || checkoutContext.quantity !== quantity || checkoutContext.signature !== signature) {
+    checkoutContext = { requestId: crypto.randomUUID(), quantity, signature };
+  }
+  // Persist before sending: navigation or a lost response can interrupt this
+  // page while the server still creates a reservation for the same request.
+  checkoutContext.uncertain = true;
+  saveCheckoutContext();
   return checkoutContext.requestId;
 }
 function setCheckoutBusy(busy) {
   checkoutBusy = busy;
-  checkoutSubmit.disabled = busy;
+  checkoutSubmit.disabled = busy || !(commerceConfig?.available || canResumeCheckout());
   checkoutQuantity.disabled = busy;
   checkoutForm.toggleAttribute('aria-busy', busy);
   if (busy) checkoutForm.setAttribute('aria-busy', 'true');
-  checkoutLabel.textContent = busy ? 'Opening checkout' : 'Continue to checkout';
+  checkoutLabel.textContent = busy ? 'Opening checkout' : resumeOnlyCheckout()
+    ? checkoutContext.started === true ? 'Resume your checkout' : 'Check your checkout'
+    : 'Continue to checkout';
+}
+function renderCommerce() {
+  const soldOut = commerceConfig.inventory.status === 'sold_out';
+  const resumeOnly = resumeOnlyCheckout();
+  const checkoutHadFocus = checkoutForm.contains(document.activeElement) || (checkoutBusy && document.activeElement === document.body);
+  const quantityBefore = checkoutQuantity.value || String(checkoutContext?.quantity || 1);
+  checkoutQuantity.replaceChildren();
+  for (let quantity = 1; quantity <= commerceConfig.quantityMax; quantity += 1) {
+    checkoutQuantity.add(new Option(String(quantity), String(quantity)));
+  }
+  if (Number(quantityBefore) >= 1 && Number(quantityBefore) <= commerceConfig.quantityMax) checkoutQuantity.value = quantityBefore;
+  $('#commerce-availability').hidden = false;
+  $('#commerce-availability').dataset.state = soldOut ? 'sold_out' : 'in_stock';
+  $('#commerce-availability-label').textContent = soldOut ? 'SOLD OUT.' : 'AVAILABLE';
+  $('#commerce-availability-message').textContent = resumeOnly
+    ? checkoutContext.started === true ? 'You can return to the checkout already started in this tab.'
+      : 'Your previous checkout could not be confirmed. Check it before starting another.'
+    : soldOut ? 'Join the list for news from FABREVOIE.' : '';
+  $('#commerce-waitlist-link').hidden = !soldOut;
+  $('#purchase-price').hidden = soldOut || resumeOnly;
+  checkoutForm.hidden = soldOut && !resumeOnly;
+  $('.purchase-controls', checkoutForm).hidden = resumeOnly;
+  $('#product-unit-price').textContent = soldOut ? '' : formatPrice(commerceConfig.product.unitAmount, commerceConfig.product.currency);
+  $('#commerce-dispatch').textContent = commerceConfig.dispatchNotice;
+  $('#commerce-shipping').textContent = typeof commerceConfig.shippingSummary === 'string' ? commerceConfig.shippingSummary : '';
+  $('#commerce-shipping').hidden = !$('#commerce-shipping').textContent.trim();
+  $('#commerce-test-notice').hidden = commerceConfig.mode !== 'test';
+  if (!soldOut) updateSubtotal();
+  else $('#checkout-subtotal').textContent = '';
+  setCheckoutBusy(checkoutBusy);
+  $('#purchase-panel').hidden = false;
+  if (soldOut && !resumeOnly && checkoutHadFocus) $('#commerce-waitlist-link').focus({ preventScroll: true });
 }
 checkoutForm.addEventListener('focusin', stopAutoInvitation);
 checkoutQuantity.addEventListener('change', () => {
@@ -350,8 +404,13 @@ checkoutForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (checkoutBusy) return;
   if (!commerceConfig) { status(checkoutStatus, 'Checkout is not currently available.', 'error'); return; }
-  const quantity = Number(checkoutQuantity.value);
-  if (!Number.isInteger(quantity) || quantity < 1 || quantity > commerceConfig.quantityMax) {
+  const resumeOnly = resumeOnlyCheckout();
+  const quantity = resumeOnly ? checkoutContext.quantity : Number(checkoutQuantity.value);
+  if (!commerceConfig.available && !resumeOnly) {
+    status(checkoutStatus, 'This release is sold out. Join the list for news from FABREVOIE.', 'error');
+    return;
+  }
+  if (!Number.isInteger(quantity) || quantity < 1 || (!resumeOnly && quantity > commerceConfig.quantityMax)) {
     status(checkoutStatus, `Choose a quantity from 1 to ${commerceConfig.quantityMax}.`, 'error');
     return;
   }
@@ -373,7 +432,15 @@ checkoutForm.addEventListener('submit', async event => {
     if (response.status === 409 && result?.code === 'CHECKOUT_RESTART_REQUIRED') {
       checkoutContext = null;
       try { sessionStorage.removeItem(CHECKOUT_STORAGE_KEY); } catch { /* In-memory context is already cleared. */ }
-      throw new Error('This checkout can no longer be used. Please try again to start a new one.');
+      renderCommerce();
+      throw new Error(commerceConfig.available ? 'This checkout can no longer be used. Please try again to start a new one.' : 'This checkout can no longer be used. Join the list for news from FABREVOIE.');
+    }
+    if (response.status === 409 && result?.code === 'STOCK_UNAVAILABLE') {
+      // A stock race creates no reservation. Keep the UUID, and refresh the
+      // available quantities without treating transient creation as a sellout.
+      if (checkoutContext) { checkoutContext.started = false; checkoutContext.uncertain = false; saveCheckoutContext(); }
+      await loadCommerce();
+      throw new Error('Availability has changed. Please check the current quantities before trying again.');
     }
     if (!response.ok || result?.ok !== true) throw new Error(typeof result?.message === 'string' ? result.message : 'Checkout could not be opened. Please try again.');
     let destination;
@@ -382,6 +449,9 @@ checkoutForm.addEventListener('submit', async event => {
     if (destination.protocol !== 'https:' || destination.hostname !== 'checkout.stripe.com' || destination.username || destination.password || destination.port) {
       throw new Error('A secure checkout link could not be confirmed. Please try again.');
     }
+    checkoutContext.started = true;
+    checkoutContext.uncertain = false;
+    saveCheckoutContext();
     status(checkoutStatus, 'Opening secure checkout.');
     location.assign(destination.href);
     redirecting = true;
@@ -394,7 +464,7 @@ checkoutForm.addEventListener('submit', async event => {
   }
 });
 window.addEventListener('pageshow', event => {
-  if (event.persisted) { setCheckoutBusy(false); status(checkoutStatus, ''); }
+  if (event.persisted) { setCheckoutBusy(false); status(checkoutStatus, ''); loadCommerce(); }
 });
 async function loadCommerce() {
   const controller = new AbortController();
@@ -403,25 +473,20 @@ async function loadCommerce() {
     const response = await fetch('/api/commerce', { credentials: 'same-origin', cache: 'no-store', signal: controller.signal });
     if (!response.ok) return;
     const config = await response.json();
+    if (config?.ok === true && config.available === false && config.mode === 'disabled') {
+      commerceConfig = null;
+      $('#purchase-panel').hidden = true;
+      return;
+    }
     if (!validCommerce(config)) return;
     formatPrice(config.product.unitAmount, config.product.currency);
     commerceConfig = config;
-    for (let quantity = 1; quantity <= config.quantityMax; quantity += 1) {
-      checkoutQuantity.add(new Option(String(quantity), String(quantity)));
+    if (!checkoutContextLoaded) {
+      try { checkoutContext = JSON.parse(sessionStorage.getItem(CHECKOUT_STORAGE_KEY) || 'null'); }
+      catch { /* Keep any in-memory retry context. */ }
+      checkoutContextLoaded = true;
     }
-    try {
-      checkoutContext = JSON.parse(sessionStorage.getItem(CHECKOUT_STORAGE_KEY) || 'null');
-      if (Number.isInteger(checkoutContext?.quantity) && checkoutContext.quantity >= 1 && checkoutContext.quantity <= config.quantityMax) checkoutQuantity.value = String(checkoutContext.quantity);
-    } catch { checkoutContext = null; }
-    $('#product-unit-price').textContent = formatPrice(config.product.unitAmount, config.product.currency);
-    $('#commerce-dispatch').textContent = config.dispatchNotice;
-    if (typeof config.shippingSummary === 'string' && config.shippingSummary.trim()) {
-      $('#commerce-shipping').textContent = config.shippingSummary;
-      $('#commerce-shipping').hidden = false;
-    }
-    $('#commerce-test-notice').hidden = config.mode !== 'test';
-    updateSubtotal();
-    $('#purchase-panel').hidden = false;
+    renderCommerce();
   } catch { /* An unavailable commerce service does not interrupt the waitlist. */ }
   finally { clearTimeout(timeout); }
 }
