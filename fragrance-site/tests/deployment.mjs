@@ -96,6 +96,11 @@ try {
   check((await page.locator('.footer-brand').boundingBox()).width <= 160, 'Production desktop footer wordmark is compact');
   await page.screenshot({ path: path.join(artifactDir, 'vercel-desktop.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('.hero-image').evaluate(image => image.decode());
+  check(await page.locator('.hero-image').evaluate(image => {
+    const photo = image.getBoundingClientRect(), hero = image.closest('.hero').getBoundingClientRect(), heading = document.querySelector('#hero-title').getBoundingClientRect();
+    return image.currentSrc.includes('/assets/mobile-hero/') && Math.abs(photo.top - hero.top) < 1 && photo.bottom >= hero.bottom - 1 && heading.top >= photo.top && heading.bottom < photo.bottom;
+  }), 'Published mobile hero photograph fills the section behind the product heading');
   await page.screenshot({ path: path.join(artifactDir, 'vercel-mobile.png'), fullPage: true });
   check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Production mobile page fits its viewport');
   check((await page.locator('.footer-brand').boundingBox()).width <= 140, 'Production mobile footer wordmark is compact');

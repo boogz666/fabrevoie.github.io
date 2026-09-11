@@ -30,9 +30,9 @@ const assetPaths = files.map(file => file.replaceAll('\\', '/'));
 assert.deepEqual(assetPaths.filter(file => file.startsWith('selected-campaign/')).sort(),
   ['01-car', '02-painted', '03-airfield'].flatMap(id => [`selected-campaign/${id}-640.webp`, `selected-campaign/${id}.webp`]));
 assert.deepEqual(assetPaths.filter(file => file.startsWith('film-hero/')).sort(), [
-  'film-hero/web-hero-mobile-640.webp', 'film-hero/web-hero-mobile.webp',
   'film-hero/web-hero-wide-960.webp', 'film-hero/web-hero-wide.webp',
 ]);
+assert.deepEqual(assetPaths.filter(file => file.startsWith('mobile-hero/')).sort(), ['mobile-hero/hero-tall-640.webp', 'mobile-hero/hero-tall.webp']);
 assert.ok(assetPaths.includes('signature/web-product-side.webp'));
 assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-') || file.startsWith('fast-life/') || file.startsWith('analog/') || file.startsWith('type90s/') || file.startsWith('film-campaign/')));
 

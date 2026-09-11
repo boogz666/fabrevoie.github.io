@@ -138,6 +138,10 @@ try {
     check(overflow.document <= width && overflow.heading <= overflow.headingClient + 1, `No page or headline overflow at ${width}px`);
     if (width === 390) {
       await prepare(page);
+      check(await page.locator('.hero-image').evaluate(image => {
+        const photo = image.getBoundingClientRect(), hero = image.closest('.hero').getBoundingClientRect(), heading = document.querySelector('#hero-title').getBoundingClientRect();
+        return image.currentSrc.includes('/assets/mobile-hero/') && Math.abs(photo.top - hero.top) < 1 && photo.bottom >= hero.bottom - 1 && heading.top >= photo.top && heading.bottom < photo.bottom;
+      }), 'Mobile hero photograph extends from the section top behind the entire product heading');
       check((await page.locator('.footer-brand').boundingBox()).width <= 140, 'Mobile footer wordmark stays compact at 140px or less');
       await page.screenshot({ path: path.join(artifacts, 'mobile-hero.png') });
       await page.screenshot({ path: path.join(artifacts, 'mobile-full.png'), fullPage: true });
