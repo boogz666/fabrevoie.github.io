@@ -24,8 +24,9 @@ assert.match(html, /<form hidden id="signup-form"/);
 assert.match(html, /class="signup-unavailable"/);
 assert.match(html, /data-signup-available="false"/);
 assert.match(html, /<link rel="canonical" href="https:\/\/fabrevoie.vercel.app\/">/);
-const files = await readdir(path.join(root, 'dist', 'assets'));
-assert.ok(!files.some(file => /archive|manifest|-src\./i.test(file)));
+const files = (await readdir(path.join(root, 'dist', 'assets'), { recursive: true })).filter(file => path.extname(file));
+assert.ok(!files.some(file => /archive|manifest|-src\.|iris-/i.test(file)));
+assert.equal(files.filter(file => file.replaceAll('\\', '/').startsWith('pleasure/')).length, 26);
 
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), 'fabrevoie-build-'));
 const server = await createSiteServer({ publicDir: path.join(root, 'dist'), dataDir: temporaryRoot, logger: { error() {} } });

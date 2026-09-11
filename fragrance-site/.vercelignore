@@ -9,6 +9,7 @@ node_modules/
 *.md
 scripts/prepare-assets.py
 scripts/prepare-iris-assets.py
+scripts/prepare-pleasure-assets.mjs
 scripts/export-signups.mjs
 scripts/commerce-orders.mjs
 scripts/inventory.mjs
@@ -19,6 +20,7 @@ server.mjs
 public/assets/archive-src.png
 public/assets/asset-manifest.json
 public/assets/iris-asset-manifest.json
+public/assets/pleasure/manifest.json
 __pycache__/
 *.pyc
 .agents/

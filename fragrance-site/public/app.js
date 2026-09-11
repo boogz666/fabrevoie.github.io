@@ -66,6 +66,31 @@ imageDialog.addEventListener('keydown', event => {
   }
 });
 
+const campaignDialog = $('#campaign-dialog');
+const campaignLinks = $$('.campaign-image-link');
+const campaignImage = $('#campaign-expanded-image');
+let campaignIndex = 0;
+function selectCampaign(index) {
+  campaignIndex = (index + campaignLinks.length) % campaignLinks.length;
+  const link = campaignLinks[campaignIndex];
+  campaignImage.src = link.href;
+  campaignImage.alt = $('img', link).alt;
+  $('#campaign-dialog-title').textContent = link.dataset.campaignTitle;
+  $('#campaign-dialog-status').textContent = `${String(campaignIndex + 1).padStart(2, '0')} / ${campaignLinks.length}`;
+}
+campaignLinks.forEach((link, index) => link.addEventListener('click', event => {
+  if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  selectCampaign(index);
+  openDialog(campaignDialog);
+}));
+$$('[data-campaign-step]').forEach(button => button.addEventListener('click', () => selectCampaign(campaignIndex + Number(button.dataset.campaignStep))));
+campaignDialog.addEventListener('keydown', event => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  selectCampaign(event.key === 'Home' ? 0 : event.key === 'End' ? campaignLinks.length - 1 : campaignIndex + (event.key === 'ArrowRight' ? 1 : -1));
+});
+
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {

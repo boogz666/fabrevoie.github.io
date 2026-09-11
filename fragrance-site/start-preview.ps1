@@ -5,7 +5,7 @@ $previewUrl = 'http://127.0.0.1:4173'
 $alreadyRunning = $false
 try {
     $page = Invoke-WebRequest -Uri $previewUrl -UseBasicParsing -TimeoutSec 2
-    $alreadyRunning = $page.StatusCode -eq 200 -and $page.Content.Contains('FABREVOIE') -and $page.Content.Contains('NEVER APOLOGIZE.')
+    $alreadyRunning = $page.StatusCode -eq 200 -and $page.Content.Contains('FABREVOIE') -and $page.Content.Contains('The pleasure is yours.')
 } catch { }
 if (-not $alreadyRunning) {
     $serverProcess = Start-Process -FilePath $nodeExecutable -ArgumentList 'server.mjs' -WorkingDirectory $siteDirectory -WindowStyle Hidden -RedirectStandardOutput (Join-Path $siteDirectory 'preview.log') -RedirectStandardError (Join-Path $siteDirectory 'preview-error.log') -PassThru

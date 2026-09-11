@@ -1,8 +1,8 @@
 # FABREVOIE — ULTRA MACHO
 
-A launch website led by **ULTRA MACHO**, with **NEVER APOLOGIZE.** as its supporting slogan and a planned **1 October 2026** release. The Iris edition uses the original FNAME wordmark and FF monogram, Helvetica Neue LT Pro Black Extended Oblique and Founders Grotesk from the supplied collection. Wide italic uppercase typography takes its direction from the existing FABREVOIE sneaker site.
+A launch website led by **ULTRA MACHO**, with **The pleasure is yours.** as its supporting slogan and a planned **1 October 2026** release. The Iris edition uses the original FNAME wordmark and FF monogram, Helvetica Neue LT Pro Black Extended Oblique and Founders Grotesk from the supplied collection. Wide italic uppercase typography takes its direction from the existing FABREVOIE sneaker site.
 
-The site includes a full-width editorial opening, native Blender bottle photographs with an accessible detail gallery, two campaign advertisements, an inline release signup and a styled waitlist popup with withdrawal. The perfume is now live at **https://fabrevoie.com**, replacing the sneaker storefront; original sneaker source and history are preserved. Contact is support@fabrevoie.com. The palette pairs lavender `#C4B2EC`, chalk white `#F5F4F7`, graphite `#17161B`, lilac mist `#E5DFF0` and silver grey `#B8B8C0` with the approved Iris liquid and rectangular silver cap.
+The site includes a full-width editorial opening, native Blender bottle photographs with an accessible detail gallery, ten campaign advertisements with a keyboard-accessible full-size archive, an inline release signup and a styled waitlist popup with withdrawal. The perfume is now live at **https://fabrevoie.com**, replacing the sneaker storefront; original sneaker source and history are preserved. Contact is support@fabrevoie.com. The campaign palette pairs ink `#151516`, ivory `#F2EFE9`, restrained iris `#C1B3D2`, warm mist `#E3DFDA` and silver `#B9B5B3`. The approved GALA100 B2 bottle has iris liquid and a taller clear square glass crown above a shortened, smooth silver collar.
 
 ## Open the preview
 
@@ -14,7 +14,7 @@ Double-click/run `start-preview.ps1` to start a hidden local server and open the
 npm start
 ```
 
-Node 22.16 or newer is required. The server has no runtime package dependencies. Node 22 prints an experimental SQLite notice; it does not prevent the server from running.
+Node 22.16 or newer is required. Run `npm ci` to install the pinned dependencies. Node 22 prints an experimental SQLite notice; it does not prevent the server from running.
 
 ## What works
 
@@ -22,7 +22,7 @@ Node 22.16 or newer is required. The server has no runtime package dependencies.
 - Local fonts and optimized imagery, with no third-party asset requests or analytics.
 - Three bottle photographs, an enlarged image dialog, keyboard navigation and mobile menu.
 - Explicit signup consent, email validation, durable SQLite storage, duplicate handling and honest failure states.
-- A native, accessible lavender waitlist popup with shared inline/popup API handling. Automatic opening waits 15 seconds and defers during other dialogs or form entry. Dismissal lasts seven days in this browser; a successful signup suppresses automatic invitations. Manual join links remain available.
+- A native, accessible ivory waitlist popup with shared inline/popup API handling. Automatic opening waits 15 seconds and defers during other dialogs or form entry. Dismissal lasts seven days in this browser; a successful signup suppresses automatic invitations. Manual join links remain available.
 - A private withdrawal link and browser control that remove the saved entry. The database stores only a hash of each withdrawal secret.
 
 Signups are saved outside the public directory in `data/signups.sqlite`. Automated tests use separate temporary databases and do not seed the real launch list.

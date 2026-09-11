@@ -31,8 +31,13 @@ if (configuredOrigin) {
   html = html.replace(/(<meta property="og:image" content=")(?=\/assets\/)/, `$1${origin}`);
   html = html.replace('  <title>', `  <link rel="canonical" href="${origin}/">\n  <meta property="og:url" content="${origin}/">\n  <meta name="twitter:card" content="summary_large_image">\n  <title>`);
 }
-const assets = new Set([...(html + css + js + orderHtml + orderJs).matchAll(/\/assets\/([A-Za-z0-9._-]+)/g)].map(match => match[1]));
-for (const file of assets) await copyFile(path.join(input, 'assets', file), path.join(output, 'assets', file));
+const assets = new Set([...(html + css + js + orderHtml + orderJs).matchAll(/\/assets\/([A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*)/g)].map(match => match[1]));
+for (const file of assets) {
+  if (file.split('/').some(segment => segment.startsWith('.'))) throw new Error('Unsafe asset path.');
+  const destination = path.join(output, 'assets', file);
+  await mkdir(path.dirname(destination), { recursive: true });
+  await copyFile(path.join(input, 'assets', file), destination);
+}
 await writeFile(path.join(output, 'index.html'), html);
 await writeFile(path.join(output, 'styles.css'), css);
 await writeFile(path.join(output, 'app.js'), js);
