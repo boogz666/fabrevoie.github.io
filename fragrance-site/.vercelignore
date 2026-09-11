@@ -10,6 +10,7 @@ node_modules/
 scripts/prepare-assets.py
 scripts/prepare-iris-assets.py
 scripts/prepare-pleasure-assets.mjs
+scripts/prepare-signature-assets.mjs
 scripts/export-signups.mjs
 scripts/commerce-orders.mjs
 scripts/inventory.mjs

@@ -146,8 +146,7 @@ a:hover .arrow,button:hover .arrow{transform:translate(2px,-2px)}
 .campaign-intro .eyebrow{color:var(--lavender)}
 .campaign-intro h2{font-size:clamp(31px,3.9vw,68px);line-height:1.07;margin-top:18px}
 .campaign-intro>p{font-size:17px;line-height:1.4;color:#D5CEDF;min-width:190px;padding-bottom:3px}
-.campaign-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:42px 22px;max-width:1700px;margin:0 auto}
-.campaign-featured{grid-column:span 2}
+.campaign-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:1700px;margin:0 auto}
 .campaign-image-link{display:block;position:relative;background:#262326;overflow:hidden}
 .campaign-image-link>img{width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;transition:transform .4s}
 .campaign-image-link:hover>img{transform:scale(1.012)}
@@ -192,8 +191,8 @@ html[data-signup-available=false] [data-signup-form]{display:none}
 .footer-world>.eyebrow{font-size:10px;color:var(--lavender)}
 .footer-world>a{display:inline-flex;align-items:center;gap:32px;min-height:44px;font-size:17px}
 .footer-world>a:hover,.footer-email:hover,.menu-contact:hover{text-decoration:underline;text-underline-offset:4px}
-.footer-top{display:flex;align-items:center;gap:45px;justify-content:space-between;padding:47px 0}
-.footer-brand{width:clamp(230px,28vw,460px)}
+.footer-top{display:flex;align-items:center;gap:45px;justify-content:space-between;padding:32px 0}
+.footer-brand{width:160px;flex-shrink:0}
 .footer-brand>img{filter:invert(1)}
 .footer-top>p{font-size:18px;font-weight:400;letter-spacing:0;color:var(--lavender);margin-left:auto}
 .back-top{display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex-shrink:0;border:1px solid #777080;font:22px Arial,sans-serif}
@@ -327,10 +326,7 @@ dialog::backdrop{background:rgba(23,22,27,.76);backdrop-filter:blur(5px)}
   .campaign-intro h2{font-size:clamp(27px,7.6vw,52px);margin-top:17px;line-height:1.1}
   .campaign-intro>p{font-size:16px;margin-top:19px;padding:0}
   .campaign-intro>p br{display:none}
-  .campaign-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
-  .campaign-featured{grid-column:span 2}
-  .campaign-ad:not(.campaign-featured) figcaption{display:block;font-size:9px;line-height:1.5}
-  .campaign-ad:not(.campaign-featured) figcaption>span:last-child{display:block;margin-top:5px;color:#B8AFBB}
+  .campaign-grid{grid-template-columns:minmax(0,1fr);gap:28px}
   .campaign-bottom{margin-top:35px;align-items:flex-start}
   .campaign-bottom>.text-link{font-size:13px;gap:16px}
   .campaign-ad figcaption{padding-top:13px;font-size:8px}
@@ -350,8 +346,8 @@ dialog::backdrop{background:rgba(23,22,27,.76);backdrop-filter:blur(5px)}
   .footer-world{display:block;padding:24px 0 20px}
   .footer-world>.eyebrow{font-size:9px}
   .footer-world>a{font-size:16px;gap:24px;margin-top:6px}
-  .footer-top{gap:20px;flex-wrap:wrap;padding:31px 0}
-  .footer-brand{width:225px}
+  .footer-top{gap:20px;flex-wrap:wrap;padding:24px 0}
+  .footer-brand{width:140px}
   .footer-top>p{order:3;flex-basis:100%;font-size:16px;margin-top:0;letter-spacing:0}
   .back-top{width:40px;height:40px;margin-left:auto}
   .footer-links{padding:19px 0;gap:11px 18px;justify-content:space-between}
@@ -377,5 +373,5 @@ dialog::backdrop{background:rgba(23,22,27,.76);backdrop-filter:blur(5px)}
   .image-dialog-top .eyebrow,.image-dialog-bottom .eyebrow{font-size:9px}
   .image-dialog-bottom>button>span{font-size:12px}
 }
-@media(max-width:370px){.site-header{padding:0 19px;gap:10px}.brand{width:128px}.header-access{font-size:10px}.menu-toggle{width:40px}.gallery-controls{gap:8px}.gallery-tab>span{font-size:11px}.footer-brand{width:192px}.footer-top{gap:15px}.campaign-intro h2{font-size:26px}.submit-label{font-size:12px}.email-field>input{font-size:21px}}
+@media(max-width:370px){.site-header{padding:0 19px;gap:10px}.brand{width:128px}.header-access{font-size:10px}.menu-toggle{width:40px}.gallery-controls{gap:8px}.gallery-tab>span{font-size:11px}.footer-top{gap:15px}.campaign-intro h2{font-size:26px}.submit-label{font-size:12px}.email-field>input{font-size:21px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}.reveal.is-pending{opacity:1;transform:none}}
