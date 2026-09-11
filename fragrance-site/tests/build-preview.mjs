@@ -27,12 +27,13 @@ assert.match(html, /<link rel="canonical" href="https:\/\/fabrevoie.vercel.app\/
 const files = (await readdir(path.join(root, 'dist', 'assets'), { recursive: true })).filter(file => path.extname(file));
 assert.ok(!files.some(file => /archive|manifest|-src\.|iris-/i.test(file)));
 const assetPaths = files.map(file => file.replaceAll('\\', '/'));
-assert.deepEqual(assetPaths.filter(file => file.startsWith('fast-life/')).sort(), [
-  'fast-life/campaign-02-640.webp', 'fast-life/campaign-02.webp',
-  'fast-life/campaign-06-640.webp', 'fast-life/campaign-06.webp',
+assert.deepEqual(assetPaths.filter(file => file.startsWith('analog/')).sort(), [
+  'analog/campaign-02-640.webp', 'analog/campaign-02.webp',
+  'analog/campaign-06-640.webp', 'analog/campaign-06.webp',
+  'analog/web-hero-wide-960.webp', 'analog/web-hero-wide.webp',
 ]);
 assert.ok(assetPaths.includes('signature/web-product-side.webp'));
-assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-')));
+assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-') || file.startsWith('fast-life/')));
 
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), 'fabrevoie-build-'));
 const server = await createSiteServer({ publicDir: path.join(root, 'dist'), dataDir: temporaryRoot, logger: { error() {} } });
