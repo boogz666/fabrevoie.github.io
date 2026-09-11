@@ -27,18 +27,14 @@ assert.match(html, /<link rel="canonical" href="https:\/\/fabrevoie.vercel.app\/
 const files = (await readdir(path.join(root, 'dist', 'assets'), { recursive: true })).filter(file => path.extname(file));
 assert.ok(!files.some(file => /archive|manifest|-src\.|iris-/i.test(file)));
 const assetPaths = files.map(file => file.replaceAll('\\', '/'));
-assert.deepEqual(assetPaths.filter(file => file.startsWith('analog/')).sort(), [
-  'analog/campaign-06-640.webp', 'analog/campaign-06.webp',
-]);
-assert.deepEqual(assetPaths.filter(file => file.startsWith('type90s/')).sort(), [
-  'type90s/campaign-02-640.webp', 'type90s/campaign-02.webp',
-]);
+assert.deepEqual(assetPaths.filter(file => file.startsWith('film-campaign/')).sort(),
+  ['02', '06', '12', '13', '14', '15'].flatMap(id => [`film-campaign/campaign-${id}-640.webp`, `film-campaign/campaign-${id}.webp`]));
 assert.deepEqual(assetPaths.filter(file => file.startsWith('film-hero/')).sort(), [
   'film-hero/web-hero-mobile-640.webp', 'film-hero/web-hero-mobile.webp',
   'film-hero/web-hero-wide-960.webp', 'film-hero/web-hero-wide.webp',
 ]);
 assert.ok(assetPaths.includes('signature/web-product-side.webp'));
-assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-') || file.startsWith('fast-life/')));
+assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-') || file.startsWith('fast-life/') || file.startsWith('analog/') || file.startsWith('type90s/')));
 
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), 'fabrevoie-build-'));
 const server = await createSiteServer({ publicDir: path.join(root, 'dist'), dataDir: temporaryRoot, logger: { error() {} } });
