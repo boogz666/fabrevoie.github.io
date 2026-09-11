@@ -31,7 +31,8 @@ try {
   const sideLabelImage = await page.locator('.gallery-tab').nth(2).getAttribute('data-image');
   check(sideLabelImage.includes('side') && !sideLabelImage.includes('three-quarter'), 'The published product gallery includes a dedicated side-label photograph');
   const campaignImages = await page.locator('.campaign-image-link').evaluateAll(links => links.map(link => link.href));
-  check(campaignImages.length === 6 && new Set(campaignImages).size === 6, 'Exactly six selected campaign advertisements are published');
+  check(campaignImages.length === 3 && new Set(campaignImages).size === 3
+    && campaignImages.every((url, index) => new URL(url).pathname === `/assets/selected-campaign/${['01-car', '02-painted', '03-airfield'][index]}.webp`), 'The three exact selected campaign advertisements are published in the requested order');
   check(await page.locator('img[src*="iris-"], [data-image*="iris-"], [srcset*="iris-"]').count() === 0, 'Retired cap imagery is absent from the official homepage');
   await page.locator('.campaign-image-link').last().click();
   check(await page.locator('#campaign-dialog').evaluate(dialog => dialog.open)

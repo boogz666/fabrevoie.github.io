@@ -1,5 +1,7 @@
 # Film campaign selection
 
+Historical six-ad selection. The current website follows [SELECTED-CAMPAIGN-ASSETS.md](SELECTED-CAMPAIGN-ASSETS.md), which specifies the user's three supplied files and order.
+
 The campaign section presents six selected ads in this order: `02_BE_THE_WORST`, `06_ORDINARY`, `12_CATWALK`, `13_FIRST_CLASS`, `14_BAD_COMPANY`, and `15_PLEASURE`. They form three rows on desktop and one column on mobile. The film hero, signature gallery, side-label photograph, and compact footer keep their approved assets and layout.
 
 Run `node scripts/prepare-film-campaign-assets.mjs` only after the six final PNGs in `../../campaign_film_life_v2/final/` are approved and complete. The encoder preserves sources and creates native-resolution main images up to 1600px wide, plus 640px thumbnails, under `public/assets/film-campaign/`. It does not enlarge, crop, retouch or change typography. The private `../../campaign_film_life_v2/web-assets.json` manifest records source/output hashes, dimensions and byte sizes.
