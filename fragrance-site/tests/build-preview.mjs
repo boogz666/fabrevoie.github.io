@@ -26,7 +26,13 @@ assert.match(html, /data-signup-available="false"/);
 assert.match(html, /<link rel="canonical" href="https:\/\/fabrevoie.vercel.app\/">/);
 const files = (await readdir(path.join(root, 'dist', 'assets'), { recursive: true })).filter(file => path.extname(file));
 assert.ok(!files.some(file => /archive|manifest|-src\.|iris-/i.test(file)));
-assert.equal(files.filter(file => file.replaceAll('\\', '/').startsWith('pleasure/')).length, 26);
+const assetPaths = files.map(file => file.replaceAll('\\', '/'));
+assert.deepEqual(assetPaths.filter(file => file.startsWith('fast-life/')).sort(), [
+  'fast-life/campaign-02-640.webp', 'fast-life/campaign-02.webp',
+  'fast-life/campaign-06-640.webp', 'fast-life/campaign-06.webp',
+]);
+assert.ok(assetPaths.includes('signature/web-product-side.webp'));
+assert.ok(!assetPaths.some(file => file.startsWith('pleasure/campaign-')));
 
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), 'fabrevoie-build-'));
 const server = await createSiteServer({ publicDir: path.join(root, 'dist'), dataDir: temporaryRoot, logger: { error() {} } });

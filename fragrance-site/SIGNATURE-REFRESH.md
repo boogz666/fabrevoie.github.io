@@ -17,3 +17,4 @@ The footer wordmark is 160 px on desktop and 140 px on mobile, with reduced surr
 - Production build: 17 referenced assets, 1.88 MB.
 - Existing browser suite: all 47 checks passed, including gallery navigation, two-ad lightbox wrapping, signup persistence and withdrawal, footer sizing and layouts from 320 to 1920 px.
 - No unexpected browser errors or automated desktop/mobile WCAG A/AA violations. Desktop/mobile page screenshots and the side-label photograph were visually reviewed.
+- Built-preview checks passed at 1440, 390 and 320 px, including the selected campaign assets and unavailable-storage signup state.
