@@ -79,19 +79,20 @@ try {
   await page.keyboard.press('Escape');
   check(!(await page.locator('#image-dialog').evaluate(element => element.open)), 'Escape closes the gallery');
   const campaignImages = await page.locator('.campaign-image-link').evaluateAll(links => links.map(link => link.href));
-  check(campaignImages.length === 2 && new Set(campaignImages).size === 2, 'The campaign presents exactly two distinct selected ads');
+  check(campaignImages.length === 6 && new Set(campaignImages).size === 6, 'The campaign presents exactly six distinct selected ads');
   check(await page.locator('img[src*="iris-"], [data-image*="iris-"], [srcset*="iris-"]').count() === 0, 'Retired bottle photography is absent from the page');
   const campaignOpener = page.locator('.campaign-image-link').first();
   await campaignOpener.click();
   check(await page.locator('#campaign-dialog').evaluate(element => element.open), 'Campaign ad opens in its own accessible dialog');
   check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[0], 'Campaign dialog loads the selected full-size artwork');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '02 / 2'
+  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '02 / 6'
     && await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'Campaign keyboard navigation advances to the second selected ad with a live image count');
+  await page.keyboard.press('End');
   await page.keyboard.press('ArrowRight');
   check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[0], 'Campaign navigation wraps from the last selected ad to the first');
   await page.keyboard.press('End');
-  check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'End reaches the final selected campaign image');
+  check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages.at(-1), 'End reaches the final selected campaign image');
   await page.keyboard.press('Escape');
   check(!(await page.locator('#campaign-dialog').evaluate(element => element.open)) && await campaignOpener.evaluate(element => document.activeElement === element), 'Escape closes the campaign and returns focus to the selected ad');
   await page.locator('#signup-email').fill('first-reader@example.test');

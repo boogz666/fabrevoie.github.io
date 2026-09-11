@@ -73,6 +73,8 @@ let campaignIndex = 0;
 function selectCampaign(index) {
   campaignIndex = (index + campaignLinks.length) % campaignLinks.length;
   const link = campaignLinks[campaignIndex];
+  campaignImage.width = Number(link.dataset.imageWidth);
+  campaignImage.height = Number(link.dataset.imageHeight);
   campaignImage.src = link.href;
   campaignImage.alt = $('img', link).alt;
   $('#campaign-dialog-title').textContent = link.dataset.campaignTitle;

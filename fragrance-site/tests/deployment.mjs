@@ -31,11 +31,11 @@ try {
   const sideLabelImage = await page.locator('.gallery-tab').nth(2).getAttribute('data-image');
   check(sideLabelImage.includes('side') && !sideLabelImage.includes('three-quarter'), 'The published product gallery includes a dedicated side-label photograph');
   const campaignImages = await page.locator('.campaign-image-link').evaluateAll(links => links.map(link => link.href));
-  check(campaignImages.length === 2 && new Set(campaignImages).size === 2, 'Exactly two selected campaign advertisements are published');
+  check(campaignImages.length === 6 && new Set(campaignImages).size === 6, 'Exactly six selected campaign advertisements are published');
   check(await page.locator('img[src*="iris-"], [data-image*="iris-"], [srcset*="iris-"]').count() === 0, 'Retired cap imagery is absent from the official homepage');
   await page.locator('.campaign-image-link').last().click();
   check(await page.locator('#campaign-dialog').evaluate(dialog => dialog.open)
-    && await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'Published campaign opens the selected full-size artwork');
+    && await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages.at(-1), 'Published campaign opens the selected full-size artwork');
   await page.keyboard.press('Escape');
   check(await page.locator('#mythology, #mythology-title, #mythology-note, details, [href="#mythology"]').count() === 0, 'Removed lore and its navigation are absent from production');
   check(!/mytholog|testosterone|hormone|handkerchief|DNA sampling|extraction process|broken-hearted/i.test(await page.locator('body').textContent()), 'Production contains no fictional manufacturing or hormonal claims');
