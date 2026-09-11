@@ -79,14 +79,15 @@ try {
   await page.keyboard.press('Escape');
   check(!(await page.locator('#image-dialog').evaluate(element => element.open)), 'Escape closes the gallery');
   const campaignImages = await page.locator('.campaign-image-link').evaluateAll(links => links.map(link => link.href));
-  check(campaignImages.length === 6 && new Set(campaignImages).size === 6, 'The campaign presents exactly six distinct selected ads');
+  check(campaignImages.length === 3 && new Set(campaignImages).size === 3
+    && campaignImages.every((url, index) => new URL(url).pathname === `/assets/selected-campaign/${['01-car', '02-painted', '03-airfield'][index]}.webp`), 'The campaign presents the three exact selected ads in the requested order');
   check(await page.locator('img[src*="iris-"], [data-image*="iris-"], [srcset*="iris-"]').count() === 0, 'Retired bottle photography is absent from the page');
   const campaignOpener = page.locator('.campaign-image-link').first();
   await campaignOpener.click();
   check(await page.locator('#campaign-dialog').evaluate(element => element.open), 'Campaign ad opens in its own accessible dialog');
   check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[0], 'Campaign dialog loads the selected full-size artwork');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '02 / 6'
+  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '02 / 3'
     && await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'Campaign keyboard navigation advances to the second selected ad with a live image count');
   await page.keyboard.press('End');
   await page.keyboard.press('ArrowRight');
