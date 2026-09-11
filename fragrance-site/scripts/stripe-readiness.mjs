@@ -195,7 +195,7 @@ export async function stripeReadiness({ argv = [], env = process.env, client, lo
     verify('webhook-endpoint', usable.length > 0, 'A matching enabled HTTPS webhook endpoint must use the pinned API version and subscribe to all eight required payment/refund events.', endpoints.length === 0);
     if (endpoints.length > 1) add('webhook-duplicates', 'warning', 'Multiple endpoints target this webhook URL. Confirm this is intentional; duplicate events must remain idempotent.');
   } else add('webhook-endpoint', 'unverified', webhooksResult?.detail || 'A public HTTPS origin is needed to compare deployed webhook configuration.');
-  add('webhook-signature', 'warning', 'Stripe does not return an existing endpoint signing secret. Verify a real signed sandbox delivery separately.');
+  add('webhook-signature', 'warning', 'Stripe does not return an existing endpoint signing secret. Verify a real signed delivery in the configured mode separately.');
   if (codesResult?.ok) {
     report.taxCodes = codesResult.value.filter(code => ID.tax.test(code.id) && /perfum|fragrance|cosmetic/i.test(`${code.name || ''} ${code.description || ''}`))
       .map(code => ({ id: code.id, name: safe(code.name), description: safe(code.description, 800) }));

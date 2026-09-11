@@ -45,9 +45,9 @@ Cloud mode requires `DATABASE_URL` and never falls back to local storage. The CS
 
 ## Edit the website
 
-Stripe Payments and Tax are implemented behind a disabled-by-default commerce switch. The live waitlist remains available while stock, shipping and tax setup are finalized. See [STRIPE-OPERATIONS.md](STRIPE-OPERATIONS.md) for configuration, private order reports and launch steps, and [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md) for the tailored integration plan. No live payments are enabled by the sandbox credentials.
+Stripe Payments and Tax are implemented behind a disabled-by-default commerce switch. The live FABREVOIE Stripe account is verified and its product, price and webhook are created; purchases remain disabled while stock, shipping, VAT treatment and payment testing are completed. The waitlist stays available. [LIVE-STRIPE-SETUP.md](LIVE-STRIPE-SETUP.md) records the live configuration and verification status; [STRIPE-OPERATIONS.md](STRIPE-OPERATIONS.md) covers private order reports and launch steps, and [STRIPE-INTEGRATION-PLAN.md](STRIPE-INTEGRATION-PLAN.md) describes the integration.
 
-The confirmed launch price is €129.99 for ULTRA MACHO / 100 ml, Made in Paris. Its Product and Price are created in the Stripe sandbox; VAT treatment remains pending. [INVENTORY-OPERATIONS.md](INVENTORY-OPERATIONS.md) covers stock reservations, sold-out behavior, shipment tracking, return records and private management commands. No physical stock quantity is assumed.
+The confirmed launch price is €129.99 for ULTRA MACHO / 100 ml, Made in Paris. Separate live and sandbox catalog objects exist; VAT treatment remains pending. [INVENTORY-OPERATIONS.md](INVENTORY-OPERATIONS.md) covers stock reservations, sold-out behavior, shipment tracking, return records and private management commands. No physical stock quantity is assumed.
 
 | File | Purpose |
 | --- | --- |

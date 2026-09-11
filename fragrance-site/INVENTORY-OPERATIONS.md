@@ -2,14 +2,14 @@
 
 FABREVOIE keeps its inventory and fulfillment records in the website database. Stripe handles payments and the product/price catalog. There is no Shopify dependency.
 
-The confirmed launch product is **ULTRA MACHO / 100 ml**, Made in Paris, priced at **€129.99**. It is created in the dedicated Stripe sandbox:
+The confirmed launch product is **ULTRA MACHO / 100 ml**, Made in Paris, priced at **€129.99**. Its live FABREVOIE catalog is:
 
-- Product: `prod_VEkzAjHaGMlLXd`
-- Price: `price_1UEHTKI4Ls0KfpKegErVPsm1`
+- Product: `prod_VEljNNJKpZUuBy`
+- Price: `price_1UEICIEdyIZnMwR6BSfHWM8j`
 - Inventory SKU: `ULTRAMACHO-100ML-IRIS`
 - Price tax behavior: `unspecified`, pending the owner's VAT-inclusive/exclusive answer. This does not mean VAT-exempt.
 
-Live purchases remain disabled. No launch stock has been invented. The same SKU has separate test and live inventory records, and neither environment changes the other's allocation.
+Live purchases remain disabled. No launch stock has been invented. The same SKU has separate test and live inventory records, and neither environment changes the other's allocation. The preserved sandbox uses Product `prod_VEkzAjHaGMlLXd` and Price `price_1UEHTKI4Ls0KfpKegErVPsm1`. [LIVE-STRIPE-SETUP.md](LIVE-STRIPE-SETUP.md) records account, environment and launch readiness.
 
 ## Stock rules
 
@@ -32,28 +32,30 @@ If payment arrives after a reservation was released, record the paid order as re
 
 ## Private management
 
-Run these from the website directory through the authenticated Vercel CLI. The commands print order references and operational status, not buyer email/address data. Test credentials cannot reconcile a live order.
+Run these from the website directory through the authenticated Vercel CLI. The commands print order references and operational status, not buyer email/address data. The examples select the live inventory explicitly; writes must use confirmed quantities and actual fulfillment facts. Reconciliation requires a Stripe key matching the selected order mode.
 
 ```powershell
-npx vercel@59.15.1 env run --environment production --scope puppetmaster666s-projects -- node scripts/inventory.mjs status --cloud --mode test
+npx vercel@59.15.1 env run --cwd tests --project fabrevoie --environment production --scope puppetmaster666s-projects -- node --import ../scripts/load-live-env.mjs ../scripts/inventory.mjs status --cloud --mode live
 ```
 
 Change the final command as needed:
 
+The `tests` working directory prevents Vercel CLI from overlaying the website's sandbox `.env.local` onto production settings. The explicit preload supplies the private live API credentials because Vercel sensitive values are not exportable. It does not enable sales or change the database. For sandbox commands, run from the website directory without this preload and select `--mode test`.
+
 | Command | Use |
 | --- | --- |
-| `status --cloud --mode test` | Stock balance and counts of orders awaiting dispatch, shipped, returned or requiring review |
-| `audit --cloud --mode test` | Latest stock and fulfillment audit entries |
-| `holds --cloud --mode test` | Orders currently holding units |
-| `adjust --cloud --mode test --delta 10 --reason initial_stock --operation-id UUID` | Example only: add ten confirmed units; use the actual approved quantity |
-| `ship --cloud --mode test --order REFERENCE --carrier CARRIER --tracking-number NUMBER --tracking-url HTTPS_URL --reason dispatch_confirmed --operation-id UUID` | Record actual dispatch with tracking |
-| `return --cloud --mode test --order REFERENCE --reason return_received --operation-id UUID` | Record receipt of a returned shipment, without automatically restocking or refunding |
-| `review --cloud --mode test --order REFERENCE --reason dispatch_review --operation-id UUID` | Pause fulfillment for merchant review |
-| `ready --cloud --mode test --order REFERENCE --reason payment_reviewed --operation-id UUID` | Clear a reviewed, paid and allocated order for dispatch; cannot clear unpaid, refunded or already dispatched orders |
-| `allocate --cloud --mode test --order REFERENCE --reason stock_resolved --operation-id UUID` | Allocate available stock to a paid order requiring stock resolution |
-| `reconcile --cloud --mode test --order REFERENCE --operation-id UUID` | Read a stored order's current Stripe Session and reconcile payment/expired reservations |
+| `status --cloud --mode live` | Stock balance and counts of orders awaiting dispatch, shipped, returned or requiring review |
+| `audit --cloud --mode live` | Latest stock and fulfillment audit entries |
+| `holds --cloud --mode live` | Orders currently holding units |
+| `adjust --cloud --mode live --delta QUANTITY --reason initial_stock --operation-id UUID` | Add the actual approved integer quantity; this is not an instruction to assume stock |
+| `ship --cloud --mode live --order REFERENCE --carrier CARRIER --tracking-number NUMBER --tracking-url HTTPS_URL --reason dispatch_confirmed --operation-id UUID` | Record actual dispatch with tracking |
+| `return --cloud --mode live --order REFERENCE --reason return_received --operation-id UUID` | Record receipt of a returned shipment, without automatically restocking or refunding |
+| `review --cloud --mode live --order REFERENCE --reason dispatch_review --operation-id UUID` | Pause fulfillment for merchant review |
+| `ready --cloud --mode live --order REFERENCE --reason payment_reviewed --operation-id UUID` | Clear a reviewed, paid and allocated order for dispatch; cannot clear unpaid, refunded or already dispatched orders |
+| `allocate --cloud --mode live --order REFERENCE --reason stock_resolved --operation-id UUID` | Allocate available stock to a paid order requiring stock resolution |
+| `reconcile --cloud --mode live --order REFERENCE --operation-id UUID` | Read a stored order's current Stripe Session and reconcile payment/expired reservations |
 
-Use `--mode live` only for actual live operations. Keep the generated UUID when retrying a write. A reused UUID with changed parameters is rejected. Reasons are short non-personal codes such as `initial_stock`, `received_stock`, `damaged_stock` or `return_restock`.
+For sandbox operations, use Vercel's `--environment preview` and select `--mode test`. Production and preview share the database, but allocations are separated by mode and SKU. Keep the generated UUID when retrying a write. A reused UUID with changed parameters is rejected. Reasons are short non-personal codes such as `initial_stock`, `received_stock`, `damaged_stock` or `return_restock`.
 
 Reconciliation does not fabricate Stripe webhook events. It makes authenticated Stripe reads and records a distinct operator reconciliation. An unattached ambiguous checkout remains held for investigation; its potential payment must be resolved before freeing stock.
 
@@ -65,6 +67,6 @@ A definitive Stripe validation rejection before a Session exists releases the sa
 
 The configured opening instant is **1 October 2026, 00:00 Europe/Paris** (`2026-09-30T22:00:00Z`). This is a prepared earliest opening time, not automatic payment activation: `COMMERCE_MODE`, live credentials, stock, price, shipping and tax checks must also be ready. Sandbox testing can run before that date.
 
-Remaining merchant inputs are the VAT treatment of €129.99, actual selling stock or preorder limit, dispatch timing, shipping countries/cost, and business/tax information. Made in Paris describes manufacture; it does not supply the dispatch address, package dimensions or carrier service.
+Remaining merchant inputs are the VAT treatment of €129.99, actual selling stock or disclosed preorder limit, dispatch timing, shipping countries/cost and applicable tax registrations. Stripe's existing head-office address has been preserved; it is not automatically the dispatch address. Made in Paris describes manufacture; it does not supply package dimensions or a carrier service.
 
 The software records dispatch and customer tracking links; it does not physically pack goods, purchase shipping labels, schedule collection or send messages. The owner or fulfillment provider performs those actions. Carrier selection and receipt/email delivery can be connected after their service and settings are chosen. Payment refunds remain deliberate Stripe actions, separate from return records and stock.
