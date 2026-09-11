@@ -67,26 +67,31 @@ try {
   const desktopAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   report.accessibility.push({ viewport: 'desktop', violations: desktopAxe.violations });
 
+  check((await page.locator('#product-image').getAttribute('src')).includes('web-product-three-quarter'), 'The signature photograph opens the product gallery');
+  const sideLabelImage = await page.locator('.gallery-tab').nth(2).getAttribute('data-image');
+  check(sideLabelImage.includes('side') && !sideLabelImage.includes('three-quarter'), 'A dedicated side-label photograph replaces the old front view');
   await page.getByRole('button', { name: '02 Glass & silver', exact: false }).click();
   check((await page.locator('#product-image').getAttribute('src')).includes('web-cap-detail'), 'Product detail gallery changes to the approved B2 glass and silver cap');
   await page.locator('.product-image-button').click();
   check(await page.locator('#image-dialog').evaluate(element => element.open), 'Product photograph expands into accessible dialog');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#expanded-image').getAttribute('src')).includes('web-product-three-quarter'), 'Gallery keyboard arrows show the B2 three-quarter signature view');
+  check(await page.locator('#expanded-image').getAttribute('src') === sideLabelImage, 'Gallery keyboard arrows advance from the cap detail to the side label');
   await page.keyboard.press('Escape');
   check(!(await page.locator('#image-dialog').evaluate(element => element.open)), 'Escape closes the gallery');
-  check(await page.locator('.campaign-image-link').count() === 10, 'The new campaign contains ten distinct ads');
+  const campaignImages = await page.locator('.campaign-image-link').evaluateAll(links => links.map(link => link.href));
+  check(campaignImages.length === 2 && new Set(campaignImages).size === 2, 'The campaign presents exactly two distinct selected ads');
   check(await page.locator('img[src*="iris-"], [data-image*="iris-"], [srcset*="iris-"]').count() === 0, 'Retired bottle photography is absent from the page');
-  const campaignOpener = page.locator('.campaign-image-link').nth(8);
+  const campaignOpener = page.locator('.campaign-image-link').first();
   await campaignOpener.click();
   check(await page.locator('#campaign-dialog').evaluate(element => element.open), 'Campaign ad opens in its own accessible dialog');
-  check((await page.locator('#campaign-expanded-image').getAttribute('src')).endsWith('campaign-09.webp'), 'Campaign dialog loads the selected full-size artwork');
+  check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[0], 'Campaign dialog loads the selected full-size artwork');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '10 / 10', 'Campaign keyboard navigation advances with a live image count');
+  check((await page.locator('#campaign-dialog-status').textContent()).trim() === '02 / 2'
+    && await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'Campaign keyboard navigation advances to the second selected ad with a live image count');
   await page.keyboard.press('ArrowRight');
-  check((await page.locator('#campaign-expanded-image').getAttribute('src')).endsWith('campaign-01.webp'), 'Campaign navigation wraps from the last ad to the first');
+  check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[0], 'Campaign navigation wraps from the last selected ad to the first');
   await page.keyboard.press('End');
-  check((await page.locator('#campaign-expanded-image').getAttribute('src')).endsWith('campaign-10.webp'), 'End reaches the final campaign image');
+  check(await page.locator('#campaign-expanded-image').getAttribute('src') === campaignImages[1], 'End reaches the final selected campaign image');
   await page.keyboard.press('Escape');
   check(!(await page.locator('#campaign-dialog').evaluate(element => element.open)) && await campaignOpener.evaluate(element => document.activeElement === element), 'Escape closes the campaign and returns focus to the selected ad');
   await page.locator('#signup-email').fill('first-reader@example.test');
@@ -131,6 +136,7 @@ try {
     check(overflow.document <= width && overflow.heading <= overflow.headingClient + 1, `No page or headline overflow at ${width}px`);
     if (width === 390) {
       await prepare(page);
+      check((await page.locator('.footer-brand').boundingBox()).width <= 140, 'Mobile footer wordmark stays compact at 140px or less');
       await page.screenshot({ path: path.join(artifacts, 'mobile-hero.png') });
       await page.screenshot({ path: path.join(artifacts, 'mobile-full.png'), fullPage: true });
       report.screenshots.push('mobile-hero.png', 'mobile-full.png');
@@ -141,6 +147,7 @@ try {
       const mobileAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       report.accessibility.push({ viewport: 'mobile', violations: mobileAxe.violations });
     }
+    if (width === 1440) check((await page.locator('.footer-brand').boundingBox()).width <= 160, 'Desktop footer wordmark stays compact at 160px or less');
   }
   report.browserErrors = errors.filter(error => !error.includes('503 (Service Unavailable)'));
   check(report.browserErrors.length === 0, 'No unexpected JavaScript, missing asset or CSP errors');
