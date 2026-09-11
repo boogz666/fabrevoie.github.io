@@ -16,6 +16,7 @@ scripts/prepare-type90s-assets.mjs
 scripts/prepare-film-hero-assets.mjs
 scripts/prepare-film-campaign-assets.mjs
 scripts/prepare-selected-campaign-assets.mjs
+scripts/prepare-mobile-hero-assets.mjs
 scripts/export-signups.mjs
 scripts/commerce-orders.mjs
 scripts/inventory.mjs
